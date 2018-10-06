@@ -24,7 +24,7 @@ int partition(int *array, int begin, int end)
 
 void insertionSort(int *array, int begin, int end)
 {
-    for (int i = begin + 1; i < end; i++)
+    for (int i = begin + 1; i <= end; i++)
     {
         const int key = array[i];
         int j = i - 1;
