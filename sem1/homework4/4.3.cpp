@@ -3,94 +3,80 @@
 #include <clocale>
 #include <string.h>
 #include <ctype.h>
+#include "options.h"
+#include <windows.h>
 
-struct personalData
+void options(int key, PersonalData *phonebook)
 {
-    char name[50];
-    int phoneNumber;
-};
-
-void addingData()
-{
-    printf("Здесь вы можете добавлять записи. Чтобы выйти в главное меню, нажмите 0, или введите номер строки, которую вы хотели бы изменить.\n");
-    int key = -1;
-    scanf("%d ", &key);
-    if (key == 0)
+    switch(key)
     {
-        return 0;
+    case 1:
+        addingData(phonebook);
+        break;
+    case 2:
+        printData(phonebook);
+        break;
+    case 3:
+        seekingByName(phonebook);
+        break;
+    case 4:
+        seekingByPhone(phonebook);
+        break;
+    case 5:
+        saveToFile(phonebook);
+        break;
     }
-    else
-    {
-        printf()
-        printf("")
-
-
-    }
-
-
 }
 
-
-
-void mainMenu()
+int mainMenu(PersonalData *phonebook)
 {
-    printf("Добро пожаловать! Это телефонный справочник. Вы можете управлять данными, хранящимися в нем. Нажмите:\n1, чтобы добавить запись;\n2, чтобы вывести все данные на экран;\n3, чтобы найти телефон по имени;\n4, чтобы найти имя по телефону;\n5, чтобы сохранить текущие данные в файл.\n");
-    char key;
-    scanf("%c ", &key);
-    switch key()
+    int key = 1;
+    printf("Добро пожаловать! Это телефонный справочник. Вы можете управлять данными, хранящимися в нем. Нажмите:\n1, чтобы добавить запись;\n2, чтобы вывести все данные на экран;\n3, чтобы найти телефон по имени;\n4, чтобы найти имя по телефону;\n5, чтобы сохранить текущие данные в файл;\n0, чтобы выйти.\n");
+    scanf("%d", &key);
+    if (key == 0)
     {
-    case 0:
+        printf("До свидания!");
         return 0;
-    case 1:
-        addingData();
-    case 2:
-        printData();
-    case 3:
-        seekingByName();
-    case 4:
-        seekingByPhone();
-    case 5:
-        saveTjoFile();
+    }
+    options(key, phonebook);
+    mainMenu(phonebook);
+}
+
+void test(PersonalData *phonebook)
+{
+    for (int i = 1; i < 5; i++)
+    {
+        options(i, phonebook);
     }
 }
 
 int main()
 {
+    SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
     setlocale(LC_ALL, "Russian");
     FILE *file = fopen("C:\\phonebook.txt", "a+");
-    char *data[100] = {};
+    personalData *phonebook = (personalData*) malloc(MAX * sizeof(personalData));
     int line = 0;
     while (!feof(file))
     {
-        char *buffer = new char[100];
-        const int readBytes = fscanf(file, "%s", buffer);
+        char *buffername = new char[MAX];
+        char *bufferphonenumber = new char[MAX];
+        int readBytes = fscanf(file, "%s %s", buffername, bufferphonenumber);
         if (readBytes < 0)
         {
             break;
         }
-        data[line] = buffer;
+        phonebook[line].name = buffername;
+        phonebook[line].phoneNumber = bufferphonenumber;
         line++;
     }
     fclose(file);
-    personalData *id = new
-    struct personalData phonebook[100];
-    for (int line = 0; line < 100; line++)
+    for (int i = line; i < MAX; i++)
     {
-        char[] word = " ";
-        do
-        {
-        word = scanf("%s", &data[line]);
-        {
-            phonebook[line].name = word;
-        }
-
-
-        while (letter != ' ')
-        {
-            phonebook[line].phoneNumber += letter;
-        }
-        }
+        phonebook[i].name = "*пустое имя*";
+        phonebook[i].phoneNumber = "*пустой номер телефона*";
     }
-    mainMenu();
+    mainMenu(phonebook);
     return EXIT_SUCCESS;
 }
