@@ -31,11 +31,11 @@ void options(int key, PersonalData *phonebook)
 int mainMenu(PersonalData *phonebook)
 {
     int key = 1;
-    printf("Добро пожаловать! Это телефонный справочник. Вы можете управлять данными, хранящимися в нем. Нажмите:\n1, чтобы добавить запись;\n2, чтобы вывести все данные на экран;\n3, чтобы найти телефон по имени;\n4, чтобы найти имя по телефону;\n5, чтобы сохранить текущие данные в файл;\n0, чтобы выйти.\n");
+    printf("Г„Г®ГЎГ°Г® ГЇГ®Г¦Г Г«Г®ГўГ ГІГј! ГќГІГ® ГІГҐГ«ГҐГґГ®Г­Г­Г»Г© Г±ГЇГ°Г ГўГ®Г·Г­ГЁГЄ. Г‚Г» Г¬Г®Г¦ГҐГІГҐ ГіГЇГ°Г ГўГ«ГїГІГј Г¤Г Г­Г­Г»Г¬ГЁ, ГµГ°Г Г­ГїГ№ГЁГ¬ГЁГ±Гї Гў Г­ГҐГ¬. ГЌГ Г¦Г¬ГЁГІГҐ:\n1, Г·ГІГ®ГЎГ» Г¤Г®ГЎГ ГўГЁГІГј Г§Г ГЇГЁГ±Гј;\n2, Г·ГІГ®ГЎГ» ГўГ»ГўГҐГ±ГІГЁ ГўГ±ГҐ Г¤Г Г­Г­Г»ГҐ Г­Г  ГЅГЄГ°Г Г­;\n3, Г·ГІГ®ГЎГ» Г­Г Г©ГІГЁ ГІГҐГ«ГҐГґГ®Г­ ГЇГ® ГЁГ¬ГҐГ­ГЁ;\n4, Г·ГІГ®ГЎГ» Г­Г Г©ГІГЁ ГЁГ¬Гї ГЇГ® ГІГҐГ«ГҐГґГ®Г­Гі;\n5, Г·ГІГ®ГЎГ» Г±Г®ГµГ°Г Г­ГЁГІГј ГІГҐГЄГіГ№ГЁГҐ Г¤Г Г­Г­Г»ГҐ Гў ГґГ Г©Г«;\n0, Г·ГІГ®ГЎГ» ГўГ»Г©ГІГЁ.\n");
     scanf("%d", &key);
     if (key == 0)
     {
-        printf("До свидания!");
+        printf("Г„Г® Г±ГўГЁГ¤Г Г­ГЁГї!");
         return 0;
     }
     options(key, phonebook);
@@ -53,7 +53,7 @@ void test(PersonalData *phonebook)
 int main()
 {
     SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
+    SetConsoleOutputCP(1251);
     setlocale(LC_ALL, "Russian");
     FILE *file = fopen("C:\\phonebook.txt", "a+");
     personalData *phonebook = (personalData*) malloc(MAX * sizeof(personalData));
@@ -74,8 +74,8 @@ int main()
     fclose(file);
     for (int i = line; i < MAX; i++)
     {
-        phonebook[i].name = "*пустое имя*";
-        phonebook[i].phoneNumber = "*пустой номер телефона*";
+        phonebook[i].name = "*ГЇГіГ±ГІГ®ГҐ ГЁГ¬Гї*";
+        phonebook[i].phoneNumber = "*ГЇГіГ±ГІГ®Г© Г­Г®Г¬ГҐГ° ГІГҐГ«ГҐГґГ®Г­Г *";
     }
     mainMenu(phonebook);
     return EXIT_SUCCESS;
