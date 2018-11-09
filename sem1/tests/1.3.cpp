@@ -20,35 +20,24 @@ int main()
     gfile.close();
     fstream fileToRead;
     fileToRead.open("f.txt");
-
-
-    int *myArray = new int[10];
-    int j = 0;
-    if (fileToRead)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            fileToRead >> myArray[j];
-            j++;
-        }
-    }
-    else
+    if (!fileToRead)
     {
         cout << "File not found!" << endl;
     }
-    fileToRead.close();
+    int number = 0;
     ofstream fileWrite("h.txt");
     {
-        for (int i = 0; i < j; i++)
+        while (!fileToRead.eof())
         {
-            if (myArray[i] < compNumber)
+            fileToRead >> number;
+            if (number < compNumber)
             {
-                fileWrite << myArray[i] << endl;
-                cout << myArray[i] << " ";
+                fileWrite << number << " ";
+                cout << number << " ";
             }
         }
     }
+    fileToRead.close();
     fileWrite.close();
-    delete myArray;
     return 0;
 }
