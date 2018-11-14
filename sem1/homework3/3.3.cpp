@@ -28,21 +28,25 @@ void shellSort(int *array, int begin, int end)
     }
 }
 
-
 int maxRepeating(int *array, int end)
 {
     int frequency = 1;
-    int maxfrequency = 0;
+    int maxFrequency = 0;
     int number = 0;
     for (int i = 1; i < end; i++)
     {
         if (array[i] == array[i - 1])
         {
             frequency++;
+            if ((i == end - 1) && (frequency > maxFrequency))
+            {
+                maxFrequency = frequency;
+                number = i;
+            }
         }
-        else if (frequency > maxfrequency)
+        else if (frequency > maxFrequency)
         {
-            maxfrequency = frequency;
+            maxFrequency = frequency;
             frequency = 1;
             number = i - 1;
         }
