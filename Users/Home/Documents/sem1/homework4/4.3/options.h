@@ -1,5 +1,5 @@
 #pragma once
-#define MAX 100
+const int MAX = 100;
 
 typedef struct PersonalData
 {
