@@ -24,7 +24,7 @@ void insertionSort(int *array, int begin, int end)
     {
         const int key = array[i];
         int j = i - 1;
-        while ((j >= 0) && (array[j] > key))
+        while ((j >= begin) && (array[j] > key))
         {
             array[j + 1] = array[j];
             j--;
@@ -67,6 +67,6 @@ int main()
     {
         printf("%d ", array[i]);
     }
-    free(array);
+    delete array;
     return 0;
 }
