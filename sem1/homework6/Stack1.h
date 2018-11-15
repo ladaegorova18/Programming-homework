@@ -5,15 +5,13 @@ using namespace std;
 
 struct stack
 {
-    private:
-        int top;
-        char node[MAX];
-    public:
-        void makeStack(stack *myStack);
-        void push(stack *myStack, char element);
-        char pop(stack *myStack);
-        bool isEmpty(stack *myStack);
-        void printStack(stack *myStack);
+    int top;
+    char node[MAX];
+    void makeStack(stack *myStack);
+    void push(stack *myStack, char element);
+    char pop(stack *myStack);
+    bool isEmpty(stack *myStack);
+    void printStack(stack *myStack);
 };
 
 bool stack::isEmpty(stack *myStack)
@@ -35,7 +33,7 @@ void stack::push(stack *myStack, char element)
     }
     else
     {
-        cout << "Ñòåê ïîëîí:)" << endl;
+        cout << "Ã‘Ã²Ã¥Ãª Ã¯Ã®Ã«Ã®Ã­:)" << endl;
     }
 }
 
@@ -43,7 +41,7 @@ char stack::pop(stack *myStack)
 {
     if (isEmpty(myStack))
     {
-        cout << "Ñòåê ïóñò:(" << endl;
+        cout << "Ã‘Ã²Ã¥Ãª Ã¯Ã³Ã±Ã²:(" << endl;
     }
     else
     {
@@ -60,7 +58,7 @@ void stack::printStack(stack *myStack)
     {
         for (int i = 0; i < myStack->top; i++)
         {
-            cout << "Ñåé÷àñ ñòåê âûãëÿäèò òàê:" << endl;
+            cout << "Ã‘Ã¥Ã©Ã·Ã Ã± Ã±Ã²Ã¥Ãª Ã¢Ã»Ã£Ã«Ã¿Ã¤Ã¨Ã² Ã²Ã Ãª:" << endl;
             cout << myStack->node[i];
         }
     }
