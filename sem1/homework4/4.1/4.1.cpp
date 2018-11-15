@@ -10,22 +10,20 @@ void test()
 {
     char binary127[SIZE] = "01111111";
     char binary1[SIZE] = "00000001";
-    char binarynegative127[SIZE] = "11111111";
-    char binarynegative100[SIZE] = "11100100";
-
-
+    char binaryNegative127[SIZE] = "11111111";
+    char binaryNegative100[SIZE] = "11100100";
 }
 
 char *conversion(int number)
 {
     int bit = 0b10000000;
-    char *binarynumber = new char[SIZE]{};
+    char *binaryNumber = new char[SIZE]{};
     for (int j = 0; j < SIZE; j++)
     {
-        binarynumber[j] = ((number & bit) ? '1' : '0');
+        binaryNumber[j] = ((number & bit) ? '1' : '0');
         bit = bit >> 1;
     }
-    return binarynumber;
+    return binaryNumber;
 }
 
 char *decimaltobin(int number)
