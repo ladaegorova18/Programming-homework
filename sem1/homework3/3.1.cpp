@@ -16,10 +16,6 @@ int partition(int *array, int begin, int end)
             i++;
         }
     }
-    const int t = array[i];
-    array[i] = array[end];
-    array[end] = t;
-    return i;
 }
 
 void insertionSort(int *array, int begin, int end)
@@ -28,7 +24,7 @@ void insertionSort(int *array, int begin, int end)
     {
         const int key = array[i];
         int j = i - 1;
-        while ((j >= 0) && (array[j] > key))
+        while ((j >= begin) && (array[j] > key))
         {
             array[j + 1] = array[j];
             j--;
@@ -42,16 +38,13 @@ void quickSort(int *array, int begin, int end)
     if (begin < end)
     {
         const int pivot = partition(array, begin, end);
+        if (end - begin < LIM)
         {
-            quickSort(array, pivot + 1, end);
-        }
-        if ((pivot - 1 - begin) < LIM)
-        {
-            insertionSort(array, begin + 1, pivot - 1);
+            insertionSort(array, begin, end - 1);
         }
         else
         {
-            quickSort(array, begin, pivot - 1);
+            quickSort(array, begin, end);
         }
     }
 }
@@ -73,6 +66,6 @@ int main()
     {
         printf("%d ", array[i]);
     }
-    free(array);
+    delete[] array;
     return 0;
 }
