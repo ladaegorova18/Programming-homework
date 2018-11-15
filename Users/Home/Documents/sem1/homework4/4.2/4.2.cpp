@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define SIZE 20
 #include "shellsort.h"
 #include <assert.h>
+const int SIZE = 20;
 
 void test(int *array)
 {
