@@ -8,10 +8,10 @@ const int MAX = 10;
 
 void test()
 {
-    char binary127[SIZE] = "01111111";
-    char binary1[SIZE] = "00000001";
-    char binaryNegative127[SIZE] = "11111111";
-    char binaryNegative100[SIZE] = "11100100";
+    char binary127[SIZE + 1] = "01111111";
+    char binary1[SIZE + 1] = "00000001";
+    char binaryNegative127[SIZE + 1] = "11111111";
+    char binaryNegative100[SIZE + 1] = "11100100";
 }
 
 char *conversion(int number)
