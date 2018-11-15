@@ -38,15 +38,14 @@ void quickSort(int *array, int begin, int end)
     if (begin < end)
     {
         const int pivot = partition(array, begin, end);
-        if ((pivot - 1 - begin) < LIM)
+        if (end - begin < LIM)
         {
-            insertionSort(array, begin, pivot - 1);
+            insertionSort(array, begin, end - 1);
         }
         else
         {
-            quickSort(array, begin, pivot - 1);
+            quickSort(array, begin, end);
         }
-        quickSort(array, pivot, end);
     }
 }
 
@@ -67,6 +66,6 @@ int main()
     {
         printf("%d ", array[i]);
     }
-    delete array;
+    delete[] array;
     return 0;
 }
