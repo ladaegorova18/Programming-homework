@@ -8,25 +8,25 @@ const int MAX = 10;
 
 void test()
 {
-    char binary127[SIZE + 1] = "01111111";
-    char binary1[SIZE + 1] = "00000001";
-    char binaryNegative127[SIZE + 1] = "11111111";
-    char binaryNegative100[SIZE + 1] = "11100100";
+    bool binary127[SIZE] = {0, 1, 1, 1, 1, 1, 1, 1};
+    bool binary1[SIZE] = {0, 0, 0, 0, 0, 0, 0, 1};
+    bool binaryNegative127[SIZE] = {1, 1, 1, 1, 1, 1, 1, 1};
+    bool binaryNegative100[SIZE] = {1, 1, 1, 0, 0, 1 ,0 ,0};
 }
 
-char *conversion(int number)
+bool *conversion(int number)
 {
     int bit = 0b10000000;
-    char *binaryNumber = new char[SIZE]{};
+    bool *binaryNumber = new bool[SIZE]{};
     for (int j = 0; j < SIZE; j++)
     {
-        binaryNumber[j] = ((number & bit) ? '1' : '0');
+        binaryNumber[j] = ((number & bit) ? 1 : 0);
         bit = bit >> 1;
     }
     return binaryNumber;
 }
 
-char *decimaltobin(int number)
+bool *decimalToBin(int number)
 {
     if (number >= 0)
     {
@@ -34,17 +34,17 @@ char *decimaltobin(int number)
     }
     else if (number < 0)
     {
-        int negativenum = MAX * 2 + number;
-        return conversion(negativenum);
+        int negativeNum = MAX * 2 + number;
+        return conversion(negativeNum);
     }
 }
 
-void summary(char* first, char* second)
+void summary(bool* first, bool* second)
 {
     int *result = new int[SIZE]{0};
     for (int i = SIZE - 1; i > -1; i--)
     {
-        if ((first[i] == '1') || (second[i] == '1'))
+        if ((first[i] == 1) || (second[i] == 1))
         {
             if (first[i] == second[i])
             {
@@ -70,52 +70,64 @@ void summary(char* first, char* second)
     }
 }
 
-void invertion(char* binnumber)
+void invertion(bool* binNumber)
 {
     for (int i = 0; i < SIZE; i++)
     {
-        if (binnumber[i] == '1')
+        if (binNumber[i] == 1)
         {
-            binnumber[i] = '0';
+            binNumber[i] = 0;
         }
         else
         {
-            binnumber[i] = '1';
+            binNumber[i] = 1;
         }
     }
 }
 
-int binarytodecimal(char* binnumber)
+int binaryToDecimal(bool* binNumber)
 {
-    int decimalnumber = 0;
+    int decimalNumber = 0;
     for (int i = 0; i < SIZE; i++)
     {
-        if (binnumber[i] == '1')
+        if (binNumber[i] == 1)
         {
-            decimalnumber += pow(2.0, (SIZE - i - 1));
+            decimalNumber += pow(2.0, (SIZE - i - 1));
         }
     }
-    if (decimalnumber > MAX)
+    if (decimalNumber > MAX)
     {
-        decimalnumber = (decimalnumber - MAX * 2);
+        decimalNumber = (decimalNumber - MAX * 2);
     }
-    return decimalnumber;
+    return decimalNumber;
+}
+
+void printing(bool *binaryNumber)
+{
+    for (int i = 0; i < SIZE; i++)
+    {
+        printf("%d", binaryNumber[i]);
+    }
 }
 
 int main()
 {
     setlocale(LC_ALL, "Russian");
-    int thefirstnumber = 0;
-    int thesecondnumber = 0;
+    int theFirstNumber = 0;
+    int theSecondNumber = 0;
     printf("Введите числа в десятичной системе счисления:\n");
-    scanf("%d %d", &thefirstnumber, &thesecondnumber);
-    char *firstbinary = new char[SIZE];
-    char *secondbinary = new char[SIZE];
-    firstbinary = decimaltobin(thefirstnumber);
-    secondbinary = decimaltobin(thesecondnumber);
-    printf("В двоичной системе:\n%s\n%s\n", firstbinary, secondbinary);
+    scanf("%d %d", &theFirstNumber, &theSecondNumber);
+    bool *firstBinary = new bool[SIZE];
+    bool *secondBinary = new bool[SIZE];
+    firstBinary = decimalToBin(theFirstNumber);
+    secondBinary = decimalToBin(theSecondNumber);
+    printf("В двоичной системе:\n");
+    printing(firstBinary);
+    printf("\n");
+    printing(secondBinary);
+    printf("\n");
     printf("Сумма в двоичной системе счисления:\n");
-    summary(firstbinary, secondbinary);
-    printf("\nЧисла в десятичной системе счисления:\n%d\n%d\nСумма в десятичной системе счисления: %d", binarytodecimal(firstbinary), binarytodecimal(secondbinary), binarytodecimal(firstbinary) + binarytodecimal(secondbinary));
+    summary(firstBinary, secondBinary);
+    printf("\nЧисла в десятичной системе счисления:\n%d\n%d\nСумма в десятичной системе счисления: %d", binaryToDecimal(firstBinary), binaryToDecimal(secondBinary), binaryToDecimal(firstBinary) + binaryToDecimal(secondBinary));
     return 0;
 }
