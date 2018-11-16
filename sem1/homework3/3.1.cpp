@@ -38,13 +38,14 @@ void quickSort(int *array, int begin, int end)
     if (begin < end)
     {
         const int pivot = partition(array, begin, end);
-        if (end - begin < LIM)
+        if (end - begin + 1 < 10)
         {
             insertionSort(array, begin, end - 1);
         }
         else
         {
-            quickSort(array, begin, end);
+            quickSort(array, begin, pivot - 1);
+            quickSort(array, pivot, end);
         }
     }
 }
