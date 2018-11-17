@@ -106,7 +106,6 @@ void printing(bool *binaryNumber)
     }
 }
 
-
 void test()
 {
     long int numberOne = 1;
