@@ -6,7 +6,7 @@ const int SIZE = 32;
 
 bool *conversion(long int number)
 {
-    unsigned bit = 1 << 31;
+    long int bit = 1 << 31;
     bool *binaryNumber = new bool[SIZE]{};
     for (int j = 0; j < SIZE; j++)
     {
