@@ -123,6 +123,10 @@ void test()
     long int resultOfNegative = binaryToDecimal(summary(negOneToBinary, negMaxToBinary));
     assert(resultOfNegative == (1 << 31) * (-1));
     printf("Test passed\n");
+	delete[] oneToBinary;
+	delete[] maxToBinary;
+	delete[] negOneToBinary;
+	delete[] negMaxToBinary;
 }
 
 int main()
