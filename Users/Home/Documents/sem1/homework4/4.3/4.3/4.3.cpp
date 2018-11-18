@@ -1,12 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale>
+#include <clocale>
 #include "options.h"
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "rus");
 	FILE *file = fopen("phonebook.txt", "a+");
 	PersonalData *phonebook = new PersonalData[MAX];
 	int line = 0;
