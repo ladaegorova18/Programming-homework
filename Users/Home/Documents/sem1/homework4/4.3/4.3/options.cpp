@@ -57,7 +57,7 @@ void seekingByName(PersonalData *phonebook)
 	printf("Это поиск по имени. Введите имя:\n");
 	char *nameToSeek = new char[MAX] {};
 	scanf("%s", nameToSeek);
-	bool isSomeone;
+	bool isSomeone = false;
 	for (int i = 0; i <= MAX; i++)
 	{
 		if (i == MAX)
@@ -83,7 +83,7 @@ void seekingByPhone(PersonalData *phonebook)
 	printf("Это поиск по номеру телефона. Введите номер:\n");
 	char *numberToSeek = new char[MAX] {};
 	scanf("%s", numberToSeek);
-	bool isNumber;
+	bool isNumber = false;
 	for (int i = 0; i <= MAX; i++)
 	{
 		if (i == MAX)
