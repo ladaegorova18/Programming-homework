@@ -1,27 +1,19 @@
 #include <iostream>
+#include "pch.h"
+#include "Stack1.h"
+using namespace std;
 
-struct stack
-{
-	int top;
-	char node[MAX];
-	void makeStack(stack *myStack);
-	void push(stack *myStack, char element);
-	char pop(stack *myStack);
-	bool isEmpty(stack *myStack);
-	void printStack(stack *myStack);
-};
-
-bool stack::isEmpty(stack *myStack)
+bool Stack::isEmpty(Stack *myStack)
 {
 	return (myStack->top == 0);
 }
 
-void stack::makeStack(stack *myStack)
+void Stack::makeStack(Stack *myStack)
 {
 	myStack->top = 0;
 }
 
-void stack::push(stack *myStack, char element)
+void Stack::push(Stack *myStack, char element)
 {
 	if (myStack->top < MAX)
 	{
@@ -34,7 +26,7 @@ void stack::push(stack *myStack, char element)
 	}
 }
 
-char stack::pop(stack *myStack)
+char Stack::pop(Stack *myStack)
 {
 	if (isEmpty(myStack))
 	{
@@ -49,7 +41,7 @@ char stack::pop(stack *myStack)
 	}
 }
 
-void stack::printStack(stack *myStack)
+void Stack::printStack(Stack *myStack)
 {
 	if (!isEmpty(myStack))
 	{
