@@ -29,7 +29,7 @@ int main()
 		phonebook[i].name = "*пустое имя*";
 		phonebook[i].phoneNumber = "*пустой номер телефона*";
 	}
-	test(phonebook);
+	/*test(phonebook);*/
 	mainMenu(phonebook);
 	delete[] phonebook;
 	return EXIT_SUCCESS;

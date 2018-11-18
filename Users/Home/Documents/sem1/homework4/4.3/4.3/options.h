@@ -1,13 +1,14 @@
 #ifndef HEADER_H
 #define HEADER_H
 
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 
 struct PersonalData
 {
-	const char *name = nullptr;
-	const char *phoneNumber = nullptr;
+	const char *name = " ";
+	const char *phoneNumber = " ";
 };
 
 const int MAX = 100;
