@@ -1,4 +1,6 @@
+#include "pch.h"
 #include <iostream>
+#include "header.h"
 using namespace std;
 
 int insertion(dynList *mylist, int newValue)
@@ -35,9 +37,10 @@ int insertion(dynList *mylist, int newValue)
         }
     previous->next = data;
     }
+	return 1;
 }
 
-int addingData(dynList *mylist)
+void addingData(dynList *mylist)
 {
     cout << "Здесь вы можете добавлять компоненты в список. Для выхода нажмите Q;\n";
     char key = ' ';
