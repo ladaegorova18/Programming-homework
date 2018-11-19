@@ -160,8 +160,5 @@ void mainMenu(PersonalData *phonebook)
 
 void test(PersonalData *phonebook)
 {
-	for (int i = 1; i < 5; i++)
-	{
-		options(i, phonebook);
-	}
+	
 }
