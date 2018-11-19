@@ -10,11 +10,15 @@ void skipToMenu()
 	printf("Переход в главное меню;\n\n");
 }
 
-void addingData(PersonalData *phonebook)
+int scanningNumber()
 {
-	printf("Здесь вы можете добавлять записи. Чтобы выйти в главное меню, нажмите 0, или введите номер строки, которую вы хотели бы изменить.\n");
 	int id = 0;
 	scanf("%d", &id);
+	return id;
+}
+
+void adding(PersonalData *phonebook, int id)
+{
 	while (id != 0)
 	{
 		id--;
@@ -34,8 +38,15 @@ void addingData(PersonalData *phonebook)
 			phonebook[id].phoneNumber = newdata;
 		}
 		printf("Данные изменены. Если хотите продолжить, введите номер строки, которую вы хотели бы изменить. Для выхода нажмите 0.\n");
-		scanf("%d", &id);
+		id = scanningNumber();
 	}
+}
+
+void addingData(PersonalData *phonebook)
+{
+	printf("Здесь вы можете добавлять записи. Чтобы выйти в главное меню, нажмите 0, или введите номер строки, которую вы хотели бы изменить.\n");
+	int id = scanningNumber();
+	adding(phonebook, id);
 	skipToMenu();
 }
 
@@ -52,11 +63,15 @@ void printData(PersonalData *phonebook)
 	skipToMenu();
 }
 
-void seekingByName(PersonalData *phonebook)
+char* scanningString()
 {
-	printf("Это поиск по имени. Введите имя:\n");
-	char *nameToSeek = new char[MAX] {};
-	scanf("%s", nameToSeek);
+	char* stringToScan = new char[MAX] {};
+	scanf("%s", stringToScan);
+	return stringToScan;
+}
+
+void seekingNameFunction(PersonalData *phonebook, char* nameToSeek)
+{
 	bool isSomeone = false;
 	for (int i = 0; i <= MAX; i++)
 	{
@@ -74,6 +89,14 @@ void seekingByName(PersonalData *phonebook)
 			isSomeone = true;
 		}
 	}
+}
+
+void seekingByName(PersonalData *phonebook)
+{
+	printf("Это поиск по имени. Введите имя:\n");
+	char *nameToSeek = new char[MAX] {};
+	nameToSeek = scanningString();
+	seekingNameFunction(phonebook, nameToSeek);
 	delete[] nameToSeek;
 	skipToMenu();
 }
@@ -160,5 +183,9 @@ void mainMenu(PersonalData *phonebook)
 
 void test(PersonalData *phonebook)
 {
-	
+	int id = 0;
+	adding(phonebook, 0); // проверяем вызов функции добавления записей
+	options(2, phonebook); // проверяем функцию печати записей
+	options(5, phonebook); // проверяем функцию сохранения в файл
+	printf("Test passed\n");
 }
