@@ -1,5 +1,5 @@
-#include <iostream>
 #include "pch.h"
+#include <iostream>
 #include "Stack1.h"
 using namespace std;
 
@@ -22,7 +22,7 @@ void Stack::push(Stack *myStack, char element)
 	}
 	else
 	{
-		cout << "Ñòåê ïîëîí:)" << endl;
+		cout << "Ã‘Ã²Ã¥Ãª Ã¯Ã®Ã«Ã®Ã­:)" << endl;
 	}
 }
 
@@ -30,7 +30,7 @@ char Stack::pop(Stack *myStack)
 {
 	if (isEmpty(myStack))
 	{
-		cout << "Ñòåê ïóñò:(" << endl;
+		cout << "Ã‘Ã²Ã¥Ãª Ã¯Ã³Ã±Ã²:(" << endl;
 		return EXIT_SUCCESS;
 	}
 	else
@@ -47,7 +47,7 @@ void Stack::printStack(Stack *myStack)
 	{
 		for (int i = 0; i < myStack->top; i++)
 		{
-			cout << "Ñåé÷àñ ñòåê âûãëÿäèò òàê:" << endl;
+			cout << "Ã‘Ã¥Ã©Ã·Ã Ã± Ã±Ã²Ã¥Ãª Ã¢Ã»Ã£Ã«Ã¿Ã¤Ã¨Ã² Ã²Ã Ãª:" << endl;
 			cout << myStack->node[i];
 		}
 	}
