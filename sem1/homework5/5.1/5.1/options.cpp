@@ -3,20 +3,25 @@
 #include "header.h"
 using namespace std;
 
-int insertion(dynList *mylist, int newValue)
+bool isEmpty(DynList *myList)
+{
+	return (myList->head == nullptr);
+}
+
+void insertion(DynList *myList, int newValue)
 {
     Element* data = new Element;
     Element* previous = nullptr;
     data->value = newValue;
-    if (isEmpty(mylist))
+    if (isEmpty(myList))
     {
-        mylist->head = data;
+        myList->head = data;
         data->next = nullptr;
-        return 0;
+        return;
     }
     else
     {
-        Element* current = mylist->head;
+        Element* current = myList->head;
         while (current != nullptr)
         {
             if (current->value >= newValue)
@@ -28,35 +33,35 @@ int insertion(dynList *mylist, int newValue)
                 }
                 else
                 {
-                    mylist->head = data;
+                    myList->head = data;
                 }
-                return 0;
+                return;
             }
-        previous = current;
-        current = current->next;
-        }
-    previous->next = data;
+			previous = current;
+			current = current->next;
+		}
+		previous->next = data;
+		delete current;
     }
-	return 1;
+	delete data;
+	delete previous;
+	return;
 }
 
-void addingData(dynList *mylist)
+void addingData(DynList *mylist)
 {
-    cout << "Здесь вы можете добавлять компоненты в список. Для выхода нажмите Q;\n";
     char key = ' ';
     cin >> key;
     while (key != 'Q')
     {
-        cout << "Введите число:" << endl;
-        int newValue = (int)key - 48;
+        int newValue = key - '0';
         insertion(mylist, newValue);
         cin >> key;
     }
 }
 
-void deleteData(dynList *mylist)
+void deleteData(DynList *mylist)
 {
-    cout << "Здесь можно удалять определеннные значения из списка. Введите значение или нажмите Q, чтобы выйти:" << endl;
     char key = ' ';
     cin >> key;
     if (key != 'Q')
@@ -81,25 +86,18 @@ void deleteData(dynList *mylist)
             current = current->next;
         }
     }
-    cout << "Значение удалено!";
 }
 
-void printData(dynList *mylist)
+void printData(DynList *myList)
 {
-    if (mylist->head == nullptr)
     {
-        cout << "Список пуст:(" << endl;
-    }
-    else
-    {
-        cout << "Сейчас список выглядит так:" << endl;
-        struct Element *current;
-        current = mylist->head;
+        struct Element *current = myList->head;
         while (current)
         {
             cout << current->value << endl;
             cout << endl;
             current = current->next;
         }
+		delete current;
     }
 }

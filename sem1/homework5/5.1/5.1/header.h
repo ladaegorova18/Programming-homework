@@ -7,15 +7,15 @@ struct Element
     Element* next;
 };
 
-struct dynList
+struct DynList
 {
     Element *head;
 };
 
-bool isEmpty(dynList *mylist);
-int insertion(dynList *mylist, int newValue);
-void addingData(dynList *mylist);
-void deleteData(dynList *mylist);
-void printData(dynList *mylist);
+bool isEmpty(DynList *myList);
+void insertion(DynList *myList, int newValue);
+void addingData(DynList *myList);
+void deleteData(DynList *myList);
+void printData(DynList *myList);
 
 #endif // HEADER_H
