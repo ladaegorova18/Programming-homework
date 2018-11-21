@@ -12,7 +12,6 @@ struct Stack
 	void push(Stack *, char);
 	char pop(Stack *);
 	bool isEmpty(Stack *);
-	void printStack(Stack *);
 };
 
 #endif // STACK_H
