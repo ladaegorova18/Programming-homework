@@ -8,11 +8,10 @@ struct Stack
 {
 	int top;
 	char node[MAX];
-	void makeStack(Stack *);
-	void push(Stack *, char);
+	void makeStack(Stack *); 
+	void push(Stack *, char); 
 	char pop(Stack *);
 	bool isEmpty(Stack *);
-	void printStack(Stack *);
 };
 
 #endif // STACK_H
