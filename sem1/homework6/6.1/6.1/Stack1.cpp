@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include <iostream>
 #include "Stack1.h"
 using namespace std;
@@ -39,4 +39,3 @@ char Stack::pop(Stack *myStack) // извлекаем элемент из сте
 		myStack->top--;
 		return topElement;
 	}
-}
