@@ -1,41 +1,42 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
 #include "Stack1.h"
 using namespace std;
 
-bool Stack::isEmpty(Stack *myStack) // проверка стека на пустоту. Если индекс верхнего элемента равен нулю, возвращаем true
+bool Stack::isEmpty() 
 {
-	return (myStack->top == 0);
+	return (top == 0);
 }
 
-void Stack::makeStack(Stack *myStack) // создаем стек, присваивая нулевое значение переменной top
+void Stack::makeStack() 
 {
-	myStack->top = 0;
+	top = 0;
 }
 
-void Stack::push(Stack *myStack, char element) // добавляем элемент в стек, для этого увеличиваем top на единицу и в соответствующий элемент массива записываем значение
+void Stack::push(char element) 
 {
-	if (myStack->top < MAX)
+	if (top < MAX)
 	{
-		myStack->top++;
-		myStack->node[myStack->top] = element; // если количество элементов превышает максимальное, выводим сообщение об этом
+		node[top] = element;
+		top++;
 	}
 	else
 	{
-		cout << "Ñòåê ïîëîí:)" << endl;
+		cout << "Стек полон:)" << endl;
 	}
 }
 
-char Stack::pop(Stack *myStack) // извлекаем элемент из стека. Если он пуст, выводим соответствующее сообщение. Иначе возвращаем верхний элемент и уменьшаем переменную top на один
+char Stack::pop() 
 {
-	if (isEmpty(myStack))
+	if (isEmpty())
 	{
-		cout << "Ñòåê ïóñò:(" << endl;
+		cout << "Стек пуст:(" << endl;
 		return EXIT_SUCCESS;
 	}
 	else
 	{
-		char topElement = myStack->node[myStack->top];
-		myStack->top--;
+		char topElement = node[top - 1];
+		top--;
 		return topElement;
 	}
+}

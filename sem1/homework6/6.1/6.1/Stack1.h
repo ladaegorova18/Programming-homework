@@ -1,17 +1,20 @@
 #ifndef STACK_H
 #define STACK_H
-#include <iostream>
 const int MAX = 100;
-using namespace std;
 
 struct Stack
 {
-    int top;
-    char node[MAX];
-    void makeStack(Stack *);
-    void push(Stack *, char);
-    char pop(Stack *);
-    bool isEmpty(Stack *);
+	int top;
+	char node[MAX];
+	// создаем стек, присваивая нулевое значение переменной top
+	void makeStack();
+	// добавляем элемент в стек, для этого увеличиваем top на единицу и в соответствующий элемент массива записываем значение
+	// если количество элементов превышает максимальное, выводим сообщение об этом
+	void push(char element);
+	// извлекаем элемент из стека. Если он пуст, выводим соответствующее сообщение. Иначе возвращаем верхний элемент и уменьшаем переменную top на один
+	char pop();
+	// проверка стека на пустоту. Если индекс верхнего элемента равен нулю, возвращаем true
+	bool isEmpty();
 };
 
 #endif // STACK_H
