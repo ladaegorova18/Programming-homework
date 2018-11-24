@@ -59,7 +59,7 @@ Element* merge(Element *first, Element *second)
 	Element *current = dummyHead;
 	while ((first != nullptr) && (second != nullptr))
 	{
-		if (first->name <= second->name)
+		if (first->name < second->name)
 		{
 			current->next = first;
 			first = first->next;
