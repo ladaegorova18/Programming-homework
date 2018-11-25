@@ -22,5 +22,7 @@ struct Set
 	void printFalling(Element *current);
 	//finds a minimal element in the tree with 'current' root
 	Element* minimum(Element *current);
+	// deleting a root and making a new root
+	void rootRemoving();
 	bool isEmpty();
 };

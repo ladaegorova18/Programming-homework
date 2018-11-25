@@ -58,6 +58,11 @@ Element* Set::minimum(Element *current)
 	return minimum;
 }
 
+void Set::rootRemoving()
+{
+
+}
+
 Element* Set::deleteData(Element *current, int data)
 {
 	if (current == nullptr)
@@ -72,9 +77,13 @@ Element* Set::deleteData(Element *current, int data)
 	{
 		current->rightChild = deleteData(current->rightChild, data);
 	}
+	else if (root->value == data)
+	{
+		rootRemoving();
+	}
 	else if ((current->leftChild != nullptr) && (current->rightChild != nullptr))
 	{
-		current->value = minimum(current->rightChild)->value;
+		current = minimum(current->rightChild);
 		current->rightChild = deleteData(current->rightChild, data);
 	}
 	else
