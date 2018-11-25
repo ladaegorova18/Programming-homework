@@ -17,6 +17,13 @@ int scanningNumber()
 	return id;
 }
 
+char* scanningString()
+{
+	char* stringToScan = new char[MAX] {};
+	scanf("%s", stringToScan);
+	return stringToScan;
+}
+
 void adding(PersonalData *phonebook, int id)
 {
 	while (id != 0)
@@ -26,16 +33,16 @@ void adding(PersonalData *phonebook, int id)
 		printf("Чтобы изменить имя, нажмите 1, чтобы изменить номер телефона, нажмите 2\n");
 		int key = -1;
 		scanf("%d", &key);
-		char *newdata = new char[MAX] {};
+		char *newData = new char[MAX] {};
 		printf("Введите изменения:\n");
-		scanf("%s", newdata);
+		scanf("%s", newData);
 		if (key == 1)
 		{
-			phonebook[id].name = newdata;
+			phonebook[id].name = newData;
 		}
 		else if (key == 2)
 		{
-			phonebook[id].phoneNumber = newdata;
+			phonebook[id].phoneNumber = newData;
 		}
 		printf("Данные изменены. Если хотите продолжить, введите номер строки, которую вы хотели бы изменить. Для выхода нажмите 0.\n");
 		id = scanningNumber();
@@ -61,13 +68,6 @@ void printData(PersonalData *phonebook)
 		}
 	}
 	skipToMenu();
-}
-
-char* scanningString()
-{
-	char* stringToScan = new char[MAX] {};
-	scanf("%s", stringToScan);
-	return stringToScan;
 }
 
 void seekingNameFunction(PersonalData *phonebook, char* nameToSeek)
@@ -162,9 +162,13 @@ void options(int key, PersonalData *phonebook)
 
 void mainText()
 {
-	printf("Добро пожаловать! Это телефонный справочник. Вы можете управлять данными, хранящимися в нем. Нажмите:\n1, чтобы добавить запись;\n");
-	printf("2, чтобы вывести все данные на экран;\n3, чтобы найти телефон по имени;\n4, чтобы найти имя по телефону;\n");
-	printf("5, чтобы сохранить текущие данные в файл;\n0, чтобы выйти.\n");
+	printf("Добро пожаловать! Это телефонный справочник. Вы можете управлять данными, хранящимися в нем. Нажмите:\n");
+	printf("1, чтобы добавить запись;\n");
+	printf("2, чтобы вывести все данные на экран;\n");
+	printf("3, чтобы найти телефон по имени;\n");
+	printf("4, чтобы найти имя по телефону;\n");
+	printf("5, чтобы сохранить текущие данные в файл;\n");
+	printf("0, чтобы выйти.\n");
 }
 
 void mainMenu(PersonalData *phonebook)
@@ -181,11 +185,30 @@ void mainMenu(PersonalData *phonebook)
 	printf("До свидания!");
 }
 
-void test(PersonalData *phonebook)
+void test()
 {
-	int id = 0;
-	adding(phonebook, 0); // проверяем вызов функции добавления записей
-	options(2, phonebook); // проверяем функцию печати записей
-	options(5, phonebook); // проверяем функцию сохранения в файл
+	FILE *file = fopen("phonebook.txt", "r");
+	PersonalData *testPhoneBook = new PersonalData[MAX];
+	int line = 0;
+	while (!feof(file))
+	{
+		char *bufferName = new char[MAX];
+		char *bufferPhoneNumber = new char[MAX];
+		int readBytes = fscanf(file, "%s %s", bufferName, bufferPhoneNumber);
+		if (readBytes < 0)
+		{
+			delete[] bufferName;
+			delete[] bufferPhoneNumber;
+			break;
+		}
+		testPhoneBook[line].name = bufferName;
+		testPhoneBook[line].phoneNumber = bufferPhoneNumber;
+		line++;
+	}
+	fclose(file);
+	seekingNameFunction(testPhoneBook, "Роман");
+
+
+	delete[] testPhoneBook;
 	printf("Test passed\n");
 }

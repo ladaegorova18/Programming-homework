@@ -17,6 +17,8 @@ int main()
 		int readBytes = fscanf(file, "%s %s", bufferName, bufferPhoneNumber);
 		if (readBytes < 0)
 		{
+			delete[] bufferName;
+			delete[] bufferPhoneNumber;
 			break;
 		}
 		phonebook[line].name = bufferName;
@@ -29,7 +31,7 @@ int main()
 		phonebook[i].name = "*пустое имя*";
 		phonebook[i].phoneNumber = "*пустой номер телефона*";
 	}
-	test(phonebook);
+	test();
 	mainMenu(phonebook);
 	delete[] phonebook;
 	return EXIT_SUCCESS;
