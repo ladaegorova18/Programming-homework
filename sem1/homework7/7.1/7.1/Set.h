@@ -20,5 +20,7 @@ struct Set
 	void printRise(Element *current);
 	// printing in decreasing order
 	void printFalling(Element *current);
+	//finds a minimal element in the tree with 'current' root
+	Element* minimum(Element *current);
 	bool isEmpty();
 };

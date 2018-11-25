@@ -5,12 +5,12 @@ using namespace std;
 
 void recursiveAdding(Element *root, int data)
 {
+	Element *tempData = new Element();
+	tempData->value = data;
 	if (data < root->value)
 	{
 		if (root->leftChild == nullptr)
 		{
-			Element *tempData = new Element();
-			tempData->value = data;
 			root->leftChild = tempData;
 		}
 		else
@@ -22,8 +22,7 @@ void recursiveAdding(Element *root, int data)
 	{
 		if (root->rightChild == nullptr)
 		{
-			Element *tempData = new Element();
-			tempData->value = data;
+			
 			root->rightChild = tempData;
 		}
 		else
@@ -37,10 +36,10 @@ void Set::addingData(int data)
 {
 	Element *tempData = new Element();
 	tempData->value = data;
+	tempData->leftChild = nullptr;
+	tempData->rightChild = nullptr;
 	if (isEmpty())
 	{
-		tempData->leftChild = nullptr;
-		tempData->rightChild = nullptr;
 		root = tempData;
 	}
 	else
@@ -49,7 +48,7 @@ void Set::addingData(int data)
 	}
 }
 
-Element* minimum(Element *current)
+Element* Set::minimum(Element *current)
 {
 	Element *minimum = current;
 	while (minimum->leftChild != nullptr)
@@ -89,8 +88,12 @@ Element* Set::deleteData(Element *current, int data)
 			current = current->rightChild;
 		}
 		else
-		{
+		{   
 			current = nullptr;
+			if (data == root->value)
+			{
+				root = nullptr;
+			}
 		}
 	}
 	return current;
