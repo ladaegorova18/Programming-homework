@@ -13,6 +13,11 @@ void Stack::makeStack()
 	top = 0;
 }
 
+int Stack::sizeOfStack()
+{
+	return top;
+}
+
 void Stack::push(char element) 
 {
 	if (top < MAX)
