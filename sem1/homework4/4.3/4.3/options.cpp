@@ -189,7 +189,13 @@ void test()
 {
 	FILE *file = fopen("phonebook.txt", "r");
 	PersonalData *testPhoneBook = new PersonalData[MAX];
+	bool testPassed = false;
 	int line = 0;
+	if (!file)
+	{
+		printf("File not found!");
+		return;
+	}
 	while (!feof(file))
 	{
 		char *bufferName = new char[MAX];
@@ -206,8 +212,6 @@ void test()
 		line++;
 	}
 	fclose(file);
-	seekingNameFunction(testPhoneBook, "Роман");
-
 
 	delete[] testPhoneBook;
 	printf("Test passed\n");
