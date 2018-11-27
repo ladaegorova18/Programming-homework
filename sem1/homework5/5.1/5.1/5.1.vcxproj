@@ -151,7 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="header.h" />
+    <ClInclude Include="options.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

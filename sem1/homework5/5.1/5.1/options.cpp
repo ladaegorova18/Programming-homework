@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <iostream>
-#include "header.h"
+#include "options.h"
 using namespace std;
 
 bool isEmpty(DynList *myList)
@@ -15,34 +15,37 @@ void insertion(DynList *myList, int newValue)
     data->value = newValue;
     if (isEmpty(myList))
     {
-        myList->head = data;
+		myList->head = data;
         data->next = nullptr;
         return;
     }
-    else
+    Element* current = myList->head;
+    while (current)
     {
-        Element* current = myList->head;
-        while (current != nullptr)
+        if (current->value >= newValue)
         {
-            if (current->value >= newValue)
+            data->next = current;
+            if (previous != nullptr)
             {
-                data->next = current;
-                if (previous != nullptr)
-                {
-                    previous->next = data;
-                }
-                else
-                {
-                    myList->head = data;
-                }
-                return;
+                previous->next = data;
             }
-			previous = current;
-			current = current->next;
+            else
+            {
+                myList->head = data;
+            }
+            return;
+        }
+		else if (current->next == nullptr)
+		{
+			current->next = data;
+			data->next = nullptr;
+			return;
 		}
-		previous->next = data;
-		delete current;
-    }
+		previous = current;
+		current = current->next;
+	}
+	previous->next = data;
+	delete current;
 	delete data;
 	delete previous;
 	return;
@@ -60,31 +63,36 @@ void addingData(DynList *mylist)
     }
 }
 
-void deleteData(DynList *mylist)
+void deleting(DynList *myList, int value)
+{
+	Element* current = myList->head; // проходим по всем элементам и сравниваем каждый с нашим "заказом"
+	Element* previous = nullptr;
+	while (current != nullptr)
+	{
+		if (current->value == value) // если совпали, то смотрим на предыдущий
+		{
+			if (previous == nullptr) // если его нет, то мы находимся в начале списка и нужно заменить head на следующий
+			{
+				myList->head = myList->head->next;
+			}
+			else
+			{
+				previous->next = current->next; // если он есть, то делаем следующим за ним не текущий, а следующий за текущим
+			}
+		}
+		previous = current;
+		current = current->next;
+	}
+}
+
+void deleteData(DynList *myList)
 {
     char key = ' ';
     cin >> key;
     if (key != 'Q')
     {
-        int order = (int)key - 48;
-        Element* current = mylist->head; // проходим по всем элементам и сравниваем каждый с нашим "заказом"
-        Element* previous = nullptr;
-        while (current != nullptr)
-        {
-            if (current->value == order) // если совпали, то смотрим на предыдущий
-            {
-                if (previous == nullptr) // если его нет, то мы находимся в начале списка и нужно заменить head на следующий
-                {
-                    mylist->head = mylist->head->next;
-                }
-                else
-                {
-                    previous->next = current->next; // если он есть, то делаем следующим за ним не текущий, а следующий за текущим
-                }
-            }
-            previous = current;
-            current = current->next;
-        }
+        int value = (int)key - '0';
+		deleting(myList, value);
     }
 }
 
@@ -100,4 +108,17 @@ void printData(DynList *myList)
         }
 		delete current;
     }
+}
+
+void deleteList(DynList *myList)
+{
+	Element *current = myList->head;
+	Element *previous = nullptr;
+	while (current)
+	{
+		previous = current;
+		current = current->next;
+		delete previous;
+	}
+	delete myList;
 }
