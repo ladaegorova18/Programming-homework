@@ -16,6 +16,6 @@ struct DynList
 
 bool isEmpty(DynList *myList);
 void insertion(DynList *myList, int newValue);
-void deleteList(DynList *myList);
+void deleteList(Element *head);
 
 #endif // OPTIONS_H

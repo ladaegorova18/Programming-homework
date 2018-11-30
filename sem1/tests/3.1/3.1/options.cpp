@@ -26,15 +26,13 @@ void insertion(DynList *myList, int newValue)
 	}
 }
 
-void deleteList(DynList *myList)
+void deleteList(Element* head)
 {
-	Element *current = myList->head;
-	Element *previous = nullptr;
-	while (current)
+	while (head != nullptr)
 	{
-		previous = current;
-		current = current->next;
+		Element *previous = head;
+		head = head->next;
 		delete previous;
 	}
-	delete myList;
+	return;
 }
