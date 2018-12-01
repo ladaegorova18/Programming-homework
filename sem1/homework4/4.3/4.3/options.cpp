@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <assert.h>
 #include "options.h"
 
 void skipToMenu()
@@ -24,45 +25,44 @@ char* scanningString()
 	return stringToScan;
 }
 
-void adding(PersonalData *phonebook, int id)
+void adding(PersonalData *phonebook, int id, int key, const char newData[])
 {
-	while (id != 0)
+	if (key == 1)
 	{
-		id--;
-		printf("%s %s\n", phonebook[id].name, phonebook[id].phoneNumber);
-		printf("Чтобы изменить имя, нажмите 1, чтобы изменить номер телефона, нажмите 2\n");
-		int key = -1;
-		scanf("%d", &key);
-		char *newData = new char[MAX] {};
-		printf("Введите изменения:\n");
-		scanf("%s", newData);
-		if (key == 1)
-		{
-			phonebook[id].name = newData;
-		}
-		else if (key == 2)
-		{
-			phonebook[id].phoneNumber = newData;
-		}
-		printf("Данные изменены. Если хотите продолжить, введите номер строки, которую вы хотели бы изменить. Для выхода нажмите 0.\n");
-		id = scanningNumber();
+		phonebook[id].name = newData;
+	}
+	else if (key == 2)
+	{
+		phonebook[id].phoneNumber = newData;
 	}
 }
 
 void addingData(PersonalData *phonebook)
 {
-	printf("Здесь вы можете добавлять записи. Чтобы выйти в главное меню, нажмите 0, или введите номер строки, которую вы хотели бы изменить.\n");
 	int id = scanningNumber();
-	adding(phonebook, id);
+	while (id != 0)
+	{
+		id--;
+		printf("%s %s\n", phonebook[id].name, phonebook[id].phoneNumber);
+		printf("Чтобы изменить имя, нажмите 1, чтобы изменить номер телефона, нажмите 2:\n");
+		int key = -1;
+		scanf("%d", &key);
+		char *newData = new char[MAX] {};
+		printf("Введите изменения:\n");
+		scanf("%s", newData);
+		adding(phonebook, id, key, newData);
+		delete[] newData;
+		printf("Данные изменены. Если хотите продолжить, введите номер строки, которую вы хотели бы изменить. Для выхода нажмите 0.\n");
+		id = scanningNumber();
+	}
 	skipToMenu();
 }
 
 void printData(PersonalData *phonebook)
 {
-	printf("Телефонная книга сейчас выглядит так:\n");
 	for (int j = 0; j < MAX; j++)
 	{
-		if ((phonebook[j].name != NULL) || (phonebook[j].phoneNumber != NULL))
+		if ((phonebook[j].name != nullptr) || (phonebook[j].phoneNumber != nullptr))
 		{
 			printf("%d. %s\t%s\n", j + 1, phonebook[j].name, phonebook[j].phoneNumber);
 		}
@@ -93,7 +93,6 @@ void seekingNameFunction(PersonalData *phonebook, char* nameToSeek)
 
 void seekingByName(PersonalData *phonebook)
 {
-	printf("Это поиск по имени. Введите имя:\n");
 	char *nameToSeek = new char[MAX] {};
 	nameToSeek = scanningString();
 	seekingNameFunction(phonebook, nameToSeek);
@@ -101,11 +100,8 @@ void seekingByName(PersonalData *phonebook)
 	skipToMenu();
 }
 
-void seekingByPhone(PersonalData *phonebook)
+void seekingNumberFunction(PersonalData *phonebook, char* numberToSeek)
 {
-	printf("Это поиск по номеру телефона. Введите номер:\n");
-	char *numberToSeek = new char[MAX] {};
-	scanf("%s", numberToSeek);
 	bool isNumber = false;
 	for (int i = 0; i <= MAX; i++)
 	{
@@ -123,6 +119,13 @@ void seekingByPhone(PersonalData *phonebook)
 			isNumber = true;
 		}
 	}
+}
+
+void seekingByPhone(PersonalData *phonebook)
+{
+	char *numberToSeek = new char[MAX] {};
+	scanf("%s", numberToSeek);
+	seekingNumberFunction(phonebook, numberToSeek);
 	delete[] numberToSeek;
 	skipToMenu();
 }
@@ -135,7 +138,6 @@ void saveToFile(PersonalData *phonebook)
 		fprintf(file, "%s\t%s\n", phonebook[i].name, phonebook[i].phoneNumber);
 	}
 	fclose(file);
-	printf("Данные сохранены!\n");
 }
 
 void options(int key, PersonalData *phonebook)
@@ -143,19 +145,24 @@ void options(int key, PersonalData *phonebook)
 	switch (key)
 	{
 	case 1:
+		printf("Здесь вы можете добавлять записи. Чтобы выйти в главное меню, нажмите 0, или введите номер строки, которую вы хотели бы изменить.\n");
 		addingData(phonebook);
 		break;
 	case 2:
+		printf("Телефонная книга сейчас выглядит так:\n");
 		printData(phonebook);
 		break;
 	case 3:
+		printf("Это поиск по имени. Введите имя:\n");
 		seekingByName(phonebook);
 		break;
 	case 4:
+		printf("Это поиск по номеру телефона. Введите номер:\n");
 		seekingByPhone(phonebook);
 		break;
 	case 5:
 		saveToFile(phonebook);
+		printf("Данные сохранены!\n");
 		break;
 	}
 }
@@ -185,34 +192,38 @@ void mainMenu(PersonalData *phonebook)
 	printf("До свидания!");
 }
 
+void saveTest(PersonalData *phonebook)
+{
+	FILE *file = fopen("testFile.txt", "w");
+	for (int i = 0; i < MAX; i++)
+	{
+		fprintf(file, "%s\t%s", phonebook[i].name, phonebook[i].phoneNumber);
+	}
+	fclose(file);
+}
+
 void test()
 {
-	FILE *file = fopen("phonebook.txt", "r");
+	bool testPassed = 0;
+	FILE *file = fopen("testFile.txt", "a+");
 	PersonalData *testPhoneBook = new PersonalData[MAX];
-	bool testPassed = false;
 	int line = 0;
 	if (!file)
 	{
 		printf("File not found!");
 		return;
 	}
-	while (!feof(file))
-	{
-		char *bufferName = new char[MAX];
-		char *bufferPhoneNumber = new char[MAX];
-		int readBytes = fscanf(file, "%s %s", bufferName, bufferPhoneNumber);
-		if (readBytes < 0)
-		{
-			delete[] bufferName;
-			delete[] bufferPhoneNumber;
-			break;
-		}
-		testPhoneBook[line].name = bufferName;
-		testPhoneBook[line].phoneNumber = bufferPhoneNumber;
-		line++;
-	}
+	const char *nameToAdd = "Jack";
+	const char *numberToAdd = "12345";
+	adding(testPhoneBook, 0, 1, nameToAdd);
+	adding(testPhoneBook, 0, 2, numberToAdd);
+	saveTest(testPhoneBook);
+	const char *result = "Jack	12345";
+	char *buffer = new char[11];
+	fgets(buffer, 11, file);
 	fclose(file);
-
+	assert(strcmp(buffer, result) == 0);
+	delete[] buffer;
 	delete[] testPhoneBook;
 	printf("Test passed\n");
 }

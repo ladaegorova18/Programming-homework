@@ -5,13 +5,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const int MAX = 100;
+
 struct PersonalData
 {
-	const char *name = " ";
-	const char *phoneNumber = " ";
+	const char *name = "";
+	const char *phoneNumber = "";
 };
-
-const int MAX = 100;
 
 void mainMenu(PersonalData *phonebook);
 void addingData(PersonalData *phonebook);
@@ -21,6 +21,8 @@ void seekingByPhone(PersonalData *phonebook);
 void saveToFile(PersonalData *phonebook);
 
 void options(int key, PersonalData *phonebook);
+
+void test();
 
 
 #endif // !HEADER_H

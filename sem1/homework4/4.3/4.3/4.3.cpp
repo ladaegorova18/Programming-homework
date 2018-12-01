@@ -6,6 +6,7 @@
 
 int main()
 {
+	test();
 	setlocale(LC_ALL, "rus");
 	FILE *file = fopen("phonebook.txt", "a+");
 	PersonalData *phonebook = new PersonalData[MAX];
@@ -31,7 +32,6 @@ int main()
 		phonebook[i].name = "*пустое имя*";
 		phonebook[i].phoneNumber = "*пустой номер телефона*";
 	}
-	test();
 	mainMenu(phonebook);
 	delete[] phonebook;
 	return EXIT_SUCCESS;
