@@ -10,7 +10,7 @@ using namespace std;
 bool *conversion(int number)
 {
     unsigned bit = 1 << 31;
-    bool *binaryNumber = new bool[SIZE]{};
+    bool *binaryNumber = new bool[SIZE + 1]{0};
     for (int j = 0; j < SIZE; j++)
     {
         binaryNumber[j] = ((number & bit) ? 1 : 0);
@@ -21,7 +21,7 @@ bool *conversion(int number)
 
 bool *sum(bool* first, bool* second)
 {
-    bool *result = new bool[SIZE]{0};
+    bool *result = new bool[SIZE + 1]{0};
     for (int i = SIZE - 1; i > -1; i--)
     {
         if ((first[i]) || (second[i]))
@@ -59,7 +59,7 @@ int binaryToDecimal(bool* binNumber)
     return decimalNumber;
 }
 
-bool *decimalToBin(long int number)
+bool *decimalToBin(int number)
 {
 	return conversion(number);  
 }
@@ -86,33 +86,34 @@ void test()
     bool *oneToBinary = decimalToBin(numberOne);
     bool *maxToBinary = decimalToBin(maxNumberMinusOne);
 	bool *binResult = sum(oneToBinary, maxToBinary);
-    long int result = binaryToDecimal(binResult);
+    int result = binaryToDecimal(binResult);
     assert(result == (1 << 31) - 1);
-    int negativeOne = -1;
-    int negativeMaxPlusOne = ((1 << 31) - 1) * (-1);
-    bool *negOneToBinary = decimalToBin(negativeOne);
-    bool *negMaxToBinary = decimalToBin(negativeMaxPlusOne);
-	binResult = sum(negOneToBinary, negMaxToBinary);
-    long int resultOfNegative = binaryToDecimal(binResult);
+    int negativeTwo = -2;
+    int negativeMaxPlusTwo = ((1 << 31) - 2) * (-1);
+    bool *negTwoToBinary = decimalToBin(negativeTwo);
+    bool *negMaxToBinary = decimalToBin(negativeMaxPlusTwo);
+	bool *negBinResult = sum(negTwoToBinary, negMaxToBinary);
+    int resultOfNegative = binaryToDecimal(negBinResult);
     assert(resultOfNegative == (1 << 31) * (-1));
     printf("Test passed\n");
 	delete[] oneToBinary;
 	delete[] maxToBinary;
-	delete[] negOneToBinary;
-	delete[] negMaxToBinary;
 	delete[] binResult;
+	delete[] negTwoToBinary;
+	delete[] negMaxToBinary;
+	delete[] negBinResult;
 }
 
 int main()
 {
-    test();
+	test();
     setlocale(LC_ALL, "Russian");
     int theFirstNumber = 0;
     int theSecondNumber = 0;
     printf("Введите числа в десятичной системе счисления:\n");
     scanf("%d %d", &theFirstNumber, &theSecondNumber);
-    bool *firstBinary = new bool[SIZE];
-    bool *secondBinary = new bool[SIZE];
+    bool *firstBinary = new bool[SIZE + 1];
+    bool *secondBinary = new bool[SIZE + 1];
     firstBinary = decimalToBin(theFirstNumber);
     secondBinary = decimalToBin(theSecondNumber);
     printf("В двоичной системе:\n");
@@ -121,11 +122,13 @@ int main()
     printing(secondBinary);
     printf("\n");
     printf("Сумма в двоичной системе счисления:\n");
-	bool *binResult = sum(firstBinary, secondBinary);
+	bool *binResult = new bool[SIZE + 1];
+	binResult = sum(firstBinary, secondBinary);
     printing(binResult);
     printf("\nЧисла в десятичной системе счисления:\n%d\n%d\nСумма в десятичной системе счисления: %d\n", binaryToDecimal(firstBinary), binaryToDecimal(secondBinary), binaryToDecimal(firstBinary) + binaryToDecimal(secondBinary));
 	delete[] firstBinary;
 	delete[] secondBinary;
 	delete[] binResult;
+	system("pause");
     return 0;
 }
