@@ -53,28 +53,6 @@ bool inEquality(string first, string second)
 	return (first > second);
 }
 
-Element* merge(Element *first, Element *second)
-{
-	Element *dummyHead = new Element();
-	Element *current = dummyHead;
-	while ((first != nullptr) && (second != nullptr))
-	{
-		if (first->name < second->name)
-		{
-			current->next = first;
-			first = first->next;
-		}
-		else
-		{
-			current->next = second;
-			second = second->next;
-		}
-		current = current->next;
-	}
-	current->next = (first == nullptr) ? second : first;
-	return dummyHead->next;
-}
-
 Element* getMiddle(Element* head)
 {
 	if (head == nullptr)
@@ -91,17 +69,61 @@ Element* getMiddle(Element* head)
 	return slow;
 }
 
-Element* mergeSort(Element *head)
-{
-	if ((head == nullptr) || (head->next == nullptr))
+DynList* merge(DynList *&firstList, DynList *&secondList)
+{	
+	DynList *resultList = new DynList();
+	resultList->head = nullptr;
+	Element *current = resultList->head;
+	Element *first = firstList->head;
+	Element *second = secondList->head;
+	if (!inEquality(first->name, second->name))
 	{
-		return head;
+		current = first;
+		first = first->next;
 	}
 	else
 	{
-		Element *middle = getMiddle(head);
-		Element *secondHalf = middle->next;
-		middle->next = nullptr;
-		return merge(mergeSort(head), mergeSort(secondHalf));
+		current = second;
+		second = second->next;
 	}
+	while ((first != nullptr) && (second != nullptr))
+	{
+		if (first->name < second->name)
+		{
+			current->next = first;
+			first = first->next;
+		}
+		else
+		{
+			current->next = second;
+			second = second->next;
+		}
+		current = current->next;
+	}
+	current->next = (first == nullptr) ? second : first;
+	printData(resultList->head);
+	return resultList;
+}
+
+DynList* mergeSort(DynList *myList)
+{
+	if (myList->size <= 1)
+	{
+		return myList;
+	}
+	Element *middle = getMiddle(myList->head);
+	DynList* firstList = new DynList();
+	DynList* secondList = new DynList();
+	size_t size = myList->size;
+	firstList->head = myList->head;
+	secondList->head = middle->next;
+
+	DynList* result = new DynList();
+	makingList(result);
+
+
+	mergeSort(firstList);
+	mergeSort(secondList);
+	result = merge(firstList, secondList);
+	return result;
 }

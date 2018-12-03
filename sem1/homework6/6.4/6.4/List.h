@@ -20,12 +20,9 @@ void makingList(DynList *myList);
 bool isEmpty(DynList *myList);
 void addingData(DynList *myList, std::string tempName, std::string tempPhoneNumber);
 void printData(Element *head);
-Element* mergeSort(Element *head);
+DynList* mergeSort(DynList *myList);
 Element* getMiddle(Element* head);
-Element* merge(Element *first, Element *second);
+DynList* merge(DynList *&firstList, DynList *&secondList);
 bool inEquality(std::string first, std::string second);
-
-
-
 
 #endif // HEADER_H
