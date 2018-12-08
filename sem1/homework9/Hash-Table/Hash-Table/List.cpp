@@ -33,20 +33,6 @@ void List::adding(std::string value)
 	tail = temp;
 }
 
-bool List::find(std::string value)
-{
-	Node* current = head;
-	while (current)
-	{
-		if (current->value == value)
-		{
-			return true;
-		}
-		current = current->next;
-	}
-	return false;
-}
-
 Node* List::getNode(std::string value)
 {
 	Node* current = head;

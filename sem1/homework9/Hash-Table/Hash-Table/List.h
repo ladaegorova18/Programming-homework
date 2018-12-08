@@ -22,12 +22,24 @@ private:
 	Node* tail;
 	int length;
 public:
+	// создает список
 	void makeList();
+	
+	// добавляет элемент в список
 	void adding(std::string value);
+	
+	// проверяет список на пустоту
 	bool isEmpty();
-	bool find(std::string value); 
+	
+	// возвращает элемент с искомым значением
 	Node* getNode(std::string value);
+	
+	// печатает список
 	void printing(int index);
+	
+	// удаляет список
 	void deleteList();
+	
+	// возвращает длину списка
 	int getLength();
 };

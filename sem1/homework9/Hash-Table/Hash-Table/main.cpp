@@ -4,36 +4,53 @@
 #include <iostream>
 #include <fstream>
 #include <locale>
-using namespace std;
+#include <assert.h>
 
 void test()
 {
-
+	Set* testSet = new Set();
+	testSet->makeSet();
+	std::ifstream file("text.txt");
+	if (!file)
+	{
+		std::cout << "Тестовый файл не найден!" << std::endl;
+		return;
+	}
+	while (!file.eof())
+	{
+		std::string buffer = " ";
+		file >> buffer;
+		testSet->adding(buffer);
+	}
+	file.close();
+	assert(testSet->coefHash() < 1);
+	std::cout << "Тест пройден!" << std::endl;
 }
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
+	test();
 	Set* set = new Set();
 	set->makeSet();
-	ifstream file("text.txt");
+	std::ifstream file("text.txt");
 	if (!file)
 	{
-		cout << "Файл не найден!" << endl;
+		std::cout << "Файл не найден!" << std::endl;
 		return -1;
 	}
 	while (!file.eof())
 	{
-		string buffer = " ";
+		std::string buffer = " ";
 		file >> buffer;
 		set->adding(buffer);
 	}
 	file.close();
-	cout << "Слова, встречающиеся в этом тексте:" << endl;
+	std::cout << "Слова, встречающиеся в этом тексте:" << std::endl;
 	set->printing();
-	set->statistics();
+	statistics(set);
 	set->deleteSet();
-	cout << "До свидания!" << endl;
+	std::cout << "До свидания!" << std::endl;
 	system("pause");
 	return 0;
 }
