@@ -1,0 +1,4 @@
+*.pbxproj binary merge=union
+* encoding=cp1251
+*.cpp diff
+*.h diff
