@@ -88,20 +88,10 @@ void test()
 	bool *binResult = sum(oneToBinary, maxToBinary);
     int result = binaryToDecimal(binResult);
     assert(result == (1 << 31) - 1);
-    int negativeTwo = -2;
-    int negativeMaxPlusTwo = ((1 << 31) - 2) * (-1);
-    bool *negTwoToBinary = decimalToBin(negativeTwo);
-    bool *negMaxToBinary = decimalToBin(negativeMaxPlusTwo);
-	bool *negBinResult = sum(negTwoToBinary, negMaxToBinary);
-    int resultOfNegative = binaryToDecimal(negBinResult);
-    assert(resultOfNegative == (1 << 31) * (-1));
     printf("Test passed\n");
 	delete[] oneToBinary;
 	delete[] maxToBinary;
 	delete[] binResult;
-	delete[] negTwoToBinary;
-	delete[] negMaxToBinary;
-	delete[] negBinResult;
 }
 
 int main()
@@ -129,6 +119,5 @@ int main()
 	delete[] firstBinary;
 	delete[] secondBinary;
 	delete[] binResult;
-	system("pause");
     return 0;
 }
