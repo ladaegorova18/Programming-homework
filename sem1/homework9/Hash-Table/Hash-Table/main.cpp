@@ -23,8 +23,12 @@ void test()
 		testSet->adding(buffer);
 	}
 	file.close();
+	assert(testSet->count("в") == 4);
+	assert(testSet->count("коэффициент") == 1);
+	assert(testSet->count("лимоны") == 0);
 	assert(testSet->coefHash() < 1);
 	std::cout << "Тест пройден!" << std::endl;
+	testSet->deleteSet();
 }
 
 int main()
@@ -51,6 +55,5 @@ int main()
 	statistics(set);
 	set->deleteSet();
 	std::cout << "До свидания!" << std::endl;
-	system("pause");
 	return 0;
 }
