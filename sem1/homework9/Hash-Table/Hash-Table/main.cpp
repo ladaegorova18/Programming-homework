@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Hash-Table.h"
 #include <iostream>
 #include <fstream>
@@ -9,7 +9,7 @@ void reading(std::ifstream &file, Set &set)
 {
 	if (!file)
 	{
-		std::cout << "Ôàéë íå íàéäåí!" << std::endl;
+		std::cout << "Ð¤Ð°Ð¹Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½!" << std::endl;
 		return;
 	}
 	while (!file.eof())
@@ -28,12 +28,12 @@ void test()
 	reading(file, testSet);
 	file.close();
 	printing(testSet);
-	assert(count(testSet, "â") == 4);
-	assert(count(testSet, "âñå") == 1);
-	assert(count(testSet, "êîýôôèöèåíò") == 1);
-	assert(count(testSet, "ëèìîíû") == 0);
+	assert(count(testSet, "Ð²") == 4);
+	assert(count(testSet, "Ð²ÑÐµ") == 1);
+	assert(count(testSet, "ÐºÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚") == 1);
+	assert(count(testSet, "Ð»Ð¸Ð¼Ð¾Ð½Ñ‹") == 0);
 	assert(coefHash(testSet) < 1);
-	std::cout << "Òåñò ïðîéäåí!" << std::endl;
+	std::cout << "Ð¢ÐµÑÑ‚ Ð¿Ñ€Ð¾Ð¹Ð´ÐµÐ½!" << std::endl;
 	deleteSet(testSet);
 }
 
@@ -46,10 +46,10 @@ int main()
 	std::ifstream file("text.txt");
 	reading(file, set);
 	file.close();
-	std::cout << "Ñëîâà, âñòðå÷àþùèåñÿ â ýòîì òåêñòå:" << std::endl;
+	std::cout << "Ð¡Ð»Ð¾Ð²Ð°, Ð²ÑÑ‚Ñ€ÐµÑ‡Ð°ÑŽÑ‰Ð¸ÐµÑÑ Ð² ÑÑ‚Ð¾Ð¼ Ñ‚ÐµÐºÑÑ‚Ðµ:" << std::endl;
 	printing(set);
 	statistics(set);
 	deleteSet(set);
-	std::cout << "Äî ñâèäàíèÿ!" << std::endl;
+	std::cout << "Ð”Ð¾ ÑÐ²Ð¸Ð´Ð°Ð½Ð¸Ñ!" << std::endl;
 	return 0;
 }
