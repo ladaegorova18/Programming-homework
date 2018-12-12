@@ -1,59 +1,55 @@
 #include "pch.h"
 #include "Hash-Table.h"
-#include "List.h"
 #include <iostream>
 #include <fstream>
 #include <locale>
 #include <assert.h>
 
-void test()
+void reading(std::ifstream &file, Set &set)
 {
-	Set* testSet = new Set();
-	testSet->makeSet();
-	std::ifstream file("text.txt");
 	if (!file)
 	{
-		std::cout << "Тестовый файл не найден!" << std::endl;
+		std::cout << "Файл не найден!" << std::endl;
 		return;
 	}
 	while (!file.eof())
 	{
 		std::string buffer = " ";
 		file >> buffer;
-		testSet->adding(buffer);
+		adding(set, buffer);
 	}
+}
+
+void test()
+{
+	Set testSet;
+	makeSet(testSet);
+	std::ifstream file("test.txt");
+	reading(file, testSet);
 	file.close();
-	assert(testSet->count("в") == 4);
-	assert(testSet->count("коэффициент") == 1);
-	assert(testSet->count("лимоны") == 0);
-	assert(testSet->coefHash() < 1);
+	printing(testSet);
+	assert(count(testSet, "в") == 4);
+	assert(count(testSet, "все") == 1);
+	assert(count(testSet, "коэффициент") == 1);
+	assert(count(testSet, "лимоны") == 0);
+	assert(coefHash(testSet) < 1);
 	std::cout << "Тест пройден!" << std::endl;
-	testSet->deleteSet();
+	deleteSet(testSet);
 }
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
 	test();
-	Set* set = new Set();
-	set->makeSet();
+	Set set;
+	makeSet(set);
 	std::ifstream file("text.txt");
-	if (!file)
-	{
-		std::cout << "Файл не найден!" << std::endl;
-		return -1;
-	}
-	while (!file.eof())
-	{
-		std::string buffer = " ";
-		file >> buffer;
-		set->adding(buffer);
-	}
+	reading(file, set);
 	file.close();
 	std::cout << "Слова, встречающиеся в этом тексте:" << std::endl;
-	set->printing();
+	printing(set);
 	statistics(set);
-	set->deleteSet();
+	deleteSet(set);
 	std::cout << "До свидания!" << std::endl;
 	return 0;
 }
