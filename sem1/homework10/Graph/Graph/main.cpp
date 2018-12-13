@@ -1,32 +1,44 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Graph.h"
 #include <iostream>
 #include <fstream>
 #include <locale>
 #include <assert.h>
 
-void reading(std::ifstream &file, Map* map)
+void addRoad(Map* map, int i, int j, int len)
 {
-	if (!file)
-	{
-		std::cout << "Ôàéë íå íàéäåí!" << std::endl;
-		return;
-	}
-	int n = 0; // cities
-	int m = 0; // roads
-	file >> n;
-	file >> m;
+	map->roads[i][j] = len;
+	map->roads[j][i] = len;
+}
+
+void addCapital(Map* map, int capitalNumber, int i)
+{
+	map->kingdoms[i].push_back(capitalNumber);
+	map->mark[capitalNumber] = 1; // ÑÑ‚Ð¾Ð»Ð¸Ñ†Ð° ÑƒÐ¶Ðµ ÐºÐ¾Ð¼Ñƒ-Ñ‚Ð¾ Ð¿Ñ€Ð¸Ð½Ð°Ð´Ð»ÐµÐ¶Ð¸Ñ‚
+}
+
+void resizing(Map* map, int n)
+{
+	n++;
 	map->mark.resize(n);
 	map->roads.resize(n);
 	for (int i = 0; i < n; i++)
 	{
-		map->mark[i] = false;
 		map->roads[i].resize(n);
 		for (int j = 0; j < n; j++)
 		{
 			map->roads[i][j] = INF;
 		}
 	}
+}
+
+void reading(std::ifstream &file, Map* map)
+{
+	int n = 0; // ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð³Ð¾Ñ€Ð¾Ð´Ð¾Ð²
+	int m = 0; // Ñ‡Ð¸ÑÐ»Ð¾ Ð´Ð¾Ñ€Ð¾Ð³
+	file >> n;
+	file >> m;
+	resizing(map, n);
 	while (!file.eof())
 	{
 		for (int a = 0; a < m; a++)
@@ -35,31 +47,38 @@ void reading(std::ifstream &file, Map* map)
 			int j = 0;
 			int len = 0;
 			file >> i >> j >> len;
-			map->roads[i][j] = len;
-			map->roads[j][i] = len;
+			addRoad(map, i, j, len);
 		}
-		int k = 0; // capitals
+		int k = 0; // ÑÑ‚Ð¾Ð»Ð¸Ñ†Ñ‹
 		file >> k;
 		map->kingdoms.resize(k);
 		for (int i = 0; i < k; i++)
 		{
 			int capitalNumber = 0;
 			file >> capitalNumber;
-			map->kingdoms[i].push_back(capitalNumber);
-			map->mark[capitalNumber] = 1; // ñòîëèöà óæå êîìó-òî ïðèíàäëåæèò
+			addCapital(map, capitalNumber, i);
 		}
 	}
 }
 
 void test()
 {
-	std::ifstream testFile("testFile.txt");
 	Map* testMap = new Map();
-	reading(testFile, testMap);
+	int cities = 3;
+	resizing(testMap, cities);
+	addRoad(testMap, 1, 2, 1);
+	addRoad(testMap, 2, 3, 3);
+	addRoad(testMap, 1, 3, 5);
+	int capitals = 2;
+	testMap->kingdoms.resize(capitals);
+	addCapital(testMap, 1, 0);
+	addCapital(testMap, 3, 1);
 	testMap->war();
-
-	testFile.close();
-	std::cout << "Òåñò ïðîéäåí!" << std::endl;
+	printing(testMap->kingdoms);
+	assert(testMap->kingdoms[0][0] == 1);
+	assert(testMap->kingdoms[0][1] == 2);
+	assert(testMap->kingdoms[1][0] == 3);
+	std::cout << "Ð¢ÐµÑÑ‚ Ð¿Ñ€Ð¾Ð¹Ð´ÐµÐ½!" << std::endl;
 }
 
 int main()
@@ -68,11 +87,15 @@ int main()
 	test();
 	Map* map = new Map();
 	std::ifstream file("kingdoms.txt");
+	if (!file)
+	{
+		std::cout << "Ð¤Ð°Ð¹Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½!" << std::endl;
+		return 0;
+	}
 	reading(file, map);
 	file.close();
 	map->war();
 	printing(map->kingdoms);
-	std::cout << "Äî ñâèäàíèÿ!" << std::endl;
-	system("pause");
+	std::cout << "Ð”Ð¾ ÑÐ²Ð¸Ð´Ð°Ð½Ð¸Ñ!" << std::endl;
 	return 0;
 }
