@@ -1,0 +1,6 @@
+numbers less than a:
+21
+numbers less than b:
+33
+numbers greater than b:
+467
