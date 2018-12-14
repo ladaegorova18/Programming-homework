@@ -17,5 +17,6 @@ int main()
 	std::cout << "Frequency is:" << std::endl;
 	printData(list);
 	deleteList(list);
+	system("pause");
 	return 0;
 }

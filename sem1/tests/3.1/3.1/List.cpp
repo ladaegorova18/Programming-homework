@@ -10,6 +10,10 @@ bool isEmpty(DynList *myList)
 
 void insertion(DynList *myList, int newValue)
 {
+	if (newValue == 0)
+	{
+		return;
+	}
 	Element* data = new Element;
 	Element* previous = nullptr;
 	data->value = newValue;
