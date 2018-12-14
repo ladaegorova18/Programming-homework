@@ -17,12 +17,16 @@ struct DynList
 };
 
 void makingList(DynList *myList);
-bool isEmpty(DynList *myList);
+
 void addingData(DynList *myList, std::string tempName, std::string tempPhoneNumber);
 void printData(Element *head);
-DynList* mergeSort(DynList *myList);
+
+DynList* mergeSort(DynList *myList, Element *head, Element* tail);
 Element* getMiddle(Element* head);
-DynList* merge(DynList *&firstList, DynList *&secondList);
+DynList* merge(DynList *firstList, DynList *secondList);
+
 bool inEquality(std::string first, std::string second);
+
+void deleteList(DynList* myList);
 
 #endif // HEADER_H
