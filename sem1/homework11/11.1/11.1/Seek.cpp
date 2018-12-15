@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "Seek.h"
+#include <fstream>
 
 int* prefixFunction(std::string str, int len)
 {
@@ -18,19 +19,23 @@ int* prefixFunction(std::string str, int len)
 	return index;
 }
 
-int algorithmKMP(std::string main, std::string sample)
+int algorithmKMP(std::ifstream &file, std::string sample)
 {
 	int sampleLen = sample.length();
-	int mainLen = main.length();
 	int equalIndex = 0;
 	int *index = prefixFunction(sample, sampleLen);
-	for (int i = 0; i < mainLen; )
+	std::cout << index[0];
+	int i = 0;
+	while (!file.eof())
 	{
+		char temp = ' ';
+		file >> temp;
+		std::cout << temp;
 		if (equalIndex == sampleLen)
 		{
 			return i - equalIndex + 1;
 		}
-		if (main[i] == sample[equalIndex])
+		if (temp == sample[equalIndex])
 		{
 			equalIndex++;
 			i++;

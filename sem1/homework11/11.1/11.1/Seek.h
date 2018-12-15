@@ -3,4 +3,4 @@
 
 int* prefixFunction(std::string str, int len);
 
-int algorithmKMP(std::string main, std::string sample);
+int algorithmKMP(std::ifstream &file, std::string sample);
