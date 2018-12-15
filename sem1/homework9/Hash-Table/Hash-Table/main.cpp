@@ -27,7 +27,6 @@ void test()
 	std::ifstream file("test.txt");
 	reading(file, testSet);
 	file.close();
-	printing(testSet);
 	assert(count(testSet, "в") == 4);
 	assert(count(testSet, "все") == 1);
 	assert(count(testSet, "коэффициент") == 1);
@@ -39,11 +38,11 @@ void test()
 
 int main()
 {
-	setlocale(LC_ALL, "rus");
+	setlocale(LC_ALL, "Russian");
 	test();
 	Set set;
 	makeSet(set);
-	std::ifstream file("text.txt");
+	std::ifstream file("test.txt");
 	reading(file, set);
 	file.close();
 	std::cout << "Слова, встречающиеся в этом тексте:" << std::endl;
