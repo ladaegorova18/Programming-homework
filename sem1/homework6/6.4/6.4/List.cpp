@@ -2,219 +2,157 @@
 #include <iostream>
 #include <string>
 #include "List.h"
-using namespace std;
 
-void makingList(DynList *myList)
+void makingList(List *&head)
 {
-	myList->head = nullptr;
-	myList->tail = nullptr;
-	myList->size = 0;
+	head = nullptr;
 }
 
-bool isEmpty(DynList *myList)
+bool isEmpty(List *head)
 {
-	return (myList->head == nullptr);
+	return (head == nullptr);
 }
 
-void addingData(DynList *myList, string newName, string newPhoneNumber)
+void addInTail(List *&head, List*& data)
 {
-	Element* data = new Element;
+	List* current = head;
+	while (current)
+	{
+		if (current->next == nullptr)
+		{
+			current->next = data;
+			return;
+		}
+		current = current->next;
+	}
+}
+
+void addingData(List *&head, std::string newName, int newPhoneNumber)
+{
+	List* data = new List();
 	data->name = newName;
 	data->phoneNumber = newPhoneNumber;
 	data->next = nullptr;
-	if (isEmpty(myList))
+	if (isEmpty(head))
 	{
-		myList->head = data;
+		head = data;
 	}
 	else
 	{
-		myList->tail->next = data;
+		addInTail(head, data);
 	}
-	myList->tail = data;
-	myList->size++;
-	return;
 }
 
-void printData(Element *head)
+void printData(List *head)
 {
     {
-        Element *current = head;
+        List *current = head;
         while (current)
         {
-            cout << current->name << " " << current->phoneNumber << endl;
+            std::cout << current->name << " " << current->phoneNumber << std::endl;
             current = current->next;
         }
 		delete current;
     }
 }
 
-bool inEquality(string first, string second)
+int getSize(List *&head)
 {
-	return (first > second);
+	List* current = head;
+	int size = 0;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	return size;
 }
 
-Element* getMiddle(Element* head)
-{
-	if (head == nullptr)
-	{
-		return head;
-	}
-	Element* slow = head;
-	Element* fast = head;
-	while ((fast->next != nullptr) && (fast->next->next != nullptr))
-	{
-		slow = slow->next;
-		fast = fast->next->next;
-	}
-	return slow;
-}
+List* merge(List *&firstList, List *&secondList, char key);
 
-DynList* merge(DynList *firstList, DynList *secondList)
-{	
-	DynList *resultList = new DynList();
-	resultList->head = nullptr;
-	Element *first = firstList->head;
-	Element *second = secondList->head;
-	if (!inEquality(first->name, second->name))
+List* mergeName(List *&firstList, List *&secondList, char key)
+{
+	List* newHead = nullptr;
+	if (firstList->name < secondList->name)
 	{
-		resultList->head = first;
-		first = first->next;
+		newHead = firstList;
+		newHead->next = merge(firstList->next, secondList, key);
 	}
 	else
 	{
-		resultList->head = second;
-		second = second->next;
+		newHead = secondList;
+		newHead->next = merge(firstList, secondList->next, key);
 	}
-	Element *current = resultList->head;
-	while ((first != nullptr) && (second != nullptr))
-	{
-		if (first->name < second->name)
-		{
-			current->next = first;
-			cout << first->name << " " << second->name;
-			first = first->next;
-		}
-		else
-		{
-			current->next = second;
-			cout << second->name << " " << first->name;
-			second = second->next;
-		}
-		current = current->next;
-	}
-	current->next = (first == nullptr) ? second : first;
-	//printData(resultList->head);
-	return resultList;
+	return newHead;
 }
 
-void swap(DynList* list)
+List* mergeNumber(List *&firstList, List *&secondList, char key)
 {
-	Element* temp = list->head;
-	temp->next = nullptr;
-	list->head = list->head->next;
-	list->head->next = temp;
+	List* newHead = nullptr;
+	if (firstList->phoneNumber < secondList->phoneNumber)
+	{
+		newHead = firstList;
+		newHead->next = merge(firstList->next, secondList, key);
+	}
+	else
+	{
+		newHead = secondList;
+		newHead->next = merge(firstList, secondList->next, key);
+	}
+	return newHead;
 }
 
-DynList* mergeSort(DynList *myList, Element *head, Element* tail)
+List* merge(List *&firstList, List *&secondList, char key)
 {
-	if (head == tail)
+	List* newHead = nullptr;
+	if (firstList == nullptr)
 	{
-		return myList;
+		return secondList;
 	}
-	Element *middle = getMiddle(myList->head);
-	DynList* firstList = new DynList();
-	DynList* secondList = new DynList();
-	size_t size = myList->size;
-	firstList->size = size / 2;
-	secondList->size = size / 2;
-	firstList->head = myList->head;
-	cout << size;
-	if ((middle != nullptr) && (middle->next != nullptr))
+	if (secondList == nullptr)
 	{
-		secondList->head = middle->next;
-		middle->next = nullptr;
+		return firstList;
 	}
-	mergeSort(firstList, firstList->head, middle);
-	mergeSort(secondList, middle->next, tail);
-	DynList* result = new DynList();
-	makingList(result);
-
-
-	return merge(firstList, secondList);
+	if (key == '1')
+	{
+		newHead = mergeName(firstList, secondList, key);
+	}
+	else
+	{
+		newHead = newHead = mergeNumber(firstList, secondList, key);
+	}
+	return newHead;
 }
 
-
-
-/*
-DynList* mergeSort(DynList *myList)
+void mergeSort(List *&head, char key)
 {
-	DynList* firstList = new DynList();
-	DynList* secondList = new DynList();
-	size_t size = myList->size;
-	Element *middle = getMiddle(myList->head);
-	firstList->size = size / 2;
-	secondList->size = size / 2;
-	firstList->head = myList->head;
-	secondList->head = middle->next;
-	middle->next = nullptr;
-	while (firstList->size > 2)
+	if (head->next != nullptr)
 	{
-		mergeSort(firstList);
-	}
-	while (secondList->size > 2)
-	{
-		mergeSort(secondList);
-	}
-	if (firstList->size == 2)
-	{
-		if (firstList->head->name > firstList->head->next->name)
+		List* firstList = nullptr;
+		List* secondList = head;
+		int len = getSize(head);
+		for (int i = 0; i < len / 2; i++)
 		{
-			firstList = swap(firstList);
+			firstList = secondList;
+			secondList = secondList->next;
 		}
+		firstList->next = nullptr;
+		firstList = head;
+		mergeSort(firstList, key);
+		mergeSort(secondList, key);
+		head = merge(firstList, secondList, key);
 	}
-	if (secondList->size == 2)
-	{
-		if (secondList->head->name > secondList->head->next->name)
-		{
-			secondList = swap(secondList);
-		}
-	}
-	DynList* result = new DynList();
-	makingList(result);
-	while (result->size < myList->size)
-	{
-		merge(firstList, secondList);
-	}
-	return result;
 }
-*/
-void deleteList(DynList* myList)
+
+void deleteList(List *&head)
 {
-	Element* previous = nullptr;
-	Element* current = myList->head;
+	List* current = head;
+	List* prev = nullptr;
 	while (current)
 	{
-		previous = current;
+		prev = current;
 		current = current->next;
-		delete previous;
+		delete prev;
 	}
 	delete current;
 }
-
-//return merge(firstList, secondList);
-	/*if ((firstList->size == 1) && (secondList->size == 1))
-	{
-		cout << firstList->head->name << secondList->head->name;
-		return merge(firstList, secondList);
-	}
-	/*else
-	{
-		if (firstList->size != 0)
-		{
-			mergeSort(firstList);
-		}
-		if (secondList->size != 0)
-		{
-			mergeSort(secondList);
-		}
-	}*/

@@ -2,31 +2,26 @@
 #define HEADER_H
 #include <iostream>
 
-struct Element
+struct List
 {
-    std::string name;
-	std::string phoneNumber;
-    Element* next;
+	std::string name;
+	int phoneNumber;
+	List* next;
 };
 
-struct DynList
-{
-	Element *head;
-	Element *tail;
-	size_t size;
-};
+// создает список, обнул€€ первый элемент
+void makingList(List *&myList);
 
-void makingList(DynList *myList);
+// добавл€ет элементы в список
+void addingData(List *&myList, std::string tempName, int tempPhoneNumber);
 
-void addingData(DynList *myList, std::string tempName, std::string tempPhoneNumber);
-void printData(Element *head);
+//печатает список
+void printData(List *head);
 
-DynList* mergeSort(DynList *myList, Element *head, Element* tail);
-Element* getMiddle(Element* head);
-DynList* merge(DynList *firstList, DynList *secondList);
+// сортировка сли€нием(основна€ функци€)
+void mergeSort(List *&myList, char key);
 
-bool inEquality(std::string first, std::string second);
-
-void deleteList(DynList* myList);
+// удал€ет список
+void deleteList(List *&myList);
 
 #endif // HEADER_H
