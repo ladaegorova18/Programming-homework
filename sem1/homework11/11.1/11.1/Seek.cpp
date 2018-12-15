@@ -24,29 +24,27 @@ int algorithmKMP(std::ifstream &file, std::string sample)
 	int sampleLen = sample.length();
 	int equalIndex = 0;
 	int *index = prefixFunction(sample, sampleLen);
-	std::cout << index[0];
 	int i = 0;
+	char temp = ' ';
+	file >> temp;
 	while (!file.eof())
 	{
-		char temp = ' ';
-		file >> temp;
-		std::cout << temp;
-		if (equalIndex == sampleLen)
+		if ((temp == sample[equalIndex]) || (equalIndex == 0))
 		{
-			return i - equalIndex + 1;
-		}
-		if (temp == sample[equalIndex])
-		{
-			equalIndex++;
-			i++;
-		}
-		else if (equalIndex == 0)
-		{
+			if (temp == sample[equalIndex])
+			{
+				equalIndex++;
+			}
+			file >> temp;
 			i++;
 		}
 		else
 		{
 			equalIndex = index[equalIndex - 1];
+		}
+		if (equalIndex == sampleLen)
+		{
+			return i - equalIndex + 1;
 		}
 	}
 	delete[] index;
