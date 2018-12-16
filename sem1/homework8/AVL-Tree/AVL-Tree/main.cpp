@@ -8,22 +8,25 @@
 void test()
 {
 	Tree *testTree = new Tree();
-	testTree->makeTree();
-	Node* root = testTree->getRoot();
-	testTree->adding("apple", 4, root);
-	testTree->adding("cherry", 7, root);
-	testTree->adding("pear", 2, root);
-	testTree->adding("grape", 8, root);
-	testTree->adding("orange", 3, root);
-	assert(testTree->getSize() == 5);
-	testTree->deleteData(3, root);
-	testTree->deleteData(7, root);
-	testTree->deleteData(2, root);
-	testTree->deleteData(8, root);
-	testTree->deleteData(4, root);
-	assert(testTree->isEmpty());
-	testTree->deleteTree(root);
+	makeTree(testTree);
+	adding("apple", 4, testTree->root);
+	adding("cherry", 7, testTree->root);
+	adding("pear", 2, testTree->root);
+	adding("grape", 8, testTree->root);
+	adding("orange", 3, testTree->root);
+	assert(getData(3, testTree->root) == "orange");
+	assert(getData(2, testTree->root) == "pear");
+	assert(getData(8, testTree->root) == "grape");
+	assert(getData(4, testTree->root) == "apple");
+	assert(getData(7, testTree->root) == "cherry");
+	deleteData(3, testTree->root, testTree->root);
+	deleteData(7, testTree->root, testTree->root);
+	deleteData(4, testTree->root, testTree->root);
+	deleteData(2, testTree->root, testTree->root);
+	deleteData(8, testTree->root, testTree->root);
+	assert(isEmpty(testTree));
 	std::cout << "Тест пройден!" << std::endl;
+	deleteTree(testTree->root);
 }
 
 int main()
@@ -31,9 +34,8 @@ int main()
 	setlocale(LC_ALL, "rus");
 	test();
 	Tree* myTree = new Tree();
-	myTree->makeTree();
+	makeTree(myTree);
 	mainMenu(myTree);
-	Node* root = myTree->getRoot();
-	myTree->deleteTree(root);
+	deleteTree(myTree->root);
 	return 0;
 }

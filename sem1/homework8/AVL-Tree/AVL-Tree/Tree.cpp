@@ -4,15 +4,14 @@
 #include <string>
 using namespace std;
 
-void Tree::makeTree()
+void makeTree(Tree *&tree)
 {
-	root = nullptr;
-	count = 0;
+	tree->root = nullptr;
 }
 
-bool Tree::isEmpty()
+bool isEmpty(Tree *tree)
 {
-	return (root == nullptr);
+	return (tree->root == nullptr);
 }
 
 unsigned char height(Node* temp)
@@ -77,19 +76,8 @@ Node* balance(Node* temp)
 	}
 }
 
-Node* Tree::getRoot()
+Node* adding(std::string newData, const int index, Node *&temp)
 {
-	return root;
-}
-
-Node* Tree::adding(string newData, const int index, Node* temp)
-{
-	count++;
-	if (isEmpty())
-	{
-		root = new Node(index, newData);
-		return root;
-	}
 	if (temp == nullptr)
 	{
 		temp = new Node(index, newData);
@@ -110,16 +98,16 @@ Node* Tree::adding(string newData, const int index, Node* temp)
 	return balance(temp);
 }
 
-string Tree::getData(const int key, Node* temp)
+string getData(const int key, Node* temp)
 {
-	if (findData(key, root) != nullptr)
+	if (findData(key, temp) != nullptr)
 	{
-		return findData(key, root)->data;
+		return findData(key, temp)->data;
 	}
 	return "\n";
 }
 
-Node* Tree::findData(const int key, Node* temp)
+Node* findData(const int key, Node* temp)
 {
 	if (temp != nullptr)
 	{
@@ -157,7 +145,7 @@ Node* removeMin(Node* temp)
 	return balance(temp);
 }
 
-Node* deleteFromRoot(Node *root)
+Node* deleteFromRoot(Node *&root)
 {
 	Node* leftChild = root->leftChild;
 	Node* rightChild = root->rightChild;
@@ -174,14 +162,8 @@ Node* deleteFromRoot(Node *root)
 	return balance(min);
 }
 
-Node* Tree::deleteData(int key, Node* temp)
+Node* deleteData(int key, Node*& temp, Node *&root)
 {
-	count--;
-	if (count == 0)
-	{
-		makeTree();
-		return nullptr;
-	}
 	if (temp == nullptr)
 	{
 		delete temp;
@@ -189,11 +171,11 @@ Node* Tree::deleteData(int key, Node* temp)
 	}
 	if (key < temp->key)
 	{
-		temp->leftChild = deleteData(key, temp->leftChild);
+		temp->leftChild = deleteData(key, temp->leftChild, root);
 	}
 	else if (key > temp->key)
 	{
-		temp->rightChild = deleteData(key, temp->rightChild);
+		temp->rightChild = deleteData(key, temp->rightChild, root);
 	}
 	else
 	{
@@ -218,7 +200,7 @@ Node* Tree::deleteData(int key, Node* temp)
 	return balance(temp);
 }
 
-void Tree::deleteTree(Node* temp)
+void deleteTree(Node*& temp)
 {
 	if (temp != nullptr)
 	{
@@ -226,9 +208,4 @@ void Tree::deleteTree(Node* temp)
 		deleteTree(temp->rightChild);
 		delete temp;
 	}
-}
-
-int Tree::getSize()
-{
-	return count;
 }

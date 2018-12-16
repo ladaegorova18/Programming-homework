@@ -20,35 +20,26 @@ struct Node
 
 struct Tree
 {
-private:
 	Node* root;
-	int count;
-
-public:
-	// обнуляет корень, создавая пустое дерево
-	void makeTree();
-
-	// проверяет, пустой корень или нет
-	bool isEmpty();
-
-	// добавляет значение в дерево
-	Node* adding(std::string newData, const int index, Node* temp);
-
-	// получает значение по ключу
-	std::string getData(const int key, Node* temp);
-
-	// проверяет наличие заданного ключа
-	Node* findData(const int key, Node* temp);
-
-	// удаляет значение из дерева
-	Node* deleteData(const int key, Node* temp);
-
-	// возвращает корень
-	Node* getRoot();
-
-	// возвращает количество элементов в массиве
-	int getSize();
-
-	// удаляет дерево
-	void deleteTree(Node* temp);
 };
+
+// проверяет, пустой корень или нет
+bool isEmpty(Tree *tree);
+
+// добавляет значение в дерево
+Node* adding(std::string newData, const int index, Node *&temp);
+
+// обнуляет корень, создавая пустое дерево
+void makeTree(Tree *&tree);
+
+// удаляет дерево
+void deleteTree(Node*& temp);
+
+// получает значение по ключу
+std::string getData(const int key, Node* temp);
+
+// проверяет наличие заданного ключа
+Node* findData(const int key, Node* temp);
+
+// удаляет значение из дерева
+Node* deleteData(const int key, Node*& temp, Node *&root);

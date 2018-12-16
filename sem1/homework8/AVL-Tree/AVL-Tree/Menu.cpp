@@ -41,8 +41,7 @@ void mainMenu(Tree* myTree)
 			int index = readKey();
 			cout << "Введите значение:" << endl;
 			string data = readString();
-			Node* root = myTree->getRoot();
-			if (myTree->adding(data, index, root))
+			if (adding(data, index, myTree->root))
 			{
 				cout << "Значение добавлено!" << endl;
 			}
@@ -52,20 +51,18 @@ void mainMenu(Tree* myTree)
 		{
 			cout << "Введите ключ, чтобы получить искомое значение:" << endl;
 			int key = readKey();
-			Node* root = myTree->getRoot();
-			cout << "Искомое значение: " << myTree->getData(key, root) << endl;
+			cout << "Искомое значение: " << getData(key, myTree->root) << endl;
 			break;
 		}
 		case '3':
 		{
 			cout << "Введите ключ, чтобы проверить его наличие:" << endl;
 			int key = readKey();
-			Node* root = myTree->getRoot();
-			if (myTree->isEmpty())
+			if (isEmpty(myTree))
 			{
 				cout << "Массив пуст:(" << endl;
 			}
-			else if (myTree->findData(key, root) != nullptr)
+			else if (findData(key, myTree->root) != nullptr)
 			{
 				cout << "Ключ есть в массиве:)" << endl;
 			}
@@ -79,14 +76,13 @@ void mainMenu(Tree* myTree)
 		{
 			cout << "Введите ключ, чтобы удалить его и связанное с ним значение:" << endl;
 			int key = readKey();
-			Node* root = myTree->getRoot();
-			if (myTree->isEmpty())
+			if (isEmpty(myTree))
 			{
 				break;
 			}
-			if (myTree->findData(key, root) != nullptr)
+			if (findData(key, myTree->root) != nullptr)
 			{
-				myTree->deleteData(key, root);
+				deleteData(key, myTree->root, myTree->root);
 				cout << "Значение удалено!" << endl;
 			}
 			break;
