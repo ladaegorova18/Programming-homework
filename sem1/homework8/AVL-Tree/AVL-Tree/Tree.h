@@ -43,15 +43,12 @@ public:
 	// удаляет значение из дерева
 	Node* deleteData(const int key, Node* temp);
 
-	// удаляет элемент из корня дерева
-	Node* deleteFromRoot();
-
 	// возвращает корень
 	Node* getRoot();
 
-	// удаляет дерево
-	void deleteTree(Node* temp);
-
 	// возвращает количество элементов в массиве
 	int getSize();
+
+	// удаляет дерево
+	void deleteTree(Node* temp);
 };

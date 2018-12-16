@@ -4,7 +4,6 @@
 #include <iostream>
 #include <locale>
 #include <assert.h>
-using namespace std;
 
 void test()
 {
@@ -24,7 +23,7 @@ void test()
 	testTree->deleteData(4, root);
 	assert(testTree->isEmpty());
 	testTree->deleteTree(root);
-	cout << "Тест пройден!" << endl;
+	std::cout << "Тест пройден!" << std::endl;
 }
 
 int main()

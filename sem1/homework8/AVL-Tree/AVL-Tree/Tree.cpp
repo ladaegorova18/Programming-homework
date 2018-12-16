@@ -88,6 +88,7 @@ Node* Tree::adding(string newData, const int index, Node* temp)
 	if (isEmpty())
 	{
 		root = new Node(index, newData);
+		std::cout << (root == nullptr);
 		return root;
 	}
 	if (temp == nullptr)
@@ -157,7 +158,7 @@ Node* removeMin(Node* temp)
 	return balance(temp);
 }
 
-Node* Tree::deleteFromRoot()
+Node* deleteFromRoot(Node *root)
 {
 	Node* leftChild = root->leftChild;
 	Node* rightChild = root->rightChild;
@@ -199,7 +200,7 @@ Node* Tree::deleteData(int key, Node* temp)
 	{
 		if (key == root->key)
 		{
-			deleteFromRoot();
+			deleteFromRoot(root);
 			return root;
 		}
 		Node* temp = findData(key, root);
