@@ -21,6 +21,14 @@ void Graph::addNode(int number)
 	nodes.push_back(temp);
 }
 
+void Graph::printResult()
+{
+}
+
+void Graph::deleteGraph()
+{
+}
+
 Node* min(std::priority_queue<Node> priorities)
 {
 	int minDist = INF;

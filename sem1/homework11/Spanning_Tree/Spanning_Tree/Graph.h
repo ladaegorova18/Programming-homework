@@ -25,4 +25,5 @@ struct Graph
 	void algorithmPrima();
 	void addNode(int number);
 	void printResult();
+	void deleteGraph();
 };
