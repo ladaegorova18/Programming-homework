@@ -88,7 +88,6 @@ Node* Tree::adding(string newData, const int index, Node* temp)
 	if (isEmpty())
 	{
 		root = new Node(index, newData);
-		std::cout << (root == nullptr);
 		return root;
 	}
 	if (temp == nullptr)
