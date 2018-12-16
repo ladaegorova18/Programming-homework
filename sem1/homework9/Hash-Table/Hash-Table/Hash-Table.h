@@ -7,8 +7,8 @@ const int SIZE = 100;
 struct Node
 {
 	std::string data;
-	int count;
-	Node(std::string newData)
+	unsigned int count;
+	Node(std::string const newData)
 	{
 		data = newData;
 		count = 1;
@@ -18,7 +18,7 @@ struct Node
 struct Set
 {
 	std::vector<std::list<Node>> buckets;
-	int elements;
+	unsigned int elements;
 };
 
 // выводит статистические данные о хэш-таблице
@@ -28,16 +28,16 @@ void statistics(Set set);
 void makeSet(Set& set);
 
 // добавляет элемент
-void adding(Set& set, std::string data);
+void adding(Set& set, std::string const data);
 
 // проверяет наличие элемента в таблице 
-bool exists(Set set, std::string str);
+bool exists(Set set, std::string const str);
 
 // выводит хэш-таблицу на экран
 void printing(Set set);
 
 // выводит, сколько раз подсчитано искомое слово
-int count(Set set, std::string data);
+int count(Set set, std::string const data);
 
 // вычисляет среднюю длину списка в таблице
 int theAverageLength(Set set);

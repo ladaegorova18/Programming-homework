@@ -14,14 +14,15 @@ void makeSet(Set& set)
 int hashFunction(std::string const &str)
 {
 	int sum = 0;
-	for (size_t i = 0; i < str.size(); ++i)
+	int length = str.size();
+	for (int i = 0; i < length; ++i)
 	{
 		sum += sum * 5 + str[i];
 	}
 	return sum;
 }
 
-void adding(Set& set, std::string data)
+void adding(Set& set, std::string const data)
 {
 	set.elements++;
 	int hash = hashFunction(data) % set.buckets.size();
@@ -46,7 +47,7 @@ void adding(Set& set, std::string data)
 	}
 }
 
-bool exists(Set set, std::string data)
+bool exists(Set set, std::string const data)
 {
 	int hash = hashFunction(data) % set.buckets.size();
 	for (auto it = set.buckets[hash].begin(); it != set.buckets[hash].end(); ++it)
@@ -59,7 +60,7 @@ bool exists(Set set, std::string data)
 	return false;
 }
 
-int count(Set set, std::string data)
+int count(Set set, std::string const data)
 {
 	if (exists(set, data))
 	{
@@ -100,8 +101,8 @@ void deleteSet(Set set)
 
 int theAverageLength(Set set)
 {
-	int arifMean = 0;
-	int count = 0;
+	unsigned int arifMean = 0;
+	unsigned int count = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if (!set.buckets[i].empty())
@@ -119,7 +120,7 @@ int theAverageLength(Set set)
 
 int theMaxLength(Set set)
 {
-	size_t max = 0;
+	unsigned int max = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if (max < set.buckets[i].size())
