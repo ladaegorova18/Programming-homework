@@ -1,29 +1,18 @@
 #pragma once
-#include <queue>
 #include <iostream>
 #include <vector>
+#include <list>
+#include <utility>
 
-struct Node
+class Graph
 {
-	int dist;
-	int number;
-	Node* parent;
-	Node(int newDist, int newNumber)
-	{
-		dist = newDist;
-		number = newNumber;
-	}
-};
-
-struct Graph
-{
-	std::priority_queue<Node*> priorities;
-	std::vector<Node> nodes;
-	std::vector<std::vector<int>> matrix;
-	std::vector<Node*> result;
-	void makeQueue();
+	int vert;
+	std::vector<std::list<std::pair<int, int>>> branches;
+	std::vector<int> parent;
+public:
+	Graph(int vertices);
 	void algorithmPrima();
-	void addNode(int number);
-	void printResult();
+	void addNode(int dist, int i, int j);
+	//void printResult();
 	void deleteGraph();
 };

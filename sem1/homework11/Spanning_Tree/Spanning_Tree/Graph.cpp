@@ -1,69 +1,73 @@
 #include "pch.h"
 #include "Graph.h"
 #include <iterator>
-#include <list>
+#include <queue>
 const int INF = 1000000000;
 
-void Graph::makeQueue()
+typedef std::pair<int, int> iPair;
+
+Graph::Graph(int vertices)
 {
-	Node* first{ 0, 0 };
-	priorities.push(first);
-	for (unsigned int i = 1; i < matrix.size(); ++i)
-	{
-		Node* temp{ INF, i };
-		priorities.push(temp);
-	}
+	this->vert = vertices;
+	branches.resize(vertices);
+	parent.resize(vertices);
 }
 
-void Graph::addNode(int number)
+void Graph::addNode(int dist, int i, int j)
 {
-	Node* temp{ 0, number };
-	nodes.push_back(temp);
-}
-
-void Graph::printResult()
-{
-}
-
-void Graph::deleteGraph()
-{
-}
-
-Node* min(std::priority_queue<Node> priorities)
-{
-	int minDist = INF;
-	for ()
-	{
-
-		if ()
-	}
-	return min;
-}
-
-Node* find(std::priority_queue<Node> priorities, int number)
-{
-
+	branches[i].push_back(std::make_pair(j, dist));
 }
 
 void Graph::algorithmPrima()
 {
-	while (!priorities.empty())
+	std::priority_queue<iPair, std::vector<iPair>, std::greater<iPair>> pq;
+	int current = 0; // current is vertex 0
+	for (int i = 0; i < vert; ++i)
 	{
-		Node* minimal = priorities.top();
-		result.push_back(minimal);
-		int line = minimal->number;
-		for (unsigned int number = 0; number < matrix.size(); ++i)
+		parent[vert] = -1;
+	}
+	std::vector<bool> included{ false };
+	included.resize(vert);
+	pq.push(std::make_pair(0, current));
+	std::vector<int> key(vert, INF);
+	key[current] = 0;
+	while (!pq.empty())
+	{
+		int currVert = pq.top().second;
+		pq.pop(); // взяли вершину и отметили, что она есть в MST
+		included[currVert] = true;
+		for (auto it = branches[currVert].begin(); it != branches[currVert].end(); ++it)
 		{
-			if (matrix[line][number] != 0)
+			int v = it->first;
+			int dist = it->second;
+			if ((!included[v]) && (dist < key[v]))
 			{
-				Node* temp = find(nodes, number);
-				if (matrix[line][number] < temp->dist)
-				{
-					temp->dist = matrix[line][number];
-					temp->parent = minimal;
-					priorities.pop();
-				}
+				key[v] = dist;
+				pq.push(std::make_pair(key[v], v));
+				parent[v] = currVert;
 			}
 		}
 	}
+	for (int i = 0; i < vert; ++i)
+	{
+		std::cout << parent[i] << " " << i << " " << key[i] << std::endl;
+	}
 }
+
+void Graph::deleteGraph()
+{
+	for (int i = 0; i < vert; ++i)
+	{
+		branches[i].clear();
+	}
+	branches.clear();
+	parent.clear();
+}
+/*
+void Graph::printResult()
+{
+	for (int i = 0; i < vert; ++i)
+	{
+		std::cout << parent[i] << " " << i << " " << key[i] << std::endl;
+	}
+}*/
