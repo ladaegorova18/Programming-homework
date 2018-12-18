@@ -27,11 +27,6 @@ int main()
 		line++;
 	}
 	fclose(file);
-	for (int i = line; i < MAX; i++)
-	{
-		phonebook[i].name = "*пустое имя*";
-		phonebook[i].phoneNumber = "*пустой номер телефона*";
-	}
 	mainMenu(phonebook);
 	delete[] phonebook;
 	return EXIT_SUCCESS;

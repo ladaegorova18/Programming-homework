@@ -9,8 +9,8 @@ const int MAX = 100;
 
 struct PersonalData
 {
-	const char *name = "";
-	const char *phoneNumber = "";
+	char *name = nullptr;
+	char *phoneNumber = nullptr;
 };
 
 void mainMenu(PersonalData *phonebook);

@@ -29,11 +29,19 @@ void adding(PersonalData *phonebook, int id, int key, const char newData[])
 {
 	if (key == 1)
 	{
-		phonebook[id].name = newData;
+		if (!phonebook[id].name)
+		{
+			phonebook[id].name = new char[strlen(newData) + 1];
+		}
+		strcpy(phonebook[id].name, newData);
 	}
 	else if (key == 2)
 	{
-		phonebook[id].phoneNumber = newData;
+		if (!phonebook[id].phoneNumber)
+		{
+			phonebook[id].phoneNumber = new char[strlen(newData) + 1];
+		}
+		strcpy(phonebook[id].phoneNumber, newData);
 	}
 }
 
@@ -43,15 +51,17 @@ void addingData(PersonalData *phonebook)
 	while (id != 0)
 	{
 		id--;
-		printf("%s %s\n", phonebook[id].name, phonebook[id].phoneNumber);
+		if (phonebook[id].name) 
+		{
+			printf("%s %s\n", phonebook[id].name, phonebook[id].phoneNumber);
+		}
 		printf("Чтобы изменить имя, нажмите 1, чтобы изменить номер телефона, нажмите 2:\n");
 		int key = -1;
 		scanf("%d", &key);
-		char *newData = new char[MAX] {};
+		char newData[MAX] {};
 		printf("Введите изменения:\n");
 		scanf("%s", newData);
 		adding(phonebook, id, key, newData);
-		delete[] newData;
 		printf("Данные изменены. Если хотите продолжить, введите номер строки, которую вы хотели бы изменить. Для выхода нажмите 0.\n");
 		id = scanningNumber();
 	}
@@ -83,7 +93,7 @@ void seekingNameFunction(PersonalData *phonebook, char* nameToSeek)
 			}
 			break;
 		}
-		else if (!(strcmp(phonebook[i].name, nameToSeek)))
+		else if ((phonebook[i].name != nullptr) && (!(strcmp(phonebook[i].name, nameToSeek))))
 		{
 			printf("Номер телефона абонента %s: %s\n", phonebook[i].name, phonebook[i].phoneNumber);
 			isSomeone = true;
@@ -113,7 +123,7 @@ void seekingNumberFunction(PersonalData *phonebook, char* numberToSeek)
 			}
 			break;
 		}
-		else if (!strcmp(phonebook[i].phoneNumber, numberToSeek))
+		else if ((!phonebook[i].phoneNumber) && (!strcmp(phonebook[i].phoneNumber, numberToSeek)))
 		{
 			printf("Имя абонента %s: %s\n", phonebook[i].phoneNumber, phonebook[i].name);
 			isNumber = true;
@@ -135,7 +145,10 @@ void saveToFile(PersonalData *phonebook)
 	FILE *file = fopen("phonebook.txt", "w");
 	for (int i = 0; i < MAX; i++)
 	{
-		fprintf(file, "%s\t%s\n", phonebook[i].name, phonebook[i].phoneNumber);
+		if (phonebook[i].name)
+		{
+			fprintf(file, "%s\t%s\n", phonebook[i].name, phonebook[i].phoneNumber);
+		}
 	}
 	fclose(file);
 }
@@ -197,7 +210,14 @@ void saveTest(PersonalData *phonebook)
 	FILE *file = fopen("testFile.txt", "w");
 	for (int i = 0; i < MAX; i++)
 	{
-		fprintf(file, "%s\t%s", phonebook[i].name, phonebook[i].phoneNumber);
+		if (phonebook[i].name != nullptr)
+		{
+			fprintf(file, "%s\t%s", phonebook[i].name, phonebook[i].phoneNumber);
+		}
+		else
+		{
+			fprintf(file, "\n");
+		}
 	}
 	fclose(file);
 }
@@ -206,13 +226,13 @@ void test()
 {
 	bool testPassed = 0;
 	FILE *file = fopen("testFile.txt", "a+");
-	PersonalData *testPhoneBook = new PersonalData[MAX];
 	int line = 0;
 	if (!file)
 	{
 		printf("File not found!");
 		return;
 	}
+	PersonalData *testPhoneBook = new PersonalData[MAX];
 	const char *nameToAdd = "Jack";
 	const char *numberToAdd = "12345";
 	adding(testPhoneBook, 0, 1, nameToAdd);
