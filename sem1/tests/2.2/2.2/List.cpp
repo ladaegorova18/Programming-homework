@@ -102,5 +102,4 @@ void print(Node *head)
 	}
 	std::cout << temp->value;
 	std::cout << "\n";
-	delete temp;
 }
