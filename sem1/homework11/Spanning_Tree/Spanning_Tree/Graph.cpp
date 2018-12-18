@@ -4,39 +4,37 @@
 #include <queue>
 const int INF = 1000000000;
 
-typedef std::pair<int, int> iPair;
-
-Graph::Graph(int vertices)
+void makeGraph(Graph graph, int vertices)
 {
-	this->vert = vertices;
-	branches.resize(vertices);
-	parent.resize(vertices);
+	graph.vert = vertices;
+	graph.branches.resize(vertices);
+	graph.parent.resize(vertices);
 }
 
-void Graph::addNode(int dist, int i, int j)
+void addNode(Graph graph, int dist, int i, int j)
 {
-	branches[i].push_back(std::make_pair(j, dist));
+	graph.branches[i].push_back(std::make_pair(j, dist));
 }
 
-void Graph::algorithmPrima()
+void algorithmPrima(Graph graph)
 {
-	std::priority_queue<iPair, std::vector<iPair>, std::greater<iPair>> pq;
+	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
 	int current = 0; // current is vertex 0
-	for (int i = 0; i < vert; ++i)
+	for (int i = 0; i < graph.vert; ++i)
 	{
-		parent[vert] = -1;
+		graph.parent[graph.vert] = -1;
 	}
 	std::vector<bool> included{ false };
-	included.resize(vert);
+	included.resize(graph.vert);
 	pq.push(std::make_pair(0, current));
-	std::vector<int> key(vert, INF);
+	std::vector<int> key(graph.vert, INF);
 	key[current] = 0;
 	while (!pq.empty())
 	{
 		int currVert = pq.top().second;
 		pq.pop(); // взяли вершину и отметили, что она есть в MST
 		included[currVert] = true;
-		for (auto it = branches[currVert].begin(); it != branches[currVert].end(); ++it)
+		for (auto it = graph.branches[currVert].begin(); it != graph.branches[currVert].end(); ++it)
 		{
 			int v = it->first;
 			int dist = it->second;
@@ -44,30 +42,22 @@ void Graph::algorithmPrima()
 			{
 				key[v] = dist;
 				pq.push(std::make_pair(key[v], v));
-				parent[v] = currVert;
+				graph.parent[v] = currVert;
 			}
 		}
 	}
-	for (int i = 0; i < vert; ++i)
+	for (int i = 0; i < graph.vert; ++i)
 	{
-		std::cout << parent[i] << " " << i << " " << key[i] << std::endl;
+		std::cout << graph.parent[i] << " " << i << " " << key[i] << std::endl;
 	}
 }
 
-void Graph::deleteGraph()
+void deleteGraph(Graph graph)
 {
-	for (int i = 0; i < vert; ++i)
+	for (int i = 0; i < graph.vert; ++i)
 	{
-		branches[i].clear();
+		graph.branches[i].clear();
 	}
-	branches.clear();
-	parent.clear();
+	graph.branches.clear();
+	graph.parent.clear();
 }
-/*
-void Graph::printResult()
-{
-	for (int i = 0; i < vert; ++i)
-	{
-		std::cout << parent[i] << " " << i << " " << key[i] << std::endl;
-	}
-}*/
