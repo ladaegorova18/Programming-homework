@@ -2,6 +2,7 @@
 #include "List.h"
 #include <iostream>
 #include <locale>
+#include <assert.h>
 
 void test();
 
@@ -58,10 +59,30 @@ void mainMenu(Node *&list)
 	}
 }
 
+void test()
+{
+	Node* list;
+	makeList(list);
+	add(list, 5, 0);
+	add(list, 4, 1);
+	add(list, 2, 0);
+	add(list, 3, 2);
+	add(list, 1, 0);
+	int array[] = { 1, 2, 5, 3, 4 };
+	Node* temp = list;
+	for (int i = 0; i < 4; ++i)
+	{
+		assert(temp->value == array[i]);
+		temp = temp->next;
+	}
+	deleteList(list);
+	std::cout << "Тест пройден!" << std::endl;
+}
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	//test();
+	test();
 	Node* list;
 	makeList(list);
 	mainMenu(list);
