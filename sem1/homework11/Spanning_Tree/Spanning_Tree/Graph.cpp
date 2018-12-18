@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "pch.h"
+#define _CRT_SECURE_NO_WARNINGS
 #include "Graph.h"
 #include <iterator>
 #include <queue>
@@ -7,7 +9,7 @@ const int INF = 1000000000;
 typedef std::pair<int, int> iPair;
 
 Graph::Graph(int vertices)
-{
+{-
 	this->vert = vertices;
 	branches.resize(vertices);
 	parent.resize(vertices);
