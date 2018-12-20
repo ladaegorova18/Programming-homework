@@ -22,31 +22,31 @@ struct Set
 };
 
 // выводит статистические данные о хэш-таблице
-void statistics(Set set);
+void statistics(Set &set);
 
 // создает таблицу, присваивая всем head списков значение nullptr
 void makeSet(Set& set);
 
 // добавляет элемент
-void adding(Set& set, std::string const data);
+void adding(Set& set, std::string const &data);
 
 // проверяет наличие элемента в таблице 
-bool exists(Set set, std::string const str);
+bool exists(Set &set, std::string const &str);
 
 // выводит хэш-таблицу на экран
-void printing(Set set);
+void printing(Set &set);
 
 // выводит, сколько раз подсчитано искомое слово
-int count(Set set, std::string const data);
+int count(Set &set, std::string const &data);
 
 // вычисляет среднюю длину списка в таблице
-int theAverageLength(Set set);
+int theAverageLength(Set &set);
 
 // возвращает максимальную длину списка в таблице
-int theMaxLength(Set set);
+int theMaxLength(Set &set);
 
 // вычисляет коэффициент заполненности таблицы
-double coefHash(Set set);
+double coefHash(Set &set);
 
 // удаляет хэш-таблицу
-void deleteSet(Set set);
+void deleteSet(Set &set);

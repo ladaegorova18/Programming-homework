@@ -6,8 +6,7 @@
 
 void makeSet(Set& set)
 {
-	int size = SIZE;
-	set.buckets.resize(size);
+	set.buckets.resize(SIZE);
 	set.elements = 0;
 }
 
@@ -22,14 +21,10 @@ int hashFunction(std::string const &str)
 	return sum;
 }
 
-void adding(Set& set, std::string const data)
+void adding(Set& set, std::string const &data)
 {
-	set.elements++;
-	int hash = hashFunction(data) % set.buckets.size();
-	if (hash < 0)
-	{
-		hash *= -1;
-	}
+	set.elements++; 
+	const int hash = abs((hashFunction(data) % set.buckets.size()));
 	if (!exists(set, data))
 	{
 		Node temp(data);
@@ -47,7 +42,7 @@ void adding(Set& set, std::string const data)
 	}
 }
 
-bool exists(Set set, std::string const data)
+bool exists(Set &set, std::string const &data)
 {
 	int hash = hashFunction(data) % set.buckets.size();
 	for (auto it = set.buckets[hash].begin(); it != set.buckets[hash].end(); ++it)
@@ -60,7 +55,7 @@ bool exists(Set set, std::string const data)
 	return false;
 }
 
-int count(Set set, std::string const data)
+int count(Set &set, std::string const &data)
 {
 	if (exists(set, data))
 	{
@@ -76,7 +71,7 @@ int count(Set set, std::string const data)
 	return 0;
 }
 
-void printing(Set set)
+void printing(Set &set)
 {
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -91,7 +86,7 @@ void printing(Set set)
 	}
 }
 
-void deleteSet(Set set)
+void deleteSet(Set &set)
 {
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -99,7 +94,7 @@ void deleteSet(Set set)
 	}
 }
 
-int theAverageLength(Set set)
+int theAverageLength(Set &set)
 {
 	unsigned int arifMean = 0;
 	unsigned int count = 0;
@@ -118,7 +113,7 @@ int theAverageLength(Set set)
 	return 0;
 }
 
-int theMaxLength(Set set)
+int theMaxLength(Set &set)
 {
 	unsigned int max = 0;
 	for (int i = 0; i < SIZE; i++)
@@ -131,12 +126,12 @@ int theMaxLength(Set set)
 	return max;
 }
 
-double coefHash(Set set)
+double coefHash(Set &set)
 {
 	return set.elements / (double) set.buckets.size();
 }
 
-void statistics(Set set)
+void statistics(Set &set)
 {
 	std::cout << "Средняя длина списка таблицы: " << theAverageLength(set) << std::endl;
 	std::cout << "Максимальная длина списка таблицы: " << theMaxLength(set) << std::endl;
