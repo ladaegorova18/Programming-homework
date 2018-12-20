@@ -5,7 +5,7 @@
 #include <locale>
 #include <assert.h>
 
-void reading(std::ifstream &file, Set &set)
+void reading(std::ifstream &file, Set *&set)
 {
 	if (!file)
 	{
@@ -22,8 +22,7 @@ void reading(std::ifstream &file, Set &set)
 
 void test()
 {
-	Set testSet;
-	makeSet(testSet);
+	Set *testSet = makeSet();
 	std::ifstream file("test.txt");
 	reading(file, testSet);
 	file.close();
@@ -40,8 +39,7 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	test();
-	Set set;
-	makeSet(set);
+	Set *set = makeSet();
 	std::ifstream file("test.txt");
 	reading(file, set);
 	file.close();

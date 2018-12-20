@@ -4,10 +4,29 @@
 #include <algorithm>
 #include <iterator>
 
-void makeSet(Set& set)
+struct Node
 {
-	set.buckets.resize(SIZE);
-	set.elements = 0;
+	std::string data;
+	unsigned int count;
+	Node(std::string const newData)
+	{
+		data = newData;
+		count = 1;
+	}
+};
+
+struct Set
+{
+	std::vector<std::list<Node>> buckets;
+	unsigned int elements;
+};
+
+Set* makeSet()
+{
+	Set* set = new Set();
+	set->buckets.resize(SIZE);
+	set->elements = 0;
+	return set;
 }
 
 int hashFunction(std::string const &str)
@@ -21,18 +40,20 @@ int hashFunction(std::string const &str)
 	return sum;
 }
 
-void adding(Set& set, std::string const &data)
+bool exists(Set *&set, std::string const &data);
+
+void adding(Set*& set, std::string const &data)
 {
-	set.elements++; 
-	const int hash = abs((hashFunction(data) % set.buckets.size()));
+	set->elements++; 
+	const int hash = abs((int)(hashFunction(data) % set->buckets.size()));
 	if (!exists(set, data))
 	{
 		Node temp(data);
-		set.buckets[hash].push_back(temp);
+		set->buckets[hash].push_back(temp);
 	}
 	else
 	{
-		for (auto it = set.buckets[hash].begin(); it != set.buckets[hash].end(); ++it)
+		for (auto it = set->buckets[hash].begin(); it != set->buckets[hash].end(); ++it)
 		{
 			if (data == it->data)
 			{
@@ -42,10 +63,10 @@ void adding(Set& set, std::string const &data)
 	}
 }
 
-bool exists(Set &set, std::string const &data)
+bool exists(Set *&set, std::string const &data)
 {
-	int hash = hashFunction(data) % set.buckets.size();
-	for (auto it = set.buckets[hash].begin(); it != set.buckets[hash].end(); ++it)
+	int hash = hashFunction(data) % set->buckets.size();
+	for (auto it = set->buckets[hash].begin(); it != set->buckets[hash].end(); ++it)
 	{
 		if (data == it->data)
 		{
@@ -55,12 +76,12 @@ bool exists(Set &set, std::string const &data)
 	return false;
 }
 
-int count(Set &set, std::string const &data)
+int count(Set *&set, std::string const &data)
 {
 	if (exists(set, data))
 	{
-		int hash = hashFunction(data) % set.buckets.size();
-		for (auto it = set.buckets[hash].begin(); it != set.buckets[hash].end(); ++it)
+		int hash = hashFunction(data) % set->buckets.size();
+		for (auto it = set->buckets[hash].begin(); it != set->buckets[hash].end(); ++it)
 		{
 			if (data == it->data)
 			{
@@ -71,13 +92,13 @@ int count(Set &set, std::string const &data)
 	return 0;
 }
 
-void printing(Set &set)
+void printing(Set *&set)
 {
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (!set.buckets[i].empty())
+		if (!set->buckets[i].empty())
 		{
-			for (auto it = set.buckets[i].begin(); it != set.buckets[i].end(); ++it)
+			for (auto it = set->buckets[i].begin(); it != set->buckets[i].end(); ++it)
 			{
 				std::cout << it->data << "\t";
 				std::cout << it->count << std::endl;
@@ -86,23 +107,23 @@ void printing(Set &set)
 	}
 }
 
-void deleteSet(Set &set)
+void deleteSet(Set *&set)
 {
 	for (int i = 0; i < SIZE; i++)
 	{
-		set.buckets[i].clear();
+		set->buckets[i].clear();
 	}
 }
 
-int theAverageLength(Set &set)
+int theAverageLength(Set *&set)
 {
 	unsigned int arifMean = 0;
 	unsigned int count = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (!set.buckets[i].empty())
+		if (!set->buckets[i].empty())
 		{
-			arifMean += set.buckets[i].size();
+			arifMean += set->buckets[i].size();
 			count++;
 		}
 	}
@@ -113,25 +134,25 @@ int theAverageLength(Set &set)
 	return 0;
 }
 
-int theMaxLength(Set &set)
+int theMaxLength(Set *&set)
 {
 	unsigned int max = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (max < set.buckets[i].size())
+		if (max < set->buckets[i].size())
 		{
-			max = set.buckets[i].size();
+			max = set->buckets[i].size();
 		}
 	}
 	return max;
 }
 
-double coefHash(Set &set)
+double coefHash(Set *&set)
 {
-	return set.elements / (double) set.buckets.size();
+	return set->elements / (double) set->buckets.size();
 }
 
-void statistics(Set &set)
+void statistics(Set *&set)
 {
 	std::cout << "Средняя длина списка таблицы: " << theAverageLength(set) << std::endl;
 	std::cout << "Максимальная длина списка таблицы: " << theMaxLength(set) << std::endl;
