@@ -13,12 +13,21 @@ Set* createSet()
 	return new Set{ nullptr };
 }
 
-void deleteSet(Set* set)
+void deleteNode(Node *root)
 {
-	auto* temp = set->head;
-	set->head = nullptr;
-	delete temp;
-	return;
+	if (root == nullptr)
+	{
+		return;
+	}
+	deleteNode(root->leftChild);
+	deleteNode(root->rightChild);
+	delete root;
+}
+
+void deleteSet(Set *set)
+{
+	deleteNode(set->head);
+	delete set;
 }
 
 void addNode(Node* node, int data);
