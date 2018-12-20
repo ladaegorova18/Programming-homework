@@ -45,3 +45,8 @@ char Stack::pop()
 		return topElement;
 	}
 }
+
+char Stack::topElement()
+{
+	return node[top - 1];
+}

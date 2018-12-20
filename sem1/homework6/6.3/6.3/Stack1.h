@@ -24,6 +24,8 @@ public:
 
 	// возвращает количество элементов в стеке
 	int sizeOfStack();
+
+	char topElement();
 };
 
 #endif // STACK_H

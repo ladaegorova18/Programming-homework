@@ -26,96 +26,111 @@ void makeSpace(string &postfixExpression)
 	postfixExpression += " ";
 }
 
-void operandsOfExpression(string &postfixExpression, Stack *myStack);
-
-void makingExpression(Stack *myStack, char symbol, string &postfixExpression, int countLeftBrackets)
+bool isPriorityOper(char symbol)
 {
-	if (isOperand(symbol))
-	{
-		myStack->push(symbol);
-	}
-	else if (isdigit((int)symbol))
+	return ((symbol == '*') || (symbol == '/'));
+}
+
+bool isLast(char symbol)
+{
+	return (symbol == '|');
+}
+
+bool makingExpression(Stack *myStack, char symbol, string &postfixExpression)
+{
+	if (isdigit((int)symbol))
 	{
 		postfixExpression += symbol;
 		makeSpace(postfixExpression);
-		if (myStack->sizeOfStack() > 0)
+	}
+	else if (isOperand(symbol))
+	{
+		if (myStack->isEmpty() || isLeftBracket(myStack->topElement()))
 		{
-			char tempSymbol = myStack->pop();
-			if ((tempSymbol == '*') || (tempSymbol == '/'))
-			{
-				postfixExpression += tempSymbol;
-				makeSpace(postfixExpression);
-				operandsOfExpression(postfixExpression, myStack);
-			}
-			else
-			{
-				myStack->push(tempSymbol);
-			}
+			myStack->push(symbol);
+		}
+		else if (isPriorityOper(symbol) && !isPriorityOper(myStack->topElement()))
+		{
+			myStack->push(symbol);
+		}
+		else
+		{
+			postfixExpression += myStack->pop();
+			makeSpace(postfixExpression);
+			makingExpression(myStack, symbol, postfixExpression);
 		}
 	}
 	else if (isBracket(symbol))
 	{
 		if (isLeftBracket(symbol))
 		{
-			countLeftBrackets += 1;
+			myStack->push(symbol);
 		}
-		else if ((countLeftBrackets > 0) || (symbol == ')'))
+		else if (isOperand(myStack->topElement()))
 		{
 			postfixExpression += myStack->pop();
 			makeSpace(postfixExpression);
-			countLeftBrackets--;
+			makingExpression(myStack, symbol, postfixExpression);
+		}
+		else if (isLeftBracket(myStack->topElement()))
+		{
+			myStack->pop();
 		}
 	}
-}
-
-void operandsOfExpression(string &postfixExpression, Stack *myStack)
-{
-	while (myStack->sizeOfStack() != 0)
+	else if (isLast(symbol))
 	{
-		postfixExpression += myStack->pop();
-		makeSpace(postfixExpression);
+		if (myStack->isEmpty())
+		{
+			return 1;
+		}
+		else if (isOperand(myStack->topElement()))
+		{
+			while (!myStack->isEmpty())
+			{
+				postfixExpression += myStack->pop();
+				makeSpace(postfixExpression);
+			}
+		}
+		else
+		{
+			return (!isLeftBracket((myStack->topElement())));
+		}
 	}
 }
 
 void test()
 {	// Тест 1
 	Stack *testNineStack = new Stack();
-	string testNineString = "5 + 4 Q";
+	string testNineString = "5 + 4 | ";
 	string resultExpression = "";
-	int leftTestNineBrackets = 0;
 	int i = 0;
-	while (testNineString[i] != 'Q')
+	while (testNineString[i])
 	{
-		makingExpression(testNineStack, testNineString[i], resultExpression, leftTestNineBrackets);
+		makingExpression(testNineStack, testNineString[i], resultExpression);
 		i++;
 	}
-	operandsOfExpression(resultExpression, testNineStack);
 	assert (resultExpression == "5 4 + ");
 	// Тест 2
 	Stack *testBracketsStack = new Stack();
-	string testBracketsString = "(1 + 1) * 2 Q";
+	string testBracketsString = "(1 + 1) * 2 |";
 	resultExpression = "";
-	leftTestNineBrackets = 0;
 	i = 0;
-	while (testBracketsString[i] != 'Q')
+	while (testBracketsString[i])
 	{
-		makingExpression(testBracketsStack, testBracketsString[i], resultExpression, leftTestNineBrackets);
+		makingExpression(testBracketsStack, testBracketsString[i], resultExpression);
 		i++;
 	}
-	operandsOfExpression(resultExpression, testBracketsStack);
 	assert(resultExpression == "1 1 + 2 * ");
 	// тест 3
 	Stack *testMultipWithoutBracketsStack = new Stack();
-	string testMultipWithoutBracketsString = "1 + 2 * 3 + 4 Q";
+	string testMultipWithoutBracketsString = "1 + 2 * 3 + 4 |";
 	resultExpression = "";
-	leftTestNineBrackets = 0;
 	i = 0;
-	while (testMultipWithoutBracketsString[i] != 'Q')
+	while (testMultipWithoutBracketsString[i])
 	{
-		makingExpression(testMultipWithoutBracketsStack, testMultipWithoutBracketsString[i], resultExpression, leftTestNineBrackets);
+		makingExpression(testMultipWithoutBracketsStack, testMultipWithoutBracketsString[i], resultExpression);
 		i++;
 	}
-	operandsOfExpression(resultExpression, testMultipWithoutBracketsStack);
 	assert(resultExpression == "1 2 3 * + 4 + ");
 	delete testNineStack;
 	delete testBracketsStack;
@@ -130,15 +145,13 @@ int main()
 	Stack *myStack = new Stack();
 	myStack->makeStack();
 	string postfixExpression = "";
-	cout << "Введите арифметическое выражение в инфиксной форме, для окончания ввода нажмите Q:" << endl;
+	cout << "Введите арифметическое выражение в инфиксной форме, для окончания ввода нажмите |:" << endl;
 	char symbol = ' ';
-	int countLeftBrackets = 0;
-	while (symbol != 'Q')
+	while (symbol != '|')
 	{
 		cin >> symbol;
-		makingExpression(myStack, symbol, postfixExpression, countLeftBrackets);
+		makingExpression(myStack, symbol, postfixExpression);
 	}
-	operandsOfExpression(postfixExpression, myStack);
 	cout << "Выражение в постфиксной форме:" << endl;
 	cout << postfixExpression << endl;
 	cout << "До свидания!" << endl;
