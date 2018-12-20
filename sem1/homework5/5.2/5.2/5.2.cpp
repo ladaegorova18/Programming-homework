@@ -81,7 +81,6 @@ int killing(CircleList *squad, int distance)
 {
 	struct Node *current = squad->head;
 	struct Node *previous = squad->tail;
-	struct Node *data = new Node;
 	while (current != previous)
 	{
 		for (int i = 1; i < distance; i++)
@@ -94,6 +93,8 @@ int killing(CircleList *squad, int distance)
 	}
 	return current->number;
 }
+
+void deleteList(CircleList *squad);
 
 void test()
 {
@@ -110,8 +111,22 @@ void test()
 	makingSquad(nineManTestList, testSize);
 	assert(killing(nineManTestList, testDistance) == 1);
 	cout << "Test passed" << endl;
-	delete oneManList;
-	delete nineManTestList;
+	deleteList(oneManList);
+	deleteList(nineManTestList);
+}
+
+void deleteList(CircleList *squad)
+{
+	Node* temp = squad->head->next;
+	Node* prev = nullptr;
+	while ((temp != squad->head) && temp)
+	{
+		prev = temp;
+		temp = temp->next;
+		delete prev;
+	}
+	delete temp;
+	delete squad;
 }
 
 int main()
@@ -129,6 +144,6 @@ int main()
 	makingSquad(squad, n);
 	cout << "В живых останется воин номер " << killing(squad, m) << ";" << endl;
 	cout << "До свидания!";
-	delete squad;
+	deleteList(squad);
 	return 0;
 }
