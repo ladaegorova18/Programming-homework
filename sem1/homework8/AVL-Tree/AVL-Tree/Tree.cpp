@@ -11,7 +11,8 @@ struct Node
 	std::string data;
 	int key;
 	int height;
-	Node(int index, std::string newData) {
+	Node(const int index, std::string const &newData)
+	{
 		key = index;
 		data = newData;
 		leftChild = nullptr;
@@ -42,7 +43,7 @@ unsigned char height(Node* temp)
 	return temp ? temp->height : 0;
 }
 
-int bfactor(Node* temp)
+int balanceFactor(Node* temp)
 {
 	return height(temp->rightChild) - height(temp->leftChild);
 }
@@ -77,17 +78,17 @@ Node* rotateRight(Node* temp)
 Node* balance(Node* temp)
 {
 	fixHeight(temp);
-	if (bfactor(temp) == 2)
+	if (balanceFactor(temp) == 2)
 	{
-		if (bfactor(temp->rightChild) < 0)
+		if (balanceFactor(temp->rightChild) < 0)
 		{
 			temp->rightChild = rotateRight(temp->rightChild);
 		}
 		return rotateLeft(temp);
 	}
-	else if (bfactor(temp) == -2)
+	else if (balanceFactor(temp) == -2)
 	{
-		if (bfactor(temp->leftChild) > 0)
+		if (balanceFactor(temp->leftChild) > 0)
 		{
 			temp->leftChild = rotateLeft(temp->leftChild);
 		}

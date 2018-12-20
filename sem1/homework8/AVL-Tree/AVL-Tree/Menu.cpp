@@ -1,5 +1,7 @@
 ﻿#include "pch.h"
 #include "Menu.h"
+#include <iostream>
+#include <string>
 using namespace std;
 
 void mainText()
