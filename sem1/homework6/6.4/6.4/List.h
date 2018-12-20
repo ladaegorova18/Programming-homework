@@ -2,15 +2,10 @@
 #define HEADER_H
 #include <iostream>
 
-struct List
-{
-	std::string name;
-	int phoneNumber;
-	List* next;
-};
+struct List;
 
 // создает список, обнул€€ первый элемент
-void makingList(List *&myList);
+List* makingList();
 
 // добавл€ет элементы в список
 void addingData(List *&myList, std::string tempName, int tempPhoneNumber);

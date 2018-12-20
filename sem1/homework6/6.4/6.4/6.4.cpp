@@ -7,8 +7,7 @@
 
 void test()
 {
-	List* testNameSort = new List();
-	makingList(testNameSort);
+	List* testNameSort = makingList();
 	addingData(testNameSort, "Ольга", 23);
 	addingData(testNameSort, "Алина", 6);
 	addingData(testNameSort, "Павел", 44);
@@ -22,8 +21,7 @@ void test()
 		assert(temp->name == names[i]);
 		temp = temp->next;
 	}
-	List* testNumberSort = new List();
-	makingList(testNumberSort);
+	List* testNumberSort = makingList();
 	addingData(testNumberSort, "Ольга", 23);
 	addingData(testNumberSort, "Алина", 6);
 	addingData(testNumberSort, "Павел", 44);
@@ -59,8 +57,7 @@ int main()
 {
 	setlocale(LC_ALL, "ru");
 	test();
-	List *head = new List();
-	makingList(head);
+	List *head = makingList();
 	std::ifstream file;
 	file.open("phonebook.txt");
 	if (!file)

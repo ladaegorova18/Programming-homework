@@ -3,9 +3,17 @@
 #include <string>
 #include "List.h"
 
-void makingList(List *&head)
+struct List
 {
-	head = nullptr;
+	std::string name;
+	int phoneNumber;
+	List* next;
+};
+
+List* makingList()
+{
+	List* head = nullptr;
+	return head;
 }
 
 bool isEmpty(List *head)
@@ -45,14 +53,12 @@ void addingData(List *&head, std::string newName, int newPhoneNumber)
 
 void printData(List *head)
 {
-    {
-        List *current = head;
-        while (current)
-        {
-            std::cout << current->name << " " << current->phoneNumber << std::endl;
-            current = current->next;
-        }
-    }
+	List *current = head;
+	while (current)
+	{
+		std::cout << current->name << " " << current->phoneNumber << std::endl;
+		current = current->next;
+	}
 }
 
 int getSize(List *&head)
