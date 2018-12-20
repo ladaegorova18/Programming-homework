@@ -52,7 +52,6 @@ void printData(List *head)
             std::cout << current->name << " " << current->phoneNumber << std::endl;
             current = current->next;
         }
-		delete current;
     }
 }
 
