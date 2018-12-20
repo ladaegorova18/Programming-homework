@@ -66,6 +66,5 @@ int main()
 	myTree->printing(current, 0);
 	cout << "Результат равен: " << myTree->count(current) << endl;
 	myTree->deleteTree(current);
-	system("pause");
 	return 0;
 }
