@@ -50,7 +50,7 @@ Node* makeUnrepList(Node *head)
 {
 	Node* newList = head;
 	Node* temp = newList;
-	while (temp->next)
+	while (temp)
 	{
 		Node* curr = temp;
 		Node* prev = nullptr;

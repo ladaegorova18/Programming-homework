@@ -40,6 +40,7 @@ int main()
 	if (!file)
 	{
 		std::cout << "File not found!" << std::endl;
+		deleteList(list);
 		return -1;
 	}
 	while (!file.eof())
@@ -53,7 +54,6 @@ int main()
 	Node* newList = makeUnrepList(list);
 	std::cout << "Новый список: " << std::endl;
 	print(newList);
-	deleteList(newList);
 	deleteList(list);
 	std::cout << "До свидания!" << std::endl;
 	return 0;
