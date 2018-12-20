@@ -1,12 +1,36 @@
 #include "pch.h"
 #include "List.h"
 #include <iostream>
+#include <string>
 
-void makeList(Node *&head)
+struct Node
 {
-	head = nullptr;
+	std::string info;
+	Node* next;
+	Node(std::string newValue)
+	{
+		info = newValue;
+		next = nullptr;
+	}
+};
+
+Node* nextNode(Node* temp)
+{
+	return temp->next;
 }
-void add(Node *&head, int value, int position)
+
+std::string getInfo(Node* temp)
+{
+	return temp->info;
+}
+
+Node* makeList()
+{
+	Node* head = nullptr;
+	return head;
+}
+
+void add(Node *&head, std::string value)
 {
 	Node *temp = new Node(value);
 	if (head == nullptr)
@@ -14,92 +38,64 @@ void add(Node *&head, int value, int position)
 		head = temp;
 		return;
 	}
-	if (position == 0)
-	{
-		temp->next = head;
-		head->prev = temp;
-		head = temp;
-		return;
-	}
 	Node* curr = head;
-	Node* prev = nullptr;
-	for (int i = 0; i < position; ++i)
+	while (curr->next)
 	{
-		prev = curr;
 		curr = curr->next;
 	}
-	if (curr == nullptr)
-	{
-		temp->prev = prev;
-		prev->next = temp;
-		return;
-	}
-	prev->next = temp;
-	temp->next = curr;
-	temp->prev = prev;
-	curr->prev = temp;
-	return;
+	curr->next = temp;
 }
 
-void deleteFromPos(Node *&head, int position)
+Node* makeUnrepList(Node *head)
 {
-	if (head == nullptr)
+	Node* newList = head;
+	Node* temp = newList;
+	while (temp->next)
 	{
-		return;
-	}
-	if (position == 0)
-	{
-		if (head->next == nullptr)
+		Node* curr = temp;
+		Node* prev = nullptr;
+		while (curr->next)
 		{
-			head = nullptr;
-			return;
+			prev = curr;
+			curr = curr->next;
+			if (curr->info == temp->info)
+			{
+				if (curr)
+				{
+					prev->next = curr->next;
+					print(newList);
+				}
+				else
+				{
+					curr = nullptr;
+				}
+			}
 		}
-		head = head->next;
-		head->prev = nullptr;
-		return;
-	}
-	Node* curr = head;
-	Node* prev = nullptr;
-	for (int i = 0; i < position; ++i)
-	{
-		prev = curr;
-		curr = curr->next;
-	}
-	if (curr == nullptr)
-	{
-		prev->prev->next = nullptr;
-		delete prev;
-		return;
-	}
-	curr->prev->next = curr->next;
-	if (curr->next)
-	{
-		curr->next->prev = curr->prev;
-	}
-	delete curr;
-}
-
-void deleteList(Node *&head)
-{
-	Node* temp = head;
-	Node* prev = nullptr;
-	while (temp)
-	{
-		prev = temp;
 		temp = temp->next;
-		delete prev;
 	}
-	delete temp;
+	return newList;
 }
 
 void print(Node *head)
 {
 	Node *temp = head;
-	while (temp->next)
+	while (temp)
 	{
-		std::cout << temp->value << " ";
+		std::cout << temp->info << "\n";
 		temp = temp->next;
 	}
-	std::cout << temp->value;
 	std::cout << "\n";
+}
+
+void deleteList(Node *&head)
+{
+	Node* curr = head; 
+	Node* prev = nullptr;
+	while (curr)
+	{
+		prev = curr;
+		curr = curr->next;
+		delete prev;
+	}
+	delete curr;
 }

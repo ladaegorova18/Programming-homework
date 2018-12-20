@@ -1,24 +1,19 @@
 #pragma once
+#include <iostream>
+#include <string>
 
-struct Node
-{
-	int value;
-	Node* next;
-	Node* prev;
-	Node(int newValue)
-	{
-		value = newValue;
-		next = nullptr;
-		prev = nullptr;
-	}
-};
+struct Node;
 
-void add(Node *&head, int value, int position);
+void add(Node *&head, std::string value);
 
-void makeList(Node *&head);
+Node* makeList();
 
 void deleteList(Node *&head);
 
 void print(Node *head);
 
-void deleteFromPos(Node *&head, int position);
+Node* makeUnrepList(Node *head);
+
+Node* nextNode(Node* temp);
+
+std::string getInfo(Node* temp);
