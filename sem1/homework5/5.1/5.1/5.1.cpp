@@ -6,26 +6,20 @@
 #include "options.h"
 using namespace std;
 
-void makingList(DynList *myList)
-{
-	myList->head = nullptr;
-}
-
 void test()
 {
-	DynList* testListOneToFive = new DynList;
-	makingList(testListOneToFive);
+	DynList* testListOneToFive = makingList();
 	for (int j = 1; j <= 5; j++)
 	{
 		insertion(testListOneToFive, j);
 	}
-	Element *current = testListOneToFive->head;
-	while (current)
+	Element *current = getHead(testListOneToFive);
+	while (getNext(current))
 	{
-		if (current->next != nullptr)
+		if (current != nullptr)
 		{
-			assert(current->value <= current->next->value);
-			current = current->next;
+			assert(getValue(current) <= getValue(getNext(current)));
+			current = getNext(current);
 		}
 		else
 		{
@@ -38,8 +32,7 @@ void test()
 			current = nullptr;
 		}
 	}
-	DynList *testListOneElement = new DynList();
-	makingList(testListOneElement);
+	DynList *testListOneElement = makingList();
 	insertion(testListOneElement, 7);
 	assert(isEmpty(testListOneElement) == 0);
 	deleting(testListOneElement, 7);
@@ -105,8 +98,7 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	test();
-	DynList* myList = new DynList;
-	makingList(myList);
+	DynList* myList = makingList();
 	menu(myList);
 	cout << "До свидания!" << endl;
 	deleteList(myList);

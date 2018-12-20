@@ -3,9 +3,42 @@
 #include "options.h"
 using namespace std;
 
+struct Element
+{
+	int value;
+	Element* next;
+};
+
+struct DynList
+{
+	Element* head;
+};
+
+DynList* makingList()
+{
+	DynList* list = new DynList();
+	list->head = nullptr;
+	return list;
+}
+
+Element* getHead(DynList* list)
+{
+	return list->head;
+}
+
 bool isEmpty(DynList *myList)
 {
 	return (myList->head == nullptr);
+}
+
+Element* getNext(Element* temp)
+{
+	return temp->next;
+}
+
+int getValue(Element* temp)
+{
+	return temp->value;
 }
 
 void insertion(DynList *myList, int newValue)
