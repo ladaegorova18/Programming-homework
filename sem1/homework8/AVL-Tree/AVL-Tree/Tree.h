@@ -2,44 +2,27 @@
 #include <iostream>
 #include <string>
 
-struct Node
-{
-	Node* leftChild;
-	Node* rightChild;
-	std::string data;
-	int key;
-	int height;
-	Node(int index, std::string newData) { 
-		key = index; 
-		data = newData;
-		leftChild = nullptr; 
-		rightChild = nullptr; 
-		height = 1; 
-	}
-};
+struct Node;
 
-struct Tree
-{
-	Node* root;
-};
+struct Tree;
 
 // проверяет, пустой корень или нет
 bool isEmpty(Tree *tree);
 
 // добавляет значение в дерево
-Node* adding(std::string newData, const int index, Node *&temp);
+bool addData(std::string const newData, const int index, Tree *&tree);
 
 // обнуляет корень, создавая пустое дерево
-void makeTree(Tree *&tree);
+Tree* makeTree();
 
 // удаляет дерево
-void deleteTree(Node*& temp);
+void deleteTree(Tree *&tree);
 
 // получает значение по ключу
-std::string getData(const int key, Node* temp);
+std::string getData(const int key, Tree *tree);
 
 // проверяет наличие заданного ключа
-Node* findData(const int key, Node* temp);
+Node* seekData(const int key, Tree *&tree);
 
 // удаляет значение из дерева
-Node* deleteData(const int key, Node*& temp, Node *&root);
+void deleteInfo(int key, Tree *&tree);

@@ -7,35 +7,33 @@
 
 void test()
 {
-	Tree *testTree = new Tree();
-	makeTree(testTree);
-	adding("apple", 4, testTree->root);
-	adding("cherry", 7, testTree->root);
-	adding("pear", 2, testTree->root);
-	adding("grape", 8, testTree->root);
-	adding("orange", 3, testTree->root);
-	assert(getData(3, testTree->root) == "orange");
-	assert(getData(2, testTree->root) == "pear");
-	assert(getData(8, testTree->root) == "grape");
-	assert(getData(4, testTree->root) == "apple");
-	assert(getData(7, testTree->root) == "cherry");
-	deleteData(3, testTree->root, testTree->root);
-	deleteData(7, testTree->root, testTree->root);
-	deleteData(4, testTree->root, testTree->root);
-	deleteData(2, testTree->root, testTree->root);
-	deleteData(8, testTree->root, testTree->root);
+	Tree *testTree = makeTree();
+	addData("apple", 4, testTree);
+	addData("cherry", 7, testTree);
+	addData("pear", 2, testTree);
+	addData("grape", 8, testTree);
+	addData("orange", 3, testTree);
+	assert(getData(3, testTree) == "orange");
+	assert(getData(2, testTree) == "pear");
+	assert(getData(8, testTree) == "grape");
+	assert(getData(4, testTree) == "apple");
+	assert(getData(7, testTree) == "cherry");
+	deleteInfo(3, testTree);
+	deleteInfo(7, testTree);
+	deleteInfo(2, testTree);
+	deleteInfo(4, testTree);
+	deleteInfo(8, testTree);
 	assert(isEmpty(testTree));
 	std::cout << "Тест пройден!" << std::endl;
-	deleteTree(testTree->root);
+	deleteTree(testTree);
 }
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
 	test();
-	Tree* myTree = new Tree();
-	makeTree(myTree);
+	Tree* myTree = makeTree();
 	mainMenu(myTree);
-	deleteTree(myTree->root);
+	deleteTree(myTree);
 	return 0;
 }

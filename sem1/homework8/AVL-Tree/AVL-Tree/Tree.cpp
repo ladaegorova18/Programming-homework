@@ -4,9 +4,32 @@
 #include <string>
 using namespace std;
 
-void makeTree(Tree *&tree)
+struct Node
 {
+	Node* leftChild;
+	Node* rightChild;
+	std::string data;
+	int key;
+	int height;
+	Node(int index, std::string newData) {
+		key = index;
+		data = newData;
+		leftChild = nullptr;
+		rightChild = nullptr;
+		height = 1;
+	}
+};
+
+struct Tree
+{
+	Node* root;
+};
+
+Tree* makeTree()
+{
+	Tree* tree = new Tree();
 	tree->root = nullptr;
+	return tree;
 }
 
 bool isEmpty(Tree *tree)
@@ -76,7 +99,7 @@ Node* balance(Node* temp)
 	}
 }
 
-Node* adding(std::string newData, const int index, Node *&temp)
+Node* adding(std::string const newData, const int index, Node *&temp)
 {
 	if (temp == nullptr)
 	{
@@ -98,13 +121,9 @@ Node* adding(std::string newData, const int index, Node *&temp)
 	return balance(temp);
 }
 
-string getData(const int key, Node* temp)
+bool addData(std::string const newData, const int index, Tree *&tree)
 {
-	if (findData(key, temp) != nullptr)
-	{
-		return findData(key, temp)->data;
-	}
-	return "\n";
+	return adding(newData, index, tree->root);
 }
 
 Node* findData(const int key, Node* temp)
@@ -128,6 +147,20 @@ Node* findData(const int key, Node* temp)
 	{
 		return nullptr;
 	}
+}
+
+Node* seekData(const int key, Tree *&tree)
+{
+	return findData(key, tree->root);
+}
+
+string getData(const int key, Tree *tree)
+{
+	if (seekData(key, tree) != nullptr)
+	{
+		return findData(key, tree->root)->data;
+	}
+	return "\n";
 }
 
 Node* findMin(Node* temp)
@@ -200,12 +233,23 @@ Node* deleteData(int key, Node*& temp, Node *&root)
 	return balance(temp);
 }
 
-void deleteTree(Node*& temp)
+void deleteInfo(int key, Tree *&tree)
+{
+	deleteData(key, tree->root, tree->root);
+}
+
+void deleteNode(Node*& temp)
 {
 	if (temp != nullptr)
 	{
-		deleteTree(temp->leftChild);
-		deleteTree(temp->rightChild);
+		deleteNode(temp->leftChild);
+		deleteNode(temp->rightChild);
 		delete temp;
 	}
+}
+
+void deleteTree(Tree *&tree)
+{
+	deleteNode(tree->root);
+	delete tree;
 }

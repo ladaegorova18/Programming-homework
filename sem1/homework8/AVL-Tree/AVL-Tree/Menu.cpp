@@ -41,7 +41,7 @@ void mainMenu(Tree* myTree)
 			int index = readKey();
 			cout << "Введите значение:" << endl;
 			string data = readString();
-			if (adding(data, index, myTree->root))
+			if (addData(data, index, myTree))
 			{
 				cout << "Значение добавлено!" << endl;
 			}
@@ -51,7 +51,7 @@ void mainMenu(Tree* myTree)
 		{
 			cout << "Введите ключ, чтобы получить искомое значение:" << endl;
 			int key = readKey();
-			cout << "Искомое значение: " << getData(key, myTree->root) << endl;
+			cout << "Искомое значение: " << getData(key, myTree) << endl;
 			break;
 		}
 		case '3':
@@ -62,7 +62,7 @@ void mainMenu(Tree* myTree)
 			{
 				cout << "Массив пуст:(" << endl;
 			}
-			else if (findData(key, myTree->root) != nullptr)
+			else if (seekData(key, myTree) != nullptr)
 			{
 				cout << "Ключ есть в массиве:)" << endl;
 			}
@@ -80,9 +80,9 @@ void mainMenu(Tree* myTree)
 			{
 				break;
 			}
-			if (findData(key, myTree->root) != nullptr)
+			if (seekData(key, myTree) != nullptr)
 			{
-				deleteData(key, myTree->root, myTree->root);
+				deleteInfo(key, myTree);
 				cout << "Значение удалено!" << endl;
 			}
 			break;
