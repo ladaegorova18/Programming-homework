@@ -16,6 +16,21 @@ List* makingList()
 	return head;
 }
 
+std::string getName(List *list)
+{
+	return list->name;
+}
+
+int getNumber(List* list)
+{
+	return list->phoneNumber;
+}
+
+List* nextNode(List *list)
+{
+	return list->next;
+}
+
 bool isEmpty(List *head)
 {
 	return (head == nullptr);

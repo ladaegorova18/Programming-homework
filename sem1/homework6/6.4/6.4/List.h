@@ -4,6 +4,8 @@
 
 struct List;
 
+std::string getName(List *list);
+
 // создает список, обнул€€ первый элемент
 List* makingList();
 
@@ -18,5 +20,9 @@ void mergeSort(List *&myList, char key);
 
 // удал€ет список
 void deleteList(List *&myList);
+
+List* nextNode(List *list);
+
+int getNumber(List* list);
 
 #endif // HEADER_H

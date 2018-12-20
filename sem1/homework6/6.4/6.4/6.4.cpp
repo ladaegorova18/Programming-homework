@@ -18,8 +18,8 @@ void test()
 	List* temp = testNameSort;
 	for (int i = 0; i < 5; i++)
 	{
-		assert(temp->name == names[i]);
-		temp = temp->next;
+		assert(getName(temp) == names[i]);
+		temp = nextNode(temp);
 	}
 	List* testNumberSort = makingList();
 	addingData(testNumberSort, "Ольга", 23);
@@ -32,11 +32,11 @@ void test()
 	temp = testNumberSort;
 	for (int i = 0; i < 5; i++)
 	{
-		assert(temp->phoneNumber = numbers[i]);
-		temp = temp->next;
+		assert(getNumber(temp) == numbers[i]);
+		temp = nextNode(temp);
 	}
 	std::cout << "Тест пройден!" << std::endl;
-	delete temp;
+	deleteList(temp);
 	deleteList(testNameSort);
 	deleteList(testNumberSort);
 }
