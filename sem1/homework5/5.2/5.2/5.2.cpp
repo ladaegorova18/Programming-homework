@@ -119,14 +119,18 @@ void deleteList(CircleList *squad)
 {
 	Node* temp = squad->head->next;
 	Node* prev = nullptr;
-	while ((temp != squad->head) && temp)
+	while (temp && (temp != squad->head))
 	{
 		prev = temp;
 		temp = temp->next;
+		if (prev == temp)
+		{
+			delete temp;
+			delete squad;
+			return;
+		}
 		delete prev;
 	}
-	delete temp;
-	delete squad;
 }
 
 int main()
