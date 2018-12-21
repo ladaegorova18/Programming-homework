@@ -4,7 +4,9 @@
 
 struct Node;
 
-void add(Node *&head, std::string value);
+bool add(Node *&head, int value, int pos);
+
+bool deleting(Node *&head, int pos);
 
 Node* makeList();
 
@@ -12,8 +14,8 @@ void deleteList(Node *&head);
 
 void print(Node *head);
 
-Node* makeUnrepList(Node *head);
+bool isEmpty(Node *&head);
 
-Node* nextNode(Node* temp);
+int getValue(Node *&temp);
 
-std::string getInfo(Node* temp);
+Node* getNext(Node *&temp);

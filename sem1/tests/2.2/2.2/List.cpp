@@ -5,23 +5,18 @@
 
 struct Node
 {
-	std::string info;
+	int info;
 	Node* next;
-	Node(std::string newValue)
+	Node(int newValue)
 	{
 		info = newValue;
 		next = nullptr;
 	}
 };
 
-Node* nextNode(Node* temp)
+Node* getNext(Node *&temp)
 {
 	return temp->next;
-}
-
-std::string getInfo(Node* temp)
-{
-	return temp->info;
 }
 
 Node* makeList()
@@ -30,53 +25,96 @@ Node* makeList()
 	return head;
 }
 
-void add(Node *&head, std::string value)
+int getLength(Node *&list)
 {
+	int count = 0;
+	Node* curr = list;
+	while (curr)
+	{
+		count++;
+		curr = curr->next;
+	}
+	return count;
+}
+
+bool add(Node *&head, int value, int pos)
+{
+	int count = getLength(head);
+	if (pos > count)
+	{
+		return false;
+	}
 	Node *temp = new Node(value);
 	if (head == nullptr)
 	{
 		head = temp;
-		return;
+		return true;
 	}
+	if (pos == 0)
+	{
+		temp->next = head;
+		head = temp;
+		return true;
+	}
+	Node* prev = nullptr;
 	Node* curr = head;
-	while (curr->next)
+	for (int i = 0; i < pos; ++i)
 	{
-		curr = curr->next;
-	}
-	curr->next = temp;
-}
-
-Node* makeUnrepList(Node *head)
-{
-	Node* newList = head;
-	Node* temp = newList;
-	while (temp)
-	{
-		Node* curr = temp;
-		Node* prev = nullptr;
-		while (curr->next)
+		if (curr)
 		{
 			prev = curr;
 			curr = curr->next;
-			if (curr->info == temp->info)
-			{
-				if (curr)
-				{
-					prev->next = curr->next;
-				}
-				else
-				{
-					curr = nullptr;
-				}
-			}
 		}
-		temp = temp->next;
 	}
-	return newList;
+	temp->next = curr;
+	prev->next = temp;
+}
+
+bool isEmpty(Node *&head)
+{
+	return head == nullptr;
+}
+
+int getValue(Node *&temp)
+{
+	return temp->info;
+}
+
+bool deleting(Node *&head, int pos)
+{
+	int count = getLength(head);
+	if (pos > count)
+	{
+		return false;
+	}
+	if (pos == 0)
+	{
+		head = head->next;
+		return true;
+	}
+	Node* curr = head;
+	Node* prev = nullptr;
+	Node* prevPrev = nullptr;
+	for (int i = 0; i < pos; ++i)
+	{
+		if (curr)
+		{
+			prevPrev = prev;
+			prev = curr;
+			curr = curr->next;
+		}
+	}
+	if (curr == nullptr)
+	{
+		prevPrev->next = nullptr;
+		return true;
+	}
+	prev->next = curr->next;
 }
 
 void print(Node *head)
 {
+	std::cout << std::endl;
 	Node *temp = head;
 	while (temp)
 	{
