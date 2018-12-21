@@ -63,7 +63,6 @@ Node* makeUnrepList(Node *head)
 				if (curr)
 				{
 					prev->next = curr->next;
-					print(newList);
 				}
 				else
 				{

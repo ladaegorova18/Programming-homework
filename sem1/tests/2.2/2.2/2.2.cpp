@@ -17,12 +17,10 @@ void test()
 	add(list, "hey");
 	makeUnrepList(list);
 	std::string res[] = { "hey", "i", "am", "fine", "maybe", "not" };
-	print(list);
 	Node* curr = list;
 	int i = 0;
 	while (curr)
 	{
-		std::cout << getInfo(curr);
 		assert(getInfo(curr) == res[i]);
 		curr = nextNode(curr);
 		++i;
