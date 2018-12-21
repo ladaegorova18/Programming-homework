@@ -73,9 +73,11 @@ std::string dequeue(Queue *myList)
 {
 	if (myList->head)
 	{
-		Element* top = myList->head;
+		std::string res = myList->head->value;
+		Element* temp = myList->head;
 		myList->head = myList->head->next;
-		return top->value;
+		delete temp;
+		return res;
 	}
 	return "-1";
 }
