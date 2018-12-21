@@ -3,6 +3,32 @@
 #include "List.h"
 using namespace std;
 
+struct DynList
+{
+	Element* head;
+};
+
+struct Element
+{
+	std::string value;
+	Element* next;
+};
+
+Element* getHead(DynList* myList)
+{
+	return myList->head;
+}
+
+std::string getValue(Element* temp)
+{
+	return temp->value;
+}
+
+Element* getNext(Element* temp)
+{
+	return temp->next;
+}
+
 bool isEmpty(DynList *myList)
 {
 	return (myList->head == nullptr);
@@ -18,7 +44,6 @@ DynList* makeList()
 void insertion(DynList *myList, std::string newValue)
 {
 	Element* data = new Element;
-	Element* previous = nullptr;
 	data->value = newValue;
 	if (isEmpty(myList))
 	{
@@ -27,10 +52,12 @@ void insertion(DynList *myList, std::string newValue)
 		return;
 	}
 	Element* current = myList->head;
+	Element* previous = nullptr;
 	while (current)
 	{
 		if (current->value == newValue)
 		{
+			delete data;
 			return;
 		}
 		if (current->value > newValue)
@@ -80,4 +107,9 @@ void deleteList(DynList *myList)
 		delete previous;
 	}
 	delete myList;
+}
+
+void deleting(Element *temp)
+{
+	delete temp;
 }

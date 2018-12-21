@@ -15,7 +15,7 @@ struct Queue
 	Element* head;
 };
 
-Queue* makeList()
+Queue* makeQueue()
 {
 	Queue *list = new Queue();
 	list->head = nullptr;
@@ -28,10 +28,10 @@ bool isEmpty(Queue *myList)
 }
 
 
-void enqueue(Queue *myQueue, std::string newValue, int priority)
+void enqueue(Queue *myQueue, std::string const &newValue, int priority)
 {
-	Element* data = new Element;
 	Element* previous = nullptr;
+	Element* data = new Element();
 	data->value = newValue;
 	data->prior = priority;
 	if (isEmpty(myQueue))
@@ -93,8 +93,8 @@ void printData(Queue *myQueue)
 
 void deleteQueue(Queue *myQueue)
 {
-	Element *current = myQueue->head;
 	Element *previous = nullptr;
+	Element *current = myQueue->head;
 	while (current)
 	{
 		previous = current;

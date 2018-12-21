@@ -5,9 +5,9 @@ struct Element;
 
 struct Queue;
 
-Queue* makeList();
+Queue* makeQueue();
 
-void enqueue(Queue *myQueue, std::string value, int priority);
+void enqueue(Queue *myQueue, std::string const &value, int priority);
 
 void printData(Queue *myQueue);
 

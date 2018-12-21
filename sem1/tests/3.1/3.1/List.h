@@ -1,16 +1,9 @@
 #pragma once
 #include <string>
 
-struct Element
-{
-	std::string value;
-	Element* next;
-};
+struct Element;
 
-struct DynList
-{
-	Element* head;
-};
+struct DynList;
 
 DynList* makeList();
 
@@ -19,3 +12,11 @@ void insertion(DynList *myList, std::string value);
 void printData(DynList *myList);
 
 void deleteList(DynList *myList);
+
+Element* getHead(DynList* myList);
+
+std::string getValue(Element* temp);
+
+Element* getNext(Element* temp);
+
+void deleting(Element *temp);

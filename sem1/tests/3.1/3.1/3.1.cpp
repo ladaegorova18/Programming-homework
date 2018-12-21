@@ -22,18 +22,18 @@ void test()
 		insertion(list, buffer);
 	}
 	file.close();
-	std::fstream newFile("newTest.txt");
-	Element *temp = list->head;
+	std::fstream newFile("newFile.txt");
+	Element *temp = getHead(list);
 	while (temp)
 	{
-		newFile << temp->value;
+		newFile << getValue(temp);
 		newFile << "\n";
-		temp = temp->next;
+		temp = getNext(temp);
 	}
-	delete temp;
+	deleting(temp);
 	std::string res[] = { "aaa", "bbb", "dddd", "eeee", "rrrr", "vvvv", "wwww" };
 	newFile.close();
-	std::fstream assertFile("newFile.txt");
+	std::ifstream assertFile("newFile.txt");
 	int i = 0;
 	while (!assertFile.eof())
 	{
@@ -64,16 +64,16 @@ int main()
 		insertion(list, buffer);
 	}
 	file.close();
-	std::ofstream newFile("newFile.txt");
-	Element *temp = list->head;
+	std::ofstream newNewFile("newNewFile.txt");
+	Element *temp = getHead(list);
 	while (temp)
 	{
-		newFile << temp->value;
-		newFile << "\n";
-		temp = temp->next;
+		newNewFile << getValue(temp);
+		newNewFile << "\n";
+		temp = getNext(temp);
 	}
-	delete temp;
-	newFile.close();
+	deleting(temp);
+	newNewFile.close();
 	std::cout << "" << std::endl;
 	deleteList(list);
 	std::cout << "Successfully!" << std::endl;
