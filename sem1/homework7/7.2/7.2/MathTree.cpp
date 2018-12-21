@@ -3,6 +3,23 @@
 #include <iostream>
 #include "MathTree.h"
 
+struct Element
+{
+	char operand;
+	Element* leftChild;
+	Element* rightChild;
+	Element* parent;
+	int value;
+};
+
+Element* makeElement()
+{
+	Element* temp = new Element();
+	temp->leftChild = nullptr;
+	temp->rightChild = nullptr;
+	return temp;
+}
+
 int operation(const char operand, const int firstNumber, const int secondNumber)
 {
 	switch (operand)
@@ -29,14 +46,6 @@ int operation(const char operand, const int firstNumber, const int secondNumber)
 	}
 	}
 	return 0;
-}
-
-Element* makeElement()
-{
-	Element* temp = new Element();
-	temp->leftChild = nullptr;
-	temp->rightChild = nullptr;
-	return temp;
 }
 
 bool isOper(char symbol)

@@ -1,13 +1,8 @@
 ﻿#pragma once
 
-struct Element
-{
-	char operand;
-	Element* leftChild;
-	Element* rightChild;
-	Element* parent;
-	int value;
-};
+struct Element;
+
+Element* makeElement();
 
 struct Tree
 {
