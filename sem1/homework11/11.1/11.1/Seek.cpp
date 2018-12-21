@@ -44,6 +44,7 @@ int algorithmKMP(std::ifstream &file, std::string sample)
 		}
 		if (equalIndex == sampleLen)
 		{
+			delete[] index;
 			return i - equalIndex + 1;
 		}
 	}
