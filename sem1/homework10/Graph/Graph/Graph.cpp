@@ -4,39 +4,98 @@
 #include <iostream>
 #include <fstream>
 
-void Map::war()
+struct Map
 {
-	size_t count = 0;
-	while (count < mark.size())
+	// массив расстояний между городами
+	std::vector< std::vector<int> > roads;
+
+	// kingdoms[i] массив государств; в каждом есть список владений, принадлежащих им
+	std::vector< std::vector<int> > kingdoms;
+
+	// отмечаем здесь города, в которых были
+	std::vector <bool> mark{ false };
+};
+
+void addRoad(Map*& map, const int i, const int j, const int len)
+{
+	map->roads[i][j] = len;
+	map->roads[j][i] = len;
+}
+
+void addCapital(Map*& map, const int capitalNumber, const int i)
+{
+	map->kingdoms[i].push_back(capitalNumber);
+	map->mark[capitalNumber] = 1; // столица уже кому-то принадлежит
+}
+
+Map* makeMap()
+{
+	Map* map = new Map();
+	return map;
+}
+
+int returnCity(Map *&map, const int i, const int j)
+{
+	return map->kingdoms[i][j];
+}
+
+void war(Map*& map)
+{
+	int count = 0;
+	const int cities = map->mark.size();
+	const int capitals = map->kingdoms.size();
+	while (count < cities)
 	{
-		for (size_t i = 0; i < kingdoms.size(); i++) // новое королевство
+		for (int i = 0; i < capitals; i++) // новое королевство
 		{ 
 			int min = INF;
 			int newCity = 0;
-			for (size_t tempCity = 0; tempCity < kingdoms[i].size(); tempCity++) // новый город в королевстве
+			int currKingSize = map->kingdoms[i].size();
+			for (int tempCity = 0; tempCity < currKingSize; tempCity++) // новый город в королевстве
 			{
-				for (size_t j = 0; j < mark.size(); j++) // все города, связанные с ним
+				for (int j = 0; j < cities; j++) // все города, связанные с ним
 				{
-					if ((roads[kingdoms[i][tempCity]][j] < min) && (!mark[j]))
+					if ((map->roads[map->kingdoms[i][tempCity]][j] < min) && (!map->mark[j]))
 					{
-						min = roads[kingdoms[i][tempCity]][j];
+						min = map->roads[map->kingdoms[i][tempCity]][j];
 						newCity = j;
 					}
 				}
 			}
-			kingdoms[i].push_back(newCity);
-			mark[newCity] = 1;
+			map->kingdoms[i].push_back(newCity);
+			map->mark[newCity] = 1;
 		}
 		count++;
 	}
 }
 
+void resizing(Map*& map, int n)
+{
+	n++;
+	map->mark.resize(n);
+	map->roads.resize(n);
+	for (int i = 0; i < n; i++)
+	{
+		map->roads[i].resize(n);
+		for (int j = 0; j < n; j++)
+		{
+			map->roads[i][j] = INF;
+		}
+	}
+}
+
+void kingsResizing(Map*& map, int k)
+{
+	map->kingdoms.resize(k);
+}
+
 void printing(std::vector<std::vector<int>> kingdoms)
 {
-	for (size_t i = 0; i < kingdoms.size(); i++)
+	int kingSize = kingdoms.size();
+	for (int i = 0; i < kingSize; i++)
 	{
 		std::cout << i + 1 << " королевству принадлежат города: " << std::endl;
-		for (size_t j = 0; j < kingdoms[i].size(); j++)
+		for (int j = 0; j < kingSize; j++)
 		{
 			if (kingdoms[i][j] != 0)
 			{
@@ -47,9 +106,23 @@ void printing(std::vector<std::vector<int>> kingdoms)
 	}
 }
 
-void deleteMap(Map* map)
+void print(Map*& map)
 {
-	map->kingdoms.clear();
+	printing(map->kingdoms);
+}
+
+void deleteMap(Map*& map)
+{
+	int size = map->kingdoms.size();
+	for (int i = 0; i < size; ++i)
+	{
+		map->kingdoms[i].clear();
+	}
+	size = map->roads.size();
+	for (int j = 0; j < size; ++j)
+	{
+		map->roads[j].clear();
+	}
 	map->mark.clear();
-	map->roads.clear();
+	delete map;
 }

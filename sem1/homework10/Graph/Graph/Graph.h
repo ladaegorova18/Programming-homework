@@ -3,22 +3,24 @@
 #include <iostream>
 const int INF = 1000000000;
 
-struct Map
-{
-	// массив расстояний между городами
-	std::vector< std::vector<int> > roads;
-
-	// kingdoms[i] массив государств; в каждом есть список владений, принадлежащих им
-	std::vector< std::vector<int> > kingdoms;
-
-	// отмечаем здесь города, в которых были
-	std::vector <bool> mark{ false };
-
-	// раздел территории
-	void war();
-};
+struct Map;
 
 // вывод на экран королевств и их владений
-void printing(std::vector< std::vector<int> > kingdoms);
 
-void deleteMap(Map* map);
+void print(Map*& map);
+
+void deleteMap(Map*& map);
+
+void resizing(Map*& map, int n);
+
+void kingsResizing(Map*& map, int k);
+
+Map* makeMap();
+
+void war(Map*& map);
+
+void addRoad(Map*& map, const int i, const int j, const int len);
+
+void addCapital(Map*& map, const int capitalNumber, const int i);
+
+int returnCity(Map *&map, const int i, const int j);
