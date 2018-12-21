@@ -4,26 +4,19 @@
 #include <list>
 #include <utility>
 
-struct Graph
-{
-	int vert;
-	std::vector<std::list<std::pair<int, int>>> branches;
-	std::vector<int> parent;
-	std::vector<int> key;
-	Graph(int vertices)
-	{
-		vert = vertices;
-		branches.resize(vertices);
-		parent.resize(vertices);
-		key.resize(vertices);
-	}
-};
+struct Graph;
 
-void algorithmPrima(Graph &graph);
+Graph* makeGraph(const int size);
 
-void addNode(Graph &graph, int dist, int i, int j);
+void algorithmPrima(Graph *&graph);
 
-void printResult(Graph graph);
+void addNode(Graph *&graph, const int dist, const int i, const int j);
 
-void deleteGraph(Graph &graph);
+void printResult(Graph *&graph);
+
+void deleteGraph(Graph *&graph);
+
+int returnParent(Graph *&graph, const int i);
+
+int returnKey(Graph *&graph, const int i);
 
