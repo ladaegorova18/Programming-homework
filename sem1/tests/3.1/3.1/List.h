@@ -1,9 +1,9 @@
 #pragma once
+#include <string>
 
 struct Element
 {
-	int value;
-	int freq = 0;
+	std::string value;
 	Element* next;
 };
 
@@ -12,7 +12,9 @@ struct DynList
 	Element* head;
 };
 
-void insertion(DynList *myList, int newValue);
+DynList* makeList();
+
+void insertion(DynList *myList, std::string value);
 
 void printData(DynList *myList);
 

@@ -8,16 +8,18 @@ bool isEmpty(DynList *myList)
 	return (myList->head == nullptr);
 }
 
-void insertion(DynList *myList, int newValue)
+DynList* makeList()
 {
-	if (newValue == 0)
-	{
-		return;
-	}
+	DynList *list = new DynList();
+	list->head = nullptr;
+	return list;
+}
+
+void insertion(DynList *myList, std::string newValue)
+{
 	Element* data = new Element;
 	Element* previous = nullptr;
 	data->value = newValue;
-	data->freq = 1;
 	if (isEmpty(myList))
 	{
 		myList->head = data;
@@ -29,10 +31,9 @@ void insertion(DynList *myList, int newValue)
 	{
 		if (current->value == newValue)
 		{
-			current->freq++;
 			return;
 		}
-		else if (current->value > newValue)
+		if (current->value > newValue)
 		{
 			data->next = current;
 			if (previous != nullptr)
@@ -55,9 +56,6 @@ void insertion(DynList *myList, int newValue)
 		current = current->next;
 	}
 	previous->next = data;
-	/*delete current;
-	delete data;
-	delete previous;*/
 	return;
 }
 void printData(DynList *myList)
@@ -65,11 +63,10 @@ void printData(DynList *myList)
 	struct Element *current = myList->head;
 	while (current)
 	{
-		cout << current->value << "\t" << current->freq << endl;
+		cout << current->value;
 		cout << endl;
 		current = current->next;
 	}
-	//delete current;
 }
 
 void deleteList(DynList *myList)
