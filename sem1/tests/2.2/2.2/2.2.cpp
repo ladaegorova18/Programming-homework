@@ -86,8 +86,8 @@ void mainMenu(Node* list)
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	Node* list = makeList();
 	test();
+	Node* list = makeList();
 	mainMenu(list);
 	deleteList(list);
 	std::cout << "До свидания!" << std::endl;

@@ -68,6 +68,7 @@ bool add(Node *&head, int value, int pos)
 	}
 	temp->next = curr;
 	prev->next = temp;
+	return true;
 }
 
 bool isEmpty(Node *&head)
@@ -83,13 +84,15 @@ int getValue(Node *&temp)
 bool deleting(Node *&head, int pos)
 {
 	int count = getLength(head);
-	if (pos > count)
+	if ((pos > count) || (pos < 0))
 	{
 		return false;
 	}
 	if (pos == 0)
 	{
+		Node* temp = head;
 		head = head->next;
+		delete temp;
 		return true;
 	}
 	Node* curr = head;
@@ -107,9 +110,12 @@ bool deleting(Node *&head, int pos)
 	if (curr == nullptr)
 	{
 		prevPrev->next = nullptr;
+		delete prev;
 		return true;
 	}
 	prev->next = curr->next;
+	delete curr;
+	return true;
 }
 
 void print(Node *head)
@@ -126,11 +132,10 @@ void print(Node *head)
 
 void deleteList(Node *&head)
 {
-	Node* curr = head; 
-	Node* prev = nullptr;
+	Node* curr = head;
 	while (curr)
 	{
-		prev = curr;
+		Node* prev = curr;
 		curr = curr->next;
 		delete prev;
 	}
