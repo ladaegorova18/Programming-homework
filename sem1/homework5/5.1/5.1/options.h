@@ -8,13 +8,13 @@ DynList* makingList();
 
 Element* getHead(DynList *myList);
 
-void deleting(DynList *myList, int value);
+bool deleting(DynList *myList, int value);
 
-void deleteList(DynList *myList);
+void deleteList(DynList *&myList);
 
 void addingData(DynList *mylist);
 
-void deleteData(DynList *myList);
+bool deleteData(DynList *myList);
 
 bool isEmpty(DynList *myList);
 

@@ -70,8 +70,14 @@ void menu(DynList *myList)
 		case 2:
 		{
 			cout << "Здесь можно удалять определеннные значения из списка. Введите значение или нажмите Q, чтобы выйти:" << endl;
-			deleteData(myList);
-			cout << "Значение удалено!" << endl;
+			if (deleteData(myList))
+			{
+				cout << "Значение удалено!" << endl;
+			}
+			else
+			{
+				cout << "Значения нет в списке!" << endl;
+			}
 			break;
 		}
 		case 3:

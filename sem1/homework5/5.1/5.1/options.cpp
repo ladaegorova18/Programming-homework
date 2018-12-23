@@ -44,7 +44,6 @@ int getValue(Element* temp)
 void insertion(DynList *myList, int newValue)
 {
     Element* data = new Element;
-    Element* previous = nullptr;
     data->value = newValue;
     if (isEmpty(myList))
     {
@@ -52,6 +51,7 @@ void insertion(DynList *myList, int newValue)
         data->next = nullptr;
         return;
     }
+	Element* previous = nullptr;
     Element* current = myList->head;
     while (current)
     {
@@ -66,6 +66,9 @@ void insertion(DynList *myList, int newValue)
             {
                 myList->head = data;
             }
+			delete data;
+			delete current;
+			delete previous;
             return;
         }
 		else if (current->next == nullptr)
@@ -96,7 +99,7 @@ void addingData(DynList *mylist)
     }
 }
 
-void deleting(DynList *myList, int value)
+bool deleting(DynList *myList, int value)
 {
 	Element* current = myList->head; // проходим по всем элементам и сравниваем каждый с нашим "заказом"
 	Element* previous = nullptr;
@@ -106,33 +109,39 @@ void deleting(DynList *myList, int value)
 		{
 			if (previous == nullptr) // если его нет, то мы находимся в начале списка и нужно заменить head на следующий
 			{
+				Element* temp = myList->head;
 				myList->head = myList->head->next;
+				delete temp;
 			}
 			else
 			{
 				previous->next = current->next; // если он есть, то делаем следующим за ним не текущий, а следующий за текущим
+				delete current;
 			}
+			return true;
 		}
 		previous = current;
 		current = current->next;
 	}
+	return false;
 }
 
-void deleteData(DynList *myList)
+bool deleteData(DynList *myList)
 {
     char key = ' ';
     cin >> key;
     if (key != 'Q')
     {
         int value = (int)key - '0';
-		deleting(myList, value);
+		return deleting(myList, value);
     }
+	return false;
 }
 
 void printData(DynList *myList)
 {
     {
-        struct Element *current = myList->head;
+        Element *current = myList->head;
         while (current)
         {
             cout << current->value << endl;
@@ -143,9 +152,9 @@ void printData(DynList *myList)
     }
 }
 
-void deleteList(DynList *myList)
+void deleteElements(Element *&head)
 {
-	Element *current = myList->head;
+	Element *current = head;
 	Element *previous = nullptr;
 	while (current)
 	{
@@ -153,5 +162,11 @@ void deleteList(DynList *myList)
 		current = current->next;
 		delete previous;
 	}
+	delete current;
+}
+
+void deleteList(DynList *&myList)
+{
+	deleteElements(myList->head);
 	delete myList;
 }
