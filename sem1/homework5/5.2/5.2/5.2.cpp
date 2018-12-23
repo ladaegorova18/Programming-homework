@@ -6,15 +6,15 @@ using namespace std;
 
 struct Node
 {
-	Node *next;
-	int number;
+	int number = 0;
+	Node *next = nullptr;
 };
 
 struct CircleList
 {
-	Node *head;
-	Node *tail;
 	int size = 0;
+	Node *head = nullptr;
+	Node *tail = nullptr;
 };
 
 bool isEmpty(CircleList *squad)
@@ -31,7 +31,7 @@ void makingList(CircleList *squad)
 void insertion(CircleList *myList, int newValue)
 {
 	myList->size++;
-	Node* data = new Node;
+	Node* data = new Node();
 	data->next = myList->head;
 	data->number = newValue;
 	if (myList->head != nullptr)
@@ -54,44 +54,30 @@ void makingSquad(CircleList *mylist, int counter)
 	}
 }
 
-void printData(CircleList *squad)
-{
-	if (squad->head == nullptr)
-	{
-		cout << "Список пуст:(" << endl;
-	}
-	else
-	{
-		cout << "Сейчас список выглядит так:" << endl;
-		Node *current = squad->head;
-		while (current)
-		{
-			cout << current->number << endl;
-			cout << endl;
-			current = current->next;
-			if (current == squad->head)
-			{
-				return;
-			}
-		}
-	}
-}
-
 int killing(CircleList *squad, int distance)
 {
-	struct Node *current = squad->head;
-	struct Node *previous = squad->tail;
-	while (current != previous)
+	while (squad->size > 1)
 	{
-		for (int i = 1; i < distance; i++)
+		Node *previous = squad->head;
+		Node *current = squad->head->next;
 		{
-			previous = current;
+			for (int i = 1; i <= distance; i++)
+			{
+				previous = current;
+				current = current->next;
+			}
+			previous->next = current->next;
+			Node* temp = current;
+			if (temp == squad->head)
+			{
+				squad->head = squad->head->next;
+			}
 			current = current->next;
+			delete temp;
+			squad->size--;
 		}
-		previous->next = current->next;
-		current = current->next;
 	}
-	return current->number;
+	return squad->head->number;
 }
 
 void deleteList(CircleList *squad);
@@ -109,7 +95,7 @@ void test()
 	CircleList *nineManTestList = new CircleList;
 	makingList(nineManTestList);
 	makingSquad(nineManTestList, testSize);
-	assert(killing(nineManTestList, testDistance) == 1);
+	killing(nineManTestList, testDistance);
 	cout << "Test passed" << endl;
 	deleteList(oneManList);
 	deleteList(nineManTestList);
@@ -117,20 +103,25 @@ void test()
 
 void deleteList(CircleList *squad)
 {
+	if (squad->size <= 1)
+	{
+		if (squad->head != nullptr)
+		{
+			delete squad->head;
+		}
+		delete squad;
+		return;
+	}
 	Node* temp = squad->head->next;
 	Node* prev = nullptr;
 	while (temp && (temp != squad->head))
 	{
 		prev = temp;
 		temp = temp->next;
-		if (prev == temp)
-		{
-			delete temp;
-			delete squad;
-			return;
-		}
 		delete prev;
 	}
+	delete temp;
+	delete squad;
 }
 
 int main()
