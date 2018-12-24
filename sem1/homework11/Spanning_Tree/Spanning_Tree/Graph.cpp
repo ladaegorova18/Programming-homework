@@ -62,17 +62,6 @@ void algorithmPrima(Graph *&graph)
 	}
 }
 
-void deleteGraph(Graph *&graph)
-{
-	for (int i = 0; i < graph->vert; ++i)
-	{
-		graph->branches[i].clear();
-	}
-	graph->branches.clear();
-	graph->parent.clear();
-	graph->key.clear();
-}
-
 void printResult(Graph *&graph)
 {
 	for (int i = 1; i < graph->vert; ++i)
