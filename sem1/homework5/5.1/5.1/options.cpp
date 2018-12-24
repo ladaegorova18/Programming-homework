@@ -43,34 +43,31 @@ int getValue(Element* temp)
 
 void insertion(DynList *myList, int newValue)
 {
-    Element* data = new Element;
-    data->value = newValue;
-    if (isEmpty(myList))
-    {
+	Element* data = new Element;
+	data->value = newValue;
+	if (isEmpty(myList))
+	{
 		myList->head = data;
-        data->next = nullptr;
-        return;
-    }
+		data->next = nullptr;
+		return;
+	}
 	Element* previous = nullptr;
-    Element* current = myList->head;
-    while (current)
-    {
-        if (current->value >= newValue)
-        {
-            data->next = current;
-            if (previous != nullptr)
-            {
-                previous->next = data;
-            }
-            else
-            {
-                myList->head = data;
-            }
-			delete data;
-			delete current;
-			delete previous;
-            return;
-        }
+	Element* current = myList->head;
+	while (current)
+	{
+		if (current->value >= newValue)
+		{
+			data->next = current;
+			if (previous != nullptr)
+			{
+				previous->next = data;
+			}
+			else
+			{
+				myList->head = data;
+			}
+			return;
+		}
 		else if (current->next == nullptr)
 		{
 			current->next = data;
@@ -81,22 +78,19 @@ void insertion(DynList *myList, int newValue)
 		current = current->next;
 	}
 	previous->next = data;
-	delete current;
-	delete data;
-	delete previous;
 	return;
 }
 
 void addingData(DynList *mylist)
 {
-    char key = ' ';
-    cin >> key;
-    while (key != 'Q')
-    {
-        int newValue = key - '0';
-        insertion(mylist, newValue);
-        cin >> key;
-    }
+	char key = ' ';
+	cin >> key;
+	while (key != 'Q')
+	{
+		int newValue = key - '0';
+		insertion(mylist, newValue);
+		cin >> key;
+	}
 }
 
 bool deleting(DynList *myList, int value)
@@ -128,28 +122,26 @@ bool deleting(DynList *myList, int value)
 
 bool deleteData(DynList *myList)
 {
-    char key = ' ';
-    cin >> key;
-    if (key != 'Q')
-    {
-        int value = (int)key - '0';
+	char key = ' ';
+	cin >> key;
+	if (key != 'Q')
+	{
+		int value = (int)key - '0';
 		return deleting(myList, value);
-    }
+	}
 	return false;
 }
 
 void printData(DynList *myList)
 {
-    {
-        Element *current = myList->head;
-        while (current)
-        {
-            cout << current->value << endl;
-            cout << endl;
-            current = current->next;
-        }
-		delete current;
-    }
+	Element *current = myList->head;
+	while (current)
+	{
+		cout << current->value << endl;
+		cout << endl;
+		current = current->next;
+	}
+	delete current;
 }
 
 void deleteElements(Element *&head)

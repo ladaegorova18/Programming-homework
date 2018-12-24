@@ -16,22 +16,16 @@ void test()
 	Element *current = getHead(testListOneToFive);
 	while (getNext(current))
 	{
-		if (current != nullptr)
-		{
-			assert(getValue(current) <= getValue(getNext(current)));
-			current = getNext(current);
-		}
-		else
-		{
-			for (int j = 5; j >= 1; j--)
-			{
-				deleting(testListOneToFive, j);
-			}
-			assert(isEmpty(testListOneToFive) == 1);
-			deleteList(testListOneToFive);
-			current = nullptr;
-		}
+		assert(getValue(current) <= getValue(getNext(current)));
+		current = getNext(current);
 	}
+	for (int j = 5; j >= 1; j--)
+	{
+		deleting(testListOneToFive, j);
+	}
+	assert(isEmpty(testListOneToFive) == 1);
+	deleteList(testListOneToFive);
+	current = nullptr;
 	DynList *testListOneElement = makingList();
 	insertion(testListOneElement, 7);
 	assert(isEmpty(testListOneElement) == 0);
