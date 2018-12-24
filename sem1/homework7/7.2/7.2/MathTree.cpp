@@ -5,11 +5,11 @@
 
 struct Element
 {
-	char operation;
-	Element* leftChild;
-	Element* rightChild;
-	Element* parent;
-	int value;
+	char operand = ' ';
+	Element* leftChild = nullptr;
+	Element* rightChild = nullptr;
+	Element* parent = nullptr;
+	int value = 0;
 };
 
 struct Tree
@@ -20,9 +20,14 @@ struct Tree
 Element* makeElement()
 {
 	Element* temp = new Element();
-	temp->leftChild = nullptr;
-	temp->rightChild = nullptr;
 	return temp;
+}
+
+Tree* makeTree()
+{
+	Tree* tree = new Tree();
+	tree->root = nullptr;
+	return tree;
 }
 
 int operation(const char operand, const int firstNumber, const int secondNumber)
@@ -65,19 +70,12 @@ Element* getRoot(Tree* tree)
 
 int count(Element* current)
 {
-	if (!((current->leftChild == nullptr) && (current->rightChild == nullptr)))
+	if ((current->leftChild == nullptr) && (current->rightChild == nullptr))
 	{
-		current->value = operation(current->operation, count(current->leftChild), count(current->rightChild));
+		return current->value;
 	}
+	current->value = operation(current->operand, count(current->leftChild), count(current->rightChild));
 	return current->value;
-}
-
-Tree* makeTree()
-{
-	Tree* tree = new Tree();
-	tree->root = makeElement();
-	tree->root->parent = nullptr;
-	return tree;
 }
 
 bool isEmpty(Tree* tree)
@@ -90,7 +88,7 @@ Element* adding(Tree* tree, const char symbol, Element *current)
 	Element *temp = new Element();
 	if (isOper(symbol))
 	{
-		temp->operation = symbol;
+		temp->operand = symbol;
 		temp->value = 'N';
 		if (isEmpty(tree))
 		{
@@ -150,7 +148,7 @@ void printing(Element *current, const int level)
 		}
 		else
 		{
-			std::cout << current->operation << "\n";
+			std::cout << current->operand << "\n";
 		}
 		printing(current->rightChild, level + 1);
 	}

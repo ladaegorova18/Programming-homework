@@ -6,11 +6,11 @@ Element* makeElement();
 
 struct Tree;
 
-// вычисляет результат арифметического выражения
-int count(Element* current);
+// печатает дерево в явном виде
+void printing(Element* current, const int level);
 
-// создает корень дерева и делает детей nullptr'ами
-Tree* makeTree();
+// удаляет дерево
+void deleteTree(Tree* tree);
 
 // добавляет символ из выражения на свое место в дереве
 Element* adding(Tree* tree, const char symbol, Element *current);
@@ -18,11 +18,11 @@ Element* adding(Tree* tree, const char symbol, Element *current);
 // возвращает, равен ли корень nullptr
 bool isEmpty(Tree* tree);
 
+// вычисляет результат арифметического выражения
+int count(Element* current);
+
+// создает корень дерева и делает детей nullptr'ами
+Tree* makeTree();
+
 // возвращает корень дерева
 Element* getRoot(Tree* tree);
-
-// печатает дерево в явном виде
-void printing(Element* current, const int level);
-
-// удаляет дерево
-void deleteTree(Tree* tree);

@@ -39,7 +39,7 @@ void test()
 int main()
 {
 	setlocale(LC_ALL, "ru");
-	//test();
+	test();
 	Tree *myTree = makeTree();
 	Element* current = getRoot(myTree);
 	FILE *file = fopen("math.txt", "a+");
