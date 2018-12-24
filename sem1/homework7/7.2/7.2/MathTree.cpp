@@ -5,11 +5,16 @@
 
 struct Element
 {
-	char operand;
+	char operation;
 	Element* leftChild;
 	Element* rightChild;
 	Element* parent;
 	int value;
+};
+
+struct Tree
+{
+	Element* root;
 };
 
 Element* makeElement()
@@ -53,42 +58,44 @@ bool isOper(char symbol)
 	return ((symbol == '/') || (symbol == '*') || (symbol == '+') || (symbol == '-'));
 }
 
-Element* Tree::getRoot()
+Element* getRoot(Tree* tree)
 {
-	return root;
+	return tree->root;
 }
 
-int Tree::count(Element* current)
+int count(Element* current)
 {
-	if ((current->leftChild == nullptr) && (current->rightChild == nullptr))
+	if (!((current->leftChild == nullptr) && (current->rightChild == nullptr)))
 	{
-		return current->value;
+		current->value = operation(current->operation, count(current->leftChild), count(current->rightChild));
 	}
-	return current->value = operation(current->operand, count(current->leftChild), count(current->rightChild));
+	return current->value;
 }
 
-void Tree::makeTree()
+Tree* makeTree()
 {
-	Element* root = makeElement();
-	root->parent = nullptr;
+	Tree* tree = new Tree();
+	tree->root = makeElement();
+	tree->root->parent = nullptr;
+	return tree;
 }
 
-bool Tree::isEmpty()
+bool isEmpty(Tree* tree)
 {
-	return (root == nullptr);
+	return (tree->root == nullptr);
 }
 
-Element* Tree::adding(const char symbol, Element *current)
+Element* adding(Tree* tree, const char symbol, Element *current)
 {
 	Element *temp = new Element();
 	if (isOper(symbol))
 	{
-		temp->operand = symbol;
+		temp->operation = symbol;
 		temp->value = 'N';
-		if (isEmpty())
+		if (isEmpty(tree))
 		{
-			root = temp;
-			current = root;
+			tree->root = temp;
+			current = tree->root;
 		}
 		else
 		{
@@ -128,7 +135,7 @@ Element* Tree::adding(const char symbol, Element *current)
 	return current;
 }
 
-void Tree::printing(Element *current, const int level)
+void printing(Element *current, const int level)
 {
 	if (current != nullptr)
 	{
@@ -143,18 +150,24 @@ void Tree::printing(Element *current, const int level)
 		}
 		else
 		{
-			std::cout << current->operand << "\n";
+			std::cout << current->operation << "\n";
 		}
 		printing(current->rightChild, level + 1);
 	}
 }
 
-void Tree::deleteTree(Element* current)
+void deleteElements(Element* current)
 {
 	if (current != nullptr)
 	{
-		deleteTree(current->leftChild);
-		deleteTree(current->rightChild);
+		deleteElements(current->leftChild);
+		deleteElements(current->rightChild);
 		delete current;
 	}
+}
+
+void deleteTree(Tree* tree)
+{
+	deleteElements(tree->root);
+	delete tree;
 }

@@ -4,29 +4,25 @@ struct Element;
 
 Element* makeElement();
 
-struct Tree
-{
-private:
-	Element* root;
-public:
-	// вычисляет результат арифметического выражения
-	int count(Element* current);
+struct Tree;
 
-	// создает корень дерева и делает детей nullptr'ами
-	void makeTree();
+// вычисляет результат арифметического выражения
+int count(Element* current);
 
-	// добавляет символ из выражения на свое место в дереве
-	Element* adding(const char symbol, Element *current);
+// создает корень дерева и делает детей nullptr'ами
+Tree* makeTree();
 
-	// возвращает, равен ли корень nullptr
-	bool isEmpty();
+// добавляет символ из выражения на свое место в дереве
+Element* adding(Tree* tree, const char symbol, Element *current);
 
-	// возвращает корень дерева
-	Element* getRoot();
+// возвращает, равен ли корень nullptr
+bool isEmpty(Tree* tree);
 
-	// печатает дерево в явном виде
-	void printing(Element* current, const int level);
+// возвращает корень дерева
+Element* getRoot(Tree* tree);
 
-	// удаляет дерево
-	void deleteTree(Element* current);
-};
+// печатает дерево в явном виде
+void printing(Element* current, const int level);
+
+// удаляет дерево
+void deleteTree(Tree* tree);

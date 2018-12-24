@@ -10,41 +10,38 @@ using namespace std;
 void test()
 {
 	string resultFour = "(*(+11)2)";
-	Tree *testTree = new Tree();
-	testTree->makeTree();
-	Element* current = testTree->getRoot();
+	Tree *testTree = makeTree();
+	Element* current = getRoot(testTree);
 	for (int i = 0; i < 10; i++)
 	{
 		if (resultFour[i] != '(')
 		{
-			current = testTree->adding(resultFour[i], current);
+			current = adding(testTree, resultFour[i], current);
 		}
 	}
-	assert(testTree->count(current) == 4);
-	testTree->deleteTree(current);
+	assert(count(current) == 4);
+	deleteTree(testTree);
 	string resultEighteen = "(*(+33)(-52))";
-	Tree *testEighteenTree = new Tree();
-	testEighteenTree->makeTree();
-	current = testEighteenTree->getRoot();
+	Tree *testEighteenTree = makeTree();
+	current = getRoot(testEighteenTree);
 	for (int i = 0; i < 14; i++)
 	{
 		if (resultEighteen[i] != '(')
 		{
-			current = testEighteenTree->adding(resultEighteen[i], current);
+			current = adding(testEighteenTree, resultEighteen[i], current);
 		}
 	}
-	assert(testEighteenTree->count(current) == 18);
+	assert(count(current) == 18);
 	cout << "Тест пройден:)" << endl;
-	testEighteenTree->deleteTree(current);
+	deleteTree(testEighteenTree);
 }
 
 int main()
 {
 	setlocale(LC_ALL, "ru");
-	test();
-	Tree *myTree = new Tree();
-	myTree->makeTree();
-	Element* current = myTree->getRoot();
+	//test();
+	Tree *myTree = makeTree();
+	Element* current = getRoot(myTree);
 	FILE *file = fopen("math.txt", "a+");
 	if (!file)
 	{
@@ -57,14 +54,14 @@ int main()
 			char symbol = getc(file);
 			if (symbol != '(')
 			{
-				current = myTree->adding(symbol, current);
+				current = adding(myTree, symbol, current);
 			}
 		}
 	}
 	fclose(file);
 	cout << "Сейчас дерево выглядит так:" << endl;
-	myTree->printing(current, 0);
-	cout << "Результат равен: " << myTree->count(current) << endl;
-	myTree->deleteTree(current);
+	printing(current, 0);
+	cout << "Результат равен: " << count(current) << endl;
+	deleteTree(myTree);
 	return 0;
 }
