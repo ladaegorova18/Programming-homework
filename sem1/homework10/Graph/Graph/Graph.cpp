@@ -110,19 +110,3 @@ void print(Map*& map)
 {
 	printing(map->kingdoms);
 }
-
-void deleteMap(Map*& map)
-{
-	int size = map->kingdoms.size();
-	for (int i = 0; i < size; ++i)
-	{
-		map->kingdoms[i].clear();
-	}
-	size = map->roads.size();
-	for (int j = 0; j < size; ++j)
-	{
-		map->roads[j].clear();
-	}
-	map->mark.clear();
-	delete map;
-}

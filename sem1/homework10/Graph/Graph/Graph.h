@@ -5,11 +5,7 @@ const int INF = 1000000000;
 
 struct Map;
 
-// вывод на экран королевств и их владений
-
 void print(Map*& map);
-
-void deleteMap(Map*& map);
 
 void resizing(Map*& map, int n);
 

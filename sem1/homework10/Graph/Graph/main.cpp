@@ -48,6 +48,7 @@ void test()
 	assert(returnCity(testMap, 0, 1) == 2);
 	assert(returnCity(testMap, 1, 0) == 3);
 	std::cout << "Тест пройден!" << std::endl;
+	delete testMap;
 }
 
 int main()
@@ -66,6 +67,6 @@ int main()
 	war(map);
 	print(map);
 	std::cout << "До свидания!" << std::endl;
-	deleteMap(map);
+	delete map;
 	return 0;
 }
