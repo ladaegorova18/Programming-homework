@@ -3,7 +3,7 @@
 #include "Stack1.h"
 using namespace std;
 
-bool Stack::isEmpty() 
+bool Stack::isEmpty() const
 {
 	return (top == 0);
 }

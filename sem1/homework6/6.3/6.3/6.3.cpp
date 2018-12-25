@@ -6,7 +6,7 @@
 #include "Stack1.h"
 using namespace std;
 
-bool isOperand(char symbol)
+bool isOperator(char symbol)
 {
 	return ((symbol == '/') || (symbol == '*') || (symbol == '+') || (symbol == '-'));
 }
@@ -26,7 +26,7 @@ void makeSpace(string &postfixExpression)
 	postfixExpression += " ";
 }
 
-bool isPriorityOper(char symbol)
+bool isPriorityOperator(char symbol)
 {
 	return ((symbol == '*') || (symbol == '/'));
 }
@@ -43,13 +43,13 @@ bool makingExpression(Stack *myStack, char symbol, string &postfixExpression)
 		postfixExpression += symbol;
 		makeSpace(postfixExpression);
 	}
-	else if (isOperand(symbol))
+	else if (isOperator(symbol))
 	{
 		if (myStack->isEmpty() || isLeftBracket(myStack->topElement()))
 		{
 			myStack->push(symbol);
 		}
-		else if (isPriorityOper(symbol) && !isPriorityOper(myStack->topElement()))
+		else if (isPriorityOperator(symbol) && !isPriorityOperator(myStack->topElement()))
 		{
 			myStack->push(symbol);
 		}
@@ -66,7 +66,7 @@ bool makingExpression(Stack *myStack, char symbol, string &postfixExpression)
 		{
 			myStack->push(symbol);
 		}
-		else if (isOperand(myStack->topElement()))
+		else if (isOperator(myStack->topElement()))
 		{
 			postfixExpression += myStack->pop();
 			makeSpace(postfixExpression);
@@ -83,7 +83,7 @@ bool makingExpression(Stack *myStack, char symbol, string &postfixExpression)
 		{
 			return 1;
 		}
-		else if (isOperand(myStack->topElement()))
+		else if (isOperator(myStack->topElement()))
 		{
 			while (!myStack->isEmpty())
 			{
