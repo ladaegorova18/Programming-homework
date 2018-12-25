@@ -32,8 +32,8 @@ void test()
 		}
 	}
 	assert(count(current) == 18);
-	cout << "Тест пройден:)" << endl;
 	deleteTree(testEighteenTree);
+	cout << "Тест пройден:)" << endl;
 }
 
 int main()

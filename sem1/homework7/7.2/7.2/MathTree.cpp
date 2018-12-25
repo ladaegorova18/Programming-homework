@@ -154,7 +154,7 @@ void printing(Element *current, const int level)
 	}
 }
 
-void deleteElements(Element* current)
+void deleteElements(Element*& current)
 {
 	if (current != nullptr)
 	{
@@ -164,7 +164,7 @@ void deleteElements(Element* current)
 	}
 }
 
-void deleteTree(Tree* tree)
+void deleteTree(Tree*& tree)
 {
 	deleteElements(tree->root);
 	delete tree;

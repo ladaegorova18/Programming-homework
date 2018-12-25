@@ -10,7 +10,7 @@ struct Tree;
 void printing(Element* current, const int level);
 
 // удаляет дерево
-void deleteTree(Tree* tree);
+void deleteTree(Tree*& tree);
 
 // добавляет символ из выражения на свое место в дереве
 Element* adding(Tree* tree, const char symbol, Element *current);
