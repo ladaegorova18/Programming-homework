@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <iostream>
 
-int* prefixFunction(std::string str, int len);
+int* prefixFunction(std::string const& str, int len);
 
-int algorithmKMP(std::ifstream &file, std::string sample);
+int algorithmKMP(std::ifstream &file, std::string const &sample);

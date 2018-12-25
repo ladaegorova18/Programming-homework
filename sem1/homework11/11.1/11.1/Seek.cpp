@@ -2,7 +2,7 @@
 #include "Seek.h"
 #include <fstream>
 
-int* prefixFunction(std::string str, int len)
+int* prefixFunction(std::string const &str, int len)
 {
 	int *index = new int[len] {0};
 	for (int i = 0; i < len - 1; i++)
@@ -19,7 +19,7 @@ int* prefixFunction(std::string str, int len)
 	return index;
 }
 
-int algorithmKMP(std::ifstream &file, std::string sample)
+int algorithmKMP(std::ifstream &file, std::string const &sample)
 {
 	int sampleLen = sample.length();
 	int equalIndex = 0;
