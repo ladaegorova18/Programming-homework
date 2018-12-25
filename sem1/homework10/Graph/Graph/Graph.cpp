@@ -94,8 +94,9 @@ void printing(std::vector<std::vector<int>> kingdoms)
 	int kingSize = kingdoms.size();
 	for (int i = 0; i < kingSize; i++)
 	{
+		int currKingdomSize = kingdoms[i].size();
 		std::cout << i + 1 << " королевству принадлежат города: " << std::endl;
-		for (int j = 0; j < kingSize; j++)
+		for (int j = 1; j < currKingdomSize; j++)
 		{
 			if (kingdoms[i][j] != 0)
 			{
