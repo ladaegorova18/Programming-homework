@@ -5,91 +5,78 @@
 #include <fstream>
 #include <assert.h>
 
-void test()
+void addToList(std::ifstream &file, Node*& head, int count)
 {
-	Node* list = makeList();
-	add(list, 3, 0);
-	add(list, 4, 1);
-	add(list, 1, 2);
-	add(list, 5, 3);
-	add(list, 8, 1);
-	int result[] = { 3, 8, 4, 1, 5 };
-	int i = 0;
-	Node* temp = list;
+	for (int i = 0; i < count; ++i)
+	{
+		int value = 0;
+		file >> value;
+		addingData(head, value);
+	}
+}
+
+void writeToFile(std::ofstream &file, Node*& head)
+{
+	Node* temp = head;
 	while (temp)
 	{
-		assert(getValue(temp) == result[i]);
-		temp = getNext(temp);
+		file << getValue(temp);
+		temp = nextNode(temp);
+		file << " ";
+	}
+}
+
+void test()
+{
+	Node* firstTestList = makingList();
+	Node* secondTestList = makingList();
+	int firstKeys[] = { 1, 3, 6, 7 };
+	int secondKeys[] = { 2, 4, 6, 6, 8 };
+	for (int i = 0; i < 4; ++i)
+	{
+		addingData(firstTestList, firstKeys[i]);
+	}
+	for (int j = 0; j < 5; ++j)
+	{
+		addingData(secondTestList, secondKeys[j]);
+	}
+	Node* testResult = merge(firstTestList, secondTestList);
+	int resultKeys[] = { 1, 2, 3, 4, 6, 6, 6, 7, 8 };
+	Node* temp = testResult;
+	int i = 0;
+	while (temp)
+	{
+		assert(getValue(temp) == resultKeys[i]);
+		temp = nextNode(temp);
 		++i;
 	}
-	deleteList(list);
 	std::cout << "Тест пройден!" << std::endl;
-}
-
-void mainText()
-{
-	std::cout << "Нажмите 1, чтобы добавить значение в позицию:" << std::endl;
-	std::cout << "Нажмите 2, чтобы удалить значение из позиции:" << std::endl;
-	std::cout << "Нажмите 3, чтобы распечатать список:" << std::endl;
-	std::cout << "Нажмите 0, чтобы выйти." << std::endl;
-}
-
-void mainMenu(Node* list)
-{
-	mainText();
-	char key = ' ';
-	std::cin >> key;
-	while (key != '0')
-	{
-		switch (key)
-		{
-		case '1':
-		{
-			std::cout << "Введите значение:" << std::endl;
-			int value = 0;
-			std::cin >> value;
-			std::cout << "Введите позицию:" << std::endl;
-			int pos = 0;
-			std::cin >> pos;
-			if (!add(list, value, pos))
-			{
-				std::cout << "Неверная позиция!" << std::endl;
-			}
-			break;
-		}
-		case '2':
-		{
-			std::cout << "Введите позицию:" << std::endl;
-			int pos = 0;
-			std::cin >> pos;
-			if (!deleting(list, pos))
-			{
-				std::cout << "Неверная позиция!" << std::endl;
-			}
-			break;
-		}
-		case '3':
-		{
-			if (isEmpty(list))
-			{
-				std::cout << "Список пуст!" << std::endl;
-			}
-			print(list);
-			break;
-		}
-		}
-		mainText();
-		std::cin >> key;
-	}
+	deleteList(testResult);
 }
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
 	test();
-	Node* list = makeList();
-	mainMenu(list);
-	deleteList(list);
-	std::cout << "До свидания!" << std::endl;
+	std::ifstream file("lists.txt");
+	if (!file)
+	{
+		std::cout << "Файл не найден!" << std::endl;
+		return -1;
+	}
+	int count = 0;
+	file >> count;
+	Node* firstList = makingList();
+	addToList(file, firstList, count);
+	file >> count;
+	Node* secondList = makingList();
+	addToList(file, secondList, count);
+	file.close();
+	Node* result = merge(firstList, secondList);
+	std::ofstream resultFile("result.txt");
+	writeToFile(resultFile, result);
+	resultFile.close();
+	deleteList(result);
+	std::cout << "Данные записаны в файл!" << std::endl;
 	return 0;
 }

@@ -1,143 +1,96 @@
 #include "pch.h"
-#include "List.h"
 #include <iostream>
 #include <string>
+#include "List.h"
 
 struct Node
 {
-	int info;
+	int value;
 	Node* next;
-	Node(int newValue)
-	{
-		info = newValue;
-		next = nullptr;
-	}
 };
 
-Node* getNext(Node *&temp)
-{
-	return temp->next;
-}
-
-Node* makeList()
+Node* makingList()
 {
 	Node* head = nullptr;
 	return head;
 }
 
-int getLength(Node *&list)
+int getValue(Node* list)
 {
-	int count = 0;
-	Node* curr = list;
-	while (curr)
-	{
-		count++;
-		curr = curr->next;
-	}
-	return count;
+	return list->value;
 }
 
-bool add(Node *&head, int value, int pos)
+Node* nextNode(Node *list)
 {
-	int count = getLength(head);
-	if (pos > count)
+	return list->next;
+}
+
+bool isEmpty(Node *head)
+{
+	return (head == nullptr);
+}
+
+void addInTail(Node *&head, Node*& data)
+{
+	Node* current = head;
+	while (current)
 	{
-		return false;
-	}
-	Node *temp = new Node(value);
-	if (head == nullptr)
-	{
-		head = temp;
-		return true;
-	}
-	if (pos == 0)
-	{
-		temp->next = head;
-		head = temp;
-		return true;
-	}
-	Node* prev = nullptr;
-	Node* curr = head;
-	for (int i = 0; i < pos; ++i)
-	{
-		if (curr)
+		if (current->next == nullptr)
 		{
-			prev = curr;
-			curr = curr->next;
+			current->next = data;
+			return;
 		}
+		current = current->next;
 	}
-	temp->next = curr;
-	prev->next = temp;
-	return true;
 }
 
-bool isEmpty(Node *&head)
+void addingData(Node *&head, int newValue)
 {
-	return head == nullptr;
+	Node* data = new Node();
+	data->value = newValue;
+	if (isEmpty(head))
+	{
+		head = data;
+	}
+	else
+	{
+		addInTail(head, data);
+	}
 }
 
-int getValue(Node *&temp)
+Node* merge(Node *&firstList, Node *&secondList)
 {
-	return temp->info;
-}
-
-bool deleting(Node *&head, int pos)
-{
-	int count = getLength(head);
-	if ((pos > count) || (pos < 0))
+	Node* newHead = nullptr;
+	if (firstList == nullptr)
 	{
-		return false;
+		return secondList;
 	}
-	if (pos == 0)
+	if (secondList == nullptr)
 	{
-		Node* temp = head;
-		head = head->next;
-		delete temp;
-		return true;
+		return firstList;
 	}
-	Node* curr = head;
-	Node* prev = nullptr;
-	Node* prevPrev = nullptr;
-	for (int i = 0; i < pos; ++i)
+	if (firstList->value < secondList->value)
 	{
-		if (curr)
-		{
-			prevPrev = prev;
-			prev = curr;
-			curr = curr->next;
-		}
+		newHead = firstList;
+		newHead->next = merge(firstList->next, secondList);
 	}
-	if (curr == nullptr)
+	else
 	{
-		prevPrev->next = nullptr;
-		delete prev;
-		return true;
+		newHead = secondList;
+		newHead->next = merge(firstList, secondList->next);
 	}
-	prev->next = curr->next;
-	delete curr;
-	return true;
-}
-
-void print(Node *head)
-{
-	std::cout << std::endl;
-	Node *temp = head;
-	while (temp)
-	{
-		std::cout << temp->info << "\n";
-		temp = temp->next;
-	}
-	std::cout << "\n";
+	return newHead;
 }
 
 void deleteList(Node *&head)
 {
-	Node* curr = head;
-	while (curr)
+	Node* current = head;
+	Node* prev = nullptr;
+	while (current)
 	{
-		Node* prev = curr;
-		curr = curr->next;
+		prev = current;
+		current = current->next;
 		delete prev;
 	}
-	delete curr;
+	delete current;
 }

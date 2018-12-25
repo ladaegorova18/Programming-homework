@@ -4,18 +4,14 @@
 
 struct Node;
 
-bool add(Node *&head, int value, int pos);
+Node* merge(Node *&firstList, Node *&secondList);
 
-bool deleting(Node *&head, int pos);
+Node* makingList();
 
-Node* makeList();
+int getValue(Node* list);
+
+Node* nextNode(Node *list);
+
+void addingData(Node *&head, int newValue);
 
 void deleteList(Node *&head);
-
-void print(Node *head);
-
-bool isEmpty(Node *&head);
-
-int getValue(Node *&temp);
-
-Node* getNext(Node *&temp);
