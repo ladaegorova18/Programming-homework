@@ -4,14 +4,18 @@
 
 struct Node;
 
-Node* merge(Node *&firstList, Node *&secondList);
+struct List;
 
-Node* makingList();
+List* merge(List *&firstList, List *&secondList);
+
+Node* getHead(List *&list);
+
+List* makingList();
 
 int getValue(Node* list);
 
 Node* nextNode(Node *list);
 
-void addingData(Node *&head, int newValue);
+void addingData(List *&list, int newValue);
 
-void deleteList(Node *&head);
+void deleteList(List *&head);

@@ -5,19 +5,19 @@
 #include <fstream>
 #include <assert.h>
 
-void addToList(std::ifstream &file, Node*& head, int count)
+void addToList(std::ifstream &file, List *&list, int count)
 {
 	for (int i = 0; i < count; ++i)
 	{
 		int value = 0;
 		file >> value;
-		addingData(head, value);
+		addingData(list, value);
 	}
 }
 
-void writeToFile(std::ofstream &file, Node*& head)
+void writeToFile(std::ofstream &file, List*& list)
 {
-	Node* temp = head;
+	Node* temp = getHead(list);
 	while (temp)
 	{
 		file << getValue(temp);
@@ -28,8 +28,8 @@ void writeToFile(std::ofstream &file, Node*& head)
 
 void test()
 {
-	Node* firstTestList = makingList();
-	Node* secondTestList = makingList();
+	List* firstTestList = makingList();
+	List* secondTestList = makingList();
 	int firstKeys[] = { 1, 3, 6, 7 };
 	int secondKeys[] = { 2, 4, 6, 6, 8 };
 	for (int i = 0; i < 4; ++i)
@@ -40,9 +40,9 @@ void test()
 	{
 		addingData(secondTestList, secondKeys[j]);
 	}
-	Node* testResult = merge(firstTestList, secondTestList);
+	List* testResult = merge(firstTestList, secondTestList);
 	int resultKeys[] = { 1, 2, 3, 4, 6, 6, 6, 7, 8 };
-	Node* temp = testResult;
+	Node* temp = getHead(testResult);
 	int i = 0;
 	while (temp)
 	{
@@ -52,6 +52,8 @@ void test()
 	}
 	std::cout << "Тест пройден!" << std::endl;
 	deleteList(testResult);
+	deleteList(firstTestList);
+	deleteList(secondTestList);
 }
 
 int main()
@@ -66,13 +68,13 @@ int main()
 	}
 	int count = 0;
 	file >> count;
-	Node* firstList = makingList();
+	List* firstList = makingList();
 	addToList(file, firstList, count);
 	file >> count;
-	Node* secondList = makingList();
+	List* secondList = makingList();
 	addToList(file, secondList, count);
 	file.close();
-	Node* result = merge(firstList, secondList);
+	List* result = merge(firstList, secondList);
 	std::ofstream resultFile("result.txt");
 	writeToFile(resultFile, result);
 	resultFile.close();

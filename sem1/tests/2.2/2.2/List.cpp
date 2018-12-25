@@ -9,10 +9,17 @@ struct Node
 	Node* next;
 };
 
-Node* makingList()
+struct List
 {
-	Node* head = nullptr;
-	return head;
+	Node* head;
+	Node* tail;
+};
+
+List* makingList()
+{
+	List* list = new List();
+	list->head = nullptr;
+	return list;
 }
 
 int getValue(Node* list)
@@ -30,37 +37,24 @@ bool isEmpty(Node *head)
 	return (head == nullptr);
 }
 
-void addInTail(Node *&head, Node*& data)
-{
-	Node* current = head;
-	while (current)
-	{
-		if (current->next == nullptr)
-		{
-			current->next = data;
-			return;
-		}
-		current = current->next;
-	}
-}
-
-void addingData(Node *&head, int newValue)
+void addingData(List*& list, int newValue)
 {
 	Node* data = new Node();
 	data->value = newValue;
-	if (isEmpty(head))
+	if (isEmpty(list->head))
 	{
-		head = data;
+		list->head = data;
+		list->tail = data;
 	}
 	else
 	{
-		addInTail(head, data);
+		list->tail->next = data;
+		list->tail = list->tail->next;
 	}
 }
 
-Node* merge(Node *&firstList, Node *&secondList)
+Node* mergeSort(Node *&firstList, Node *&secondList)
 {
-	Node* newHead = nullptr;
 	if (firstList == nullptr)
 	{
 		return secondList;
@@ -69,22 +63,52 @@ Node* merge(Node *&firstList, Node *&secondList)
 	{
 		return firstList;
 	}
+	Node *newHead = nullptr;
 	if (firstList->value < secondList->value)
 	{
 		newHead = firstList;
-		newHead->next = merge(firstList->next, secondList);
+		newHead->next = mergeSort(firstList->next, secondList);
 	}
 	else
 	{
 		newHead = secondList;
-		newHead->next = merge(firstList, secondList->next);
+		newHead->next = mergeSort(firstList, secondList->next);
 	}
 	return newHead;
 }
 
-void deleteList(Node *&head)
+List* merge(List *&firstList, List *&secondList)
 {
-	Node* current = head;
+	if (firstList == nullptr)
+	{
+		return secondList;
+	}
+	if (secondList == nullptr)
+	{
+		return firstList;
+	}
+	List* newList = makingList();
+	newList->head = mergeSort(firstList->head, secondList->head);
+	delete firstList;
+	delete secondList;
+	firstList = nullptr;
+	secondList = nullptr;
+	return newList;
+}
+
+Node* getHead(List *&list)
+{
+	return list->head;
+}
+
+void deleteList(List *&list)
+{
+	if (list == nullptr)
+	{
+		delete list;
+		return;
+	}
+	Node* current = list->head;
 	Node* prev = nullptr;
 	while (current)
 	{
@@ -93,4 +117,5 @@ void deleteList(Node *&head)
 		delete prev;
 	}
 	delete current;
+	delete list;
 }
