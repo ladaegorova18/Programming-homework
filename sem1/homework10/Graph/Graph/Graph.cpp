@@ -49,7 +49,7 @@ void war(Map*& map)
 		for (int i = 0; i < capitals; i++) // новое королевство
 		{ 
 			int min = INF;
-			int newCity = 0;
+			int newCity = -1;
 			int currKingSize = map->kingdoms[i].size();
 			for (int tempCity = 0; tempCity < currKingSize; tempCity++) // новый город в королевстве
 			{
@@ -62,8 +62,11 @@ void war(Map*& map)
 					}
 				}
 			}
-			map->kingdoms[i].push_back(newCity);
-			map->mark[newCity] = 1;
+			if (newCity > 0)
+			{
+				map->kingdoms[i].push_back(newCity);
+				map->mark[newCity] = 1;
+			}
 		}
 		count++;
 	}
@@ -96,12 +99,9 @@ void printing(std::vector<std::vector<int>> kingdoms)
 	{
 		int currKingdomSize = kingdoms[i].size();
 		std::cout << i + 1 << " королевству принадлежат города: " << std::endl;
-		for (int j = 1; j < currKingdomSize; j++)
+		for (int j = 0; j < currKingdomSize; j++)
 		{
-			if (kingdoms[i][j] != 0)
-			{
-				std::cout << kingdoms[i][j] << " ";
-			}
+			std::cout << kingdoms[i][j] << " ";
 		}
 		std::cout << "\n";
 	}
