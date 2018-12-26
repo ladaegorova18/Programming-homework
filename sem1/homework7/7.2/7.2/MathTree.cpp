@@ -83,8 +83,16 @@ bool isEmpty(Tree* tree)
 	return (tree->root == nullptr);
 }
 
-Element* adding(Tree* tree, const char symbol, Element *current)
+Element* adding(Tree*& tree, const char symbol, Element *current)
 {
+	if (symbol == ')')
+	{
+		if (current->parent != nullptr)
+		{
+			current = current->parent;
+		}
+		return current;
+	}
 	Element *temp = new Element();
 	if (isOper(symbol))
 	{
@@ -123,12 +131,9 @@ Element* adding(Tree* tree, const char symbol, Element *current)
 			current->rightChild = temp;
 		}
 	}
-	else if (symbol == ')')
+	else
 	{
-		if (current->parent != nullptr)
-		{
-			current = current->parent;
-		}
+		delete temp;
 	}
 	return current;
 }
@@ -156,7 +161,7 @@ void printing(Element *current, const int level)
 
 void deleteElements(Element*& current)
 {
-	if (current != nullptr)
+	if (current)
 	{
 		deleteElements(current->leftChild);
 		deleteElements(current->rightChild);

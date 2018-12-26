@@ -13,7 +13,7 @@ void printing(Element* current, const int level);
 void deleteTree(Tree*& tree);
 
 // добавляет символ из выражения на свое место в дереве
-Element* adding(Tree* tree, const char symbol, Element *current);
+Element* adding(Tree*& tree, const char symbol, Element *current);
 
 // возвращает, равен ли корень nullptr
 bool isEmpty(Tree* tree);

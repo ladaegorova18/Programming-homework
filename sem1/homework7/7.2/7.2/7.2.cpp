@@ -12,7 +12,7 @@ void test()
 	string resultFour = "(*(+11)2)";
 	Tree *testTree = makeTree();
 	Element* current = getRoot(testTree);
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		if (resultFour[i] != '(')
 		{
@@ -24,7 +24,7 @@ void test()
 	string resultEighteen = "(*(+33)(-52))";
 	Tree *testEighteenTree = makeTree();
 	current = getRoot(testEighteenTree);
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		if (resultEighteen[i] != '(')
 		{
