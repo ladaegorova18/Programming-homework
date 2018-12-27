@@ -6,13 +6,13 @@ const int INF = 1000000000;
 
 struct Graph
 {
-	int vert;
+	int vertices;
 	std::vector<std::list<std::pair<int, int>>> branches;
 	std::vector<int> parent;
 	std::vector<int> key;
-	Graph(const int vertices)
+	Graph(const int count)
 	{
-		vert = vertices;
+		vertices = count;
 		branches.resize(vertices);
 		parent.resize(vertices);
 		key.resize(vertices);
@@ -32,21 +32,21 @@ void addNode(Graph *graph, const int dist, const int i, const int j)
 
 void algorithmPrima(Graph *graph)
 {
-	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
-	for (int i = 0; i < graph->vert; ++i)
+	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> queue;
+	for (int i = 0; i < graph->vertices; ++i)
 	{
 		graph->parent[i] = -1;
 		graph->key[i] = INF;
 	}
 	std::vector<bool> included{ false };
-	included.resize(graph->vert);
+	included.resize(graph->vertices);
 	int current = 0; 
-	pq.push(std::make_pair(0, current));
+	queue.push(std::make_pair(0, current));
 	graph->key[current] = 0;
-	while (!pq.empty())
+	while (!queue.empty())
 	{
-		int currVert = pq.top().second;
-		pq.pop(); // взяли вершину и отметили, что она есть в MST
+		int currVert = queue.top().second;
+		queue.pop(); // взяли вершину и отметили, что она есть в MST
 		included[currVert] = true;
 		for (auto it = graph->branches[currVert].begin(); it != graph->branches[currVert].end(); ++it)
 		{
@@ -55,7 +55,7 @@ void algorithmPrima(Graph *graph)
 			if ((!included[v]) && (dist < graph->key[v]))
 			{
 				graph->key[v] = dist;
-				pq.push(std::make_pair(graph->key[v], v));
+				queue.push(std::make_pair(graph->key[v], v));
 				graph->parent[v] = currVert;
 			}
 		}
@@ -64,7 +64,7 @@ void algorithmPrima(Graph *graph)
 
 void printResult(Graph const*const graph)
 {
-	for (int i = 1; i < graph->vert; ++i)
+	for (int i = 1; i < graph->vertices; ++i)
 	{
 		std::cout << graph->parent[i] << " " << i << " " << graph->key[i] << std::endl;
 	}
