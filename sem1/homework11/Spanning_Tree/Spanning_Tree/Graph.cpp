@@ -25,12 +25,12 @@ Graph* makeGraph(const int size)
 	return graph;
 }
 
-void addNode(Graph *&graph, const int dist, const int i, const int j)
+void addNode(Graph *graph, const int dist, const int i, const int j)
 {
 	graph->branches[i].push_back(std::make_pair(j, dist));
 }
 
-void algorithmPrima(Graph *&graph)
+void algorithmPrima(Graph *graph)
 {
 	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
 	for (int i = 0; i < graph->vert; ++i)
@@ -62,7 +62,7 @@ void algorithmPrima(Graph *&graph)
 	}
 }
 
-void printResult(Graph *&graph)
+void printResult(Graph const*const graph)
 {
 	for (int i = 1; i < graph->vert; ++i)
 	{
@@ -70,12 +70,17 @@ void printResult(Graph *&graph)
 	}
 }
 
-int returnParent(Graph *&graph, const int i)
+int returnParent(Graph const*const graph, const int i)
 {
 	return graph->parent[i];
 }
 
-int returnKey(Graph *&graph, const int i)
+int returnKey(Graph const*const graph, const int i)
 {
 	return graph->key[i];
+}
+
+void deleteGraph(Graph *graph)
+{
+	delete graph;
 }
