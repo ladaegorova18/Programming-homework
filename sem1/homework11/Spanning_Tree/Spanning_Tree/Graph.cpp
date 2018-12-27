@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Graph.h"
 #include <iterator>
 #include <queue>
@@ -46,7 +46,7 @@ void algorithmPrima(Graph *graph)
 	while (!queue.empty())
 	{
 		int currVert = queue.top().second;
-		queue.pop(); // âçÿëè âåðøèíó è îòìåòèëè, ÷òî îíà åñòü â MST
+		queue.pop(); // Ð²Ð·ÑÐ»Ð¸ Ð²ÐµÑ€ÑˆÐ¸Ð½Ñƒ Ð¸ Ð¾Ñ‚Ð¼ÐµÑ‚Ð¸Ð»Ð¸, Ñ‡Ñ‚Ð¾ Ð¾Ð½Ð° ÐµÑÑ‚ÑŒ Ð² MST
 		included[currVert] = true;
 		for (auto it = graph->branches[currVert].begin(); it != graph->branches[currVert].end(); ++it)
 		{
