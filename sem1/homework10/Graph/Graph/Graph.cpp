@@ -7,25 +7,25 @@
 struct Map
 {
 	// массив расстояний между городами
-	std::vector< std::vector<int> > roads;
+	std::vector<std::vector<int>> roads;
 
 	// kingdoms[i] массив государств; в каждом есть список владений, принадлежащих им
-	std::vector< std::vector<int> > kingdoms;
+	std::vector<std::vector<int>> kingdoms;
 
 	// отмечаем здесь города, в которых были
-	std::vector <bool> mark{ false };
+	std::vector<bool> mark{ false };
 };
 
-void addRoad(Map*& map, const int i, const int j, const int len)
+void addRoad(Map* map, const int i, const int j, const int len)
 {
 	map->roads[i][j] = len;
 	map->roads[j][i] = len;
 }
 
-void addCapital(Map*& map, const int capitalNumber, const int i)
+void addCapital(Map* map, const int capitalNumber, const int i)
 {
 	map->kingdoms[i].push_back(capitalNumber);
-	map->mark[capitalNumber] = 1; // столица уже кому-то принадлежит
+	map->mark[capitalNumber] = true; // столица уже кому-то принадлежит
 }
 
 Map* makeMap()
@@ -34,12 +34,12 @@ Map* makeMap()
 	return map;
 }
 
-int returnCity(Map *&map, const int i, const int j)
+int returnCity(Map const*const map, const int i, const int j)
 {
 	return map->kingdoms[i][j];
 }
 
-void war(Map*& map)
+void war(Map * map)
 {
 	int count = 0;
 	const int cities = map->mark.size();
@@ -65,14 +65,14 @@ void war(Map*& map)
 			if (newCity > 0)
 			{
 				map->kingdoms[i].push_back(newCity);
-				map->mark[newCity] = 1;
+				map->mark[newCity] = true;
 			}
 		}
 		count++;
 	}
 }
 
-void resizing(Map*& map, int n)
+void resizing(Map* map, int n)
 {
 	n++;
 	map->mark.resize(n);
@@ -87,12 +87,12 @@ void resizing(Map*& map, int n)
 	}
 }
 
-void kingsResizing(Map*& map, int k)
+void kingsResizing(Map* map, int k)
 {
 	map->kingdoms.resize(k);
 }
 
-void printing(std::vector<std::vector<int>> kingdoms)
+void printing(std::vector<std::vector<int>> const &kingdoms)
 {
 	int kingSize = kingdoms.size();
 	for (int i = 0; i < kingSize; i++)
@@ -107,7 +107,12 @@ void printing(std::vector<std::vector<int>> kingdoms)
 	}
 }
 
-void print(Map*& map)
+void print(Map const*const map)
 {
 	printing(map->kingdoms);
+}
+
+void deleteMap(Map *map)
+{
+	delete map;
 }

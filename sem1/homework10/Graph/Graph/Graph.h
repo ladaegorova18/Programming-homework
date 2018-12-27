@@ -5,18 +5,20 @@ const int INF = 1000000000;
 
 struct Map;
 
-void print(Map*& map);
+void print(Map const*const map);
 
-void resizing(Map*& map, int n);
+void resizing(Map* map, int n);
 
-void kingsResizing(Map*& map, int k);
+void kingsResizing(Map* map, int k);
 
 Map* makeMap();
 
-void war(Map*& map);
+void war(Map* map);
 
-void addRoad(Map*& map, const int i, const int j, const int len);
+void addRoad(Map* map, const int i, const int j, const int len);
 
-void addCapital(Map*& map, const int capitalNumber, const int i);
+void addCapital(Map* map, const int capitalNumber, const int i);
 
-int returnCity(Map *&map, const int i, const int j);
+int returnCity(Map const*const map, const int i, const int j);
+
+void deleteMap(Map *map);
