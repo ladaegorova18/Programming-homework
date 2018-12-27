@@ -37,22 +37,18 @@ int operation(const char operand, const int firstNumber, const int secondNumber)
 	case '+':
 	{
 		return firstNumber + secondNumber;
-		break;
 	}
 	case '-':
 	{
 		return firstNumber - secondNumber;
-		break;
 	}
 	case '*':
 	{
 		return firstNumber * secondNumber;
-		break;
 	}
 	case '/':
 	{
 		return firstNumber / secondNumber;
-		break;
 	}
 	}
 	return 0;
