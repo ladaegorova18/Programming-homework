@@ -5,7 +5,7 @@
 
 struct Element
 {
-	char operand = ' ';
+	char operation = ' ';
 	Element* leftChild = nullptr;
 	Element* rightChild = nullptr;
 	Element* parent = nullptr;
@@ -58,7 +58,7 @@ int operation(const char operand, const int firstNumber, const int secondNumber)
 	return 0;
 }
 
-bool isOper(char symbol)
+bool isOperation(char symbol)
 {
 	return ((symbol == '/') || (symbol == '*') || (symbol == '+') || (symbol == '-'));
 }
@@ -74,7 +74,7 @@ int count(Element* current)
 	{
 		return current->value;
 	}
-	current->value = operation(current->operand, count(current->leftChild), count(current->rightChild));
+	current->value = operation(current->operation, count(current->leftChild), count(current->rightChild));
 	return current->value;
 }
 
@@ -94,9 +94,9 @@ Element* adding(Tree*& tree, const char symbol, Element *current)
 		return current;
 	}
 	Element *temp = new Element();
-	if (isOper(symbol))
+	if (isOperation(symbol))
 	{
-		temp->operand = symbol;
+		temp->operation = symbol;
 		temp->value = 'N';
 		if (isEmpty(tree))
 		{
@@ -153,7 +153,7 @@ void printing(Element *current, const int level)
 		}
 		else
 		{
-			std::cout << current->operand << "\n";
+			std::cout << current->operation << "\n";
 		}
 		printing(current->rightChild, level + 1);
 	}
