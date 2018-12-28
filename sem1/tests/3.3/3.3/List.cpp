@@ -11,24 +11,24 @@ struct Element
 	Element* next;
 };
 
-struct DynList
+struct DynamicList
 {
 	Element* head;
 };
 
-DynList* makingList()
+DynamicList* makingList()
 {
-	DynList* list = new DynList();
+	DynamicList* list = new DynamicList();
 	list->head = nullptr;
 	return list;
 }
 
-Element* getHead(DynList* list)
+Element* getHead(DynamicList* list)
 {
 	return list->head;
 }
 
-bool isEmpty(DynList *myList)
+bool isEmpty(DynamicList *myList)
 {
 	return (myList->head == nullptr);
 }
@@ -38,7 +38,7 @@ Element* getNext(Element* temp)
 	return temp->next;
 }
 
-void insertion(DynList *myList,const int time, bool isStart)
+void insertion(DynamicList *myList,const int time, bool isStart)
 {
 	Element* data = new Element;
 	data->currTime = time;
@@ -92,42 +92,33 @@ void deleteElements(Element *&head)
 	delete current;
 }
 
-void deleteList(DynList *&myList)
+void deleteList(DynamicList *&myList)
 {
 	deleteElements(myList->head);
 	delete myList;
 }
 
-int maxCount(DynList *&myList)
+int maxCount(DynamicList *&myList)
 {
 	int numberOfCalls = 0;
 	int max = 0;
+	int hour = 0;
 	Element* current = myList->head;
-	int prevTime = current->currTime;
+	int time[24] = { 0 };
 	while (current)
 	{
-		if (current->currTime - prevTime > 59)
-		{
-			if (numberOfCalls > max)
-			{
-				max = numberOfCalls;
-				numberOfCalls = 0;
-			}
-		}
-		if (current->isStart)
-		{
-			++numberOfCalls;
-		}
-		else
-		{
-			--numberOfCalls;
-		}
-		if (numberOfCalls > max)
-		{
-			max = numberOfCalls;
-		}
-		prevTime = current->currTime;
+		time[current->currTime]++;
 		current = current->next;
 	}
+	for (int i = 0; i < 24; ++i)
+	{
+		if (time[i] > max)
+		{
+			max = time[i];
+			hour = i;
+		}
+	}
+	std::cout << hour << " " << hour + 1 << " hours" << std::endl;
+	std::cout << "Max count of clients:" << std::endl;
 	return max;
 }

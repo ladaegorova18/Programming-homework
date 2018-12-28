@@ -4,18 +4,18 @@
 
 struct Element;
 
-struct DynList;
+struct DynamicList;
 
-DynList* makingList();
+DynamicList* makingList();
 
-Element* getHead(DynList *myList);
+Element* getHead(DynamicList *myList);
 
-void deleteList(DynList *&myList);
+void deleteList(DynamicList *&myList);
 
-void insertion(DynList *myList, const int data, bool isStart);
+void insertion(DynamicList *myList, const int data, bool isStart);
 
-bool isEmpty(DynList *myList);
+bool isEmpty(DynamicList *myList);
 
 Element* getNext(Element* temp);
 
-int maxCount(DynList *&myList);
+int maxCount(DynamicList *&myList);
