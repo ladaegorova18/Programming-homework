@@ -15,13 +15,13 @@ void test()
 	addNode(test, 1, 2, 3);
 	addNode(test, 1, 3, 2);
 	algorithmPrima(test);
-	int parents[] = {0, 0, 2, 3};
+	int parents[] = {-1, 0, 1, 2};
 	int currentVert[] = { 0, 1, 2, 3 };
 	int distances[] = { 0, 1, 1, 1 };
 	for (int i = 0; i < 4; ++i)
 	{
-		assert(returnParent(test) == parents[i]);
-		assert(returnKey(test) == distances[i]);
+		assert(returnParent(test, i) == parents[i]);
+		assert(returnKey(test, i) == distances[i]);
 	}
 	std::cout << "Тест пройден!" << std::endl;
 	deleteGraph(test);
