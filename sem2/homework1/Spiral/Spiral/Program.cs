@@ -4,8 +4,9 @@ namespace Spiral
 {
     class Program
     {
-        static void PrintSpiral(int[,] matrix, int n)
+        static void PrintSpiral(int[,] matrix)
         {
+            var n = matrix.GetLength(0);
             var center = n / 2;
             var i = center;
             var j = center;
@@ -41,7 +42,7 @@ namespace Spiral
                     distanceLeft = distance;
                 }
 
-                Console.Write($"{matrix[i, j]} ");
+                Console.Write(matrix[i, j] + " ");
                 i += rowsDirection;
                 j += columnsDirection;
                 --distanceLeft;
@@ -53,38 +54,39 @@ namespace Spiral
             }
         }
 
-        static void PrintNormal(int[,] matrix, int n)
+        static void PrintNormal(int[,] matrix)
         {
-            for (var i = 0; i < n; ++i)
+            var n = matrix.GetLength(0);
+            var i = 0;
+            foreach (var elem in matrix)
             {
-                for (var j = 0; j < n; ++j)
+                Console.Write(elem + " ");
+                ++i;
+                if (i % n == 0)
                 {
-                    Console.Write($"{matrix[i, j]} ");
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
         }
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите n:");
+            Console.WriteLine("Введите n (n — нечетное):");
             var input = Console.ReadLine();
             int n = int.Parse(input);
             int[,] matrix = new int[n,n];
-            Console.WriteLine("Введите значения матрицы:");
+            var rnd = new Random();
             for (var i = 0; i < n; ++i)
             {
-                for (int j = 0; j < n; ++j)
+                for (var j = 0; j < n; ++j)
                 {
-                    var inputNumber = Console.ReadLine();
-                    int number = int.Parse(inputNumber);
-                    matrix[i, j] = number;
+                    matrix[i, j] = rnd.Next(0, 20);
                 }
             }
             Console.WriteLine("Матрица в нормальном представлении:");
-            PrintNormal(matrix, n);
+            PrintNormal(matrix);
             Console.WriteLine("Матрица по спирали:");
-            PrintSpiral(matrix, n);
+            PrintSpiral(matrix);
         }
     }
 }
