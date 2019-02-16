@@ -2,20 +2,19 @@
 
 namespace Spiral
 {
-
     class Program
     {
         static void PrintSpiral(int[,] matrix, int n)
         {
             var center = n / 2;
+            var i = center;
+            var j = center;
             var rowsDirection = 0;
             var columnsDirection = 0;
             var count = n * n;
             var distance = 0;
             var distanceLeft = 0;
             bool inreaseDistance = true;
-            var i = center;
-            var j = center;
             while (count > 0)
             {
                 if (distanceLeft == 0)
