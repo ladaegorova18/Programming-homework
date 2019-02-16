@@ -32,14 +32,15 @@ namespace MatrixSorting
 
         static void Print(int[,] matrix)
         {
-            for (var i = 0; i < matrix.GetLength(0); ++i)
+            var i = 0;
+            foreach (var elem in matrix)
             {
-                for (var j = 0; j < matrix.GetLength(1); ++j)
+                Console.Write(elem + " ");
+                ++i;
+                if (i % matrix.GetLength(1) == 0)
                 {
-                    Console.Write($"{matrix[i, j]} ");
+                    Console.WriteLine();
                 }
-
-                Console.WriteLine();
             }
         }
 
