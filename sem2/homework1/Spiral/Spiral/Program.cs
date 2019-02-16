@@ -10,9 +10,9 @@ namespace Spiral
             var center = n / 2;
             var i = center;
             var j = center;
+            var count = n * n;
             var rowsDirection = 0;
             var columnsDirection = 0;
-            var count = n * n;
             var distance = 0;
             var distanceLeft = 0;
             bool inreaseDistance = true;
@@ -74,7 +74,7 @@ namespace Spiral
             Console.WriteLine("Введите n (n — нечетное):");
             var input = Console.ReadLine();
             int n = int.Parse(input);
-            int[,] matrix = new int[n,n];
+            var matrix = new int[n,n];
             var rnd = new Random();
             for (var i = 0; i < n; ++i)
             {
