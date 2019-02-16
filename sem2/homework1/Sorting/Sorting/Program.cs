@@ -5,6 +5,7 @@ namespace Sorting
     class Program
     {
         static void Swap<T>(ref T a, ref T b) { T temp = a; a = b; b = temp;  }
+
         static int Partition(int[] array, int begin, int end)
         {
             var key = array[end - 1];
@@ -19,6 +20,7 @@ namespace Sorting
             }
             return i;
         }
+
         static void QuickSort(int[] array, int begin, int end)
         {
             if (begin < end)
@@ -28,6 +30,7 @@ namespace Sorting
                 QuickSort(array, pivot, end);
             }
         }
+
         static void Main(string[] args)
         {
             int[] array = new int[10] {5, 2, 7, 1, -8, 0, 9, 5, 3, -2};
