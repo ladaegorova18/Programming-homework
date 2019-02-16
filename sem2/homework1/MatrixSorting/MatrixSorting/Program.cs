@@ -4,19 +4,24 @@ namespace MatrixSorting
 {
     class Program
     {
-        static void Swap<T>(ref T a, ref T b) { T temp = a; a = b; b = temp;}
-
-        static void Sorting(int[,] matrix, int rows, int columns)
+        static void Swap<T>(ref T a, ref T b)
         {
-            for (var i = 0; i < columns; ++i)
+            T temp = a;
+            a = b;
+            b = temp;
+        }
+
+        static void Sorting(int[,] matrix)
+        {
+            for (var i = 0; i < matrix.GetLength(1); ++i)
             {
-                for (var j = i + 1; j < columns; ++j)
+                for (var j = i + 1; j < matrix.GetLength(1); ++j)
                 {
                     if (matrix[0, j] < matrix[0, i])
                     {
-                        Swap(ref matrix[0,i], ref matrix[0, j]);
+                        Swap(ref matrix[0, i], ref matrix[0, j]);
 
-                        for (var k = 1; k < rows; ++k)
+                        for (var k = 1; k < matrix.GetLength(0); ++k)
                         {
                             Swap(ref matrix[k, i], ref matrix[k, j]);
                         }
@@ -25,13 +30,13 @@ namespace MatrixSorting
             }
         }
 
-        static void Print(int[,] matrix, int rows, int columns)
+        static void Print(int[,] matrix)
         {
-            for (var i = 0; i < rows; ++i)
+            for (var i = 0; i < matrix.GetLength(0); ++i)
             {
-                for (var j = 0; j < columns; ++j)
+                for (var j = 0; j < matrix.GetLength(1); ++j)
                 {
-                    Console.Write($"{matrix[i,j]} ");
+                    Console.Write($"{matrix[i, j]} ");
                 }
 
                 Console.WriteLine();
@@ -45,8 +50,8 @@ namespace MatrixSorting
             var stringArray = input.Split();
             int rows = int.Parse(stringArray[0]);
             int columns = int.Parse(stringArray[1]);
-            int[,] matrix = new int[rows,columns];
-            Random rnd = new Random();
+            var matrix = new int[rows, columns];
+            var rnd = new Random();
             for (var i = 0; i < rows; ++i)
             {
                 for (var j = 0; j < columns; ++j)
@@ -55,10 +60,10 @@ namespace MatrixSorting
                 }
             }
             Console.WriteLine("Исходная матрица:");
-            Print(matrix, rows, columns);
-            Sorting(matrix, rows, columns);
+            Print(matrix);
+            Sorting(matrix);
             Console.WriteLine("Матрица после сортировки:");
-            Print(matrix, rows, columns);
+            Print(matrix);
         }
     }
 }
