@@ -13,6 +13,7 @@ namespace Fibonacci
 
             return FibonacciCount(n - 1) + FibonacciCount(n - 2);
         }
+        
         static void Main(string[] args)
         {
             Console.WriteLine("Введите номер числа Фибоначчи:");
