@@ -15,7 +15,7 @@ namespace Spiral
             var columnsDirection = 0;
             var distance = 0;
             var distanceLeft = 0;
-            bool inreaseDistance = true;
+            bool increaseDistance = true;
             while (count > 0)
             {
                 if (distanceLeft == 0)
@@ -34,11 +34,14 @@ namespace Spiral
                     {
                         rowsDirection = 0;
                         columnsDirection = -1;
-                        inreaseDistance = true;
+                        increaseDistance = true;
                     }
 
-                    if (inreaseDistance) { ++distance; }
-                    inreaseDistance = !inreaseDistance;
+                    if (increaseDistance)
+                    {
+                        ++distance;
+                    }
+                    increaseDistance = !increaseDistance;
                     distanceLeft = distance;
                 }
 
@@ -47,22 +50,22 @@ namespace Spiral
                 j += columnsDirection;
                 --distanceLeft;
                 --count;
-                if (count % n == 0)
-                {
-                    Console.WriteLine();
-                }
             }
         }
 
         static void PrintNormal(int[,] matrix)
         {
             var n = matrix.GetLength(0);
-            var i = 0;
-            foreach (var elem in matrix)
+            var count = 0;
+            for (int i = 0; i < n; ++i)
             {
-                Console.Write(elem + " ");
-                ++i;
-                if (i % n == 0)
+                for (int j = 0; j < n; ++j)
+                {
+                    Console.Write(matrix[i, j] + " ");
+                    ++count;
+                }
+
+                if (count % n == 0)
                 {
                     Console.WriteLine();
                 }
@@ -71,10 +74,15 @@ namespace Spiral
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите n (n — нечетное):");
+            Console.WriteLine("Введите n (n — нечетное и положительное):");
             var input = Console.ReadLine();
             int n = int.Parse(input);
-            var matrix = new int[n,n];
+            if (n < 0 || n % 2 != 1)
+            {
+                Console.WriteLine("n должно быть нечетным и положительным)");
+                return;
+            }
+            var matrix = new int[n, n];
             var rnd = new Random();
             for (var i = 0; i < n; ++i)
             {
