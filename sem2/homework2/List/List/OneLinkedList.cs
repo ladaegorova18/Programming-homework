@@ -65,7 +65,7 @@ namespace List
             return true;
         }
 
-        public bool Remove(int position)
+        internal bool Remove(int position)
         {
             if (IsWrongPosition(position) || isEmpty() || position >= size)
             {
