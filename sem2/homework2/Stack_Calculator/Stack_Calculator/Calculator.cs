@@ -4,28 +4,23 @@ namespace Stack_Calculator
 {
     class Calculator
     {
+        private StackArray stack;
         private bool IsOperator(char symbol)
         {
             return symbol == '/' || symbol == '*' || symbol == '-' || symbol == '+';
         }
 
-        private Calculator CreateStack(char key)
+        public Calculator(int key)
         {
-            if (key == '1')
+            stack = new StackArray();
+            if (key == 1)
             {
-                var stack = new StackArray();
-                return stack;
-            }
-            else
-            {
-                var stack = new StackList();
-                return stack;
+                stack = new StackList();
             }
         }
-        public int Count(string input, char key)
-        {
-            var stack = CreateStack(key);
 
+        public int Count(string input)
+        {
             foreach(char symbol in input)
             {
                 if (Char.IsDigit(symbol))
