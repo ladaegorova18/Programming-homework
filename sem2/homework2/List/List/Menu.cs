@@ -4,6 +4,20 @@ namespace List
 {
     class Menu
     {
+        internal void WorkWithMenu(OneLinkedList list)
+        {
+            MainText();
+            char key = Convert.ToChar(Console.ReadLine());
+            while (key != '0')
+            {
+                WorkWithKey(key, list);
+                MainText();
+                key = Convert.ToChar(Console.ReadLine());
+            }
+            Console.WriteLine("До свидания!");
+            list.DeleteList();
+        }
+
         private void MainText()
         {
             Console.WriteLine("Это меню связного списка. Нажмите:");
@@ -22,12 +36,12 @@ namespace List
             position = int.Parse(input);
         }
 
-        private void ReadPosAndValue(out int position, out int value)
+        private void ReadPosAndValue(out int position, out string value)
         {
             var input = Console.ReadLine();
-            var stringInput = input.Split();
-            position = int.Parse(stringInput[0]); 
-            value = int.Parse(stringInput[1]);
+            var arrayInput = input.Split();
+            position = int.Parse(arrayInput[0]); 
+            value = arrayInput[1];
         }
 
         private void WriteError()
@@ -40,20 +54,6 @@ namespace List
             Console.WriteLine("Список пуст:(");
         }
 
-        internal void WorkWithMenu(OneLinkedList list)
-        {
-            MainText();
-            char key = Convert.ToChar(Console.ReadLine());
-            while(key != '0')
-            {
-                WorkWithKey(key, list);
-                MainText();
-                key = Convert.ToChar(Console.ReadLine());
-            }
-            Console.WriteLine("До свидания!");
-            list.DeleteList();
-        }
-
         internal void WorkWithKey(char key, OneLinkedList list)
         {
             switch (key)
@@ -61,7 +61,7 @@ namespace List
                 case '1':
                     {
                         Console.WriteLine("Введите позицию и значение для добавления элемента:");
-                        ReadPosAndValue(out int position, out int value);
+                        ReadPosAndValue(out int position, out string value);
                         if (!list.Add(value, position))
                         {
                             WriteError();
@@ -119,7 +119,7 @@ namespace List
                 case '6':
                     {
                         Console.WriteLine("Введите позицию и значение для изменения элемента:");
-                        ReadPosAndValue(out int position, out int value);
+                        ReadPosAndValue(out int position, out string value);
                         if (!list.SetValue(value, position))
                         {
                             WriteError();

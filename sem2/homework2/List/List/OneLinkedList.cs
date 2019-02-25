@@ -13,23 +13,23 @@ namespace List
 
         class Node
         {
-            internal int value = 0;
+            internal string value = 0;
             internal Node next = null;
-            internal Node(int value)
+            internal Node(string value)
             {
                 this.value = value;
             }
         }
 
-        private bool IsWrongPosition(int position) => position < 0;
+        private bool IsWrongPosition(int position, int size) => position < 0 || position > size;
 
         internal int Count() => size;
 
         internal bool isEmpty() => size == 0;
 
-        internal bool Add(int data, int position)
+        internal bool Add(string data, int position)
         {
-            if (IsWrongPosition(position))
+            if (IsWrongPosition(position, size))
             {
                 return false;
             }
@@ -44,7 +44,7 @@ namespace List
                 newElement.next = head;
                 head = newElement;
             }
-            else if (position >= size)
+            else if (position == size)
             {
                 tail.next = newElement;
                 tail = newElement;
@@ -67,7 +67,7 @@ namespace List
 
         internal bool Remove(int position)
         {
-            if (IsWrongPosition(position) || isEmpty() || position >= size)
+            if (IsWrongPosition(position, size) || isEmpty() || position == size)
             {
                 return false;
             }
@@ -104,9 +104,9 @@ namespace List
             return temp;
         }
 
-        internal bool SetValue(int value, int position)
+        internal bool SetValue(string value, int position)
         {
-            if (IsWrongPosition(position))
+            if (IsWrongPosition(position, size))
             {
                 return false;
             }
@@ -115,9 +115,9 @@ namespace List
             return true;
         }
 
-        internal int GetValue(int position)
+        internal string GetValue(int position)
         {
-            if (IsWrongPosition(position))
+            if (IsWrongPosition(position, size))
             {
                 return -1;
             }
