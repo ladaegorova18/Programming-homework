@@ -4,7 +4,7 @@ namespace List
 {
     class Menu
     {
-        internal void WorkWithMenu(OneLinkedList list)
+        public void WorkWithMenu(OneLinkedList list)
         {
             MainText();
             char key = Convert.ToChar(Console.ReadLine());
@@ -40,7 +40,7 @@ namespace List
         {
             var input = Console.ReadLine();
             var arrayInput = input.Split();
-            position = int.Parse(arrayInput[0]); 
+            position = int.Parse(arrayInput[0]);
             value = arrayInput[1];
         }
 
@@ -54,7 +54,7 @@ namespace List
             Console.WriteLine("Список пуст:(");
         }
 
-        internal void WorkWithKey(char key, OneLinkedList list)
+        public void WorkWithKey(char key, OneLinkedList list)
         {
             switch (key)
             {
@@ -99,7 +99,7 @@ namespace List
                     }
                 case '4':
                     {
-                        Console.WriteLine($"В списке {list.Count()} элементов");
+                        Console.WriteLine($"В списке {list.Count()} элементов)");
                         break;
                     }
                 case '5':

@@ -7,15 +7,15 @@ namespace List
         static int size = 0;
         static Node head = null;
         static Node tail = null;
-        internal OneLinkedList()
+        public OneLinkedList()
         {
         }
 
         class Node
         {
-            internal string value = 0;
-            internal Node next = null;
-            internal Node(string value)
+            public string value = "";
+            public Node next = null;
+            public Node(string value)
             {
                 this.value = value;
             }
@@ -23,11 +23,11 @@ namespace List
 
         private bool IsWrongPosition(int position, int size) => position < 0 || position > size;
 
-        internal int Count() => size;
+        public int Count() => size;
 
-        internal bool isEmpty() => size == 0;
+        public bool isEmpty() => size == 0;
 
-        internal bool Add(string data, int position)
+        public bool Add(string data, int position)
         {
             if (IsWrongPosition(position, size))
             {
@@ -65,7 +65,7 @@ namespace List
             return true;
         }
 
-        internal bool Remove(int position)
+        public bool Remove(int position)
         {
             if (IsWrongPosition(position, size) || isEmpty() || position == size)
             {
@@ -104,7 +104,7 @@ namespace List
             return temp;
         }
 
-        internal bool SetValue(string value, int position)
+        public bool SetValue(string value, int position)
         {
             if (IsWrongPosition(position, size))
             {
@@ -115,17 +115,17 @@ namespace List
             return true;
         }
 
-        internal string GetValue(int position)
+        public string GetValue(int position)
         {
             if (IsWrongPosition(position, size))
             {
-                return -1;
+                return "";
             }
             var temp = GetNode(position);
             return temp.value;
         }
 
-        internal void DeleteList()
+        public void DeleteList()
         {
             head = null;
             tail = null;
