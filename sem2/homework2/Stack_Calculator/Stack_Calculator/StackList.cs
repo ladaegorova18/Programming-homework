@@ -2,11 +2,11 @@
 
 namespace Stack_Calculator
 {
-    class StackList : Calculator , IStackable
+    public class StackList : IStackable
     {
-        private static int size = 0;
-        private static Node head = null;
-        private static Node tail = null;
+        static int size = 0;
+        static Node head = null;
+        static Node tail = null;
         public StackList()
         {
         }
