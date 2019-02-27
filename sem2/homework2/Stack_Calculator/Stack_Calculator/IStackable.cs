@@ -2,7 +2,7 @@
 
 namespace Stack_Calculator
 {
-    interface IStackable
+    public interface IStackable
     {
         void Pop();
 

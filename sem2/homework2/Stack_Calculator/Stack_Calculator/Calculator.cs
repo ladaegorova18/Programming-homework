@@ -4,22 +4,19 @@ namespace Stack_Calculator
 {
     class Calculator
     {
-        private StackArray stack;
+        Stack stack = new Stack();
+        char key = ' ';
+        public Calculator(char key)
+        {
+            this.key = key;
+        }
+
         private bool IsOperator(char symbol)
         {
             return symbol == '/' || symbol == '*' || symbol == '-' || symbol == '+';
         }
 
-        public Calculator(int key)
-        {
-            stack = new StackArray();
-            if (key == 1)
-            {
-                stack = new StackList();
-            }
-        }
-
-        public int Count(string input)
+        public int Count(string input, IStackable stack)
         {
             foreach(char symbol in input)
             {

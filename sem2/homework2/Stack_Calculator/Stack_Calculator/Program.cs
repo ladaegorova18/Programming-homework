@@ -12,7 +12,18 @@ namespace Stack_Calculator
             Console.WriteLine("Нажмите любую другую клавишу для вызова калькулятора на списке;");
             char key = Char.Parse(Console.ReadLine());
             var calculator = new Calculator(key);
-            Console.WriteLine("Результат вычисления: " + calculator.Count(input));
+            int result = 0;
+            if (key == 1)
+            {
+                var stack = new StackList();
+                result = calculator.Count(input, stack);
+            }
+            else
+            {
+                var stack = new StackArray();
+                result = calculator.Count(input, stack);
+            }
+            Console.WriteLine("Результат вычисления: " + result);
         }
     }
 }

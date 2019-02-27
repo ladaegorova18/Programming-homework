@@ -2,10 +2,10 @@
 
 namespace Stack_Calculator
 {
-    class StackArray : Calculator , IStackable
+    public class StackArray : IStackable
     {
-        private const int MAX = 100;
-        private static int size = 0;
+        const int MAX = 100;
+        static int size = 0;
         static char[] array = new char[MAX];
 
         public StackArray()
@@ -20,7 +20,7 @@ namespace Stack_Calculator
         {
             if (!isEmpty())
             {
-                array[size - 1] = ' ';
+                array[size - 1] = '\0';
             }
             --size;
         }
