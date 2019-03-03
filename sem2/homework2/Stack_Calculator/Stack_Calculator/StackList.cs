@@ -6,7 +6,6 @@ namespace Stack_Calculator
     {
         static int size = 0;
         static Node head = null;
-        static Node tail = null;
         public StackList()
         {
         }
@@ -18,38 +17,22 @@ namespace Stack_Calculator
         public void Pop()
         {
             if (isEmpty()) return;
-            var temp = head;
-            Node prev = null;
-            for (int i = 1; i < size; ++i)
-            {
-                prev = temp;
-                temp = temp.next;
-            }
-            temp = null;
-            tail = prev;
+            head = head.next;
             --size;
         }
 
         public bool Push(char symbol)
         {
             var data = new Node(symbol);
-            if (size == 0)
-            {
-                head = data;
-                tail = data;
-            }
-            else
-            {
-                tail.next = data;
-                tail = data;
-            }
+            data.next = head;
+            head = data;
             ++size;
             return true;
         }
 
         public char Top()
         {
-            if (!isEmpty()) return tail.value;
+            if (!isEmpty()) return head.value;
             return ' ';
         }
 

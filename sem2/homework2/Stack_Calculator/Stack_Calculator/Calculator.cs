@@ -4,7 +4,6 @@ namespace Stack_Calculator
 {
     class Calculator
     {
-        Stack stack = new Stack();
         char key = ' ';
         public Calculator(char key)
         {
