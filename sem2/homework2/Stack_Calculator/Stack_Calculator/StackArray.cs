@@ -2,7 +2,7 @@
 
 namespace Stack_Calculator
 {
-    public class StackArray : IStackable
+    public class StackArray : IStack
     {
         const int MAX = 100;
         static int size = 0;
@@ -14,15 +14,16 @@ namespace Stack_Calculator
 
         public int Size() => size;
 
-        public bool isEmpty() => size == 0;
+        public bool IsEmpty() => size == 0;
 
-        public void Pop()
+        public char Pop()
         {
-            if (!isEmpty())
+            if (!IsEmpty())
             {
-                array[size - 1] = '\0';
+                --size;
+                return array[size];
             }
-            --size;
+            return '\0';
         }
 
         public bool Push(char symbol)
@@ -38,8 +39,13 @@ namespace Stack_Calculator
 
         public char Top()
         {
-            if (isEmpty()) return ' ';
+            if (IsEmpty()) return ' ';
             return array[size - 1];
+        }
+
+        public void Clear()
+        {
+            size = 0;
         }
     }
 }

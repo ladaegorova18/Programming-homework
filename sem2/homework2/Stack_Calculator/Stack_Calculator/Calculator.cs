@@ -2,20 +2,14 @@
 
 namespace Stack_Calculator
 {
-    class Calculator
+    public class Calculator
     {
-        char key = ' ';
-        public Calculator(char key)
-        {
-            this.key = key;
-        }
-
         private bool IsOperator(char symbol)
         {
             return symbol == '/' || symbol == '*' || symbol == '-' || symbol == '+';
         }
 
-        public int Count(string input, IStackable stack)
+        public int Count(string input, IStack stack)
         {
             foreach(char symbol in input)
             {
@@ -25,14 +19,15 @@ namespace Stack_Calculator
                 }
                 else if (IsOperator(symbol) && stack.Size() >= 2)
                 {
-                    int secondNumber = (int)stack.Top() - '0';
-                    stack.Pop();
-                    int firstNumber = (int)stack.Top() - '0';
-                    stack.Pop();
+                    int secondNumber = (int)stack.Pop() - '0';
+                    int firstNumber = (int)stack.Pop() - '0';
+                    if (firstNumber < secondNumber && (symbol == '/' || symbol == '-'))
+                        return -2;
                     stack.Push(Operation(firstNumber, secondNumber, symbol));
                 }
             }
-            return stack.Top() - '0';
+            if ((stack.IsEmpty() || stack.Size() > 1)) return -1;
+            return stack.Pop() - '0';
         }
 
         private char Operation(int firstNumber, int secondNumber, char symbol)

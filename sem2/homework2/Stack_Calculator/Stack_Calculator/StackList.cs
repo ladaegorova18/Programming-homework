@@ -2,7 +2,7 @@
 
 namespace Stack_Calculator
 {
-    public class StackList : IStackable
+    public class StackList : IStack
     {
         static int size = 0;
         static Node head = null;
@@ -12,13 +12,18 @@ namespace Stack_Calculator
 
         public int Size() => size;
 
-        public bool isEmpty() => size == 0;
+        public bool IsEmpty() => size == 0;
 
-        public void Pop()
+        public char Pop()
         {
-            if (isEmpty()) return;
-            head = head.next;
-            --size;
+            if (!IsEmpty())
+            {
+                --size;
+                var value = head.value;
+                head = head.next;
+                return value;
+            }
+            return '\0';
         }
 
         public bool Push(char symbol)
@@ -30,10 +35,10 @@ namespace Stack_Calculator
             return true;
         }
 
-        public char Top()
+        public void Clear()
         {
-            if (!isEmpty()) return head.value;
-            return ' ';
+            size = 0;
+            if (!IsEmpty()) head = null;
         }
 
         class Node

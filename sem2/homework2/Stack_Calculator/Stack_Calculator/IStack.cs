@@ -2,16 +2,16 @@
 
 namespace Stack_Calculator
 {
-    public interface IStackable
+    public interface IStack
     {
-        void Pop();
+        char Pop();
 
         bool Push(char symbol);
 
-        char Top();
-
-        bool isEmpty();
+        bool IsEmpty();
 
         int Size();
+
+        void Clear();
     }
 }
