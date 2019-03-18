@@ -19,8 +19,8 @@ namespace Stack_Calculator
                 }
                 else if (IsOperator(symbol) && stack.Size() >= 2)
                 {
-                    int secondNumber = (int)stack.Pop() - '0';
-                    int firstNumber = (int)stack.Pop() - '0';
+                    var secondNumber = (int)stack.Pop() - '0';
+                    var firstNumber = (int)stack.Pop() - '0';
                     if (firstNumber < secondNumber && (symbol == '/' || symbol == '-'))
                         return -2;
                     stack.Push(Operation(firstNumber, secondNumber, symbol));

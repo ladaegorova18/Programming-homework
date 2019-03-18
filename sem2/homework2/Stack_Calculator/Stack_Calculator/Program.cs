@@ -10,10 +10,10 @@ namespace Stack_Calculator
             var input = Console.ReadLine();
             Console.WriteLine("Нажмите 1, если хотите использовать калькулятор на массивах;");
             Console.WriteLine("Нажмите любую другую клавишу для вызова калькулятора на списке;");
-            char key = Char.Parse(Console.ReadLine());
+            var key = Console.ReadLine();
             var calculator = new Calculator();
             int result = 0;
-            if (key == 1)
+            if (key == "1")
             {
                 var stack = new StackList();
                 result = calculator.Count(input, stack);

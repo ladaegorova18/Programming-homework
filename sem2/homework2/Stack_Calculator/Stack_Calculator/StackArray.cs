@@ -4,14 +4,6 @@ namespace Stack_Calculator
 {
     public class StackArray : IStack
     {
-        const int MAX = 100;
-        static int size = 0;
-        static char[] array = new char[MAX];
-
-        public StackArray()
-        {
-        }
-
         public int Size() => size;
 
         public bool IsEmpty() => size == 0;
@@ -47,5 +39,9 @@ namespace Stack_Calculator
         {
             size = 0;
         }
+
+        private const int MAX = 100;
+        private int size = 0;
+        private char[] array = new char[MAX];
     }
 }
