@@ -7,15 +7,15 @@ namespace List
         public void WorkWithMenu(OneLinkedList list)
         {
             MainText();
-            char key = Convert.ToChar(Console.ReadLine());
-            while (key != '0')
+            string key = Console.ReadLine();
+            while (key != "0")
             {
                 WorkWithKey(key, list);
                 MainText();
-                key = Convert.ToChar(Console.ReadLine());
+                key = Console.ReadLine();
             }
             Console.WriteLine("До свидания!");
-            list.DeleteList();
+            list.Clear();
         }
 
         private void MainText()
@@ -30,18 +30,20 @@ namespace List
             Console.WriteLine("0, чтобы выйти.");
         }
 
-        private void ReadPos(out int position)
+        private int ReadPos()
         {
             var input = Console.ReadLine();
-            position = int.Parse(input);
+            int.TryParse(input, out int position);
+            return position;
         }
 
-        private void ReadPosAndValue(out int position, out string value)
+        private (int position, string value) ReadPosAndValue()
         {
             var input = Console.ReadLine();
             var arrayInput = input.Split();
-            position = int.Parse(arrayInput[0]);
-            value = arrayInput[1];
+            int.TryParse(arrayInput[0], out int position);
+            string value = arrayInput[1];
+            return (position, value);
         }
 
         private void WriteError()
@@ -54,27 +56,27 @@ namespace List
             Console.WriteLine("Список пуст:(");
         }
 
-        public void WorkWithKey(char key, OneLinkedList list)
+        public void WorkWithKey(string key, OneLinkedList list)
         {
             switch (key)
             {
-                case '1':
+                case "1":
                     {
                         Console.WriteLine("Введите позицию и значение для добавления элемента:");
-                        ReadPosAndValue(out int position, out string value);
+                        (int position, string value) = ReadPosAndValue();
                         if (!list.Add(value, position))
                         {
                             WriteError();
                         }
                         break;
                     }
-                case '2':
+                case "2":
                     {
                         Console.WriteLine("Введите позицию для удаления элемента:");
-                        ReadPos(out int position);
+                        int position = ReadPos();
                         if (!list.Remove(position))
                         {
-                            if (list.isEmpty())
+                            if (list.IsEmpty())
                             {
                                 WriteEmpty();
                             }
@@ -85,9 +87,9 @@ namespace List
                         }
                         break;
                     }
-                case '3':
+                case "3":
                     {
-                        if (list.isEmpty())
+                        if (list.IsEmpty())
                         {
                             WriteEmpty();
                         }
@@ -97,15 +99,15 @@ namespace List
                         }
                         break;
                     }
-                case '4':
+                case "4":
                     {
                         Console.WriteLine($"В списке {list.Count()} элементов)");
                         break;
                     }
-                case '5':
+                case "5":
                     {
                         Console.WriteLine("Введите позицию:");
-                        ReadPos(out int position);
+                        int position = ReadPos();
                         if (position < 0)
                         {
                             WriteError();
@@ -116,10 +118,10 @@ namespace List
                         }
                         break;
                     }
-                case '6':
+                case "6":
                     {
                         Console.WriteLine("Введите позицию и значение для изменения элемента:");
-                        ReadPosAndValue(out int position, out string value);
+                        (int position, string value) = ReadPosAndValue();
                         if (!list.SetValue(value, position))
                         {
                             WriteError();

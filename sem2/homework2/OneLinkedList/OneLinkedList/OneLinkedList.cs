@@ -2,22 +2,15 @@
 
 namespace List
 {
-    class OneLinkedList
-    {
-        static int size = 0;
-        static Node head = null;
-        static Node tail = null;
-        public OneLinkedList()
-        {
-        }
-
+    public class OneLinkedList
+    { 
         class Node
         {
-            public string value = "";
-            public Node next = null;
-            public Node(string value)
+            public string Value { get; set; } = "";
+            public Node Next { get; set; }
+            public Node (string value)
             {
-                this.value = value;
+                Value = value;
             }
         }
 
@@ -25,7 +18,7 @@ namespace List
 
         public int Count() => size;
 
-        public bool isEmpty() => size == 0;
+        public bool IsEmpty() => size == 0;
 
         public bool Add(string data, int position)
         {
@@ -41,12 +34,12 @@ namespace List
             }
             else if (position == 0)
             {
-                newElement.next = head;
+                newElement.Next = head;
                 head = newElement;
             }
             else if (position == size)
             {
-                tail.next = newElement;
+                tail.Next = newElement;
                 tail = newElement;
             }
             else
@@ -56,10 +49,10 @@ namespace List
                 for (int i = 0; i < position; ++i)
                 {
                     prev = temp;
-                    temp = temp.next;
+                    temp = temp.Next;
                 }
-                prev.next = newElement;
-                newElement.next = temp;
+                prev.Next = newElement;
+                newElement.Next = temp;
             }
             ++size;
             return true;
@@ -67,14 +60,14 @@ namespace List
 
         public bool Remove(int position)
         {
-            if (IsWrongPosition(position, size) || isEmpty() || position == size)
+            if (IsWrongPosition(position, size) || IsEmpty() || position == size)
             {
                 return false;
             }
             --size;
             if (position == 0)
             {
-                head = head.next;
+                head = head.Next;
                 return true;
             }
             var temp = head;
@@ -82,15 +75,15 @@ namespace List
             for (int i = 0; i < position; ++i)
             {
                 prev = temp;
-                temp = temp.next;
+                temp = temp.Next;
             }
             if (temp == tail)
             {
-                prev.next = null;
+                prev.Next = null;
                 tail = prev;
                 return true;
             }
-            prev.next = temp.next;
+            prev.Next = temp.Next;
             return true;
         }
 
@@ -99,7 +92,7 @@ namespace List
             var temp = head;
             for (int i = 0; i < position; ++i)
             {
-                temp = temp.next;
+                temp = temp.Next;
             }
             return temp;
         }
@@ -111,7 +104,7 @@ namespace List
                 return false;
             }
             var temp = GetNode(position);
-            temp.value = value;
+            temp.Value = value;
             return true;
         }
 
@@ -122,15 +115,19 @@ namespace List
                 return "";
             }
             var temp = GetNode(position);
-            return temp.value;
+            return temp.Value;
         }
 
-        public void DeleteList()
+        public void Clear()
         {
             head = null;
             tail = null;
             size = 0;
         }
+
+        private int size = 0;
+        private Node head = null;
+        private Node tail = null;
     }
 }
 
