@@ -8,12 +8,12 @@ namespace Hash_Table
         static void Main(string[] args)
         {
             var hashTable = new Hash_Table();
-            string filePath = @"text.txt";
+            var filePath = @"text.txt";
             using (var stream = new StreamReader(filePath))
             {
                 while(stream.Peek() >= 0)
                 {
-                    string str = stream.ReadLine();
+                    var str = stream.ReadLine();
                     string[] words = str.Split();
                     foreach (string word in words)
                     {
@@ -21,6 +21,7 @@ namespace Hash_Table
                     }
                 }
             }
+
             var menu = new Menu(hashTable);
             menu.WorkWithMenu();
         }

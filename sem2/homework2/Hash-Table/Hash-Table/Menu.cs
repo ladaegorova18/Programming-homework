@@ -16,36 +16,36 @@ namespace Hash_Table
         public void WorkWithMenu()
         {
             TextMenu();
-            char key = char.Parse(Console.ReadLine());
-            while(key != '4')
+            string key = Console.ReadLine();
+            while(key != "4")
             {
                 Options(key);
                 TextMenu();
-                key = char.Parse(Console.ReadLine());
+                key = Console.ReadLine();
             }
             Console.WriteLine("До свидания!");
-            hashTable.DeleteTable();
+            hashTable.ClearTable();
         }
 
-        private void Options(char key)
+        private void Options(string key)
         {
             switch(key)
             {
-                case '1':
+                case "1":
                     {
                         Console.WriteLine("Введите слово для добавления:");
                         string data = Console.ReadLine();
                         hashTable.AddData(data);
                         break;
                     }
-                case '2':
+                case "2":
                     {
                         Console.WriteLine("Введите слово для удаления:");
                         string data = Console.ReadLine();
                         hashTable.RemoveData(data);
                         break;
                     }
-                case '3':
+                case "3":
                     {
                         Console.WriteLine("Введите слово для поиска:");
                         string data = Console.ReadLine();
@@ -71,6 +71,6 @@ namespace Hash_Table
             this.hashTable = hashTable;
         }
 
-        public Hash_Table hashTable;
+        private Hash_Table hashTable;
     }
 }

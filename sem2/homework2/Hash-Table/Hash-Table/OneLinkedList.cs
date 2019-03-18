@@ -4,20 +4,13 @@ namespace Hash_Table
 {
     class OneLinkedList
     {
-        int size = 0;
-        Node head = null;
-        Node tail = null;
-        public OneLinkedList()
-        {
-        }
-
         class Node
         {
-            public string value = "";
-            public Node next = null;
+            public string Value { get; set; } = "";
+            public Node Next { get; set; }
             public Node(string value)
             {
-                this.value = value;
+                Value = value;
             }
         }
 
@@ -37,7 +30,7 @@ namespace Hash_Table
             }
             else
             {
-                tail.next = newElement;
+                tail.Next = newElement;
                 tail = newElement;
             }
             ++size;
@@ -47,7 +40,7 @@ namespace Hash_Table
         public bool Remove(string data)
         {
             --size;
-            if (data == head.value && size == 0)
+            if (data == head.Value && size == 0)
             {
                 head = null;
                 tail = null;
@@ -56,22 +49,22 @@ namespace Hash_Table
             {
                 var temp = head;
                 Node prev = null;
-                while (temp.value != data || temp.next != null)
+                while (temp.Value != data || temp.Next != null)
                 {
                     prev = temp;
-                    temp = temp.next;
+                    temp = temp.Next;
                 }
                 if (temp == tail)
                 {
-                    if (temp.value != data)
+                    if (temp.Value != data)
                     {
                         return false;
                     }
-                    prev.next = null;
+                    prev.Next = null;
                     tail = prev;
                     return true;
                 }
-                prev.next = temp.next;
+                prev.Next = temp.Next;
             }
             return true;
         }
@@ -83,30 +76,34 @@ namespace Hash_Table
                 return false;
             }
             var temp = head;
-            while (temp.value != data)
+            while (temp.Value != data)
             {
-                if (temp.next != null)
+                if (temp.Next != null)
                 {
-                    temp = temp.next;
+                    temp = temp.Next;
                 }
                 else
                 {
                     break;
                 }
             }
-            if (temp.value != data)
+            if (temp.Value != data)
             {
                 return false;
             }
             return true;
         }
 
-        public void DeleteList()
+        public void ClearList()
         {
             head = null;
             tail = null;
             size = 0;
         }
+
+        private int size = 0;
+        private Node head = null;
+        private Node tail = null;
     }
 }
 

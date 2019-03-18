@@ -5,9 +5,6 @@ namespace Hash_Table
 {
     class Hash_Table
     {
-        private const int MAX = 100;
-        private OneLinkedList[] array = new OneLinkedList[MAX];
-
         public Hash_Table()
         {
             for (int i = 0; i < MAX; ++i)
@@ -39,12 +36,15 @@ namespace Hash_Table
             return array[hashCode].Find(data);
         }
 
-        public void DeleteTable()
+        public void ClearTable()
         {
             for (int i = 0; i < MAX; ++i)
             {
-                array[i].DeleteList();
+                array[i].ClearList();
             }
         }
+
+        private const int MAX = 100;
+        private OneLinkedList[] array = new OneLinkedList[MAX];
     }
 }
