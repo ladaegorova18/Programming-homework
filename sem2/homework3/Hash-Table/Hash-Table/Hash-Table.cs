@@ -72,30 +72,17 @@ namespace Hash_Table
         /// <param name="filePath"> Path to the file </param>
         public void FillingTheTable(string filePath)
         {
-            StreamReader stream = null;
-            try
+            using var stream = new StreamReader(filePath);
             {
-                stream = new StreamReader(filePath);
+                while (stream.Peek() >= 0)
                 {
-                    while (stream.Peek() >= 0)
+                    var str = stream.ReadLine();
+                    string[] words = str.Split();
+                    foreach (string word in words)
                     {
-                        var str = stream.ReadLine();
-                        string[] words = str.Split();
-                        foreach (string word in words)
-                        {
-                            AddData(word);
-                        }
+                        AddData(word);
                     }
                 }
-            }
-            catch (IOException)
-            {
-                System.Console.WriteLine("Файл не был найден, таблица осталась пустой :)");
-                return;
-            }
-            finally
-            {
-                if (stream != null) stream.Close();
             }
         }
 
