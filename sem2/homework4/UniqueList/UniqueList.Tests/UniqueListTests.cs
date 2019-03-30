@@ -70,12 +70,6 @@ namespace Lists.Tests
         }
 
         [TestMethod]
-        public void CallMenuTest()
-        {
-            var menu = new Menu();
-        }
-
-        [TestMethod]
         public void RemoveRepeatingTest()
         {
             for (int i = 0; i < 10; ++i)

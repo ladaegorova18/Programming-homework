@@ -24,12 +24,16 @@ namespace Lists
             Console.WriteLine("До свидания!");
         }
 
-        private void MainText(List list)
+        private static void MainText(List list)
         {
             if (list is UniqueList)
+            {
                 Console.WriteLine("Это меню списка с неповторяющимися элементами. Нажмите:");
+            }
             else
+            {
                 Console.WriteLine("Это меню связного списка. Нажмите:");
+            }
             Console.WriteLine("1, чтобы добавить элемент в список;");
             Console.WriteLine("2, чтобы удалить элемент из списка;");
             Console.WriteLine("3, чтобы проверить список на пустоту;");
@@ -37,13 +41,13 @@ namespace Lists
             Console.WriteLine("0, чтобы выйти.");
         }
 
-        private string ReadValue()
+        private static string ReadValue()
         {
             var value = Console.ReadLine();
             return value;
         }
 
-        private void WriteEmpty()
+        private static void WriteEmpty()
         {
             Console.WriteLine("Список пуст:(");
         }
