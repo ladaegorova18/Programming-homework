@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lists
 {
-    class RemovingNonexistentNodeException : Exception
+    /// <summary>
+    /// Exception that throws an exception when removing nonexistent element
+    /// </summary>
+    [Serializable]
+    public class RemovingNonexistentNodeException : Exception
     {
         public RemovingNonexistentNodeException() { }
         public RemovingNonexistentNodeException(string message) : base(message) { }

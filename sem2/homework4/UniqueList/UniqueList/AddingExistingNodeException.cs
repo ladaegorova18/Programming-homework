@@ -2,6 +2,9 @@
 
 namespace Lists
 {
+    /// <summary>
+    /// Exception that throws when user tryes to add to list an already existing element
+    /// </summary>
     [Serializable]
     public class AddingExistingNodeException : Exception
     {

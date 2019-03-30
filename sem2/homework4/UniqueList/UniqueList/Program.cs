@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace Lists
+﻿namespace Lists
 {
     class Program
     {
         static void Main(string[] args)
         {
-            List list = new List();
             var menu = new Menu();
+            var list = new List();
             menu.WorkWithMenu(list);
-            UniqueList uniqueList = (UniqueList) list;
+            var uniqueList = new UniqueList(list);
             menu.WorkWithMenu(uniqueList);
         }
     }

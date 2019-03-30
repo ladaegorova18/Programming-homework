@@ -5,7 +5,10 @@
     /// </summary>
     public class List
     {
-        protected class Node
+        /// <summary>
+        /// Element in list
+        /// </summary>
+        public class Node
         {
             public string Value { get; set; } = "";
             public Node Next { get; set; } = null;
@@ -15,37 +18,49 @@
             }
         }
 
-        public int Count() => size;
+        /// <summary>
+        /// Checks if list is empty
+        /// </summary>
+        /// <returns> true, if size = 0 </returns>
+        public bool IsEmpty() => Size == 0;
 
-        public bool IsEmpty() => size == 0;
-
+        /// <summary>
+        /// Adds data to list
+        /// </summary>
+        /// <param name="data"> Data to add </param>
+        /// <returns> If adding was successful </returns>
         public virtual bool Add(string data)
         {
             var newElement = new Node(data);
             if (IsEmpty())
             {
-                head = newElement;
-                tail = newElement;
+                Head = newElement;
+                Tail = newElement;
             }
             else 
             {
-                tail.Next = newElement;
-                tail = newElement;
+                Tail.Next = newElement;
+                Tail = newElement;
             }
-            ++size;
+            ++Size;
             return true;
         }
 
+        /// <summary>
+        /// Removes data from list
+        /// </summary>
+        /// <param name="data"> What to remove </param>
+        /// <returns> If removing was successful </returns>
         public virtual bool Remove(string data)
         {
             if (IsEmpty() || !IsValue(data)) return false;
-            --size;
-            if (data == head.Value)
+            --Size;
+            if (data == Head.Value)
             {
-                head = head.Next;
+                Head = Head.Next;
                 return true;
             }
-            var temp = head;
+            var temp = Head;
             Node prev = null;
             while (temp != null)
             {
@@ -53,10 +68,10 @@
                 temp = temp.Next;
                 if (data == temp.Value)
                 {
-                    if (temp == tail)
+                    if (temp == Tail)
                     {
                         prev.Next = null;
-                        tail = prev;
+                        Tail = prev;
                         return true;
                     }
                     prev.Next = temp.Next;
@@ -66,9 +81,14 @@
             return true;
         }
 
+        /// <summary>
+        /// Checks if this data is in list
+        /// </summary>
+        /// <param name="data"> data to find </param>
+        /// <returns> true, if data is in list </returns>
         public bool IsValue(string data)
         {
-            var temp = head;
+            var temp = Head;
             while (temp != null)
             {
                 if (temp.Value == data) return true;
@@ -79,14 +99,14 @@
 
         public void Clear()
         {
-            head = null;
-            tail = null;
-            size = 0;
+            Head = null;
+            Tail = null;
+            Size = 0;
         }
 
-        protected int size = 0;
-        protected Node head = null;
-        protected Node tail = null;
+        public int Size { get; set; }
+        public Node Head { get; set; }
+        public Node Tail { get; set; }
     }
 }
 

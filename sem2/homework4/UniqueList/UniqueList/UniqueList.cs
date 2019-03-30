@@ -1,66 +1,95 @@
 ﻿namespace Lists
 {
+    /// <summary>
+    /// List consising of unrepeating elements
+    /// </summary>
     public class UniqueList : List
     {
+        /// <summary>
+        /// Constructor of UniqueList
+        /// </summary>
         public UniqueList()
         {
-            if (IsEmpty()) DeleteRepeating();
+        }
+
+        public UniqueList(List list)
+        {
+            if (!list.IsEmpty())
+            {
+                CopyData(list);
+                DeleteRepeating();
+            }
+        }
+
+        private void CopyData(List list)
+        {
+            var tempInList = list.Head.Next;
+            Head = new Node(list.Head.Value);
+            var tempInUniqueList = Head;
+            ++Size;
+            while(tempInList != null)
+            {
+                var toCopy = new Node(tempInList.Value);
+                tempInUniqueList.Next = toCopy;
+                tempInUniqueList = tempInUniqueList.Next;
+                if (tempInList.Next == null)
+                {
+                    Tail = toCopy;
+                }
+                tempInList = tempInList.Next;
+                ++Size;
+            }
         }
 
         private void DeleteRepeating()
         {
-            var tempBase = head;
-            for (int i = 0; i < Count() - 1; ++i)
+            var tempBase = Head;
+            while (tempBase != null)
             {
-                Node prev = null;
                 var temp = tempBase;
-                for (int j = i + 1; j < Count(); )
+                var prev = tempBase;
+                while (temp != null)
                 {
-                    prev = temp;
-                    temp = temp.Next;
-                    if (temp.Value == tempBase.Value)
+                    if ((temp.Value == tempBase.Value) && (temp != tempBase))
                     {
                         prev.Next = temp.Next;
-                        --size;
+                        temp = prev;
+                        --Size;
                     }
-                    else ++j;
+                    prev = temp;
+                    temp = temp.Next;
                 }
                 tempBase = tempBase.Next;
             }
         }
 
+        /// <summary>
+        /// Override adding in UniqueList throws exception if an element already is in list
+        /// </summary>
+        /// <param name="data"> data to add </param>
+        /// <returns> if adding was successful </returns>
         public override bool Add(string data)
         {
-            try
+            if (IsValue(data))
             {
-                if (IsValue(data))
-                {
-                    throw new AddingExistingNodeException("Этот элемент уже есть в списке!");
-                }
-                base.Add(data);
-                return true;
+                throw new AddingExistingNodeException("Этот элемент уже есть в списке!");
             }
-            catch (AddingExistingNodeException e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
+            base.Add(data);
             return true;
         }
 
+        /// <summary>
+        /// Override removing in list throws an exception when you try to remove nonexisting element
+        /// </summary>
+        /// <param name="data"> data to remove </param>
+        /// <returns> if removing was successful </returns>
         public override bool Remove(string data)
         {
-            try
+            if (!IsValue(data))
             {
-                if (!IsValue(data))
-                {
-                    throw new RemovingNonexistentNodeException("Этого значения не было в списке!");
-                }
-                base.Remove(data);
+                throw new RemovingNonexistentNodeException("Этого значения не было в списке!");
             }
-            catch (RemovingNonexistentNodeException e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
+            base.Remove(data);
             return true;
         }
     }
