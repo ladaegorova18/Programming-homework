@@ -1,10 +1,10 @@
 image: Visual Studio 2017
 
 before_build:
-  - nuget restore sem2/homework4/UniqueList/UniqueList.sln
+  - nuget restore sem2/homework1/Factorial/Factorial.sln
 
 build:
-  project: sem2/homework4/UniqueList/UniqueList.sln
+  project: sem2/homework1/Factorial/Factorial.sln
 
 test_script:
-  - dotnet test sem2/homework4/UniqueList/UniqueList.sln
+  - dotnet test sem2/homework1/Factorial/Factorial.sln
