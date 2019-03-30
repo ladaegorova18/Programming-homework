@@ -168,7 +168,7 @@ namespace Lists.Tests
             Assert.AreEqual(10, test.Size);
         }
 
-        UniqueList test;
-        List list;
+        private UniqueList test;
+        private List list;
     }
 }

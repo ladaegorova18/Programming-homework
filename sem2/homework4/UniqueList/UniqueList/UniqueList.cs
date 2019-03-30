@@ -64,7 +64,7 @@
         }
 
         /// <summary>
-        /// Override adding in UniqueList throws exception if an element already is in list
+        /// Override adding in UniqueList throws exception if list already contains an element
         /// </summary>
         /// <param name="data"> data to add </param>
         /// <returns> if adding was successful </returns>
