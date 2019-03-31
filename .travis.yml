@@ -1,0 +1,13 @@
+language: csharp
+
+mono: none
+dotnet: 2.1
+
+before_build:
+  - nuget restore sem2/homework1/Factorial/Factorial.sln
+
+build:
+  - dotnet build sem2/homework1/Factorial/Factorial.sln
+
+test_script:
+  - dotnet test sem2/homework1/Factorial/Factorial.sln
