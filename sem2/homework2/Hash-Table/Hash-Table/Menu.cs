@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hash_Table
+namespace HashTable
 {
     class Menu
     {
@@ -17,7 +17,7 @@ namespace Hash_Table
         {
             TextMenu();
             string key = Console.ReadLine();
-            while(key != "4")
+            while (key != "4")
             {
                 Options(key);
                 TextMenu();
@@ -29,7 +29,7 @@ namespace Hash_Table
 
         private void Options(string key)
         {
-            switch(key)
+            switch (key)
             {
                 case "1":
                     {
@@ -49,7 +49,7 @@ namespace Hash_Table
                     {
                         Console.WriteLine("Введите слово для поиска:");
                         string data = Console.ReadLine();
-                        if(hashTable.IsData(data))
+                        if (hashTable.IsData(data))
                         {
                             Console.WriteLine("Слово есть в таблице)");
                         }
@@ -66,11 +66,11 @@ namespace Hash_Table
             }
         }
 
-        public Menu(Hash_Table hashTable)
+        public Menu(HashTable hashTable)
         {
             this.hashTable = hashTable;
         }
 
-        private Hash_Table hashTable;
+        private HashTable hashTable;
     }
 }

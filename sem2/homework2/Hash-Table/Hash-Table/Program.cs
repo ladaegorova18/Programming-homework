@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 
-namespace Hash_Table
+namespace HashTable
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var hashTable = new Hash_Table();
+            var hashTable = new HashTable();
             var filePath = @"text.txt";
             using (var stream = new StreamReader(filePath))
             {

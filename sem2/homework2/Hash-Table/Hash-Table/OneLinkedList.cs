@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Hash_Table
+namespace HashTable
 {
-    class OneLinkedList
+    public class OneLinkedList
     {
-        class Node
+        public class Node
         {
             public string Value { get; set; } = "";
             public Node Next { get; set; }
@@ -14,68 +14,64 @@ namespace Hash_Table
             }
         }
 
-        private bool IsWrongPosition(int position, int size) => position < 0 || position > size;
+        public int Count() => Size;
 
-        public int Count() => size;
-
-        public bool isEmpty() => size == 0;
+        public bool IsEmpty() => Size == 0;
 
         public bool Add(string data)
         {
             var newElement = new Node(data);
-            if (isEmpty())
+            if (IsEmpty())
             {
-                head = newElement;
-                tail = newElement;
+                Head = newElement;
+                Tail = newElement;
             }
             else
             {
-                tail.Next = newElement;
-                tail = newElement;
+                Tail.Next = newElement;
+                Tail = newElement;
             }
-            ++size;
+            ++Size;
             return true;
         }
 
         public bool Remove(string data)
         {
-            --size;
-            if (data == head.Value && size == 0)
+            --Size;
+            if (data == Head.Value && Size == 0)
             {
-                head = null;
-                tail = null;
+                Head = null;
+                Tail = null;
+                return true;
             }
-            else
+            var temp = Head;
+            Node prev = null;
+            while (temp.Value != data || temp.Next != null)
             {
-                var temp = head;
-                Node prev = null;
-                while (temp.Value != data || temp.Next != null)
-                {
-                    prev = temp;
-                    temp = temp.Next;
-                }
-                if (temp == tail)
-                {
-                    if (temp.Value != data)
-                    {
-                        return false;
-                    }
-                    prev.Next = null;
-                    tail = prev;
-                    return true;
-                }
-                prev.Next = temp.Next;
+                prev = temp;
+                temp = temp.Next;
             }
+            if (temp == Tail)
+            {
+                if (temp.Value != data)
+                {
+                    return false;
+                }
+                prev.Next = null;
+                Tail = prev;
+                return true;
+            }
+            prev.Next = temp.Next;
             return true;
         }
 
-        public bool Find(string data)
+        public bool Exists(string data)
         {
-            if (size == 0)
+            if (Size == 0)
             {
                 return false;
             }
-            var temp = head;
+            var temp = Head;
             while (temp.Value != data)
             {
                 if (temp.Next != null)
@@ -87,23 +83,19 @@ namespace Hash_Table
                     break;
                 }
             }
-            if (temp.Value != data)
-            {
-                return false;
-            }
-            return true;
+            return (temp.Value == data);
         }
 
         public void ClearList()
         {
-            head = null;
-            tail = null;
-            size = 0;
+            Head = null;
+            Tail = null;
+            Size = 0;
         }
 
-        private int size = 0;
-        private Node head = null;
-        private Node tail = null;
+        private int Size { get; set; } = 0;
+        public Node Head { get; set; } = null;
+        public Node Tail { get; set; } = null;
     }
 }
 
