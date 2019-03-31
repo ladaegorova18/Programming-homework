@@ -1,0 +1,10 @@
+image: Visual Studio 2017
+
+before_build:
+  - nuget restore sem2/homework2/Hash-Table/Hash-Table.sln
+
+build:
+  project: sem2/homework2/Hash-Table/Hash-Table.sln
+
+test_script:
+  - dotnet test sem2/homework2/Hash-Table/Hash-Table.sln
