@@ -1,6 +1,6 @@
 language: csharp
 install:
- - nuget restore myCoolHomework/Homework.sln
+ - nuget restore sem2/homework1/Factorial/Factorial.sln
  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
  - msbuild /p:Configuration=Release sem2/homework1/Factorial/Factorial.sln
