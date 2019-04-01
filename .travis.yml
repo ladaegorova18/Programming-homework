@@ -5,4 +5,4 @@ install:
 script:
  - msbuild /p:Configuration=Release sem2/homework1/Factorial/Factorial.sln
  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe \
-    .sem2/homework1/Factorial/Factorial.sln
+   sem2/homework1/Factorial/Factorial.sln
