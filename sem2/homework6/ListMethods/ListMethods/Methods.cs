@@ -63,7 +63,7 @@ namespace ListMethods
             {
                 acc = func(acc, node);
             }
-            return acc;  
+            return acc;
         }
     }
 }

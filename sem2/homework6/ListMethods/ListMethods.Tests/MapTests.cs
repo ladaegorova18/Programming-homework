@@ -6,22 +6,20 @@ namespace ListMethods.Tests
     [TestClass]
     public class MapTests
     {
+        private int[] array;
+        private List<int> list;
+        private Methods methods = new Methods();
+
         [TestInitialize]
         public void Initialize()
         {
             list = new List<int>() { 2, 1, 4, 5, 3, 3, 1 };
         }
 
-        [TestCleanup]
-        public void CleanUp()
-        {
-            list.Clear();
-        }
-
         [TestMethod]
         public void MultiplyByTwoTest()
         {
-            array = new int[] { 4, 2, 8, 10, 6, 6, 2 };      
+            array = new int[] { 4, 2, 8, 10, 6, 6, 2 };
             list = methods.Map(list, x => x * 2);
             Assertion(list, array);
         }
@@ -45,14 +43,16 @@ namespace ListMethods.Tests
         [TestMethod]
         public void TwoOperationsTest()
         {
-            array = new int[] { 6, 4, 10, 12, 8, 8, 4};
-            int func(int x)
-            {
-                x += 1;
-                x *= 2;
-                return x;
-            }
-            list = methods.Map(list, func); 
+            array = new int[] { 6, 4, 10, 12, 8, 8, 4 };
+            list = methods.Map(list, x => (x + 1) * 2);
+            Assertion(list, array);
+        }
+
+        [TestMethod]
+        public void AddZeroTest()
+        {
+            array = new int[] { 2, 1, 4, 5, 3, 3, 1 };
+            list = methods.Map(list, x => x + 0);
             Assertion(list, array);
         }
 
@@ -63,9 +63,5 @@ namespace ListMethods.Tests
                 Assert.AreEqual(array[i], list[i]);
             }
         }
-
-        private int[] array;
-        private List<int> list;
-        private Methods methods = new Methods();
     }
 }

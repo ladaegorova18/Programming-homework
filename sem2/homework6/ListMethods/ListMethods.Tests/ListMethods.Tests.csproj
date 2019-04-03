@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{82B22278-A23B-4AAE-BF6F-7EDE814F13F6}</ProjectGuid>
+    <ProjectGuid>{4E256CE3-F819-43C9-BD51-1B301B6D3649}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ListMethods.Tests</RootNamespace>
-    <AssemblyName>ListMethods.Tests</AssemblyName>
+    <RootNamespace>LIstMethods.Tests</RootNamespace>
+    <AssemblyName>LIstMethods.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilterTests.cs" />
+    <Compile Include="FoldTests.cs" />
     <Compile Include="MapTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ListMethods\ListMethods.csproj">
-      <Project>{9aaaa452-5dac-4817-bd9b-92b88a668cf1}</Project>
+      <Project>{792caf49-f78f-4cba-9d9e-f247d9b46c43}</Project>
       <Name>ListMethods</Name>
     </ProjectReference>
   </ItemGroup>
