@@ -1,47 +1,35 @@
 ﻿using System;
 
-namespace Stack_Calculator
+namespace StackCalculator
 {
     public class StackArray : IStack
     {
-        public int Size() => size;
+        private const int MAX = 100;
+        public int Size { get; set; } = 0;
+        private int[] array = new int[MAX];
+        public bool IsEmpty => Size == 0;
 
-        public bool IsEmpty() => size == 0;
+        public void Clear() => Size = 0;
 
-        public char Pop()
+        public int Pop()
         {
-            if (!IsEmpty())
+            if (!IsEmpty)
             {
-                --size;
-                return array[size];
+                --Size;
+                return array[Size];
             }
-            return '\0';
+            return 0;
         }
 
-        public bool Push(char symbol)
+        public bool Push(int symbol)
         {
-            if (size >= MAX)
+            if (Size >= MAX)
             {
                 return false;
             }
-            array[size] = symbol;
-            ++size;
+            array[Size] = symbol;
+            ++Size;
             return true;
         }
-
-        public char Top()
-        {
-            if (IsEmpty()) return ' ';
-            return array[size - 1];
-        }
-
-        public void Clear()
-        {
-            size = 0;
-        }
-
-        private const int MAX = 100;
-        private int size = 0;
-        private char[] array = new char[MAX];
     }
 }

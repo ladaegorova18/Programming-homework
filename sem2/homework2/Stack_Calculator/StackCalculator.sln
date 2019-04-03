@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stack_Calculator", "Stack_Calculator\Stack_Calculator.csproj", "{E1020D8D-D275-4825-AC1C-86FFD15105AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackCalculator", "Stack_Calculator\StackCalculator.csproj", "{E1020D8D-D275-4825-AC1C-86FFD15105AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stack_Calculator.Tests", "Stack_Calculator.Tests\Stack_Calculator.Tests.csproj", "{79C3B12F-1F0C-4EB6-AB66-44020D9D5B0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackCalculator.Tests", "Stack_Calculator.Tests\StackCalculator.Tests.csproj", "{79C3B12F-1F0C-4EB6-AB66-44020D9D5B0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

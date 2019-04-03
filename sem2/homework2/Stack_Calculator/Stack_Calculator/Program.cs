@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stack_Calculator
+namespace StackCalculator
 {
     class Program
     {

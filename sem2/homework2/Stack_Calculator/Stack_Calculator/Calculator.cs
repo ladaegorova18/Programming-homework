@@ -1,54 +1,56 @@
 ﻿using System;
 
-namespace Stack_Calculator
+namespace StackCalculator
 {
     public class Calculator
     {
-        private bool IsOperator(char symbol)
-        {
-            return symbol == '/' || symbol == '*' || symbol == '-' || symbol == '+';
-        }
+        private bool IsOperator(char symbol) => symbol == '/' || symbol == '*' || symbol == '-' || symbol == '+';
 
         public int Count(string input, IStack stack)
         {
-            foreach(char symbol in input)
+            foreach (char symbol in input)
             {
                 if (Char.IsDigit(symbol))
                 {
-                    stack.Push(symbol);
+                    stack.Push(symbol - '0');
                 }
-                else if (IsOperator(symbol) && stack.Size() >= 2)
+                else if (IsOperator(symbol) && stack.Size >= 2)
                 {
-                    var secondNumber = (int)stack.Pop() - '0';
-                    var firstNumber = (int)stack.Pop() - '0';
-                    if (firstNumber < secondNumber && (symbol == '/' || symbol == '-'))
+                    var secondNumber = stack.Pop();
+                    var firstNumber = stack.Pop();
+                    if ((firstNumber < secondNumber) && (symbol == '/' || symbol == '-'))
+                    {
                         return -2;
+                    }
                     stack.Push(Operation(firstNumber, secondNumber, symbol));
                 }
             }
-            if ((stack.IsEmpty() || stack.Size() > 1)) return -1;
-            return stack.Pop() - '0';
+            if ((stack.IsEmpty || stack.Size > 1))
+            {
+                return -1;
+            }
+            return stack.Pop();
         }
 
-        private char Operation(int firstNumber, int secondNumber, char symbol)
+        private int Operation(int firstNumber, int secondNumber, char symbol)
         {
-            switch(symbol)
+            switch (symbol)
             {
                 case '+':
                     {
-                        return (char)(firstNumber + secondNumber + '0');
+                        return firstNumber + secondNumber;
                     }
                 case '-':
                     {
-                        return (char)(firstNumber - secondNumber + '0');
+                        return firstNumber - secondNumber;
                     }
                 case '*':
                     {
-                        return (char)(firstNumber * secondNumber + '0');
+                        return firstNumber * secondNumber;
                     }
                 case '/':
                     {
-                        return (char)(firstNumber / secondNumber + '0');
+                        return firstNumber / secondNumber;
                     }
                 default:
                     {

@@ -1,51 +1,51 @@
 ﻿using System;
 
-namespace Stack_Calculator
+namespace StackCalculator
 {
     public class StackList : IStack
     {
-        public int Size() => size;
+        public int Size { get; set; } = 0;
+        private Node head = null;
+        public bool IsEmpty => Size == 0;
 
-        public bool IsEmpty() => size == 0;
-
-        public char Pop()
+        private class Node
         {
-            if (!IsEmpty())
-            {
-                --size;
-                var value = head.Value;
-                head = head.Next;
-                return value;
-            }
-            return '\0';
-        }
-
-        public bool Push(char symbol)
-        {
-            var data = new Node(symbol);
-            data.Next = head;
-            head = data;
-            ++size;
-            return true;
-        }
-
-        public void Clear()
-        {
-            size = 0;
-            if (!IsEmpty()) head = null;
-        }
-
-        class Node
-        {
-            public char Value { get; set; }
+            public int Value { get; set; }
             public Node Next { get; set; }
-            public Node(char value)
+            public Node(int value)
             {
                 Value = value;
             }
         }
 
-        private int size = 0;
-        private Node head = null;
+        public int Pop()
+        {
+            if (!IsEmpty)
+            {
+                --Size;
+                var value = head.Value;
+                head = head.Next;
+                return value;
+            }
+            return 0;
+        }
+
+        public bool Push(int symbol)
+        {
+            var data = new Node(symbol);
+            data.Next = head;
+            head = data;
+            ++Size;
+            return true;
+        }
+
+        public void Clear()
+        {
+            Size = 0;
+            if (!IsEmpty)
+            {
+                head = null;
+            }
+        }
     }
 }

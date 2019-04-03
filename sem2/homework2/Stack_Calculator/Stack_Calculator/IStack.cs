@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace Stack_Calculator
+namespace StackCalculator
 {
     public interface IStack
     {
-        char Pop();
+        int Pop();
 
-        bool Push(char symbol);
+        bool Push(int symbol);
 
-        bool IsEmpty();
-
-        int Size();
+        bool IsEmpty { get; }
 
         void Clear();
+
+        int Size { get; set; }
     }
 }

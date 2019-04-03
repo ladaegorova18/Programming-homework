@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Stack_Calculator\Stack_Calculator.csproj" />
+    <ProjectReference Include="..\Stack_Calculator\StackCalculator.csproj" />
   </ItemGroup>
 
 </Project>
