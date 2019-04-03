@@ -1,10 +1,11 @@
 image: Visual Studio 2017
 
 before_build:
-  - nuget restore sem2/homework1/Factorial/Factorial.sln
+  - nuget restore sem2/homework6/ListMethods/ListMethods.sln
 
 build:
-  project: sem2/homework1/Factorial/Factorial.sln
+  project: sem2/homework6/ListMethods/ListMethods.sln
 
 test_script:
-  - dotnet test sem2/homework1/Factorial/Factorial.sln
+  - nunit3-console sem2/homework6/ListMethods/ListMethods.sln \
+     --result=myresults.xml;format=AppVeyor
