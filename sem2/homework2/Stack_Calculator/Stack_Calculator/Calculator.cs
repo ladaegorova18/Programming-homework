@@ -18,16 +18,12 @@ namespace StackCalculator
                 {
                     var secondNumber = stack.Pop();
                     var firstNumber = stack.Pop();
-                    if ((firstNumber < secondNumber) && (symbol == '/' || symbol == '-'))
-                    {
-                        return -2;
-                    }
                     stack.Push(Operation(firstNumber, secondNumber, symbol));
                 }
             }
             if ((stack.IsEmpty || stack.Size > 1))
             {
-                return -1;
+                throw new ArgumentException("Некорректный ввод!");
             }
             return stack.Pop();
         }

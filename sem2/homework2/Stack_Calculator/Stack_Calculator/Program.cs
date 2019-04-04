@@ -13,30 +13,24 @@ namespace StackCalculator
             var key = Console.ReadLine();
             var calculator = new Calculator();
             int result = 0;
-            if (key == "1")
+            try
             {
-                var stack = new StackList();
-                result = calculator.Count(input, stack);
-            }
-            else
-            {
-                var stack = new StackArray();
-                result = calculator.Count(input, stack);
-            }
-            if (result < 0)
-            {
-                if (result == -1)
+                if (key == "1")
                 {
-                    Console.WriteLine("Некорректный ввод!");
-                    return;
+                    var stack = new StackList();
+                    result = calculator.Count(input, stack);
                 }
-                if (result == -2)
+                else
                 {
-                    Console.WriteLine("Отрицательный результат!");
-                    return;
+                    var stack = new StackArray();
+                    result = calculator.Count(input, stack);
                 }
             }
-
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Некорректный ввод!");
+                return;
+            }
             Console.WriteLine("Результат вычисления: " + result);
         }
     }

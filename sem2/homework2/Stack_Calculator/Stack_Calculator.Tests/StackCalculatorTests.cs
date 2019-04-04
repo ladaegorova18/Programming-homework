@@ -35,12 +35,13 @@ namespace StackCalculator.Tests
 
         public void NegativeResultTest(IStack stack)
         {
-            calculator.Count("5 9 -", stack);
+            var result = calculator.Count("5 9 -", stack);
+            Assert.AreEqual(-4, result);
         }
 
         public void IncorrectInputTest(IStack stack)
         {
-            calculator.Count("lololo", stack);
+            var result = calculator.Count("lololo", stack);
         }
 
         public void BalanceOperationsTest(IStack stack)
@@ -104,18 +105,22 @@ namespace StackCalculator.Tests
             => NegativeResultTest(stackList);
 
         [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
         public void IncorrectInputTestForStackArray()
             => IncorrectInputTest(stackArray);
 
         [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
         public void IncorrectInputTestForStackList()
             => IncorrectInputTest(new StackList());
 
         [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
         public void BalanceOperationsTestForStackArray()
             => BalanceOperationsTest(new StackArray());
 
         [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
         public void BalanceOperationsTestForStackList()
             => BalanceOperationsTest(new StackList());
     }
