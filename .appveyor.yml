@@ -1,10 +1,7 @@
 image: Visual Studio 2017
 
 before_build:
-  - nuget restore sem2/homework1/Factorial/Factorial.sln
+  - nuget restore sem2/homework6/ConsoleGame/ConsoleGame.sln
 
 build:
-  project: sem2/homework1/Factorial/Factorial.sln
-
-test_script:
-  - dotnet test sem2/homework1/Factorial/Factorial.sln
+  project: sem2/homework6/ConsoleGame/ConsoleGame.sln
