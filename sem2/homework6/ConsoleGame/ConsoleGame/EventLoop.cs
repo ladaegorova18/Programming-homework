@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleGame
 {
+    /// <summary>
+    /// Runs the game
+    /// </summary>
     public class EventLoop
     {
         public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
@@ -14,12 +13,15 @@ namespace ConsoleGame
         public event EventHandler<EventArgs> UpHandler = (sender, args) => { };
         public event EventHandler<EventArgs> DownHandler = (sender, args) => { };
 
+        /// <summary>
+        /// In infinite loop reads key from keyboard and does an action from game class
+        /// </summary>
         public void Run()
         {
-            Console.SetCursorPosition();
             while (true)
             {
                 var key = Console.ReadKey();
+                --Console.CursorLeft;
                 switch (key.Key)
                 {
                     case ConsoleKey.LeftArrow:
@@ -43,7 +45,14 @@ namespace ConsoleGame
                         }
                         break;
                 }
+                DrawGamer();
             }
+        }
+
+        private void DrawGamer()
+        {
+            Console.Write('@');
+            --Console.CursorLeft;
         }
     }
 }
