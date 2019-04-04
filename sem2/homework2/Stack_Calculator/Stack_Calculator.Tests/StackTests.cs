@@ -5,6 +5,9 @@ namespace StackCalculator.Tests
     [TestClass]
     public class StackTests
     {
+        private StackArray stackArray;
+        private StackList stackList;
+
         public void PushTest(IStack stack)
         {
             stack.Push('1');
@@ -85,8 +88,5 @@ namespace StackCalculator.Tests
         [TestMethod]
         public void TwoValuesPopTestForStackArray()
             => TwoValuesPopTest(stackArray);
-
-        private StackArray stackArray;
-        private StackList stackList;
     }
 }
