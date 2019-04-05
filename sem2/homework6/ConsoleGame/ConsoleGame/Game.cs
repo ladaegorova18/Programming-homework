@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ConsoleGame
 {
     /// <summary>
-    /// Class for base actions when gamer presses up, down, left or right on the keyboard
+    /// Class for base actions when gamer presses up, down, left or right key on the keyboard
     /// </summary>
     public class Game
     {

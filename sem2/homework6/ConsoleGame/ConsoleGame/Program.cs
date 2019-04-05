@@ -40,7 +40,7 @@ namespace ConsoleGame
         {
             try
             {
-                using (var stream = new StreamReader("map.txt"))
+                using (var stream = new StreamReader(path))
                 {
                     while (stream.Peek() > 0)
                     {
