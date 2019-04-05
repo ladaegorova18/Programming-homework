@@ -7,7 +7,7 @@ namespace HashTable
     {
         static void Main(string[] args)
         {
-            var hashTable = new HashTable();
+            var hashTable = new Table();
             var filePath = @"text.txt";
             using (var stream = new StreamReader(filePath))
             {

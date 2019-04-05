@@ -1,10 +1,10 @@
-﻿using System;
+﻿using static System.Math;
 
 namespace HashTable
 {
     public class OneLinkedList
     {
-        public class Node
+        private class Node
         {
             public string Value { get; set; } = "";
             public Node Next { get; set; }
@@ -93,9 +93,20 @@ namespace HashTable
             Size = 0;
         }
 
+        public void AddToNewArray(OneLinkedList[] newArray)
+        {
+            var temp = Head;
+            while (temp != null)
+            {
+                int hashCode = Abs(temp.Value.GetHashCode() % newArray.Length);
+                newArray[hashCode].Add(temp.Value);
+                temp = temp.Next;
+            }
+        }
+
         private int Size { get; set; } = 0;
-        public Node Head { get; set; } = null;
-        public Node Tail { get; set; } = null;
+        private Node Head { get; set; }
+        private Node Tail { get; set; }
     }
 }
 

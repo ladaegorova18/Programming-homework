@@ -49,7 +49,7 @@ namespace HashTable
                     {
                         Console.WriteLine("Введите слово для поиска:");
                         string data = Console.ReadLine();
-                        if (hashTable.IsData(data))
+                        if (hashTable.Exists(data))
                         {
                             Console.WriteLine("Слово есть в таблице)");
                         }
@@ -66,11 +66,11 @@ namespace HashTable
             }
         }
 
-        public Menu(HashTable hashTable)
+        public Menu(Table hashTable)
         {
             this.hashTable = hashTable;
         }
 
-        private HashTable hashTable;
+        private Table hashTable;
     }
 }

@@ -1,25 +1,28 @@
-﻿using System;
-using static System.Math;
+﻿using static System.Math;
 
 namespace HashTable
 {
-    public class HashTable
+    public class Table
     {
-        public HashTable()
+        private int max = 100;
+        private const int critical = 10;
+        private OneLinkedList[] array;
+
+        public Table()
         {
-            array = new OneLinkedList[Max];
+            array = new OneLinkedList[max];
             InitializeArray(array);
         }
 
         private void InitializeArray(OneLinkedList[] array)
         {
-            for (int i = 0; i < Max; ++i)
+            for (int i = 0; i < max; ++i)
             {
                 array[i] = new OneLinkedList();
             }
         }
 
-        private int CountHash(string data) => Abs(data.GetHashCode() % Max);
+        private int CountHash(string data) => Abs(data.GetHashCode() % max);
 
         public void AddData(string data)
         {
@@ -33,25 +36,14 @@ namespace HashTable
 
         private void Rehash()
         {
-            Max *= 2;
-            var newArray = new OneLinkedList[Max];
+            max *= 2;
+            var newArray = new OneLinkedList[max];
             InitializeArray(newArray);
             foreach (var cell in array)
             {
-                AddToNewArray(cell, newArray);
+                cell.AddToNewArray(newArray);
             }
             array = newArray;
-        }
-
-        private void AddToNewArray(OneLinkedList list, OneLinkedList[] newArray)
-        {
-            var temp = list.Head;
-            while (temp != null)
-            {
-                int hashCode = CountHash(temp.Value);
-                newArray[hashCode].Add(temp.Value);
-                temp = temp.Next;
-            }
         }
 
         public bool RemoveData(string data)
@@ -60,7 +52,7 @@ namespace HashTable
             return array[hashCode].Remove(data);
         }
 
-        public bool IsData(string data)
+        public bool Exists(string data)
         {
             int hashCode = CountHash(data);
             return array[hashCode].Exists(data);
@@ -68,13 +60,13 @@ namespace HashTable
 
         public void ClearTable()
         {
-            for (int i = 0; i < Max; ++i)
+            for (int i = 0; i < max; ++i)
             {
                 array[i].ClearList();
             }
         }
 
-        private float FillFactor() => GetSize() / Max;
+        private float FillFactor() => GetSize() / max;
 
         public int GetSize()
         {
@@ -85,9 +77,5 @@ namespace HashTable
             }
             return size;
         }
-
-        private int Max = 100;
-        private const int critical = 10;
-        private OneLinkedList[] array;
     }
 }
