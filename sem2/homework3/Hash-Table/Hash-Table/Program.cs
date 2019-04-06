@@ -1,27 +1,28 @@
 ﻿using System;
+using System.IO;
 
 namespace Hash_Table
 {
     public class Program
     {
-        private static Hash_Table CreateHashTable(string hashType)
+        private static Table CreateHashTable(string hashType)
         {
             switch (hashType)
             {
                 case "1":
                     {
-                        var hashFunction = new HashFunctionMod100();
-                        return new Hash_Table(hashFunction);
+                        var hashFunction = new HashFunctionFromVS();
+                        return new Table(hashFunction);
                     }
                 case "2":
                     {
                         var hashFunction = new HashFunctionByMultiplication();
-                        return new Hash_Table(hashFunction);
+                        return new Table(hashFunction);
                     }
                 default:
                     {
                         var hashFunction = new HashFunctionCalledPerfect(); 
-                        return new Hash_Table(hashFunction);
+                        return new Table(hashFunction);
                     }
             }
         }

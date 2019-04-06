@@ -30,8 +30,7 @@ namespace Hash_Table
                 hash *= 73837; // 'волшебное' число, как написано на одном сайте
             }
             hash = (hash * 100) & 64;
-            hash = hash >> 32;
-            return hash %= 100;
+            return hash >> 32;
         }
     }
 }

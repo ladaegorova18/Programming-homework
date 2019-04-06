@@ -5,7 +5,7 @@ namespace Hash_Table
     /// <summary>
     /// Hash-Function based on C# GetHashCode()
     /// </summary>
-    public class HashFunctionMod100 : IHash
+    public class HashFunctionFromVS : IHash
     {
         /// <summary>
         /// Takes hash-code of string and divides by table-size
@@ -14,7 +14,7 @@ namespace Hash_Table
         /// <returns></returns>
         public int CountHash(string data)
         {
-            return Abs(data.GetHashCode() % 100);
+            return Abs(data.GetHashCode());
         }
     }
 }

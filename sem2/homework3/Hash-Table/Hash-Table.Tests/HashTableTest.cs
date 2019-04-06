@@ -8,12 +8,12 @@ namespace Hash_Table.Tests
         [TestInitialize]
         public void Initialize()
         {
-            hashFunctionMod100 = new HashFunctionMod100();
+            hashFunctionMod100 = new HashFunctionFromVS();
             hashFunctionByMultiplication = new HashFunctionByMultiplication();
             hashFunctionCalledPerfect = new HashFunctionCalledPerfect();
-            firstHash_Table = new Hash_Table(hashFunctionMod100);
-            secondHash_Table = new Hash_Table(hashFunctionByMultiplication);
-            thirdHash_Table = new Hash_Table(hashFunctionCalledPerfect);
+            firstHash_Table = new Table(hashFunctionMod100);
+            secondHash_Table = new Table(hashFunctionByMultiplication);
+            thirdHash_Table = new Table(hashFunctionCalledPerfect);
             firstHash_Table.FillingTheTable(filePath);
             secondHash_Table.FillingTheTable(filePath);
             thirdHash_Table.FillingTheTable(filePath);
@@ -27,35 +27,35 @@ namespace Hash_Table.Tests
             thirdHash_Table.ClearTable();
         }
 
-        public void FindingTheWordWasTest(Hash_Table hash_Table)
+        public void FindingTheWordWasTest(Table hash_Table)
         {
-            Assert.IsTrue(hash_Table.IsData("was"));
+            Assert.IsTrue(hash_Table.Exists("was"));
         }
 
-        public void RemovingOneWordTest(Hash_Table hash_Table)
+        public void RemovingOneWordTest(Table hash_Table)
         {
-            Assert.IsTrue(hash_Table.IsData("the"));
+            Assert.IsTrue(hash_Table.Exists("the"));
             hash_Table.RemoveData("the");
-            Assert.IsFalse(hash_Table.IsData("the"));
+            Assert.IsFalse(hash_Table.Exists("the"));
         }
 
-        public void AddingUserWordTest(Hash_Table hash_Table)
+        public void AddingUserWordTest(Table hash_Table)
         {
             hash_Table.AddData("mathmech");
-            Assert.IsTrue(hash_Table.IsData("mathmech"));
+            Assert.IsTrue(hash_Table.Exists("mathmech"));
             hash_Table.RemoveData("mathmech");
-            Assert.IsFalse(hash_Table.IsData("mathmech"));
+            Assert.IsFalse(hash_Table.Exists("mathmech"));
         }
 
-        public void AddingTheSameWordTest(Hash_Table hash_Table)
+        public void AddingTheSameWordTest(Table hash_Table)
         {
             hash_Table.AddData("ololo");
             hash_Table.AddData("ololo");
             hash_Table.RemoveData("ololo");
-            Assert.IsFalse(hash_Table.IsData("ololo"));
+            Assert.IsFalse(hash_Table.Exists("ololo"));
         }
 
-        public void DoubleRemoveTest(Hash_Table hash_Table)
+        public void DoubleRemoveTest(Table hash_Table)
         {
             hash_Table.AddData("like_coding");
             hash_Table.RemoveData("like_coding");
@@ -122,10 +122,10 @@ namespace Hash_Table.Tests
         public void DoubleRemoveForThirdHashTest()
             => DoubleRemoveTest(thirdHash_Table);
 
-        private Hash_Table firstHash_Table;
-        private Hash_Table secondHash_Table;
-        private Hash_Table thirdHash_Table;
-        private HashFunctionMod100 hashFunctionMod100;
+        private Table firstHash_Table;
+        private Table secondHash_Table;
+        private Table thirdHash_Table;
+        private HashFunctionFromVS hashFunctionMod100;
         private HashFunctionByMultiplication hashFunctionByMultiplication;
         private HashFunctionCalledPerfect hashFunctionCalledPerfect;
         private string filePath = @"test.txt";

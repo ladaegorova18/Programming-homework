@@ -1,21 +1,37 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Hash_Table
 {
     /// <summary>
     /// Hash-Table to collect text data
     /// </summary>
-    public class Hash_Table
+    public class Table
     {
+
+        private int size = 100;
+        private const int critical = 10;
+        private OneLinkedList[] array;
+        private IHash hashFunction;
+
         /// <summary>
         /// Constructor which gives the table hash function that user has chosen
         /// and creates a linked list for every cell in array
         /// </summary>
         /// <param name="hashFunction"> hash function from main program</param>
-        public Hash_Table(IHash hashFunction)
+        public Table(IHash hashFunction)
         {
+            array = new OneLinkedList[size];
             this.hashFunction = hashFunction;
-            for (int i = 0; i < SIZE; ++i)
+            for (int i = 0; i < size; ++i)
+            {
+                array[i] = new OneLinkedList();
+            }
+        }
+
+        private void InitializeArray(OneLinkedList[] array)
+        {
+            for (int i = 0; i < size; ++i)
             {
                 array[i] = new OneLinkedList();
             }
@@ -23,14 +39,42 @@ namespace Hash_Table
 
         private int GetHash(string data) => hashFunction.CountHash(data);
 
+        private float FillFactor() => GetSize() / size;
+
+        public int GetSize()
+        {
+            var size = 0;
+            foreach (var cell in array)
+            {
+                size += cell.Size;
+            }
+            return size;
+        }
+
         /// <summary>
         /// Adds data to table
         /// </summary>
         /// <param name="data"> input string </param>
         public void AddData(string data)
         {
-            int hashCode = GetHash(data);
+            int hashCode = hashFunction.CountHash(data) % size;
             array[hashCode].Add(data);
+            if (FillFactor() > critical)
+            {
+                Rehash();
+            }
+        }
+
+        private void Rehash()
+        {
+            size *= 2;
+            var newArray = new OneLinkedList[size];
+            InitializeArray(newArray);
+            foreach (var cell in array)
+            {
+                cell.AddToNewArray(newArray, hashFunction);
+            }
+            array = newArray;
         }
 
         /// <summary>
@@ -49,7 +93,7 @@ namespace Hash_Table
         /// </summary>
         /// <param name="data"> input string </param>
         /// <returns> true, if it is </returns>
-        public bool IsData(string data)
+        public bool Exists(string data)
         {
             int hashCode = GetHash(data);
             return array[hashCode].Find(data);
@@ -60,7 +104,7 @@ namespace Hash_Table
         /// </summary>
         public void ClearTable()
         {
-            for (int i = 0; i < SIZE; ++i)
+            for (int i = 0; i < size; ++i)
             {
                 array[i].DeleteList();
             }
@@ -72,22 +116,26 @@ namespace Hash_Table
         /// <param name="filePath"> Path to the file </param>
         public void FillingTheTable(string filePath)
         {
-            using var stream = new StreamReader(filePath);
+            try
             {
-                while (stream.Peek() >= 0)
+                using var stream = new StreamReader(filePath);
                 {
-                    var str = stream.ReadLine();
-                    string[] words = str.Split();
-                    foreach (string word in words)
+                    while (stream.Peek() >= 0)
                     {
-                        AddData(word);
+                        var str = stream.ReadLine();
+                        string[] words = str.Split();
+                        foreach (string word in words)
+                        {
+                            AddData(word);
+                        }
                     }
                 }
             }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Файл не найден!");
+                return;
+            }
         }
-
-        private const int SIZE = 100;
-        private OneLinkedList[] array = new OneLinkedList[SIZE];
-        private IHash hashFunction;
     }
 }

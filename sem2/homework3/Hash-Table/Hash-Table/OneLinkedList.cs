@@ -1,4 +1,6 @@
-﻿namespace Hash_Table
+﻿using static System.Math;
+
+namespace Hash_Table
 {
     /// <summary>
     /// One linked list for Hash-Table
@@ -8,7 +10,7 @@
         /// <summary>
         /// Element of list
         /// </summary>
-        class Node
+        private class Node
         {
             public string Value { get; set; } = "";
             public Node Next { get; set; }
@@ -18,19 +20,22 @@
             }
         }
 
-        private bool IsWrongPosition(int position, int size) => position < 0 || position > size;
-
-        /// <summary>
-        /// Counts size of list
-        /// </summary>
-        /// <returns> size of list</returns>
-        public int Count() => size;
+        public void AddToNewArray(OneLinkedList[] newArray, IHash hashfunction)
+        {
+            var temp = Head;
+            while (temp != null)
+            {
+                int hashCode = Abs(hashfunction.CountHash(temp.Value) % newArray.Length);
+                newArray[hashCode].Add(temp.Value);
+                temp = temp.Next;
+            }
+        }
 
         /// <summary>
         /// checks if list is empty
         /// </summary>
         /// <returns> true, if list is empty</returns>
-        public bool IsEmpty() => size == 0;
+        public bool IsEmpty() => Size == 0;
 
         /// <summary>
         /// Adds user's string from list
@@ -42,21 +47,21 @@
             var newElement = new Node(data);
             if (!IsEmpty())
             {
-                Node temp = head;
+                Node temp = Head;
                 while (temp != null)
                 {
                     if (temp.Value == data) return true;
                     temp = temp.Next;
                 }
-                tail.Next = newElement;
-                tail = newElement;
+                Tail.Next = newElement;
+                Tail = newElement;
             }
             else
             {
-                head = newElement;
-                tail = newElement;
+                Head = newElement;
+                Tail = newElement;
             }
-            ++size;
+            ++Size;
             return true;
         }
 
@@ -68,34 +73,34 @@
         public bool Remove(string data)
         {
             if (IsEmpty()) return false;
-            --size;
-            if (data == head.Value)
+            --Size;
+            if (data == Head.Value)
             {
                 if (IsEmpty())
                 {
                     DeleteList();
                     return true;
                 }
-                head = head.Next;
+                Head = Head.Next;
                 return true;
             }
             else
             {
-                var temp = head;
+                var temp = Head;
                 Node prev = null;
                 while (temp != null && temp.Value != data)
                 {
                     prev = temp;
                     temp = temp.Next;
                 }
-                if (temp == tail)
+                if (temp == Tail)
                 {
                     if (temp.Value != data)
                     {
                         return false;
                     }
                     prev.Next = null;
-                    tail = prev;
+                    Tail = prev;
                     return true;
                 }
                 if (temp == null) return true;
@@ -111,11 +116,11 @@
         /// <returns> true if the string is in list</returns>
         public bool Find(string data)
         {
-            if (size == 0)
+            if (Size == 0)
             {
                 return false;
             }
-            var temp = head;
+            var temp = Head;
             while (temp.Value != data)
             {
                 if (temp.Next != null)
@@ -139,14 +144,14 @@
         /// </summary>
         public void DeleteList()
         {
-            head = null;
-            tail = null;
-            size = 0;
+            Head = null;
+            Tail = null;
+            Size = 0;
         }
 
-        private int size = 0;
-        private Node head;
-        private Node tail;
+        public int Size { get; set; } = 0;
+        private Node Head { get; set; }
+        private Node Tail { get; set; }
     }
 }
 

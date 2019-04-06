@@ -55,7 +55,7 @@ namespace Hash_Table
                     {
                         Console.WriteLine("Введите слово для поиска:");
                         string data = Console.ReadLine();
-                        if(hashTable.IsData(data))
+                        if(hashTable.Exists(data))
                         {
                             Console.WriteLine("Слово есть в таблице)");
                         }
@@ -76,7 +76,7 @@ namespace Hash_Table
         /// Constructor for Menu, gives it hash-table from main program
         /// </summary>
         /// <param name="hashTable"></param>
-        public Menu(Hash_Table hashTable)
+        public Menu(Table hashTable)
         {
             this.hashTable = hashTable;
         }
@@ -84,6 +84,6 @@ namespace Hash_Table
         /// <summary>
         /// hash-table for working with data
         /// </summary>
-        private Hash_Table hashTable;
+        private Table hashTable;
     }
 }
