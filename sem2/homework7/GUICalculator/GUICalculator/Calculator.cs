@@ -24,32 +24,54 @@ namespace GUICalculator
 
         private void ReadNumber(int number)
         {
-            if (!result.HasValue)
+            if (resultText.Text == "0")
             {
-                result = number;
-                firstNumberText.Visible = false;
-                nextNumberText.Visible = true;
+                resultText.Text = number.ToString();
+                firstNumberText.Text = resultText.Text;
+                return;
             }
-            else if (operation != null)
-            {
-                current = number;
-                result = counter.Count(result.Value, current.Value, operation);
-                ShowResult(result.Value);
-                operation = null;
-            }
-            else
-            {
-                result = number;
-            }
+            resultText.Text += number.ToString();
+            //firstNumberText.Text += resultText.Text;
         }
 
-        private void ShowResult(float result)
+        private void ScanNumber()
         {
-            resultText.Text = result.ToString();
-            resultText.Visible = true;
+            if ((!result.HasValue) || (operation == null))
+            {
+                result = int.Parse(resultText.Text);
+                current = null;
+                return;
+            }
+            current = int.Parse(resultText.Text);
         }
 
-        private void Button1Click(object sender, EventArgs e) => ReadNumber(1);
+        private void ReadOperation(string operation)
+        {
+            ScanNumber();
+            resultText.Text = "0";
+            if (operation != null)
+            {
+                //firstNumberText.Text = firstNumberText.Text
+            }
+            this.operation = operation;
+            firstNumberText.Text += operation;
+        }
+
+        private void ShowResult()
+        {
+            ScanNumber();
+            if (result.HasValue && current.HasValue && operation != null)
+            {
+                result = counter.Count(result.Value, current.Value, operation);
+                resultText.Text = result.ToString();
+                firstNumberText.Text = resultText.Text;
+                resultText.Visible = true;
+                operation = null;
+                current = null;
+            }
+        }
+
+        private void Number1Click(object sender, EventArgs e) => ReadNumber(1);
 
         private void Number2Click(object sender, EventArgs e) => ReadNumber(2);
 
@@ -69,43 +91,35 @@ namespace GUICalculator
 
         private void Number0Click(object sender, EventArgs e) => ReadNumber(0);
 
-        private void AdditionClick(object sender, EventArgs e) => operation = "+";
+        private void AdditionClick(object sender, EventArgs e) => ReadOperation("+");
 
-        private void DivisionClick(object sender, EventArgs e) => operation = "/";
+        private void DivisionClick(object sender, EventArgs e) => ReadOperation("/");
 
-        private void MultiplicationClick(object sender, EventArgs e) => operation = "*";
+        private void MultiplicationClick(object sender, EventArgs e) => ReadOperation("*");
 
-        private void SubtractionClick(object sender, EventArgs e) => operation = "-";
+        private void SubtractionClick(object sender, EventArgs e) => ReadOperation("-");
 
-        private void TextBox1_TextChanged(object sender, EventArgs e)
+        private void SqrtClick(object sender, EventArgs e) => ReadOperation("sqrt");
+
+        private void XSquareClick(object sender, EventArgs e) => ReadOperation("xSquared");
+
+        private void EqualSignClick(object sender, EventArgs e) => ShowResult();
+
+        private void DrobClick(object sender, EventArgs e)
         {
 
         }
 
-        private void AskToInputOperation(object sender, EventArgs e)
-        {
-            if ((result.HasValue) && (operation == null))
-            {
-                nextNumberText.Visible = false;
-                Visible = true;
-            }
-        }
+        private void DeleteCurrentNumberClick(object sender, EventArgs e) => resultText.Text = "0";
 
-        private void AskToInputNextNumber(object sender, EventArgs e)
+        private void ChangeSignClick(object sender, EventArgs e)
         {
-            if ((result.HasValue) && (operation != null))
+            if (int.Parse(resultText.Text) < 0)
             {
-                operationText.Visible = false;
-                Visible = true;
+                //resultText.Text = string.Copy(); //скопировать кусок строки с [1] до конца
+                return;
             }
-        }
-
-        private void AskToInputFirstNumber(object sender, EventArgs e)
-        {
-            if (result.HasValue)
-            {
-                Visible = false;
-            }
+            resultText.Text += "-" + resultText.Text;
         }
     }
 }
