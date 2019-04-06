@@ -16,13 +16,14 @@ namespace GUICalculator
         private float? result;
         private float? current;
         private string operation;
+
         public Calculator()
         {
             counter = new Counter();
             InitializeComponent();
         }
 
-        private void ReadNumber(int number)
+        private void ReadNumber(float number)
         {
             if (resultText.Text == "0")
             {
@@ -99,9 +100,9 @@ namespace GUICalculator
 
         private void SubtractionClick(object sender, EventArgs e) => ReadOperation("-");
 
-        private void SqrtClick(object sender, EventArgs e) => ReadOperation("sqrt");
+        private void RootClick(object sender, EventArgs e) => ReadOperation("root");
 
-        private void XSquareClick(object sender, EventArgs e) => ReadOperation("xSquared");
+        private void PowerClick(object sender, EventArgs e) => ReadOperation("pow");
 
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
@@ -120,6 +121,41 @@ namespace GUICalculator
                 return;
             }
             resultText.Text += "-" + resultText.Text;
+        }
+
+        private void Calculator_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Button10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FirstNumberText_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NumberEtempClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NumberPiClick(object sender, EventArgs e)
+        {
+
         }
     }
 }

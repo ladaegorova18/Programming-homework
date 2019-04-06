@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static System.Math;
 
 namespace GUICalculator
 {
@@ -15,7 +12,11 @@ namespace GUICalculator
         private float Subtract(float first, float second) => first - second;
 
         private float Multiplicate(float first, float second) => first * second;
-        /*and so on..*/
+
+        private float Power(float first, float second) => (float)Pow(first, second);
+
+        private float Root(float first, float second) => (float)Pow(first, 1 / second);
+        /*and so on..*///double??
 
         public float Count(float first, float second, string operation) =>
         operation switch
@@ -24,6 +25,8 @@ namespace GUICalculator
             "-" => Subtract(first, second),
             "/" => Divide(first, second),
             "*" => Multiplicate(first, second),
+            "pow" => Power(first, second),
+            "root" => Root(first, second),
             _ => throw new ArgumentException("Некорректная операция!")
         };
     }
