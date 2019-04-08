@@ -16,12 +16,12 @@ namespace Clock
         {
             InitializeComponent();
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1Load(object sender, EventArgs e)
         {
             ShowData();
         }
 
-        private void Timer1_Tick(object sender, EventArgs e)
+        private void TimerTick(object sender, EventArgs e)
         {
             ShowData();
         }
