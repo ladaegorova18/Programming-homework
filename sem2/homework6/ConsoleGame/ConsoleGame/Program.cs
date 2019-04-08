@@ -6,7 +6,8 @@ namespace ConsoleGame
 {
     public class Program
     {
-        static void Main(string[] args)
+        private static DrawOnConsole drawOnConsole = new DrawOnConsole();
+        private static void Main(string[] args)
         {
             var eventLoop = new EventLoop();
             var map = new List<string>();
@@ -15,14 +16,16 @@ namespace ConsoleGame
             {
                 return;
             }
-            var game = new Game(map);
+            var gamerCoords = DrawMap(map);
+            drawOnConsole.DrawGamer(gamerCoords);
 
+            var game = new Game(map, gamerCoords, drawOnConsole);
             AddHandlers(eventLoop, game);
 
             eventLoop.Run(); 
         }
 
-        public static void AddHandlers(EventLoop eventLoop, Game game)
+        private static void AddHandlers(EventLoop eventLoop, Game game)
         {
             eventLoop.LeftHandler += game.OnLeft;
             eventLoop.RightHandler += game.OnRight;
@@ -46,10 +49,8 @@ namespace ConsoleGame
                     {
                         var str = stream.ReadLine();
                         map.Add(str); // записываем в массив строки файла для проверки,
-                        Console.WriteLine(str); // на какую позицию можем двигаться
                     }
-                    SettleGamer(map);
-                    return true;
+                    return true; // на какую позицию можем двигаться
                 }
             }
             catch (FileNotFoundException)
@@ -59,11 +60,20 @@ namespace ConsoleGame
             }
         }
 
+        private static (int, int) DrawMap(List<string> map)
+        {
+            foreach (var line in map)
+            {
+                Console.WriteLine(line);
+            }
+            return SettleGamer(map);
+        }
+
         /// <summary>
         /// Draws game character on the map
         /// </summary>
         /// <param name="map"> string list to check where are the walls </param>
-        private static void SettleGamer(List<string> map)
+        public static (int, int) SettleGamer(List<string> map)
         {
             for (int line = 0; line < map.Count; ++line)
             {
@@ -71,13 +81,11 @@ namespace ConsoleGame
                 {
                     if (map[line][i] != '#')
                     {
-                        Console.SetCursorPosition(i, line);
-                        Console.Write('@');
-                        --Console.CursorLeft;
-                        return;
+                        return (i, line);
                     }
                 }
             }
+            throw new ArgumentException("На карте нет свободного пространства!");
         }
     }
 }

@@ -43,8 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawForTests.cs" />
+    <Compile Include="DrawOnConsole.cs" />
     <Compile Include="EventLoop.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

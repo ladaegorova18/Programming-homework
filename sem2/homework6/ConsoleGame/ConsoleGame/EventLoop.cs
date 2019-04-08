@@ -22,7 +22,6 @@ namespace ConsoleGame
                 var key = Console.ReadKey();
                 --Console.CursorLeft;
                 SwitchKey(key.Key);
-                DrawGamer();
             }
         }
 
@@ -51,12 +50,6 @@ namespace ConsoleGame
                     }
                     break;
             }
-        }
-
-        private void DrawGamer()
-        {
-            Console.Write('@');
-            --Console.CursorLeft;
         }
     }
 }

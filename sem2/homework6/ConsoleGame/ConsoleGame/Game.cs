@@ -9,10 +9,19 @@ namespace ConsoleGame
     public class Game
     {
         private List<string> map;
+        private (int, int) coords;
+        private (int, int) oldCoords;
+        private IDrawable drawable;
+        public (int, int) Coords
+        {
+            get => coords;
+        }
 
-        public Game(List<string> map)
+        public Game(List<string> map, (int, int) gamerCoords, IDrawable drawable)
         {
             this.map = map;
+            this.coords = gamerCoords;
+            this.drawable = drawable;
         }
 
         private bool CheckIfNoWalls(int left, int top) => (map[top][left] != '#');
@@ -21,11 +30,6 @@ namespace ConsoleGame
 
         private bool IfCanMove(int left, int top) => CheckIfInBounds(left, top) && CheckIfNoWalls(left, top);
 
-        private void WritePoint()
-        {
-            Console.Write('.');
-            --Console.CursorLeft;
-        }
 
         /// <summary>
         /// Checks if there are not a wall in left from hero and moves him
@@ -34,11 +38,12 @@ namespace ConsoleGame
         /// <param name="args"> empty parameters or event </param>
         public void OnLeft(object sender, EventArgs args)
         {
-            if (IfCanMove(Console.CursorLeft - 1, Console.CursorTop))
+            oldCoords = coords;
+            if (IfCanMove(coords.Item1 - 1, coords.Item2))
             {
-                WritePoint();
-                --Console.CursorLeft;
+                --coords.Item1;
             }
+            drawable.Draw(coords, oldCoords);
         }
 
         /// <summary>
@@ -48,11 +53,12 @@ namespace ConsoleGame
         /// <param name="args"> empty parameters or event </param>
         public void OnRight(object sender, EventArgs args)
         {
-            if (IfCanMove(Console.CursorLeft + 1, Console.CursorTop))
+            oldCoords = coords;
+            if (IfCanMove(coords.Item1 + 1, coords.Item2))
             {
-                WritePoint();
-                ++Console.CursorLeft;
+                ++coords.Item1;
             }
+            drawable.Draw(coords, oldCoords);
         }
 
         /// <summary>
@@ -62,11 +68,12 @@ namespace ConsoleGame
         /// <param name="args"> empty parameters or event </param>
         public void OnUp(object sender, EventArgs args)
         {
-            if (IfCanMove(Console.CursorLeft, Console.CursorTop - 1))
+            oldCoords = coords;
+            if (IfCanMove(coords.Item1, coords.Item2 - 1))
             {
-                WritePoint();
-                --Console.CursorTop;
+                --coords.Item2;
             }
+            drawable.Draw(coords, oldCoords);
         }
 
         /// <summary>
@@ -76,11 +83,12 @@ namespace ConsoleGame
         /// <param name="args"> empty parameters or event </param>
         public void OnDown(object sender, EventArgs args)
         {
-            if (IfCanMove(Console.CursorLeft, Console.CursorTop + 1))
+            oldCoords = coords;
+            if (IfCanMove(coords.Item1, coords.Item2 + 1))
             {
-                WritePoint();
-                ++Console.CursorTop;
+                ++coords.Item2;
             }
+            drawable.Draw(coords, oldCoords);
         }
     }
 }
