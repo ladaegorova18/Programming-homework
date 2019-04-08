@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleGame
 {
+    /// <summary>
+    /// Empty functions for unit-testing
+    /// </summary>
     public class DrawForTests : IDrawable
     {
         public void Draw((int, int) coords, (int, int) oldCoords)

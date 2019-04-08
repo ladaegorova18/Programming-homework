@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ConsoleGame
 {
     /// <summary>
-    /// To draw gamer's path on console
+    /// To draw on console in main program and not to draw while unit-testing
     /// </summary>
     public interface IDrawable
     {

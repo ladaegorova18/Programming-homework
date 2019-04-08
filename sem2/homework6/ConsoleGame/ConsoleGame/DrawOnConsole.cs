@@ -22,6 +22,10 @@ namespace ConsoleGame
             DrawGamer(coords);
         }
 
+        /// <summary>
+        /// Draws gamer @
+        /// </summary>
+        /// <param name="coords"> Gamer coords </param>
         public void DrawGamer((int, int) coords)
         {
             Console.SetCursorPosition(coords.Item1, coords.Item2);
