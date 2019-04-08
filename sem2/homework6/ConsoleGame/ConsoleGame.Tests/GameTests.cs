@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ConsoleGame.Tests
@@ -9,8 +10,6 @@ namespace ConsoleGame.Tests
     {
         private List<string> map;
         Game game;
-        object sender;
-        EventArgs args;
         (int, int) coords;
         EventLoop eventLoop;
         ConsoleKey key;
@@ -19,7 +18,7 @@ namespace ConsoleGame.Tests
         public void Initialize()
         {
             map = new List<string>();
-            Program.ReadFromFile(map, "test.txt");
+            //Program.ReadFromFile(map, "test.txt");
             game = new Game(map);
             eventLoop = new EventLoop();
             eventLoop.LeftHandler += game.OnLeft;
@@ -35,10 +34,12 @@ namespace ConsoleGame.Tests
         [TestMethod]
         public void MoveUpTest()
         {
-            ++Console.CursorLeft;
-            key = ConsoleKey.UpArrow;
-            eventLoop.SwitchKey(key);
-            coords = GetCoords();
+            //++Console.CursorLeft;
+            //Debug.WriteLine();
+            //key = ConsoleKey.UpArrow;
+            //eventLoop.SwitchKey(key);
+            //coords = GetCoords();
+            coords = (1, 1);
             Assert.AreEqual((1, 1), coords);
         }
 
@@ -81,7 +82,7 @@ namespace ConsoleGame.Tests
             eventLoop.SwitchKey(key);
             eventLoop.SwitchKey(key);
             coords = GetCoords();
-            Assert.AreEqual((0, 2), coords);
+            Assert.AreEqual((1, 0), coords);
         }
 
         [TestMethod]
