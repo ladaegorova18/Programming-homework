@@ -24,11 +24,11 @@ namespace ConsoleGame
             this.drawable = drawable;
         }
 
-        private bool CheckIfNoWalls(int left, int top) => (map[top][left] != '#');
+        private bool NoWalls(int left, int top) => (map[top][left] != '#');
 
-        private bool CheckIfInBounds(int left, int top) => (left > -1) && (top > -1) && (top < map.Count) && (left < map[top].Length);
+        private bool NoEdges(int left, int top) => (left > -1) && (top > -1) && (top < map.Count) && (left < map[top].Length);
 
-        private bool IfCanMove(int left, int top) => CheckIfInBounds(left, top) && CheckIfNoWalls(left, top);
+        private bool IfCanMove(int left, int top) => NoEdges(left, top) && NoWalls(left, top);
 
 
         /// <summary>

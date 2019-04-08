@@ -106,7 +106,7 @@ namespace ConsoleGame.Tests
         }
 
         [TestMethod]
-        public void TryToGoOutOfBoundsTest()
+        public void TryToGoOutOfBordersTest()
         {
             for (var i = 0; i < 10; ++i)
             {
