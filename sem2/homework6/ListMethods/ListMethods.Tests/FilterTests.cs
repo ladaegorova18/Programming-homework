@@ -8,7 +8,6 @@ namespace ListMethods.Tests
     {
         private int[] array;
         private List<int> list;
-        private Methods methods = new Methods();
 
         [TestInitialize]
         public void Initialize()
@@ -20,7 +19,7 @@ namespace ListMethods.Tests
         public void FilterEvenNumbersTest()
         {
             array = new int[] { 2, 4, 6, 0};
-            list = methods.Filter(list, x => (x % 2 == 0));
+            list = Methods.Filter(list, x => (x % 2 == 0));
             Assertion(list, array);
         }
 
@@ -28,7 +27,7 @@ namespace ListMethods.Tests
         public void FilterLess5NumberTest()
         {
             array = new int[] { 2, 1, 4, 3, 3, 1, 3, 0 };
-            list = methods.Filter(list, x => (x < 5));
+            list = Methods.Filter(list, x => (x < 5));
             Assertion(list, array);
         }
 
@@ -36,7 +35,7 @@ namespace ListMethods.Tests
         public void FilterDivide3Test()
         {
             array = new int[] { 6, 9, 0 };
-            list = methods.Filter(list, x => (x % 3 == 0 && x != 3));
+            list = Methods.Filter(list, x => (x % 3 == 0 && x != 3));
             Assertion(list, array);
         }
 
@@ -44,7 +43,7 @@ namespace ListMethods.Tests
         public void FilterOddNumbersTest()
         {
             array = new int[] { 1, 5, 3, 3, 1, 7, 9, 3 };
-            list = methods.Filter(list, x => (x % 2 == 1));
+            list = Methods.Filter(list, x => (x % 2 == 1));
             Assertion(list, array);
         }
 
@@ -52,7 +51,7 @@ namespace ListMethods.Tests
         public void FilterLess7AndGreater3Test()
         {
             array = new int[] {4, 5, 6};
-            list = methods.Filter(list, x => (x > 3 && x < 7));
+            list = Methods.Filter(list, x => (x > 3 && x < 7));
             Assertion(list, array);
         }
 

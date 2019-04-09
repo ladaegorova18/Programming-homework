@@ -8,7 +8,6 @@ namespace ListMethods.Tests
     {
         private int[] array;
         private List<int> list;
-        private Methods methods = new Methods();
 
         [TestInitialize]
         public void Initialize()
@@ -20,7 +19,7 @@ namespace ListMethods.Tests
         public void MultiplyByTwoTest()
         {
             array = new int[] { 4, 2, 8, 10, 6, 6, 2 };
-            list = methods.Map(list, x => x * 2);
+            list = Methods.Map(list, x => x * 2);
             Assertion(list, array);
         }
 
@@ -28,7 +27,7 @@ namespace ListMethods.Tests
         public void AddThreeTest()
         {
             array = new int[] { 5, 4, 7, 8, 6, 6, 4 };
-            list = methods.Map(list, x => x + 3);
+            list = Methods.Map(list, x => x + 3);
             Assertion(list, array);
         }
 
@@ -36,7 +35,7 @@ namespace ListMethods.Tests
         public void SubtractFiveTest()
         {
             array = new int[] { -3, -4, -1, 0, -2, -2, -4 };
-            list = methods.Map(list, x => x - 5);
+            list = Methods.Map(list, x => x - 5);
             Assertion(list, array);
         }
 
@@ -44,7 +43,7 @@ namespace ListMethods.Tests
         public void TwoOperationsTest()
         {
             array = new int[] { 6, 4, 10, 12, 8, 8, 4 };
-            list = methods.Map(list, x => (x + 1) * 2);
+            list = Methods.Map(list, x => (x + 1) * 2);
             Assertion(list, array);
         }
 
@@ -52,7 +51,7 @@ namespace ListMethods.Tests
         public void AddZeroTest()
         {
             array = new int[] { 2, 1, 4, 5, 3, 3, 1 };
-            list = methods.Map(list, x => x + 0);
+            list = Methods.Map(list, x => x + 0);
             Assertion(list, array);
         }
 

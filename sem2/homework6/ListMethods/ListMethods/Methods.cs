@@ -15,7 +15,7 @@ namespace ListMethods
         /// <param name="list"> base list </param>
         /// <param name="func"> function to change list elements</param>
         /// <returns> new list </returns>
-        public List<int> Map(List<int> list, Func<int, int> func)
+        public static List<int> Map(List<int> list, Func<int, int> func)
         {
             List<int> newList = new List<int> { };
             foreach (var node in list)
@@ -37,7 +37,7 @@ namespace ListMethods
         /// <param name="list"> base list </param>
         /// <param name="func"> function to check list elements </param>
         /// <returns> new list </returns>
-        public List<int> Filter(List<int> list, Func<int, bool> func)
+        public static List<int> Filter(List<int> list, Func<int, bool> func)
         {
             List<int> newList = new List<int> { };
             foreach (var node in list)
@@ -57,7 +57,7 @@ namespace ListMethods
         /// <param name="acc"> first value to work </param>
         /// <param name="func"> function to change accumulate value </param>
         /// <returns> last accumulate value </returns>
-        public int Fold(List<int> list, int acc, Func<int, int, int> func)
+        public static int Fold(List<int> list, int acc, Func<int, int, int> func)
         {
             foreach (var node in list)
             {
