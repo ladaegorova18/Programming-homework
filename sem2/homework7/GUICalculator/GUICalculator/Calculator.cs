@@ -87,7 +87,11 @@ namespace GUICalculator
 
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
-        private void CommaClick(object sender, EventArgs e) => textBox.Text += ',';
+        private void CommaClick(object sender, EventArgs e)
+        {
+            textBox.Text += ',';
+            tempExpression.Text += ',';
+        }
 
         private void DeleteCurrentNumberClick(object sender, EventArgs e)
         {
@@ -115,9 +119,11 @@ namespace GUICalculator
 
         }
 
-        private void Button10_Click(object sender, EventArgs e)
+        private void DeleteAllClick(object sender, EventArgs e)
         {
-
+            result = 0;
+            tempExpression.Text = null;
+            textBox.Text = null;
         }
 
         private void FirstNumberText_Click(object sender, EventArgs e)
@@ -127,12 +133,12 @@ namespace GUICalculator
 
         private void EulersNumberClick(object sender, EventArgs e)
         {
-
+            textBox.Text = "e";
         }
 
         private void NumberPiClick(object sender, EventArgs e)
         {
-
+            textBox.Text = "pi";
         }
     }
 }

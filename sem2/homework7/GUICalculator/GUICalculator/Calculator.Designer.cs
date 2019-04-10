@@ -399,7 +399,7 @@
             this.button10.TabIndex = 19;
             this.button10.Text = "C";
             this.button10.UseVisualStyleBackColor = false;
-            this.button10.Click += new System.EventHandler(this.Button10_Click);
+            this.button10.Click += new System.EventHandler(this.DeleteAllClick);
             // 
             // button11
             // 
