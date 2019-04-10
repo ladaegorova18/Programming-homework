@@ -23,53 +23,34 @@ namespace GUICalculator
             InitializeComponent();
         }
 
-        private void ReadNumber(float number)
+        private void ReadNumber(int number)
         {
-            if (resultText.Text == "0")
+            if (textBox.Text == "0")
             {
-                resultText.Text = number.ToString();
-                firstNumberText.Text = resultText.Text;
-                return;
+                textBox.Text = null;
             }
-            resultText.Text += number.ToString();
-            //firstNumberText.Text += resultText.Text;
-        }
-
-        private void ScanNumber()
-        {
-            if ((!result.HasValue) || (operation == null))
+            if (tempExpression.Text == "0")
             {
-                result = int.Parse(resultText.Text);
-                current = null;
-                return;
+                tempExpression.Text = null;
             }
-            current = int.Parse(resultText.Text);
+            textBox.Text += number;
+            tempExpression.Text += number;
         }
 
         private void ReadOperation(string operation)
         {
-            ScanNumber();
-            resultText.Text = "0";
-            if (operation != null)
-            {
-                //firstNumberText.Text = firstNumberText.Text
-            }
+            result = float.Parse(textBox.Text);
             this.operation = operation;
-            firstNumberText.Text += operation;
+            tempExpression.Text += operation;
+            textBox.Text = null;
         }
 
         private void ShowResult()
         {
-            ScanNumber();
-            if (result.HasValue && current.HasValue && operation != null)
-            {
-                result = counter.Count(result.Value, current.Value, operation);
-                resultText.Text = result.ToString();
-                firstNumberText.Text = resultText.Text;
-                resultText.Visible = true;
-                operation = null;
-                current = null;
-            }
+            current = float.Parse(textBox.Text);
+            result = counter.Count(result.Value, current.Value, operation);
+            textBox.Text = result.ToString();
+            tempExpression.Text = result.ToString();
         }
 
         private void Number1Click(object sender, EventArgs e) => ReadNumber(1);
@@ -106,26 +87,22 @@ namespace GUICalculator
 
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
-        private void DrobClick(object sender, EventArgs e)
+        private void CommaClick(object sender, EventArgs e) => textBox.Text += ',';
+
+        private void DeleteCurrentNumberClick(object sender, EventArgs e)
         {
-
+            result = float.Parse(textBox.Text);
+            textBox.Text = "0";
         }
-
-        private void DeleteCurrentNumberClick(object sender, EventArgs e) => resultText.Text = "0";
 
         private void ChangeSignClick(object sender, EventArgs e)
         {
-            if (int.Parse(resultText.Text) < 0)
+            if (int.Parse(textBox.Text) < 0)
             {
                 //resultText.Text = string.Copy(); //скопировать кусок строки с [1] до конца
                 return;
             }
-            resultText.Text += "-" + resultText.Text;
-        }
-
-        private void Calculator_Load(object sender, EventArgs e)
-        {
-
+            textBox.Text += "-" + textBox.Text;
         }
 
         private void Button12_Click(object sender, EventArgs e)
@@ -148,7 +125,7 @@ namespace GUICalculator
 
         }
 
-        private void NumberEtempClick(object sender, EventArgs e)
+        private void EulersNumberClick(object sender, EventArgs e)
         {
 
         }
