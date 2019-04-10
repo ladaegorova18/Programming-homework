@@ -25,8 +25,7 @@ namespace GUICalculator
             "-" => Subtract(first, second),
             "/" => Divide(first, second),
             "*" => Multiplicate(first, second),
-            "pow" => Power(first, second),
-            "root" => Root(first, second),
+            "^" => Power(first, second),
             _ => throw new ArgumentException("Некорректная операция!")
         };
     }

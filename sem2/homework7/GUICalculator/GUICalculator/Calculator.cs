@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUICalculator
@@ -16,6 +9,7 @@ namespace GUICalculator
         private float? result;
         private float? current;
         private string operation;
+        bool isComma = false;
 
         public Calculator()
         {
@@ -23,7 +17,7 @@ namespace GUICalculator
             InitializeComponent();
         }
 
-        private void ReadNumber(int number)
+        public void ReadNumber(char number)
         {
             if (textBox.Text == "0")
             {
@@ -37,43 +31,79 @@ namespace GUICalculator
             tempExpression.Text += number;
         }
 
-        private void ReadOperation(string operation)
+        public void ReadOperation(string operation)
         {
-            result = float.Parse(textBox.Text);
+            ShowResult();
+            if ((textBox.Text != "") && (textBox.Text != null))
+            {
+                if (float.TryParse(textBox.Text, out float temp))
+                {
+                    result = temp;
+                    //if (this.operation != null)
+                    //{
+                    //}
+                    textBox.Text = null;
+                    if (!Char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1]))
+                    {
+                        tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
+                    }
+                    tempExpression.Text += operation;
+                    isComma = false;
+                }
+                else
+                {
+                    tempExpression.Text = null;
+                }
+                //if (operation == "^")
+                //{
+                //    tempExpression.Text += '^';
+                //    return;
+                //}
+            }
             this.operation = operation;
-            tempExpression.Text += operation;
-            textBox.Text = null;
         }
 
         private void ShowResult()
         {
-            current = float.Parse(textBox.Text);
-            result = counter.Count(result.Value, current.Value, operation);
-            textBox.Text = result.ToString();
-            tempExpression.Text = result.ToString();
-        }
+            if ((textBox.Text != null) && (textBox.Text != ""))
+            {
+                if (float.TryParse(textBox.Text, out float temp) && (result.HasValue) && operation != null)
+                {
+                    current = temp;
+                    result = counter.Count(result.Value, current.Value, operation);
+                    if (int.TryParse(result.ToString(), out int tempInt))
+                    {
+                        isComma = false;
+                    }
+                    textBox.Text = result.ToString();
+                    tempExpression.Text = result.ToString();
+                    operation = null; // выглядит грустно
+                }
+            }
+        } // отдельный класс для GUI
 
-        private void Number1Click(object sender, EventArgs e) => ReadNumber(1);
+        private void Number1Click(object sender, EventArgs e) => ReadNumber('1');
 
-        private void Number2Click(object sender, EventArgs e) => ReadNumber(2);
+        private void Number2Click(object sender, EventArgs e) => ReadNumber('2');
 
-        private void Number3Click(object sender, EventArgs e) => ReadNumber(3);
+        private void Number3Click(object sender, EventArgs e) => ReadNumber('3');
 
-        private void Number4Click(object sender, EventArgs e) => ReadNumber(4);
+        private void Number4Click(object sender, EventArgs e) => ReadNumber('4');
 
-        private void Number5Click(object sender, EventArgs e) => ReadNumber(5);
+        private void Number5Click(object sender, EventArgs e) => ReadNumber('5');
 
-        private void Number6Click(object sender, EventArgs e) => ReadNumber(6);
+        private void Number6Click(object sender, EventArgs e) => ReadNumber('6');
 
-        private void Number7Click(object sender, EventArgs e) => ReadNumber(7);
+        private void Number7Click(object sender, EventArgs e) => ReadNumber('7');
 
-        private void Number8Click(object sender, EventArgs e) => ReadNumber(8);
+        private void Number8Click(object sender, EventArgs e) => ReadNumber('8');
 
-        private void Number9Click(object sender, EventArgs e) => ReadNumber(9);
+        private void Number9Click(object sender, EventArgs e) => ReadNumber('9');
 
-        private void Number0Click(object sender, EventArgs e) => ReadNumber(0);
+        private void Number0Click(object sender, EventArgs e) => ReadNumber('0');
 
-        private void AdditionClick(object sender, EventArgs e) => ReadOperation("+");
+        // operations
+        public void AdditionClick(object sender, EventArgs e) => ReadOperation("+");
 
         private void DivisionClick(object sender, EventArgs e) => ReadOperation("/");
 
@@ -81,64 +111,81 @@ namespace GUICalculator
 
         private void SubtractionClick(object sender, EventArgs e) => ReadOperation("-");
 
-        private void RootClick(object sender, EventArgs e) => ReadOperation("root");
-
-        private void PowerClick(object sender, EventArgs e) => ReadOperation("pow");
+        private void PowerClick(object sender, EventArgs e) => ReadOperation("^");
 
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
         private void CommaClick(object sender, EventArgs e)
         {
-            textBox.Text += ',';
-            tempExpression.Text += ',';
-        }
-
-        private void DeleteCurrentNumberClick(object sender, EventArgs e)
-        {
-            result = float.Parse(textBox.Text);
-            textBox.Text = "0";
+            if (textBox.Text != "")
+            {
+                textBox.Text += ',';
+                tempExpression.Text += ',';
+                isComma = true;
+            }
         }
 
         private void ChangeSignClick(object sender, EventArgs e)
         {
-            if (int.Parse(textBox.Text) < 0)
+            float.TryParse(textBox.Text, out float temp);
+            if (temp < 0)
             {
-                //resultText.Text = string.Copy(); //скопировать кусок строки с [1] до конца
+                textBox.Text = textBox.Text.Substring(1);
                 return;
             }
-            textBox.Text += "-" + textBox.Text;
+            textBox.Text = "-" + textBox.Text;
         }
 
-        private void Button12_Click(object sender, EventArgs e)
+        private void DeleteLineClick(object sender, EventArgs e)
         {
-
-        }
-
-        private void TableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            if (result.HasValue)
+            {
+                if (operation == null)
+                {
+                    result = null;
+                    tempExpression.Text = null;
+                    isComma = false;
+                    //result = float.Parse(tempExpression.Text);
+                }
+                else
+                {
+                    float.TryParse(textBox.Text, out float temp);
+                    result = temp;
+                }
+            }
+            else
+            {
+                tempExpression.Text = null;
+            }
+            textBox.Text = "0";
         }
 
         private void DeleteAllClick(object sender, EventArgs e)
         {
-            result = 0;
+            result = null;
             tempExpression.Text = null;
             textBox.Text = null;
+            isComma = false;
         }
 
-        private void FirstNumberText_Click(object sender, EventArgs e)
+        private void DeleteOneSymbolButtonClick(object sender, EventArgs e)
         {
-
+            textBox.Text = DeleteLastSymbol(textBox.Text);
+            tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
         }
 
-        private void EulersNumberClick(object sender, EventArgs e)
+        private string DeleteLastSymbol(string line)
         {
-            textBox.Text = "e";
+            if (line.Length > 0)
+            {
+                return line.Substring(0, line.Length - 1);
+            }
+            return "";
         }
 
-        private void NumberPiClick(object sender, EventArgs e)
+        private void DeleteAllButton_MouseMove(object sender, MouseEventArgs e)
         {
-            textBox.Text = "pi";
+
         }
     }
-}
+} // долгая обработка исключений
