@@ -5,18 +5,14 @@ namespace Lists.Tests
     [TestClass]
     public class UniqueListTests
     {
+        private UniqueList test;
+        private List list;
+
         [TestInitialize]
         public void Initialize()
         {
             test = new UniqueList();
             list = new List();
-        }
-
-        [TestCleanup]
-        public void Clear()
-        {
-            test.Clear();
-            list.Clear();
         }
 
         [TestMethod]
@@ -49,7 +45,6 @@ namespace Lists.Tests
             test.Add("4");
             Assert.IsTrue(test.IsValue("4"));
             test.Add("4");
-            test.Add("4");
         }
 
         [TestMethod]
@@ -77,7 +72,7 @@ namespace Lists.Tests
                 list.Add("1");
             }
             test = new UniqueList(list);
-            Assert.IsTrue(test.Size == 1);
+            Assert.AreEqual(1, test.Size);
         }
 
         [TestMethod]
@@ -161,8 +156,5 @@ namespace Lists.Tests
             test = new UniqueList(list);
             Assert.AreEqual(10, test.Size);
         }
-
-        private UniqueList test;
-        private List list;
     }
 }

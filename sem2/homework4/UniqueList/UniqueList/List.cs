@@ -5,6 +5,10 @@
     /// </summary>
     public class List
     {
+        public int Size { get; set; }
+        protected Node Head { get; set; }
+        protected Node Tail { get; set; }
+
         /// <summary>
         /// Element in list
         /// </summary>
@@ -53,7 +57,10 @@
         /// <returns> If removing was successful </returns>
         public virtual bool Remove(string data)
         {
-            if (IsEmpty() || !IsValue(data)) return false;
+            if (IsEmpty() || !IsValue(data))
+            {
+                return false;
+            }
             --Size;
             if (data == Head.Value)
             {
@@ -91,7 +98,10 @@
             var temp = Head;
             while (temp != null)
             {
-                if (temp.Value == data) return true;
+                if (temp.Value == data)
+                {
+                    return true;
+                }
                 temp = temp.Next;
             }
             return false;
@@ -103,10 +113,6 @@
             Tail = null;
             Size = 0;
         }
-
-        public int Size { get; set; }
-        public Node Head { get; set; }
-        public Node Tail { get; set; }
     }
 }
 
