@@ -1,19 +1,9 @@
 ﻿using System;
-using static System.Math;
 
 namespace GUICalculator
 {
     public class Counter
     {
-        private float Add(float first, float second) => first + second;
-
-        private float Divide(float first, float second) => first / second;
-
-        private float Subtract(float first, float second) => first - second;
-
-        private float Multiplicate(float first, float second) => first * second;
-
-        
         /// <summary>
         /// Counts result of operation with two numbers
         /// </summary>
@@ -24,10 +14,10 @@ namespace GUICalculator
         public float Count(float first, float second, string operation) =>
         operation switch
         {
-            "+" => Add(first, second),
-            "-" => Subtract(first, second),
-            "/" => Divide(first, second),
-            "*" => Multiplicate(first, second),
+            "+" => first + second,
+            "-" => first - second,
+            "/" => first / second,
+            "*" => first * second,
             _ => throw new ArgumentException("Некорректная операция!")
         };
     }

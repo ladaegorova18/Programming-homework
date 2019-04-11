@@ -11,7 +11,6 @@ namespace GUICalculator
         private float? current;
         private string operation;
         private Color oldColor;
-        private Color color;
         bool isComma = false;
 
         public Calculator()
@@ -138,7 +137,7 @@ namespace GUICalculator
                 tempExpression.Text = tempExpression.Text + textBox.Text;
                 return;
             }
-            if (temp == 0)
+            if (temp == 0) //тут что-то странное..
             {
                 return;
             }
