@@ -24,3 +24,14 @@ build_script:
 
 test: off
 version: 0.0.1.{build}
+
+image: Visual Studio 2019 Preview
+
+before_build:
+  - nuget restore sem2/homework4/ParseTree/ParseTree.sln
+
+build:
+  project: sem2/homework4/ParseTree/ParseTree.sln
+
+test_script:
+  - dotnet test sem2/homework4/ParseTree/ParseTree.sln
