@@ -13,11 +13,14 @@ namespace GUICalculator
 
         private float Multiplicate(float first, float second) => first * second;
 
-        private float Power(float first, float second) => (float)Pow(first, second);
-
-        private float Root(float first, float second) => (float)Pow(first, 1 / second);
-        /*and so on..*///double??
-
+        
+        /// <summary>
+        /// Counts result of operation with two numbers
+        /// </summary>
+        /// <param name="first"> first number </param>
+        /// <param name="second"> second number </param>
+        /// <param name="operation"> operation to do </param>
+        /// <returns> result of expression </returns>
         public float Count(float first, float second, string operation) =>
         operation switch
         {
@@ -25,7 +28,6 @@ namespace GUICalculator
             "-" => Subtract(first, second),
             "/" => Divide(first, second),
             "*" => Multiplicate(first, second),
-            "^" => Power(first, second),
             _ => throw new ArgumentException("Некорректная операция!")
         };
     }

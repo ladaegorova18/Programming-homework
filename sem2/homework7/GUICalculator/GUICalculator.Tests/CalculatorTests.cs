@@ -15,7 +15,6 @@ namespace GUICalculator.Tests
             calculator.ReadNumber('1');
             calculator.ReadOperation("+");
             calculator.ReadNumber('2');
-            counter.Count()
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GUICalculator
@@ -9,6 +10,8 @@ namespace GUICalculator
         private float? result;
         private float? current;
         private string operation;
+        private Color oldColor;
+        private Color color;
         bool isComma = false;
 
         public Calculator()
@@ -17,6 +20,10 @@ namespace GUICalculator
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Reads numbers from button
+        /// </summary>
+        /// <param name="number"> number to add in textbox </param>
         public void ReadNumber(char number)
         {
             if (textBox.Text == "0")
@@ -31,6 +38,10 @@ namespace GUICalculator
             tempExpression.Text += number;
         }
 
+        /// <summary>
+        /// Reads operation from button
+        /// </summary>
+        /// <param name="operation"> operation to read </param>
         public void ReadOperation(string operation)
         {
             ShowResult();
@@ -39,9 +50,6 @@ namespace GUICalculator
                 if (float.TryParse(textBox.Text, out float temp))
                 {
                     result = temp;
-                    //if (this.operation != null)
-                    //{
-                    //}
                     textBox.Text = null;
                     if (!Char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1]))
                     {
@@ -54,11 +62,6 @@ namespace GUICalculator
                 {
                     tempExpression.Text = null;
                 }
-                //if (operation == "^")
-                //{
-                //    tempExpression.Text += '^';
-                //    return;
-                //}
             }
             this.operation = operation;
         }
@@ -71,9 +74,9 @@ namespace GUICalculator
                 {
                     current = temp;
                     result = counter.Count(result.Value, current.Value, operation);
-                    if (int.TryParse(result.ToString(), out int tempInt))
+                    if (!int.TryParse(result.ToString(), out int tempInt))
                     {
-                        isComma = false;
+                        isComma = true;
                     }
                     textBox.Text = result.ToString();
                     tempExpression.Text = result.ToString();
@@ -117,7 +120,7 @@ namespace GUICalculator
 
         private void CommaClick(object sender, EventArgs e)
         {
-            if (textBox.Text != "")
+            if ((textBox.Text != "") && (!isComma))
             {
                 textBox.Text += ',';
                 tempExpression.Text += ',';
@@ -131,8 +134,16 @@ namespace GUICalculator
             if (temp < 0)
             {
                 textBox.Text = textBox.Text.Substring(1);
+                tempExpression.Text = textBox.Text.Substring(0, textBox.Text.Length - textBox.Text.Length);
+                tempExpression.Text = tempExpression.Text + textBox.Text;
                 return;
             }
+            if (temp == 0)
+            {
+                return;
+            }
+            tempExpression.Text = textBox.Text.Substring(0, textBox.Text.Length - textBox.Text.Length);
+            tempExpression.Text = tempExpression.Text + "-" + textBox.Text;
             textBox.Text = "-" + textBox.Text;
         }
 
@@ -145,7 +156,6 @@ namespace GUICalculator
                     result = null;
                     tempExpression.Text = null;
                     isComma = false;
-                    //result = float.Parse(tempExpression.Text);
                 }
                 else
                 {
@@ -183,9 +193,17 @@ namespace GUICalculator
             return "";
         }
 
-        private void DeleteAllButton_MouseMove(object sender, MouseEventArgs e)
-        {
+        private void DeleteAllButtonMouseMove(object sender, MouseEventArgs e) => ChangeColorMouseEnter(deleteAllButton);
 
+        private void DeleteAllButtonMouseLeave(object sender, EventArgs e) => ChangeColorMouseLeave(deleteAllButton);
+
+        private void ChangeColorMouseEnter(Button temp)
+        {
+            oldColor = temp.BackColor;
+            temp.BackColor = Color.Ivory;
         }
+
+        private void ChangeColorMouseLeave(Button temp) => temp.BackColor = oldColor;
+
     }
 } // долгая обработка исключений
