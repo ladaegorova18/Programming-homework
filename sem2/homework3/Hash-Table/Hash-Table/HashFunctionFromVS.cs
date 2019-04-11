@@ -1,6 +1,6 @@
 ﻿using static System.Math;
 
-namespace Hash_Table
+namespace HashTable
 {
     /// <summary>
     /// Hash-Function based on C# GetHashCode()

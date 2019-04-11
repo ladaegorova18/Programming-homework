@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using static System.Math;
 
-namespace Hash_Table
+namespace HashTable
 {
     /// <summary>
     /// Hash-Table to collect text data
@@ -23,10 +24,7 @@ namespace Hash_Table
         {
             array = new OneLinkedList[size];
             this.hashFunction = hashFunction;
-            for (int i = 0; i < size; ++i)
-            {
-                array[i] = new OneLinkedList();
-            }
+            InitializeArray(array);
         }
 
         private void InitializeArray(OneLinkedList[] array)
@@ -57,7 +55,7 @@ namespace Hash_Table
         /// <param name="data"> input string </param>
         public void AddData(string data)
         {
-            int hashCode = hashFunction.CountHash(data) % size;
+            int hashCode = Abs(hashFunction.CountHash(data) % size);
             array[hashCode].Add(data);
             if (FillFactor() > critical)
             {
@@ -119,15 +117,13 @@ namespace Hash_Table
             try
             {
                 using var stream = new StreamReader(filePath);
+                while (stream.Peek() >= 0)
                 {
-                    while (stream.Peek() >= 0)
+                    var str = stream.ReadLine();
+                    string[] words = str.Split();
+                    foreach (string word in words)
                     {
-                        var str = stream.ReadLine();
-                        string[] words = str.Split();
-                        foreach (string word in words)
-                        {
-                            AddData(word);
-                        }
+                        AddData(word);
                     }
                 }
             }

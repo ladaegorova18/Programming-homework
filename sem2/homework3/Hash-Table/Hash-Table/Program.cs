@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Hash_Table
+namespace HashTable
 {
     public class Program
     {

@@ -1,30 +1,38 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Hash_Table.Tests
+namespace HashTable.Tests
 {
     [TestClass]
     public class HashTableTest
     {
+        private Table firstHashTable;
+        private Table secondHashTable;
+        private Table thirdHashTable;
+        private HashFunctionFromVS hashFunctionMod100;
+        private HashFunctionByMultiplication hashFunctionByMultiplication;
+        private HashFunctionCalledPerfect hashFunctionCalledPerfect;
+        private string filePath = @"test.txt";
+
         [TestInitialize]
         public void Initialize()
         {
             hashFunctionMod100 = new HashFunctionFromVS();
             hashFunctionByMultiplication = new HashFunctionByMultiplication();
             hashFunctionCalledPerfect = new HashFunctionCalledPerfect();
-            firstHash_Table = new Table(hashFunctionMod100);
-            secondHash_Table = new Table(hashFunctionByMultiplication);
-            thirdHash_Table = new Table(hashFunctionCalledPerfect);
-            firstHash_Table.FillingTheTable(filePath);
-            secondHash_Table.FillingTheTable(filePath);
-            thirdHash_Table.FillingTheTable(filePath);
+            firstHashTable = new Table(hashFunctionMod100);
+            secondHashTable = new Table(hashFunctionByMultiplication);
+            thirdHashTable = new Table(hashFunctionCalledPerfect);
+            firstHashTable.FillingTheTable(filePath);
+            secondHashTable.FillingTheTable(filePath);
+            thirdHashTable.FillingTheTable(filePath);
         }
 
         [TestCleanup]
         public void CleanUp()
         {
-            firstHash_Table.ClearTable();
-            secondHash_Table.ClearTable();
-            thirdHash_Table.ClearTable();
+            firstHashTable.ClearTable();
+            secondHashTable.ClearTable();
+            thirdHashTable.ClearTable();
         }
 
         public void FindingTheWordWasTest(Table hash_Table)
@@ -64,70 +72,62 @@ namespace Hash_Table.Tests
 
         [TestMethod]
         public void FindingTheWordWasForFirstHashTest()
-            => FindingTheWordWasTest(firstHash_Table);
+            => FindingTheWordWasTest(firstHashTable);
 
         [TestMethod]
         public void FindingTheWordWasForSecondTableTest()
-            => FindingTheWordWasTest(secondHash_Table);
+            => FindingTheWordWasTest(secondHashTable);
 
         [TestMethod]
         public void FindingTheWordWasForThirdTableTest()
-            => FindingTheWordWasTest(thirdHash_Table);
+            => FindingTheWordWasTest(thirdHashTable);
 
         [TestMethod]
         public void RemovingOneWordForFirstHashTest()
-            => RemovingOneWordTest(firstHash_Table);
+            => RemovingOneWordTest(firstHashTable);
 
         [TestMethod]
         public void RemovingOneWordForSecondHashTest()
-            => RemovingOneWordTest(secondHash_Table);
+            => RemovingOneWordTest(secondHashTable);
 
         [TestMethod]
         public void RemovingOneWordForThirdHashTest()
-            => RemovingOneWordTest(thirdHash_Table);
+            => RemovingOneWordTest(thirdHashTable);
 
         [TestMethod]
         public void AddingUserWordForFirstHashTest()
-            => AddingUserWordTest(firstHash_Table);
+            => AddingUserWordTest(firstHashTable);
 
         [TestMethod]
         public void AddingUserWordForSecondHashTest()
-            => AddingUserWordTest(secondHash_Table);
+            => AddingUserWordTest(secondHashTable);
 
         [TestMethod]
         public void AddingUserWordForThirdHashTest()
-            => AddingUserWordTest(thirdHash_Table);
+            => AddingUserWordTest(thirdHashTable);
 
         [TestMethod]
         public void AddingTheSameWordForFirstHashTest()
-            => AddingTheSameWordTest(firstHash_Table);
+            => AddingTheSameWordTest(firstHashTable);
 
         [TestMethod]
         public void AddingTheSameWordForSecondHashTest()
-            => AddingTheSameWordTest(secondHash_Table);
+            => AddingTheSameWordTest(secondHashTable);
 
         [TestMethod]
         public void AddingTheSameWordForThirdHashTest()
-            => AddingTheSameWordTest(thirdHash_Table);
+            => AddingTheSameWordTest(thirdHashTable);
 
         [TestMethod]
         public void DoubleRemoveForFirstHashTest()
-            => DoubleRemoveTest(firstHash_Table);
+            => DoubleRemoveTest(firstHashTable);
 
         [TestMethod]
         public void DoubleRemoveForSecondHashTest()
-            => DoubleRemoveTest(secondHash_Table);
+            => DoubleRemoveTest(secondHashTable);
 
         [TestMethod]
         public void DoubleRemoveForThirdHashTest()
-            => DoubleRemoveTest(thirdHash_Table);
-
-        private Table firstHash_Table;
-        private Table secondHash_Table;
-        private Table thirdHash_Table;
-        private HashFunctionFromVS hashFunctionMod100;
-        private HashFunctionByMultiplication hashFunctionByMultiplication;
-        private HashFunctionCalledPerfect hashFunctionCalledPerfect;
-        private string filePath = @"test.txt";
+            => DoubleRemoveTest(thirdHashTable);
     }
 }

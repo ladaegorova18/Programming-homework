@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hash_Table
+namespace HashTable
 {
     /// <summary>
     /// Menu class giving user an oppotunity to change the table
