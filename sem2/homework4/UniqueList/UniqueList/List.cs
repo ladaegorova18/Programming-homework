@@ -5,14 +5,14 @@
     /// </summary>
     public class List
     {
-        public int Size { get; set; }
-        protected Node Head { get; set; }
-        protected Node Tail { get; set; }
+        private int size;
+        private Node head;
+        private Node tail;
 
         /// <summary>
         /// Element in list
         /// </summary>
-        public class Node
+        private class Node
         {
             public string Value { get; set; }
             public Node Next { get; set; }
@@ -26,7 +26,7 @@
         /// Checks if list is empty
         /// </summary>
         /// <returns> true, if size = 0 </returns>
-        public bool IsEmpty() => Size == 0;
+        public bool IsEmpty() => size == 0;
 
         /// <summary>
         /// Adds data to list
@@ -38,15 +38,15 @@
             var newElement = new Node(data);
             if (IsEmpty())
             {
-                Head = newElement;
-                Tail = newElement;
+                head = newElement;
+                tail = newElement;
             }
             else 
             {
-                Tail.Next = newElement;
-                Tail = newElement;
+                tail.Next = newElement;
+                tail = newElement;
             }
-            ++Size;
+            ++size;
             return true;
         }
 
@@ -61,13 +61,13 @@
             {
                 return false;
             }
-            --Size;
-            if (data == Head.Value)
+            --size;
+            if (data == head.Value)
             {
-                Head = Head.Next;
+                head = head.Next;
                 return true;
             }
-            var temp = Head;
+            var temp = head;
             Node prev = null;
             while (temp != null)
             {
@@ -75,10 +75,10 @@
                 temp = temp.Next;
                 if (data == temp.Value)
                 {
-                    if (temp == Tail)
+                    if (temp == tail)
                     {
                         prev.Next = null;
-                        Tail = prev;
+                        tail = prev;
                         return true;
                     }
                     prev.Next = temp.Next;
@@ -95,7 +95,7 @@
         /// <returns> true, if data is in list </returns>
         public bool IsValue(string data)
         {
-            var temp = Head;
+            var temp = head;
             while (temp != null)
             {
                 if (temp.Value == data)
@@ -109,9 +109,9 @@
 
         public void Clear()
         {
-            Head = null;
-            Tail = null;
-            Size = 0;
+            head = null;
+            tail = null;
+            size = 0;
         }
     }
 }

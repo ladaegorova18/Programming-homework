@@ -5,6 +5,10 @@
     /// </summary>
     public class UniqueList : List
     {
+        private Node head;
+        private Node tail;
+        private int size;
+
         /// <summary>
         /// Constructor of UniqueList
         /// </summary>
