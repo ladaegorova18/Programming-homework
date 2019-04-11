@@ -1,7 +1,7 @@
 os: Visual Studio 2019 Preview
 
 environment:
-  CLI_VERSION: 1.0.0-rc4-004771
+  CLI_VERSION: SDK 3.0.100-preview3-010431
 
 install:
   - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
