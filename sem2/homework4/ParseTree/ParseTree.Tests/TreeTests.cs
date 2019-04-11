@@ -13,12 +13,6 @@ namespace ParseTree.Tests
             tree = new Tree();
         }
 
-        [TestCleanup]
-        public void CleanUp()
-        {
-            tree.Clean();
-        }
-
         [TestMethod]
         public void OneNumberTest()
         {
@@ -109,7 +103,7 @@ namespace ParseTree.Tests
         public void ZeroTest()
         {
             tree.AddString("0");
-            tree.Count();
+            Assert.AreEqual(0, tree.Count());
         }
 
         [TestMethod]

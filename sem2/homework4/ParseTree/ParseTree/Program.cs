@@ -12,6 +12,8 @@ namespace ParseTree
             try
             {
                 Console.WriteLine("Результат равен: " + tree.Count());
+                tree.Print();
+
             }
             catch (ArgumentException e)
             {

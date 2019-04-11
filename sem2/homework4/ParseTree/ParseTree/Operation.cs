@@ -4,6 +4,11 @@ namespace ParseTree
 {
     public class Operation : INode
     {
+        public char AriphmeticOperation { get; set; }
+        public INode leftChild { get; set; }
+        public INode rightChild { get; set; }
+        private INode parent;
+
         /// <summary>
         /// Constructor for Operation
         /// </summary>
@@ -16,11 +21,8 @@ namespace ParseTree
         /// <returns> integer result </returns>
         public int Count()
         {
-            if (leftChild is Operation)
-            {
-                leftChild.Count();
-            }
-            if (rightChild is Operation)
+            leftChild.Count();
+            if (rightChild != null)
             {
                 rightChild.Count();
             }
@@ -31,7 +33,10 @@ namespace ParseTree
         {
             if (leftChild == null || rightChild == null)
             {
-                if (leftChild is Operand && AriphmeticOperation == '-') return (-1) * leftChild.Count();
+                if (leftChild is Operand && AriphmeticOperation == '-')
+                {
+                    return -leftChild.Count();
+                }
                 throw new ArgumentException("Похоже, выражение в файле некорректно :(");
             }
             return AriphmeticOperation switch
@@ -89,9 +94,32 @@ namespace ParseTree
         private bool IsOperation(char value) => value == '/' || value == '*'
             || value == '+' || value == '-';
 
-        private char AriphmeticOperation { get; set; }
-        private INode leftChild;
-        private INode rightChild;
-        private INode parent;
+        public void Printing(INode current, int level)
+        {
+            if (current != null)
+            {
+                Tabulation(level);
+                if (current is Operand)
+                {
+                    Console.WriteLine(current.Count());
+                }
+                else
+                {
+                    Operation temp = (Operation)current;
+                    Printing(temp.leftChild, level + 1);
+                    Tabulation(level);
+                    Console.WriteLine(temp.AriphmeticOperation);
+                    Printing(temp.rightChild, level + 1);
+                }
+            }
+        }
+
+        private static void Tabulation(int level)
+        {
+            for (var i = 0; i < level; ++i)
+            {
+                Console.Write("\t");
+            }
+        }
     }
 }

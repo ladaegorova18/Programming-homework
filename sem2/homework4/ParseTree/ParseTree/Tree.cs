@@ -8,6 +8,10 @@ namespace ParseTree
     /// </summary>
     public class Tree
     {
+        public Operation current { get; set; }
+
+        private INode root;
+
         private void Add(char value)
         {
             if (IsEmpty())
@@ -48,9 +52,9 @@ namespace ParseTree
         /// <param name="str"> expression to add </param>
         public void AddString(string str)
         {
-            for (int i = 0; i < str.Length; ++i)
+            foreach (var ch in str)
             {
-                Add(str[i]);
+                Add(ch);
             }
         }
 
@@ -79,8 +83,15 @@ namespace ParseTree
 
         private bool IsEmpty() => root == null;
 
-        public Operation current { get; set; }
-
-        private INode root;
+        public void Print()
+        {
+            if (root is Operand)
+            {
+                Console.WriteLine(root.Count());
+                return;
+            }
+            Operation temp = (Operation)root;
+            temp.Printing(temp, 0);
+        }
     }
 }
