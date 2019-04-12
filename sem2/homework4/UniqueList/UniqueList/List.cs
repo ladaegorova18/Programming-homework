@@ -26,7 +26,7 @@
             }
         }
 
-        protected bool WrongPosition(int position, int size) => position < 0 || position > size;
+        protected bool WrongPosition(int position, int size) => position < 0 || position > Size || Size == 0;
 
         /// <summary>
         /// Checks if list is empty
@@ -41,7 +41,7 @@
         /// <returns> If adding was successful </returns>
         public virtual bool Add(string data, int position)
         {
-            if (WrongPosition(position, Size))
+            if (position < 0 || position > Size)
             {
                 return false;
             }
@@ -152,6 +152,25 @@
             }
             var temp = GetNode(position);
             return temp.Value;
+        }
+
+        /// <summary>
+        /// Checks if value is in list
+        /// </summary>
+        /// <param name="data"> data to check </param>
+        /// <returns> id value is in list </returns>
+        public bool Exists(string data)
+        {
+            var temp = head;
+            while (temp != null)
+            {
+                if (temp.Value == data)
+                {
+                    return true;
+                }
+                temp = temp.Next;
+            }
+            return false;
         }
 
         /// <summary>

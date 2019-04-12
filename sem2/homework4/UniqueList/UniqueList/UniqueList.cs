@@ -5,14 +5,6 @@
     /// </summary>
     public class UniqueList : List
     {
-        private Node head = null;
-        private Node tail = null;
-
-        /// <summary>
-        /// Amount elments in list
-        /// </summary>
-        public int Size { get; private set; }
-
         /// <summary>
         /// Override adding in UniqueList throws exception if list already contains an element
         /// </summary>
@@ -53,17 +45,6 @@
                 throw new AddingExistingNodeException("Это значение уже есть в списке!");
             }
             return base.SetValue(value, position);
-        }
-
-        private bool Exists(string data)
-        {
-            var temp = head;
-            while (temp != null)
-            {
-                if (temp.Value == data) return true;
-                temp = temp.Next;
-            }
-            return false;
         }
     }
 }

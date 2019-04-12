@@ -18,23 +18,23 @@ namespace Lists.Tests
         [TestMethod]
         public void AddTest()
         {
-            test.Add("1");
+            test.Add("1", 0);
             Assert.IsFalse(test.IsEmpty());
         }
 
         [TestMethod]
         public void IsValueTest()
         {
-            test.Add("2");
+            test.Add("2", 0);
             Assert.IsTrue(test.Exists("2"));
         }
 
         [TestMethod]
         public void DeleteTest()
         {
-            test.Add("3");
+            test.Add("3", 0);
             Assert.IsTrue(test.Exists("3"));
-            test.Remove("3");
+            test.Remove(0);
             Assert.IsFalse(test.Exists("3"));
         }
 
@@ -42,18 +42,18 @@ namespace Lists.Tests
         [ExpectedException(typeof(AddingExistingNodeException))]
         public void AddExistingNodeTest()
         {
-            test.Add("4");
+            test.Add("4", 0);
             Assert.IsTrue(test.Exists("4"));
-            test.Add("4");
+            test.Add("4", 0);
         }
 
         [TestMethod]
         public void AddTwoElementsTest()
         {
-            test.Add("5");
-            test.Add("6");
-            test.Remove("5");
-            test.Remove("6");
+            test.Add("5", 0);
+            test.Add("6", 1);
+            test.Remove(0);
+            test.Remove(0);
             Assert.IsTrue(test.IsEmpty());
         }
 
@@ -61,100 +61,49 @@ namespace Lists.Tests
         [ExpectedException(typeof(RemovingNonexistentNodeException))]
         public void RemoveTest()
         {
-            test.Remove("7");
-        }
-
-        [TestMethod]
-        public void RemoveRepeatingTest()
-        {
-            for (int i = 0; i < 10; ++i)
-            {
-                list.Add("1");
-            }
-            test = new UniqueList(list);
-            Assert.AreEqual(1, test.Size);
+            test.Remove(0);
         }
 
         [TestMethod]
         [ExpectedException(typeof(RemovingNonexistentNodeException))]
         public void DoubleRemoveTest()
         {
-            test.Add("4");
-            test.Remove("4");
-            test.Remove("4");
+            test.Add("4", 0);
+            test.Remove(0);
+            test.Remove(0);
         }
 
         [TestMethod]
-        public void FromOneToFiveListTest()
+        public void AddToWrongPositionTest()
         {
-            for (int i = 1; i <= 5; ++i)
-            {
-                list.Add(i.ToString());
-            }
-            for (int j = 5; j > 0; --j)
-            {
-                list.Add(j.ToString());
-            }
-            test = new UniqueList(list);
-            for (int i = 1; i <= 5; ++i)
-            {
-                Assert.IsTrue(test.Exists(i.ToString()));
-            }
+            test.Add("ololo", 9);
+            Assert.AreEqual(0, test.Size);
         }
 
         [TestMethod]
-        public void SomeRepeatingElementsTest()
+        public void AddOnZeroPositionTest()
         {
-            string[] array = { "3", "4", "5", "5", "8", "4", "1" };
-            string[] result = { "3", "4", "5", "8", "1" };
-            foreach (var i in array)
+            for (var i = 0; i < 10; ++i)
             {
-                list.Add(i);
+                test.Add(i.ToString(), 0);
             }
-            test = new UniqueList(list);
-            var temp = test.Head;
-            foreach (var i in result)
+            for (var j = 0; j < 10; ++j)
             {
-                Assert.AreEqual(temp.Value, i);
-                temp = temp.Next;
+                Assert.AreEqual(j.ToString(), test.GetValue(9 - j));
             }
         }
 
         [TestMethod]
-        public void ZeroesListTest()
+        public void AddOnIncreasingPositionTest()
         {
-            for (int i = 0; i < 10; ++i)
+            for (var i = 0; i < 10; ++i)
             {
-                list.Add(0.ToString());
+                test.Add(i.ToString(), i);
             }
-            test = new UniqueList(list);
-            Assert.AreEqual(1, test.Size);
-        }
-
-        [TestMethod]
-        public void OneElementTest()
-        {
-            list.Add("8");
-            test = new UniqueList(list);
-            Assert.AreEqual(1, test.Size);
-        }
-
-        [TestMethod]
-        public void EmptyListTest()
-        {
-            test = new UniqueList(list);
-            Assert.IsTrue(test.IsEmpty());
-        }
-
-        [TestMethod]
-        public void DiffrentValuesListTest()
-        {
-            for (int i = 0; i < 10; ++i)
+            for (var j = 0; j < 10; ++j)
             {
-                list.Add(i.ToString());
+                Assert.AreEqual(j.ToString(), test.GetValue(j));
             }
-            test = new UniqueList(list);
-            Assert.AreEqual(10, test.Size);
         }
     }
 }
