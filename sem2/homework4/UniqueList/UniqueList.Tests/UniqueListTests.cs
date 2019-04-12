@@ -26,16 +26,16 @@ namespace Lists.Tests
         public void IsValueTest()
         {
             test.Add("2");
-            Assert.IsTrue(test.IsValue("2"));
+            Assert.IsTrue(test.Exists("2"));
         }
 
         [TestMethod]
         public void DeleteTest()
         {
             test.Add("3");
-            Assert.IsTrue(test.IsValue("3"));
+            Assert.IsTrue(test.Exists("3"));
             test.Remove("3");
-            Assert.IsFalse(test.IsValue("3"));
+            Assert.IsFalse(test.Exists("3"));
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace Lists.Tests
         public void AddExistingNodeTest()
         {
             test.Add("4");
-            Assert.IsTrue(test.IsValue("4"));
+            Assert.IsTrue(test.Exists("4"));
             test.Add("4");
         }
 
@@ -98,7 +98,7 @@ namespace Lists.Tests
             test = new UniqueList(list);
             for (int i = 1; i <= 5; ++i)
             {
-                Assert.IsTrue(test.IsValue(i.ToString()));
+                Assert.IsTrue(test.Exists(i.ToString()));
             }
         }
 

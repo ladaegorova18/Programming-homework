@@ -5,14 +5,18 @@
     /// </summary>
     public class List
     {
-        private int size;
         private Node head;
         private Node tail;
 
         /// <summary>
+        /// Amount elments in list
+        /// </summary>
+        public int Size { get; private set; }
+
+        /// <summary>
         /// Element in list
         /// </summary>
-        private class Node
+        protected class Node
         {
             public string Value { get; set; }
             public Node Next { get; set; }
@@ -22,96 +26,142 @@
             }
         }
 
+        protected bool WrongPosition(int position, int size) => position < 0 || position > size;
+
         /// <summary>
         /// Checks if list is empty
         /// </summary>
         /// <returns> true, if size = 0 </returns>
-        public bool IsEmpty() => size == 0;
+        public bool IsEmpty() => Size == 0;
 
         /// <summary>
         /// Adds data to list
         /// </summary>
         /// <param name="data"> Data to add </param>
         /// <returns> If adding was successful </returns>
-        public virtual bool Add(string data)
+        public virtual bool Add(string data, int position)
         {
+            if (WrongPosition(position, Size))
+            {
+                return false;
+            }
             var newElement = new Node(data);
-            if (IsEmpty())
+            if (Size == 0)
             {
                 head = newElement;
                 tail = newElement;
             }
-            else 
+            else if (position == 0)
+            {
+                newElement.Next = head;
+                head = newElement;
+            }
+            else if (position == Size)
             {
                 tail.Next = newElement;
                 tail = newElement;
             }
-            ++size;
+            else
+            {
+                var temp = head;
+                Node prev = null;
+                for (int i = 0; i < position; ++i)
+                {
+                    prev = temp;
+                    temp = temp.Next;
+                }
+                prev.Next = newElement;
+                newElement.Next = temp;
+            }
+            ++Size;
             return true;
         }
+
 
         /// <summary>
         /// Removes data from list
         /// </summary>
-        /// <param name="data"> What to remove </param>
-        /// <returns> If removing was successful </returns>
-        public virtual bool Remove(string data)
+        /// <param name="position"> Position of deleting element </param>
+        /// <returns> if removing was successful </returns>
+        public virtual bool Remove(int position)
         {
-            if (IsEmpty() || !IsValue(data))
+            if (WrongPosition(position, Size) || IsEmpty() || position == Size)
             {
                 return false;
             }
-            --size;
-            if (data == head.Value)
+            --Size;
+            if (position == 0)
             {
                 head = head.Next;
                 return true;
             }
             var temp = head;
             Node prev = null;
-            while (temp != null)
+            for (int i = 0; i < position; ++i)
             {
                 prev = temp;
                 temp = temp.Next;
-                if (data == temp.Value)
-                {
-                    if (temp == tail)
-                    {
-                        prev.Next = null;
-                        tail = prev;
-                        return true;
-                    }
-                    prev.Next = temp.Next;
-                    return true;
-                }
             }
+            if (temp == tail)
+            {
+                prev.Next = null;
+                tail = prev;
+                return true;
+            }
+            prev.Next = temp.Next;
+            return true;
+        }
+
+        private Node GetNode(int position)
+        {
+            var temp = head;
+            for (int i = 0; i < position; ++i)
+            {
+                temp = temp.Next;
+            }
+            return temp;
+        }
+
+        /// <summary>
+        /// Sets value on position
+        /// </summary>
+        /// <param name="value"> value to set </param>
+        /// <param name="position"> position of changing element </param>
+        /// <returns></returns>
+        public virtual bool SetValue(string value, int position)
+        {
+            if (WrongPosition(position, Size))
+            {
+                return false;
+            }
+            var temp = GetNode(position);
+            temp.Value = value;
             return true;
         }
 
         /// <summary>
-        /// Checks if this data is in list
+        /// 
         /// </summary>
-        /// <param name="data"> data to find </param>
-        /// <returns> true, if data is in list </returns>
-        public bool IsValue(string data)
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public string GetValue(int position)
         {
-            var temp = head;
-            while (temp != null)
+            if (WrongPosition(position, Size))
             {
-                if (temp.Value == data)
-                {
-                    return true;
-                }
-                temp = temp.Next;
+                return "";
             }
-            return false;
+            var temp = GetNode(position);
+            return temp.Value;
         }
 
+        /// <summary>
+        /// Deletes all data from list
+        /// </summary>
         public void Clear()
         {
             head = null;
             tail = null;
-            size = 0;
+            Size = 0;
         }
     }
 }
