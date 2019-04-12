@@ -20,4 +20,3 @@ build_script:
 
 test_script:
   - dotnet test sem2/homework2/Stack_Calculator/Stack_Calculator.sln
-  
