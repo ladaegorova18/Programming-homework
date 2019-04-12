@@ -9,7 +9,7 @@ namespace Test1
     /// <summary>
     /// Queue first in - first out with priorities
     /// </summary>
-    public class Queue
+    public class PriorityQueue
     {
         private Node head;
 

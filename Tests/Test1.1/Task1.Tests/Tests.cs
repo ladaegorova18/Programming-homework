@@ -7,12 +7,12 @@ namespace Task1.Tests
     [TestClass]
     public class Tests
     {
-        private Queue queue;
+        private PriorityQueue queue;
 
         [TestInitialize]
         public void Initialize()
         {
-            queue = new Queue();
+            queue = new PriorityQueue();
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace Task1.Tests
             Assertion(expectedArray, queue);
         }
 
-        private void Assertion(int[] array, Queue queue)
+        private void Assertion(int[] array, PriorityQueue queue)
         {
             foreach (var cell in array)
             {

@@ -10,7 +10,7 @@ namespace Test1
     {
         private static void Main(string[] args)
         {
-            var queue = new Queue();
+            var queue = new PriorityQueue();
             queue.Enqueue(3, 0);
             queue.Enqueue(5, 1);
             queue.Enqueue(2, -5);
