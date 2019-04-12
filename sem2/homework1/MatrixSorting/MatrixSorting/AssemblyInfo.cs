@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором 
 // набор атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // общие сведения об этой сборке.
-[assembly: AssemblyTitle("Sorting")]
+[assembly: AssemblyTitle("MatrixSorting")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Sorting")]
+[assembly: AssemblyProduct("MatrixSorting")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID представляет идентификатор typelib, если этот проект доступен из модели COM
-[assembly: Guid("4a486ecb-23a3-481c-a9d1-c0d484454273")] 
+[assembly: Guid("d56467f8-8b9c-4a86-a058-5fa4dd7bdffb")]
 
 // Сведения о версии для сборки состоят из следующих четырех значений:
 //
