@@ -94,15 +94,15 @@ namespace ConsoleGame.Tests
         }
 
         [TestMethod]
-        public void ToTheRightEdgeTest()
+        public void ToTheUpEdgeTest()
         {
             for (var i = 0; i < 10; ++i)
             {
-                key = ConsoleKey.RightArrow;
+                key = ConsoleKey.UpArrow;
                 eventLoop.SwitchKey(key);
             }
             coords = game.Coords;
-            Assert.AreEqual((9, 1), coords);
+            Assert.AreEqual((1, 1), coords);
         }
 
         [TestMethod]

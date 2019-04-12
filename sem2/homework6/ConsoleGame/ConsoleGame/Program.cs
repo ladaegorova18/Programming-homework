@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace ConsoleGame
 {
+    /// <summary>
+    /// Main program reads map from file and starts the game
+    /// </summary>
     public class Program
     {
         private static DrawOnConsole drawOnConsole = new DrawOnConsole();

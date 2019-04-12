@@ -12,10 +12,11 @@ namespace ConsoleGame
         private (int, int) coords;
         private (int, int) oldCoords;
         private IDrawable drawable;
-        public (int, int) Coords
-        {
-            get => coords;
-        }
+
+        /// <summary>
+        /// Coordinates of gamer
+        /// </summary>
+        public (int, int) Coords => coords;
 
         public Game(List<string> map, (int, int) gamerCoords, IDrawable drawable)
         {
@@ -28,7 +29,7 @@ namespace ConsoleGame
 
         private bool NoEdges(int left, int top) => (left > -1) && (top > -1) && (top < map.Count) && (left < map[top].Length);
 
-        private bool IfCanMove(int left, int top) => NoEdges(left, top) && NoWalls(left, top);
+        private bool CanMove(int left, int top) => NoEdges(left, top) && NoWalls(left, top);
 
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace ConsoleGame
         public void OnLeft(object sender, EventArgs args)
         {
             oldCoords = coords;
-            if (IfCanMove(coords.Item1 - 1, coords.Item2))
+            if (CanMove(coords.Item1 - 1, coords.Item2))
             {
                 --coords.Item1;
             }
@@ -54,7 +55,7 @@ namespace ConsoleGame
         public void OnRight(object sender, EventArgs args)
         {
             oldCoords = coords;
-            if (IfCanMove(coords.Item1 + 1, coords.Item2))
+            if (CanMove(coords.Item1 + 1, coords.Item2))
             {
                 ++coords.Item1;
             }
@@ -69,7 +70,7 @@ namespace ConsoleGame
         public void OnUp(object sender, EventArgs args)
         {
             oldCoords = coords;
-            if (IfCanMove(coords.Item1, coords.Item2 - 1))
+            if (CanMove(coords.Item1, coords.Item2 - 1))
             {
                 --coords.Item2;
             }
@@ -84,7 +85,7 @@ namespace ConsoleGame
         public void OnDown(object sender, EventArgs args)
         {
             oldCoords = coords;
-            if (IfCanMove(coords.Item1, coords.Item2 + 1))
+            if (CanMove(coords.Item1, coords.Item2 + 1))
             {
                 ++coords.Item2;
             }

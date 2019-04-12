@@ -19,9 +19,17 @@ namespace ConsoleGame
         {
             while (true)
             {
+                var coords = (Console.CursorLeft, Console.CursorTop);
                 var key = Console.ReadKey();
-                --Console.CursorLeft;
-                SwitchKey(key.Key);
+                if (IsKeyArrow(key.Key))
+                {
+                    --Console.CursorLeft;
+                    SwitchKey(key.Key);
+                }
+                else
+                {
+                    Console.SetCursorPosition(coords.CursorLeft, coords.CursorTop);
+                }
             }
         }
 
@@ -49,7 +57,14 @@ namespace ConsoleGame
                         DownHandler(this, EventArgs.Empty);
                     }
                     break;
+                default:
+                    {
+                        break;
+                    }
             }
         }
+
+        private bool IsKeyArrow(ConsoleKey key) => key == ConsoleKey.LeftArrow || key == ConsoleKey.RightArrow
+            || key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow;
     }
 }
