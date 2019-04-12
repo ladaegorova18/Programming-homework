@@ -1,10 +1,23 @@
-image: Visual Studio 2017
+image: Visual Studio 2019 Preview
+
+environment:
+  matrix:
+  - solution_name: sem2/homework1/Factorial/Factorial.sln
+  - solution_name: sem2/homework1/Fibonacci/Fibonacci.sln
+  - solution_name: sem2/homework1/MatrixSorting/MatrixSorting.sln
+  - solution_name: sem2/homework1/Sorting/Sorting.sln
+  - solution_name: sem2/homework1/Spiral/Spiral.sln
+  - solution_name: sem2/homework2/Hash-Table/Hash-Table.sln
+  - solution_name: sem2/homework2/Stack_Calculator/Stack_Calculator.sln
+  - solution_name: sem2/homework2/OneLinkedList/OneLinkedList.sln
+  - solution_name: sem2/homework6/ListMethods/ListMethods.sln
 
 before_build:
-  - nuget restore sem2/homework2/Hash-Table/Hash-Table.sln
+  - nuget restore %solution_path%
 
-build:
-  project: sem2/homework2/Hash-Table/Hash-Table.sln
+build_script:
+  - msbuild %solution_path%
 
 test_script:
-  - dotnet test sem2/homework2/Hash-Table/Hash-Table.sln
+  - dotnet test sem2/homework2/Stack_Calculator/Stack_Calculator.sln
+  
