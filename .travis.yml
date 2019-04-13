@@ -1,5 +1,5 @@
 language: csharp
-
+solution: sem2/homework1/Factorial/Factorial.sln
 mono: none
 dotnet: 2.1
 
