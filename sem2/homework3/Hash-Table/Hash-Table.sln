@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hash-Table", "Hash-Table\Hash-Table.csproj", "{80720ADF-7C23-4E77-AE1D-030001978E08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F648A52B-9AAD-48FF-A977-2AAC6E113D2C}"
+	ProjectSection(SolutionItems) = preProject
+		Hash-Table\OneLinkedList.cs = Hash-Table\OneLinkedList.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hash-Table.Tests", "Hash-Table.Tests\Hash-Table.Tests.csproj", "{3011A54F-16CD-4CFB-A7A2-A16D6BA634D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80720ADF-7C23-4E77-AE1D-030001978E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80720ADF-7C23-4E77-AE1D-030001978E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80720ADF-7C23-4E77-AE1D-030001978E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80720ADF-7C23-4E77-AE1D-030001978E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3011A54F-16CD-4CFB-A7A2-A16D6BA634D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3011A54F-16CD-4CFB-A7A2-A16D6BA634D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3011A54F-16CD-4CFB-A7A2-A16D6BA634D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3011A54F-16CD-4CFB-A7A2-A16D6BA634D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00C4AB47-6EF4-4C06-A22E-58BEA8984B35}
+	EndGlobalSection
+EndGlobal
