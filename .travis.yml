@@ -1,23 +1,13 @@
 language: csharp
-solution: sem2/homework1/Factorial/Factorial.sln
-sudo: required
+
 mono: none
 dotnet: 2.1
 
 before_build:
   - nuget restore sem2/homework1/Factorial/Factorial.sln
-  - wget --no-check-certificate https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-
-install:
-  - mono ./nuget.exe install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
 
 build:
   - dotnet build sem2/homework1/Factorial/Factorial.sln
 
-script:
+test_script:
   - dotnet test sem2/homework1/Factorial/Factorial.sln
-  - make compile test
-
-after_script:
-  - make coverage
-  - bash <(curl -s https://codecov.io/bash)
