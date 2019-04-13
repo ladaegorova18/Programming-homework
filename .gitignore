@@ -35,5 +35,6 @@
 **/.vs
 *.vcxproj.user
 **/Debug
-/sem2/homework3/Hash-Table/Hash-Table/obj
-/sem2/homework3/Hash-Table/Hash-Table.Tests/obj
+**/bin
+**/obj
+*/packages
