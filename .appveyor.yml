@@ -5,7 +5,7 @@ before_build:
   - choco install dotnetcore-sdk --pre
 
 build:
-  dotnet build sem2/homework3/Hash-Table/Hash-Table.sln
+  - dotnet build sem2/homework3/Hash-Table/Hash-Table.sln
 
 test_script:
   - dotnet test sem2/homework3/Hash-Table/Hash-Table.sln
