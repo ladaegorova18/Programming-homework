@@ -140,10 +140,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Gets value from the position
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position"> position to take value </param>
+        /// <returns> value from the position </returns>
         public string GetValue(int position)
         {
             if (WrongPosition(position, Size))
