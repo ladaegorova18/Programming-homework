@@ -82,7 +82,7 @@ namespace HashTable
         /// <returns> if removing was successful </returns>
         public bool RemoveData(string data)
         {
-            int hashCode = GetHash(data);
+            int hashCode = GetHash(data) % size;
             return array[hashCode].Remove(data);
         }
 
@@ -93,7 +93,7 @@ namespace HashTable
         /// <returns> true, if it is </returns>
         public bool Exists(string data)
         {
-            int hashCode = GetHash(data);
+            int hashCode = GetHash(data) % size;
             return array[hashCode].Find(data);
         }
 
