@@ -72,7 +72,7 @@ namespace HashTable
         /// Removes input string from list
         /// </summary>
         /// <param name="data"> input string </param>
-        /// <returns> if deleting was successful </returns>
+        /// <returns> success of deleting </returns>
         public bool Remove(string data)
         {
             if (IsEmpty())
