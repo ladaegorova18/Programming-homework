@@ -7,18 +7,21 @@ namespace ParseTree
     /// </summary>
     public class Operand : INode
     {
-        public Operand(char value)
+        /// <summary>
+        /// Value - number in node
+        /// </summary>
+        public int Value { get; set; }
+
+        public Operand(int value)
         {
-            Value = value;
+            Value = value - '0';
         }
 
         /// <summary>
         /// Count value here means to return its value
         /// </summary>
         /// <returns> number itself </returns>
-        public int Count() => Value - '0';
-
-        public int Value { get; set; }
+        public int Count() => Value;
 
         /// <summary>
         /// Operand as node of tree can not have children
