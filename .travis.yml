@@ -12,4 +12,3 @@ build:
 
 script:
   - dotnet test sem2/homework1/Factorial/Factorial.sln
-  - make compile test
