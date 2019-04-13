@@ -1,13 +1,15 @@
 language: csharp
 solution: sem2/homework1/Factorial/Factorial.sln
+sudo: required
 mono: none
 dotnet: 2.1
 
 before_build:
-  - nuget restore sem2/homework1/Factorial/Factorial.sln
+  - nuget restore sem2/homework1/Factorial/Factorial.sln\
 
 build:
   - dotnet build sem2/homework1/Factorial/Factorial.sln
 
-test_script:
+script:
   - dotnet test sem2/homework1/Factorial/Factorial.sln
+  - make compile test
