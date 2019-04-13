@@ -4,7 +4,7 @@ before_build:
   - nuget restore sem2/homework3/Hash-Table/Hash-Table.sln
   - choco install dotnetcore-sdk --pre
 
-build:
+dotnet build:
   project: sem2/homework3/Hash-Table/Hash-Table.sln
 
 test_script:
