@@ -35,5 +35,6 @@
 **/.vs
 *.vcxproj.user
 **/Debug
-*/obj
-*/bin
+**/bin
+**/obj
+*/packages
