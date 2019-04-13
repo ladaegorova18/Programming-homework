@@ -7,5 +7,5 @@ before_build:
 build:
   - dotnet build sem2/homework3/Hash-Table/Hash-Table.sln
 
-test_script:
+script:
   - dotnet test sem2/homework3/Hash-Table/Hash-Table.sln
