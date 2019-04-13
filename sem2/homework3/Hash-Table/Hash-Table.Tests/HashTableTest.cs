@@ -11,7 +11,7 @@ namespace HashTable.Tests
         private HashFunctionFromVS hashFunctionMod100;
         private HashFunctionByMultiplication hashFunctionByMultiplication;
         private HashFunctionCalledPerfect hashFunctionCalledPerfect;
-        private string filePath = @"test.txt";
+        private readonly string filePath = @"test.txt";
 
         [TestInitialize]
         public void Initialize()

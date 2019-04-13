@@ -26,7 +26,6 @@ namespace HashTable
                         hash += data[j] << (int)(Pow(2, (j - i)) * 8);
                     }
                 }
-                //hash = data[0] + data[1] << 8 + data[2] << 16 + data[3] << 32;
                 hash *= 73837; // 'волшебное' число, как написано на одном сайте
             }
             hash = (hash * 100) & 64;

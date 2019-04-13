@@ -7,6 +7,17 @@ namespace HashTable
     /// </summary>
     class Menu
     {
+        private readonly Table hashTable;
+
+        /// <summary>
+        /// Constructor for Menu, gives it hash-table from main program
+        /// </summary>
+        /// <param name="hashTable"></param>
+        public Menu(Table hashTable)
+        {
+            this.hashTable = hashTable;
+        }
+
         private void TextMenu()
         {
             Console.WriteLine("Это меню хэш-таблицы. Нажмите:");
@@ -71,19 +82,5 @@ namespace HashTable
                     }
             }
         }
-
-        /// <summary>
-        /// Constructor for Menu, gives it hash-table from main program
-        /// </summary>
-        /// <param name="hashTable"></param>
-        public Menu(Table hashTable)
-        {
-            this.hashTable = hashTable;
-        }
-
-        /// <summary>
-        /// hash-table for working with data
-        /// </summary>
-        private Table hashTable;
     }
 }

@@ -50,7 +50,10 @@ namespace HashTable
                 Node temp = Head;
                 while (temp != null)
                 {
-                    if (temp.Value == data) return true;
+                    if (temp.Value == data)
+                    {
+                        return true;
+                    }
                     temp = temp.Next;
                 }
                 Tail.Next = newElement;
@@ -72,7 +75,10 @@ namespace HashTable
         /// <returns> if deleting was successful </returns>
         public bool Remove(string data)
         {
-            if (IsEmpty()) return false;
+            if (IsEmpty())
+            {
+                return false;
+            }
             --Size;
             if (data == Head.Value)
             {
@@ -103,7 +109,10 @@ namespace HashTable
                     Tail = prev;
                     return true;
                 }
-                if (temp == null) return true;
+                if (temp == null)
+                {
+                    return true;
+                }
                 prev.Next = temp.Next;
             }
             return true;

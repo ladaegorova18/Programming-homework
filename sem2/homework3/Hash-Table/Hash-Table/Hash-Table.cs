@@ -13,7 +13,7 @@ namespace HashTable
         private int size = 100;
         private const int critical = 10;
         private OneLinkedList[] array;
-        private IHash hashFunction;
+        private readonly IHash hashFunction;
 
         /// <summary>
         /// Constructor which gives the table hash function that user has chosen
@@ -41,12 +41,12 @@ namespace HashTable
 
         public int GetSize()
         {
-            var size = 0;
+            var count = 0;
             foreach (var cell in array)
             {
-                size += cell.Size;
+                count += cell.Size;
             }
-            return size;
+            return count;
         }
 
         /// <summary>
