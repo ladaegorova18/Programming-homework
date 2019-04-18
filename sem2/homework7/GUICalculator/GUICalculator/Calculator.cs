@@ -10,7 +10,6 @@ namespace GUICalculator
         private float? result;
         private float? current;
         private string operation;
-        private Color oldColor;
         bool isComma = false;
 
         public Calculator()
@@ -191,18 +190,5 @@ namespace GUICalculator
             }
             return "";
         }
-
-        private void DeleteAllButtonMouseMove(object sender, MouseEventArgs e) => ChangeColorMouseEnter(deleteAllButton);
-
-        private void DeleteAllButtonMouseLeave(object sender, EventArgs e) => ChangeColorMouseLeave(deleteAllButton);
-
-        private void ChangeColorMouseEnter(Button temp)
-        {
-            oldColor = temp.BackColor;
-            temp.BackColor = Color.Ivory;
-        }
-
-        private void ChangeColorMouseLeave(Button temp) => temp.BackColor = oldColor;
-
     }
 } // долгая обработка исключений

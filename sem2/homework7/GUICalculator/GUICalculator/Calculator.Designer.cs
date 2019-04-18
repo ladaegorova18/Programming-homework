@@ -356,8 +356,6 @@
             this.deleteAllButton.Text = "CE";
             this.deleteAllButton.UseVisualStyleBackColor = false;
             this.deleteAllButton.Click += new System.EventHandler(this.DeleteAllClick);
-            this.deleteAllButton.MouseLeave += new System.EventHandler(this.DeleteAllButtonMouseLeave);
-            this.deleteAllButton.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DeleteAllButtonMouseMove);
             // 
             // deleteLineButton
             // 
