@@ -21,7 +21,6 @@ namespace ConsoleGame
             }
             var gamerCoords = DrawMap(map);
             drawOnConsole.DrawGamer(gamerCoords);
-
             var game = new Game(map, gamerCoords, drawOnConsole);
             AddHandlers(eventLoop, game);
 

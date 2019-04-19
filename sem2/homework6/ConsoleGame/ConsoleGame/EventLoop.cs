@@ -19,17 +19,8 @@ namespace ConsoleGame
         {
             while (true)
             {
-                var coords = (Console.CursorLeft, Console.CursorTop);
-                var key = Console.ReadKey();
-                if (IsKeyArrow(key.Key))
-                {
-                    --Console.CursorLeft;
-                    SwitchKey(key.Key);
-                }
-                else
-                {
-                    Console.SetCursorPosition(coords.CursorLeft, coords.CursorTop);
-                }
+                var key = Console.ReadKey(true);
+                SwitchKey(key.Key);
             }
         }
 

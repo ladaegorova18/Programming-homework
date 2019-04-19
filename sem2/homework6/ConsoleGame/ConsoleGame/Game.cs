@@ -21,7 +21,7 @@ namespace ConsoleGame
         public Game(List<string> map, (int, int) gamerCoords, IDrawable drawable)
         {
             this.map = map;
-            this.coords = gamerCoords;
+            coords = gamerCoords;
             this.drawable = drawable;
         }
 

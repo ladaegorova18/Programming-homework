@@ -37,7 +37,6 @@ namespace ConsoleGame
         {
             Console.SetCursorPosition(oldCoords.Item1, oldCoords.Item2);
             Console.Write('.');
-            --Console.CursorLeft;
         }
     }
 }
