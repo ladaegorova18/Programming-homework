@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace GUICalculator
 {
     public partial class Calculator : Form
     {
-        private Counter counter;
+        private Counter counter = new Counter();
         private float? result;
         private float? current;
         private string operation;
-        bool isComma = false;
+        bool comma = false;
 
+        /// <summary>
+        /// Constuctor of calculator
+        /// </summary>
         public Calculator()
         {
-            counter = new Counter();
             InitializeComponent();
         }
 
@@ -24,13 +25,10 @@ namespace GUICalculator
         /// <param name="number"> number to add in textbox </param>
         public void ReadNumber(char number)
         {
-            if (textBox.Text == "0")
+            if (result.HasValue && float.IsNaN(result.Value) || textBox.Text == "0")
             {
-                textBox.Text = null;
-            }
-            if (tempExpression.Text == "0")
-            {
-                tempExpression.Text = null;
+                textBox.Text = "";
+                tempExpression.Text = "";
             }
             textBox.Text += number;
             tempExpression.Text += number;
@@ -43,23 +41,27 @@ namespace GUICalculator
         public void ReadOperation(string operation)
         {
             ShowResult();
-            if ((textBox.Text != "") && (textBox.Text != null))
+            if ((textBox.Text != null) && (textBox.Text != ""))
             {
                 if (float.TryParse(textBox.Text, out float temp))
                 {
                     result = temp;
-                    textBox.Text = null;
-                    if (!Char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1]))
-                    {
-                        tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
-                    }
-                    tempExpression.Text += operation;
-                    isComma = false;
+                    textBox.Text = "";
+                    comma = false;
                 }
-                else
+            }
+            if (result.HasValue && float.IsNaN(result.Value))
+            {
+                tempExpression.Text = "";
+            }
+            if (tempExpression.Text != "")
+            {
+                if (!char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1])
+                        && tempExpression.Text[tempExpression.Text.Length - 1] != '∞')
                 {
-                    tempExpression.Text = null;
+                    tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
                 }
+                tempExpression.Text += operation;
             }
             this.operation = operation;
         }
@@ -68,21 +70,22 @@ namespace GUICalculator
         {
             if ((textBox.Text != null) && (textBox.Text != ""))
             {
-                if (float.TryParse(textBox.Text, out float temp) && (result.HasValue) && operation != null)
+                if (float.TryParse(textBox.Text, out float temp) && result.HasValue && operation != null)
                 {
                     current = temp;
                     result = counter.Count(result.Value, current.Value, operation);
                     if (!int.TryParse(result.ToString(), out int tempInt))
                     {
-                        isComma = true;
+                        comma = true;
                     }
                     textBox.Text = result.ToString();
                     tempExpression.Text = result.ToString();
-                    operation = null; // выглядит грустно
+                    operation = null;
                 }
             }
-        } // отдельный класс для GUI
+        }
 
+        //numbers
         private void Number1Click(object sender, EventArgs e) => ReadNumber('1');
 
         private void Number2Click(object sender, EventArgs e) => ReadNumber('2');
@@ -112,36 +115,33 @@ namespace GUICalculator
 
         private void SubtractionClick(object sender, EventArgs e) => ReadOperation("-");
 
-        private void PowerClick(object sender, EventArgs e) => ReadOperation("^");
-
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
         private void CommaClick(object sender, EventArgs e)
         {
-            if ((textBox.Text != "") && (!isComma))
+            if ((textBox.Text != "") && (!comma))
             {
                 textBox.Text += ',';
                 tempExpression.Text += ',';
-                isComma = true;
+                comma = true;
             }
         }
 
         private void ChangeSignClick(object sender, EventArgs e)
         {
             float.TryParse(textBox.Text, out float temp);
+            if (temp == 0)
+            {
+                return;
+            }
+            tempExpression.Text = "";
             if (temp < 0)
             {
                 textBox.Text = textBox.Text.Substring(1);
-                tempExpression.Text = textBox.Text.Substring(0, textBox.Text.Length - textBox.Text.Length);
-                tempExpression.Text = tempExpression.Text + textBox.Text;
+                tempExpression.Text = textBox.Text;
                 return;
             }
-            if (temp == 0) //тут что-то странное..
-            {
-                return;
-            }
-            tempExpression.Text = textBox.Text.Substring(0, textBox.Text.Length - textBox.Text.Length);
-            tempExpression.Text = tempExpression.Text + "-" + textBox.Text;
+            tempExpression.Text = "-" + textBox.Text;
             textBox.Text = "-" + textBox.Text;
         }
 
@@ -152,8 +152,8 @@ namespace GUICalculator
                 if (operation == null)
                 {
                     result = null;
-                    tempExpression.Text = null;
-                    isComma = false;
+                    tempExpression.Text = "";
+                    comma = false;
                 }
                 else
                 {
@@ -163,17 +163,17 @@ namespace GUICalculator
             }
             else
             {
-                tempExpression.Text = null;
+                tempExpression.Text = "";
             }
-            textBox.Text = "0";
+            textBox.Text = "";
         }
 
         private void DeleteAllClick(object sender, EventArgs e)
         {
             result = null;
-            tempExpression.Text = null;
-            textBox.Text = null;
-            isComma = false;
+            tempExpression.Text = "";
+            textBox.Text = "";
+            comma = false;
         }
 
         private void DeleteOneSymbolButtonClick(object sender, EventArgs e)
@@ -191,4 +191,4 @@ namespace GUICalculator
             return "";
         }
     }
-} // долгая обработка исключений
+} 

@@ -45,7 +45,7 @@
             this.division = new System.Windows.Forms.Button();
             this.addition = new System.Windows.Forms.Button();
             this.equalSign = new System.Windows.Forms.Button();
-            this.comma = new System.Windows.Forms.Button();
+            this.commaButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.deleteAllButton = new System.Windows.Forms.Button();
             this.deleteLineButton = new System.Windows.Forms.Button();
@@ -85,7 +85,7 @@
             this.tableLayoutPanel.Controls.Add(this.division, 4, 2);
             this.tableLayoutPanel.Controls.Add(this.addition, 4, 3);
             this.tableLayoutPanel.Controls.Add(this.equalSign, 4, 4);
-            this.tableLayoutPanel.Controls.Add(this.comma, 3, 4);
+            this.tableLayoutPanel.Controls.Add(this.commaButton, 3, 4);
             this.tableLayoutPanel.Controls.Add(this.button1, 1, 4);
             this.tableLayoutPanel.Controls.Add(this.deleteAllButton, 1, 0);
             this.tableLayoutPanel.Controls.Add(this.deleteLineButton, 2, 0);
@@ -317,17 +317,17 @@
             // 
             // comma
             // 
-            this.comma.AutoSize = true;
-            this.comma.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.comma.Cursor = System.Windows.Forms.Cursors.Default;
-            this.comma.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comma.Location = new System.Drawing.Point(163, 221);
-            this.comma.Name = "comma";
-            this.comma.Size = new System.Drawing.Size(70, 46);
-            this.comma.TabIndex = 13;
-            this.comma.Text = ",";
-            this.comma.UseVisualStyleBackColor = false;
-            this.comma.Click += new System.EventHandler(this.CommaClick);
+            this.commaButton.AutoSize = true;
+            this.commaButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.commaButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.commaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.commaButton.Location = new System.Drawing.Point(163, 221);
+            this.commaButton.Name = "comma";
+            this.commaButton.Size = new System.Drawing.Size(70, 46);
+            this.commaButton.TabIndex = 13;
+            this.commaButton.Text = ",";
+            this.commaButton.UseVisualStyleBackColor = false;
+            this.commaButton.Click += new System.EventHandler(this.CommaClick);
             // 
             // button1
             // 
@@ -439,7 +439,7 @@
         private System.Windows.Forms.Button number2;
         private System.Windows.Forms.Button number1;
         private System.Windows.Forms.Label tempExpression;
-        private System.Windows.Forms.Button comma;
+        private System.Windows.Forms.Button commaButton;
         private System.Windows.Forms.Button deleteAllButton;
         private System.Windows.Forms.Button deleteLineButton;
         private System.Windows.Forms.Button division;
