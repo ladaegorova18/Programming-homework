@@ -12,10 +12,11 @@ namespace GenericList
         private Node temp = new Node();
         private int position = -1;
         private List<object> list;
+        private Node head;
 
-        public ListEnum(List<object> list)
+        public ListEnum(Node head)
         {
-            this.list = list;
+            this.head = head;
         }
 
         public T Current => throw new NotImplementedException();

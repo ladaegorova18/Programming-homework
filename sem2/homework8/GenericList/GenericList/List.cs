@@ -138,7 +138,7 @@ namespace GenericList
             previous.Next = temp.Next;
         }
 
-        public ListEnum GetEnumerator() => new ListEnum(this);
+        public ListEnum GetEnumerator() => new ListEnum(head);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
