@@ -1,7 +1,32 @@
-image: Visual Studio 2017
+image: Visual Studio 2019 Preview
+
+environment:
+  matrix:
+  - solution_path: sem2/homework1/Factorial/Factorial.sln
+  - solution_path: sem2/homework1/Fibonacci/Fibonacci.sln
+  - solution_path: sem2/homework1/MatrixSorting/MatrixSorting.sln
+  - solution_path: sem2/homework1/Sorting/Sorting.sln
+  - solution_path: sem2/homework1/Spiral/Spiral.sln
+  - solution_path: sem2/homework2/Hash-Table/Hash-Table.sln
+  - solution_path: sem2/homework2/Stack_Calculator/StackCalculator.sln
+  - solution_path: sem2/homework2/OneLinkedList/OneLinkedList.sln
+  - solution_path: sem2/homework6/ListMethods/ListMethods.sln
+  - solution_path: Tests/Test1.1/Task1.sln
 
 before_build:
-  - nuget restore Tests/Test1.1/Task1.sln
+  - nuget restore %solution_path%
 
-build:
-  project: Tests/Test1.1/Task1.sln
+build_script:
+  - msbuild %solution_path%
+
+test_script:
+  - dotnet test sem2/homework1/Factorial/Factorial.sln
+  - dotnet test sem2/homework1/Fibonacci/Fibonacci.sln
+  - dotnet test sem2/homework1/MatrixSorting/MatrixSorting.sln
+  - dotnet test sem2/homework1/Sorting/Sorting.sln
+  - dotnet test sem2/homework1/Spiral/Spiral.sln
+  - dotnet test sem2/homework2/Hash-Table/Hash-Table.sln
+  - dotnet test sem2/homework2/Stack_Calculator/StackCalculator.sln
+  - dotnet test sem2/homework2/OneLinkedList/OneLinkedList.sln
+  - dotnet test sem2/homework6/ListMethods/ListMethods.sln
+  - dotnet test Tests/Test1.1/Task1.sln
