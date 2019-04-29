@@ -1,38 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GenericList
 {
-    public class ListEnum : IEnumerator<T>
+    public class ListEnum<T> : IEnumerator<T>
     {
-        private Node temp = new Node();
-        private int position = -1;
-        private List<object> list;
-        private Node head;
+        private List<T>.Node temp = new List<T>.Node();
+        private List<T>.Node head;
 
-        public ListEnum(Node head)
+        public ListEnum(List<T>.Node head)
         {
             this.head = head;
+            temp.Next = head;
         }
 
-        public T Current => throw new NotImplementedException();
+        public T Current => temp.Value;
 
-        object IEnumerator.Current => throw new NotImplementedException();
+        object IEnumerator.Current => temp;
 
-        public void Dispose()
+        public void Dispose(){ }
+
+        public bool MoveNext()
         {
-            throw new NotImplementedException();
-        }
-           
-        bool IEnumerator.MoveNext()
-        {
-            ++position;
             temp = temp.Next;
-            return (position < count);
+            if (temp != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         void IEnumerator.Reset() => temp.Next = head;

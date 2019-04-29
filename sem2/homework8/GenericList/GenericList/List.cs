@@ -9,9 +9,9 @@ namespace GenericList
         public int Count => count;
         private int count = 0;
         public Node Head { get; private set; }
-        private Node Tail { get; private set; }
+        public Node Tail { get; private set; }
 
-        private class Node
+        public class Node
         {
             public Node() { }
 
@@ -52,7 +52,7 @@ namespace GenericList
         {
             var newNode = new Node(item);
             ++count;
-            if (count == 0)
+            if (count == 1)
             {
                 Head = newNode;
                 Tail = newNode;
@@ -138,11 +138,13 @@ namespace GenericList
             previous.Next = temp.Next;
         }
 
-        public ListEnum GetEnumerator() => new ListEnum(head);
+        public ListEnum<T> GetEnumerator() => new ListEnum<T>(Head);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => (IEnumerator<T>)GetEnumerator();
-        }
     }
 }
+/*Переделать список на генерики. Список должен реализовывать интерфейс 
+ * System.Collections.Generic.IList, в том числе иметь энумератор, чтобы можно было 
+ * по нему ходить foreach.*/
