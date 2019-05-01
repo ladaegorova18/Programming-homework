@@ -100,10 +100,6 @@ namespace GenericSet
             throw new NotImplementedException();
         }
 
-        private SetEnum GetEnumer() => new SetEnum();
-
-        public IEnumerator<T> GetEnumerator() => (IEnumerator<T>)GetEnumer();
-
         public void IntersectWith(IEnumerable<T> other)
         {
             throw new NotImplementedException();
@@ -159,7 +155,33 @@ namespace GenericSet
             throw new NotImplementedException();
         }
 
+        private SetEnum GetEnumer() => new SetEnum();
+
+        public IEnumerator<T> GetEnumerator() => (IEnumerator<T>)GetEnumer();
+
         IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumer();
+
+        private class SetEnum : IEnumerator<T>
+        {
+            public T Current => throw new NotImplementedException();
+
+            object IEnumerator.Current => throw new NotImplementedException();
+
+            public void Dispose()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool MoveNext()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Reset()
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
 
