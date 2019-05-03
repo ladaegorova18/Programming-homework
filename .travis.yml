@@ -17,7 +17,3 @@ build:
 script:
   - dotnet test sem2/homework8/GenericList/GenericList.sln
   - make compile test
-
-after_script:
-  - make coverage
-  - bash <(curl -s https://codecov.io/bash)
