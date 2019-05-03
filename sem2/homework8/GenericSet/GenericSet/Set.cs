@@ -12,12 +12,14 @@ namespace GenericSet
         private Node root;
         private int count = 0;
 
-        private class Node
+        private class Node : IComparable<T>
         {
             public Node(T value) => Value = value;
             public T Value { get; private set; }
             public Node leftChild { get; set; }
             public Node rightChild { get; set; }
+
+            public int CompareTo(T other) => CompareTo(other);
         }
 
         public int Count => count;
@@ -26,33 +28,28 @@ namespace GenericSet
 
         public bool Add(T item)
         {
-            var newNode = new Node(item);
+            var node = new Node(item);
             ++count;
             if (count == 1)
             {
-                root = newNode;
+                root = node;
                 return true;
             }
-            if (Contains(item))
+            var current = root;
+            Node parent = null;
+            while (current != null)
             {
-                return false;
+                parent = current;
+                if (CompareTo(current.Value))
             }
-            AddData(root, item);
             return true;
         }
 
-        private void AddData(Node root, T item)
-        {
-            if (root.leftChild == null)
-            {
-                AddData(root.leftChild, item);
-            }
-            else
-            {
-                AddData(root.rightChild, item);
-            }
-            root = new Node(item);
-        }
+        //if (Contains(item))
+        //{
+        //    return false;
+        //}
+
 
         public void Clear()
         {
@@ -92,7 +89,9 @@ namespace GenericSet
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            var temp = root;
+            var index = arrayIndex;
+
         }
 
         public void ExceptWith(IEnumerable<T> other)
@@ -132,7 +131,17 @@ namespace GenericSet
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            if (!Contains(item))
+            {
+                return false;
+            }
+            RemoveRecursion(root, item);
+            return true;
+        }
+
+        private void RemoveRecursion(Node root, T item)
+        {
+
         }
 
         public bool SetEquals(IEnumerable<T> other)
@@ -155,22 +164,33 @@ namespace GenericSet
             throw new NotImplementedException();
         }
 
-        private SetEnum GetEnumer() => new SetEnum();
+        public IEnumerator<T> GetEnum() => new SetEnum(root);
 
-        public IEnumerator<T> GetEnumerator() => (IEnumerator<T>)GetEnumer();
+        public IEnumerator<T> GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumer();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public int CompareTo(T other)
+        {
+            throw new NotImplementedException();
+        }
 
         private class SetEnum : IEnumerator<T>
         {
-            public T Current => throw new NotImplementedException();
+            private Node root;
+            private Node temp;
 
-            object IEnumerator.Current => throw new NotImplementedException();
-
-            public void Dispose()
+            public SetEnum(Node root)
             {
-                throw new NotImplementedException();
+                this.root = root;
+                temp = root;
             }
+
+            public T Current => temp.Value;
+
+            object IEnumerator.Current => temp;
+
+            public void Dispose() { }
 
             public bool MoveNext()
             {
@@ -179,7 +199,7 @@ namespace GenericSet
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                temp.leftChild = root;
             }
         }
     }
