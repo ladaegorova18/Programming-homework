@@ -4,22 +4,43 @@ using System.Collections.Generic;
 
 namespace GenericList
 {
+    /// <summary>
+    /// generic list: list that can contain various types
+    /// </summary>
+    /// <typeparam name="T"> type of data in list </typeparam>
     public class List<T> : IList<T>
     {
+        /// <summary>
+        /// amount of elements in list
+        /// </summary>
         public int Count => count;
+
         private int count = 0;
         private Node head;
         private Node tail;
 
+        /// <summary>
+        /// node - element in list
+        /// </summary>
         private class Node
         {
+            /// <summary>
+            /// empty constructor of node
+            /// </summary>
             public Node() { }
 
+            /// <summary>
+            /// constructor that gives node a definite value
+            /// </summary>
+            /// <param name="value"> value to create node </param>
             public Node(T value)
             {
                 Value = value;
             }
 
+            /// <summary>
+            /// data that 
+            /// </summary>
             public T Value { get; set; }
             public Node Next { get; set; }
         }
@@ -185,11 +206,11 @@ namespace GenericList
             previous.Next = temp.Next;
         }
 
-        public ListEnum GetEnumerator() => new ListEnum(head);
+        public IEnumerator<T> GetEnumerator() => GetEnum();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnum();
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
+        public IEnumerator<T> GetEnum() => new ListEnum(head);
 
         private class ListEnum : IEnumerator<T>
         {

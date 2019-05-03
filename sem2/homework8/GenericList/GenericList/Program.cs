@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace GenericList
 {
+    /// <summary>
+    /// main program
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// main method; unnecessary here, though
+        /// </summary>
         public static void Main(string[] args)
         {
             var list = new List<int>();

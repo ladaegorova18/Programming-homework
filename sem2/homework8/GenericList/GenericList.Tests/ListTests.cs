@@ -9,6 +9,13 @@ namespace GenericList.Tests
         private List<int> listInt;
         private List<string> listString;
 
+        [TestInitialize]
+        public void Initialize()
+        {
+            listInt = new List<int>();
+            listString = new List<string>();
+        }
+
         [TestMethod]
         public void AddIntTest()
         {
@@ -73,21 +80,6 @@ namespace GenericList.Tests
         }
 
         [TestMethod]
-        public void InsertStringTest()
-        {
-            var array = new string[] { 1, 9, 2 };
-            listString.Add(1);
-            listString.Add(2);
-            listString.Insert(1, 9);
-            var index = 0;
-            foreach (var cell in listString)
-            {
-                Assert.AreEqual(array[index], cell);
-                ++index;
-            }
-        }
-
-        [TestMethod]
         public void IndexOfIntTest()
         {
             listInt.Add(1);
@@ -110,7 +102,7 @@ namespace GenericList.Tests
         [TestMethod]
         public void ContainsTest()
         {
-            Assert.IsTrue(!listInt.Contains(1));
+            Assert.IsFalse(listInt.Contains(1));
             listInt.Add(1);
             Assert.IsTrue(listInt.Contains(1));
         }
@@ -133,6 +125,11 @@ namespace GenericList.Tests
         [TestMethod]
         public void EnumeratorTest()
         {
+            var ie = listInt.GetEnumerator();
+            while (ie.MoveNext())
+            {
+
+            }
         }
     }
 }
