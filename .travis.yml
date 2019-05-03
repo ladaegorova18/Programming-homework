@@ -1,8 +1,19 @@
 language: csharp
+solution: sem2/homework7/Clock/Clock.sln
+sudo: required
+mono: none
+dotnet: 2.1
+
+before_build:
+  - nuget restore sem2/homework7/Clock/Clock.sln\
+  - wget --no-check-certificate https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+
 install:
- - nuget restore sem2/homework1/Factorial/Factorial.sln
- - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
+  - mono ./nuget.exe install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
+
+build:
+  - dotnet build sem2/homework7/Clock/Clock.sln
+
 script:
- - msbuild /p:Configuration=Release sem2/homework1/Factorial/Factorial.sln
- - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe \
- sem2/homework1/Factorial/Factorial.sln 
+  - dotnet test sem2/homework7/Clock/Clock.sln
+  - make compile test
