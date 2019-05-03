@@ -39,12 +39,21 @@ namespace GenericList
             }
 
             /// <summary>
-            /// data that 
+            /// data in node 
             /// </summary>
             public T Value { get; set; }
+
+            /// <summary>
+            /// next node
+            /// </summary>
             public Node Next { get; set; }
         }
 
+        /// <summary>
+        /// current node in list
+        /// </summary>
+        /// <param name="index"> index to find node </param>
+        /// <returns> T value of node </returns>
         public T this[int index] {
 
             get
@@ -63,12 +72,19 @@ namespace GenericList
                 {
                     temp = temp.Next;
                 }
-                temp.Value = value; //??
+                temp.Value = value;
             }
         }
 
+        /// <summary>
+        /// if list is read only
+        /// </summary>
         public bool IsReadOnly => false;
 
+        /// <summary>
+        /// adds value to list
+        /// </summary>
+        /// <param name="item"> value to add </param>
         public void Add(T item)
         {
             var newNode = new Node(item);
@@ -83,6 +99,9 @@ namespace GenericList
             tail = newNode;
         }
 
+        /// <summary>
+        /// makes list empty
+        /// </summary>
         public void Clear()
         {
             head = null;
@@ -90,6 +109,11 @@ namespace GenericList
             count = 0;
         }
 
+        /// <summary>
+        /// finds definite value in list
+        /// </summary>
+        /// <param name="item"> value to seek </param>
+        /// <returns> is value in list </returns>
         public bool Contains(T item)
         {
             var temp = head;
@@ -104,6 +128,11 @@ namespace GenericList
             return false;
         }
 
+        /// <summary>
+        /// copies list to array
+        /// </summary>
+        /// <param name="array"> array to copy in </param>
+        /// <param name="arrayIndex"> start index of array to copy in </param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             var temp = head;
@@ -115,6 +144,11 @@ namespace GenericList
             }
         }
 
+        /// <summary>
+        /// finds index of definite value in list
+        /// </summary>
+        /// <param name="item"> value to seek </param>
+        /// <returns> index of value </returns>
         public int IndexOf(T item)
         {
             if (!Contains(item))
@@ -135,6 +169,11 @@ namespace GenericList
             return index;
         }
 
+        /// <summary>
+        /// inserts value to definite place in list
+        /// </summary>
+        /// <param name="index"> index to insert </param>
+        /// <param name="item"> value to add </param>
         public void Insert(int index, T item)
         {
             var newNode = new Node(item);
@@ -146,7 +185,7 @@ namespace GenericList
             }
             if (!CorrectIndex(index))
             {
-                return; // может, бросать исключение?
+                return;
             }
             var temp = head;
             Node previous = null;
@@ -161,6 +200,11 @@ namespace GenericList
 
         private bool CorrectIndex(int index) => index > 0 && index <= count;
 
+        /// <summary>
+        /// removes value from list
+        /// </summary>
+        /// <param name="item"> value to remove </param>
+        /// <returns> success of removing </returns>
         public bool Remove(T item)
         {
             if (!Contains(item))
@@ -188,6 +232,10 @@ namespace GenericList
             return true;
         }
 
+        /// <summary>
+        /// removes value from definite place
+        /// </summary>
+        /// <param name="index"> index of node to remove </param>
         public void RemoveAt(int index)
         {
             --count;
@@ -206,29 +254,52 @@ namespace GenericList
             previous.Next = temp.Next;
         }
 
+        /// <summary>
+        /// IEnumerator - a rule to go through list
+        /// </summary>
         public IEnumerator<T> GetEnumerator() => GetEnum();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnum();
 
+        /// <summary>
+        /// creates ListEnum - object of user enumerator class 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<T> GetEnum() => new ListEnum(head);
 
+        /// <summary>
+        /// user enumerator class to go through list
+        /// </summary>
         private class ListEnum : IEnumerator<T>
         {
             private Node temp = new Node();
-            private Node head;  
+            private Node head;
 
+            /// <summary>
+            /// constructor of ListEnum - gives head of list to enumerator class
+            /// </summary>
+            /// <param name="head"> head of list </param>
             public ListEnum(Node head)
             {
                 this.head = head;
                 temp.Next = head;
             }
 
+            /// <summary>
+            /// value of current node
+            /// </summary>
             public T Current => temp.Value;
 
             object IEnumerator.Current => temp;
 
+            /// <summary>
+            /// disposes node
+            /// </summary>
             public void Dispose() { }
 
+            /// <summary>
+            /// returns next node
+            /// </summary>
             public bool MoveNext()
             {
                 temp = temp.Next;
@@ -243,7 +314,3 @@ namespace GenericList
         }
     }
 }
-
-/*Переделать список на генерики. Список должен реализовывать интерфейс 
- * System.Collections.Generic.IList, в том числе иметь энумератор, чтобы можно было 
- * по нему ходить foreach.*/

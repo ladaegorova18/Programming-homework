@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GenericList.Tests
 {
+    /// <summary>
+    /// class of unit-tests
+    /// </summary>
     [TestClass]
     public class ListTests
     {
@@ -17,7 +20,7 @@ namespace GenericList.Tests
         }
 
         [TestMethod]
-        public void AddIntTest()
+        public void AddTest()
         {
             var array = new int[] { 3, 2, 1 };
             listInt.Add(3);
@@ -25,21 +28,6 @@ namespace GenericList.Tests
             listInt.Add(1);
             var index = 0;
             foreach (var cell in listInt)
-            {
-                Assert.AreEqual(array[index], cell);
-                ++index;
-            }
-        }
-
-        [TestMethod]
-        public void AddStringTest()
-        {
-            var array = new string[] { "3", "2", "1" };
-            listString.Add("3");
-            listString.Add("2");
-            listString.Add("1");
-            var index = 0;
-            foreach (var cell in listString)
             {
                 Assert.AreEqual(array[index], cell);
                 ++index;
@@ -65,7 +53,7 @@ namespace GenericList.Tests
         }
 
         [TestMethod]
-        public void InsertIntTest()
+        public void InsertTest()
         {
             var array = new int[] { 1, 9, 2 };
             listInt.Add(1);
@@ -91,6 +79,17 @@ namespace GenericList.Tests
         }
 
         [TestMethod]
+        public void IndexOfStringTest()
+        {
+            listString.Add("1");
+            listString.Add("2");
+            listString.Add("3");
+            Assert.AreEqual(2, listString.IndexOf("3"));
+            Assert.AreEqual(1, listString.IndexOf("2"));
+            Assert.AreEqual(0, listString.IndexOf("1"));
+        }
+
+        [TestMethod]
         public void RemoveAtTest()
         {
             listInt.Add(1);
@@ -100,11 +99,19 @@ namespace GenericList.Tests
         }
 
         [TestMethod]
-        public void ContainsTest()
+        public void ContainsIntTest()
         {
             Assert.IsFalse(listInt.Contains(1));
             listInt.Add(1);
             Assert.IsTrue(listInt.Contains(1));
+        }
+
+        [TestMethod]
+        public void ContainsStringTest()
+        {
+            Assert.IsFalse(listString.Contains("1"));
+            listString.Add("1");
+            Assert.IsTrue(listString.Contains("1"));
         }
 
         [TestMethod]
@@ -125,10 +132,16 @@ namespace GenericList.Tests
         [TestMethod]
         public void EnumeratorTest()
         {
+            var array = new int[] { 1, 2, 3 };
+            listInt.Add(1);
+            listInt.Add(2);
+            listInt.Add(3);
             var ie = listInt.GetEnumerator();
+            var index = 0;
             while (ie.MoveNext())
             {
-
+                Assert.AreEqual(array[index], ie.Current);
+                ++index;
             }
         }
     }
