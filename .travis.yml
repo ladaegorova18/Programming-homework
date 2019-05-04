@@ -1,7 +1,7 @@
 language: csharp
 
 install:
-  - nuget restore sem2/homework8/GenericSet/GenericSet.sln\
+  - nuget restore sem2/homework8/GenericSet/GenericSet.sln
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 
 script:
