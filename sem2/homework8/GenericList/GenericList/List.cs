@@ -273,7 +273,7 @@ namespace GenericList
         private class ListEnum : IEnumerator<T>
         {
             private Node temp = new Node();
-            private Node head;
+            private readonly Node head;
 
             /// <summary>
             /// constructor of ListEnum - gives head of list to enumerator class
@@ -295,7 +295,10 @@ namespace GenericList
             /// <summary>
             /// disposes node
             /// </summary>
-            public void Dispose() { }
+            public void Dispose()
+            {
+                // empty because of garbage collection
+            }
 
             /// <summary>
             /// returns next node

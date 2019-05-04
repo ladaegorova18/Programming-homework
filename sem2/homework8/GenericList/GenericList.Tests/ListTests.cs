@@ -22,7 +22,7 @@ namespace GenericList.Tests
         [TestMethod]
         public void AddTest()
         {
-            var array = new int[] { 3, 2, 1 };
+            var array = new [] { 3, 2, 1 };
             listInt.Add(3);
             listInt.Add(2);
             listInt.Add(1);
@@ -55,7 +55,7 @@ namespace GenericList.Tests
         [TestMethod]
         public void InsertTest()
         {
-            var array = new int[] { 1, 9, 2 };
+            var array = new [] { 1, 9, 2 };
             listInt.Add(1);
             listInt.Add(2);
             listInt.Insert(1, 9);
@@ -118,7 +118,7 @@ namespace GenericList.Tests
         public void CopyToTest()
         {
             var array = new int[3];
-            var result = new int[] { 1, 2, 3 };
+            var result = new [] { 1, 2, 3 };
             listInt.Add(1);
             listInt.Add(2);
             listInt.Add(3);
@@ -132,7 +132,7 @@ namespace GenericList.Tests
         [TestMethod]
         public void EnumeratorTest()
         {
-            var array = new int[] { 1, 2, 3 };
+            var array = new [] { 1, 2, 3 };
             listInt.Add(1);
             listInt.Add(2);
             listInt.Add(3);
