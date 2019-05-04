@@ -48,16 +48,17 @@ namespace GenericSet
         /// <returns> if adding was successful </returns>
         public bool Add(T item)
         {
-            var node = new Node(item);
+
+            if (Contains(item))
+            {
+                return false;
+            }
             ++count;
+            var node = new Node(item);
             if (count == 1)
             {
                 root = node;
                 return true;
-            }
-            if (Contains(item))
-            {
-                return false;
             }
             AddNode(root, item);
             return true;
@@ -322,6 +323,7 @@ namespace GenericSet
             {
                 return false;
             }
+            --count;
             RemoveRecursion(root, item);
             return true;
         }
@@ -345,7 +347,11 @@ namespace GenericSet
                 }
                 else if (root.leftChild == null && root.rightChild != null)
                 {
-                    root = root.rightChild;
+                    var temp = root.rightChild;
+                    root = temp;
+                    //root.Value = root.rightChild.Value;
+                    //root.rightChild = root.rightChild.rightChild;
+                    //root.leftChild = root.rightChild.leftChild;
                     return;
                 }
                 else if (root.leftChild != null && root.rightChild == null)
@@ -432,26 +438,25 @@ namespace GenericSet
         /// pre-order tree traversal
         /// </summary>
         /// <returns> enumerator object </returns>
-        public IEnumerator<T> InOrder()
+        public IEnumerator<T> PreOrder()
         {
             if (root == null)
             {
                 yield break;
             }
             var stack = new Stack<Node>();
-            var temp = root;
-            while (stack.Count > 0 && temp != null)
+            stack.Push(root);
+            while (stack.Count > 0)
             {
-                if (temp == null)
+                var temp = stack.Pop();
+                yield return temp.Value;
+                if (temp.rightChild != null)
                 {
-                    temp = stack.Pop();
-                    yield return temp.Value;
-                    temp = temp.rightChild;
+                    stack.Push(temp.rightChild);
                 }
-                else
+                if (temp.leftChild != null)
                 {
-                    stack.Push(temp);
-                    temp = temp.leftChild;
+                    stack.Push(temp.leftChild);
                 }
             }
         }
@@ -460,9 +465,9 @@ namespace GenericSet
         /// gets enumerator to traverse tree
         /// </summary>
         /// <returns> enumerator object </returns>
-        public IEnumerator<T> GetEnumerator() => InOrder();
+        public IEnumerator<T> GetEnumerator() => PreOrder();
 
-        IEnumerator IEnumerable.GetEnumerator() => InOrder();
+        IEnumerator IEnumerable.GetEnumerator() => PreOrder();
     }
 }
 
