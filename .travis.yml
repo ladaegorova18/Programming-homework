@@ -6,18 +6,9 @@ dotnet: 2.1
 
 before_build:
   - nuget restore sem2/homework8/GenericSet/GenericSet.sln\
-  - wget --no-check-certificate https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-
-install:
-  - mono ./nuget.exe install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
 
 build:
   - dotnet build sem2/homework8/GenericSet/GenericSet.sln
 
 script:
   - dotnet test sem2/homework8/GenericSet/GenericSet.sln
-  - make compile test
-
-after_script:
-  - make coverage
-  - bash <(curl -s https://codecov.io/bash)
