@@ -7,25 +7,47 @@ using System.Threading.Tasks;
 
 namespace GenericSet
 {
-    public class Set<T> : ISet<T>
+    public class Set<T> : ISet<T> where T : IComparable<T>
     {
         private Node root;
         private int count = 0;
 
-        private class Node : IComparable<T>
-        {
-            public Node(T value) => Value = value;
-            public T Value { get; private set; }
-            public Node leftChild { get; set; }
-            public Node rightChild { get; set; }
-
-            public int CompareTo(T other) => CompareTo(other);
-        }
-
+        /// <summary>
+        /// amount of elements in set
+        /// </summary>
         public int Count => count;
+
+        private class Node
+        {
+            /// <summary>
+            /// constructor of node
+            /// </summary>
+            /// <param name="value"> value of new node </param>
+            public Node(T value) => Value = value;
+
+            /// <summary>
+            /// value of node
+            /// </summary>
+            public T Value { get; set; }
+
+            /// <summary>
+            /// left "child" of node
+            /// </summary>
+            public Node leftChild { get; set; }
+
+            /// <summary>
+            /// right "child" of node
+            /// </summary>
+            public Node rightChild { get; set; }
+        }
 
         public bool IsReadOnly => false;
 
+        /// <summary>
+        /// adding new value to set
+        /// </summary>
+        /// <param name="item"> value to add </param>
+        /// <returns> if adding was successful </returns>
         public bool Add(T item)
         {
             var node = new Node(item);
@@ -35,21 +57,36 @@ namespace GenericSet
                 root = node;
                 return true;
             }
-            var current = root;
-            Node parent = null;
-            while (current != null)
+            if (Contains(item))
             {
-                parent = current;
-                if (CompareTo(current.Value))
+                return false;
             }
+            AddNode(root, item);
             return true;
         }
 
-        //if (Contains(item))
-        //{
-        //    return false;
-        //}
-
+        private void AddNode(Node root, T item)
+        {
+            if (root.Value.CompareTo(item) > 0 && root.leftChild != null)
+            {
+                AddNode(root.leftChild, item);
+            }
+            else if (root.Value.CompareTo(item) < 0 && root.rightChild != null)
+            {
+                AddNode(root.rightChild, item);
+            }
+            else
+            {
+                if (root.Value.CompareTo(item) > 0)
+                {
+                    root.leftChild = new Node(item);
+                }
+                else
+                {
+                    root.rightChild = new Node(item);
+                }
+            }
+        }
 
         public void Clear()
         {
@@ -59,32 +96,44 @@ namespace GenericSet
 
         public bool Contains(T item)
         {
-            if (Equals(root.Value, item))
+            if (count == 0)
             {
-                return true;
+                return false;
             }
             return ContainsNode(root, item);
         }
 
         private bool ContainsNode(Node root, T item)
         {
-            if (root.leftChild != null)
+            while (true)
             {
-                if (Equals(root.leftChild.Value, item))
+                if (root.Value.CompareTo(item) > 0)
+                {
+                    if (root.leftChild != null)
+                    {
+                        root = root.leftChild;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (root.Value.CompareTo(item) < 0)
+                {
+                    if (root.rightChild != null)
+                    {
+                        root = root.rightChild;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
                 {
                     return true;
                 }
-                return ContainsNode(root.leftChild, item);
             }
-            if (root.rightChild != null)
-            {
-                if (Equals(root.rightChild.Value, item))
-                {
-                    return true;
-                }
-                return ContainsNode(root.rightChild, item);
-            }
-            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -129,6 +178,11 @@ namespace GenericSet
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// removes value from set
+        /// </summary>
+        /// <param name="item"> value to remove </param>
+        /// <returns> success of removing </returns>
         public bool Remove(T item)
         {
             if (!Contains(item))
@@ -141,7 +195,47 @@ namespace GenericSet
 
         private void RemoveRecursion(Node root, T item)
         {
+            if (root.Value.CompareTo(item) > 0)
+            {
+                RemoveRecursion(root.leftChild, item);
+            }
+            else if (root.Value.CompareTo(item) < 0)
+            {
+                RemoveRecursion(root.rightChild, item);
+            }
+            else
+            {
+                if (root.leftChild == null && root.rightChild == null)
+                {
+                    root = null;
+                    return;
+                }
+                else if (root.leftChild == null && root.rightChild != null)
+                {
+                    root = root.rightChild;
+                    return;
+                }
+                else if (root.leftChild != null && root.rightChild == null)
+                {
+                    root = root.leftChild;
+                    return;
+                }
+                else
+                {
+                    root.Value = Maximum(root);
+                    RemoveRecursion(root.leftChild, root.Value);
+                }
+            }
+        }
 
+        private T Maximum(Node root)
+        {
+            var temp = root;
+            while (temp != null)
+            {
+                temp = temp.rightChild;
+            }
+            return temp.Value;
         }
 
         public bool SetEquals(IEnumerable<T> other)
@@ -169,11 +263,6 @@ namespace GenericSet
         public IEnumerator<T> GetEnumerator() => GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public int CompareTo(T other)
-        {
-            throw new NotImplementedException();
-        }
 
         private class SetEnum : IEnumerator<T>
         {
