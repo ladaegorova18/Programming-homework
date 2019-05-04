@@ -153,7 +153,7 @@ namespace GenericList
         {
             if (!Contains(item))
             {
-                return -1; //??
+                throw new ArgumentException("Значения нет в списке!");
             }
             var temp = head;
             var index = 0;
