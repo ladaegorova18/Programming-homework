@@ -31,12 +31,12 @@ namespace GenericSet
             /// <summary>
             /// left "child" of node
             /// </summary>
-            public Node leftChild { get; set; }
+            public Node Left { get; set; }
 
             /// <summary>
             /// right "child" of node
             /// </summary>
-            public Node rightChild { get; set; }
+            public Node Right { get; set; }
         }
 
         public bool IsReadOnly => false;
@@ -48,7 +48,6 @@ namespace GenericSet
         /// <returns> if adding was successful </returns>
         public bool Add(T item)
         {
-
             if (Contains(item))
             {
                 return false;
@@ -66,23 +65,23 @@ namespace GenericSet
 
         private void AddNode(Node root, T item)
         {
-            if (root.Value.CompareTo(item) > 0 && root.leftChild != null)
+            if (root.Value.CompareTo(item) > 0 && root.Left != null)
             {
-                AddNode(root.leftChild, item);
+                AddNode(root.Left, item);
             }
-            else if (root.Value.CompareTo(item) < 0 && root.rightChild != null)
+            else if (root.Value.CompareTo(item) < 0 && root.Right != null)
             {
-                AddNode(root.rightChild, item);
+                AddNode(root.Right, item);
             }
             else
             {
                 if (root.Value.CompareTo(item) > 0)
                 {
-                    root.leftChild = new Node(item);
+                    root.Left = new Node(item);
                 }
                 else
                 {
-                    root.rightChild = new Node(item);
+                    root.Right = new Node(item);
                 }
             }
         }
@@ -116,9 +115,9 @@ namespace GenericSet
             {
                 if (root.Value.CompareTo(item) > 0)
                 {
-                    if (root.leftChild != null)
+                    if (root.Left != null)
                     {
-                        root = root.leftChild;
+                        root = root.Left;
                     }
                     else
                     {
@@ -127,9 +126,9 @@ namespace GenericSet
                 }
                 else if (root.Value.CompareTo(item) < 0)
                 {
-                    if (root.rightChild != null)
+                    if (root.Right != null)
                     {
-                        root = root.rightChild;
+                        root = root.Right;
                     }
                     else
                     {
@@ -180,7 +179,7 @@ namespace GenericSet
             {
                 if (!other.Contains(cell))
                 {
-                    RemoveRecursion(root, cell);
+                    Remove(cell);
                 }
             }
         }
@@ -190,67 +189,26 @@ namespace GenericSet
         /// </summary>
         /// <param name="other"> other set to check </param>
         /// <returns> true, if this set is a proper subset </returns>
-        public bool IsProperSubsetOf(IEnumerable<T> other)
-        {
-            if (Count == 0 || other.Count() == 0)
-            {
-                return true;
-            }
-            foreach (var cell in this)
-            {
-                if (other.Contains(cell))
-                {
-                    continue;
-                }
-                else
-                {
-                    return false; //???????
-                }
-            }
-            foreach (var cell in other)
-            {
-                if (Contains(cell))
-                {
-                    continue;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        public bool IsProperSubsetOf(IEnumerable<T> other) => FirstProperSubsetOfSecond(this, other);
 
         /// <summary>
         /// checks if set is a proper superset
         /// </summary>
         /// <param name="other"> other set that can be a subset </param>
         /// <returns> true, if set is a proper superset </returns>
-        public bool IsProperSupersetOf(IEnumerable<T> other)
+        public bool IsProperSupersetOf(IEnumerable<T> other) => FirstProperSubsetOfSecond(other, this);
+
+        private bool FirstProperSubsetOfSecond(IEnumerable<T> first, IEnumerable<T> second)
         {
-            if (Count == 0 || other.Count() == 0)
+            if (first.Count() == 0 || second.Count() == 0)
             {
                 return true;
             }
-            if (Count < other.Count())
+            if (((Set<T>)first).IsSubsetOf(second) && first.Count() < second.Count())
             {
-                return false;
+                return true;
             }
-            var thisEnum = GetEnumerator();
-            var otherEnum = GetEnumerator();
-            while (!Equals(thisEnum.Current, otherEnum.Current))
-            {
-                thisEnum.MoveNext();
-            }
-            while (otherEnum.MoveNext())
-            {
-                thisEnum.MoveNext();
-                if (!Equals(thisEnum.Current, otherEnum))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -258,36 +216,24 @@ namespace GenericSet
         /// </summary>
         /// <param name="other"> superset to check </param>
         /// <returns> true, if set is a superset </returns>
-        public bool IsSubsetOf(IEnumerable<T> other)
-        {
-            if (count == 0)
-            {
-                return true;
-            }
-            foreach (var cell in this)
-            {
-                if (!other.Contains(cell))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public bool IsSubsetOf(IEnumerable<T> other) => FirstSubsetOfSecond(this, other);
 
         /// <summary>
         /// if set is a superset
         /// </summary>
         /// <param name="other"> subset to check </param>
         /// <returns> true, if set is a superset </returns>
-        public bool IsSupersetOf(IEnumerable<T> other)
+        public bool IsSupersetOf(IEnumerable<T> other) => FirstSubsetOfSecond(other, this);
+
+        private bool FirstSubsetOfSecond(IEnumerable<T> first, IEnumerable<T> second)
         {
-            if (Count < other.Count())
+            if (first.Count() == 0)
             {
-                return false;
+                return true;
             }
-            foreach (var otherCell in other)
+            foreach (var cell in this)
             {
-                if (!Contains(otherCell))
+                if (!second.Contains(cell))
                 {
                     return false;
                 }
@@ -324,55 +270,49 @@ namespace GenericSet
                 return false;
             }
             --count;
-            RemoveRecursion(root, item);
+            root = RemoveRecursion(root, item);
             return true;
         }
 
-        private void RemoveRecursion(Node root, T item)
+        private Node RemoveRecursion(Node temp, T item)
         {
-            if (root.Value.CompareTo(item) > 0)
+            if (temp.Value.CompareTo(item) > 0)
             {
-                RemoveRecursion(root.leftChild, item);
+                temp.Left = RemoveRecursion(temp.Left, item);
             }
-            else if (root.Value.CompareTo(item) < 0)
+            else if (temp.Value.CompareTo(item) < 0)
             {
-                RemoveRecursion(root.rightChild, item);
+                temp.Right = RemoveRecursion(temp.Right, item);
             }
             else
             {
-                if (root.leftChild == null && root.rightChild == null)
+                if (temp.Left == null && temp.Right == null)
                 {
-                    root = null;
-                    return;
+                    return null;
                 }
-                else if (root.leftChild == null && root.rightChild != null)
+                else if (temp.Left == null && temp.Right != null)
                 {
-                    var temp = root.rightChild;
-                    root = temp;
-                    //root.Value = root.rightChild.Value;
-                    //root.rightChild = root.rightChild.rightChild;
-                    //root.leftChild = root.rightChild.leftChild;
-                    return;
+                    return temp.Right;
                 }
-                else if (root.leftChild != null && root.rightChild == null)
+                else if (temp.Left != null && temp.Right == null)
                 {
-                    root = root.leftChild;
-                    return;
+                    return temp.Left;
                 }
                 else
                 {
-                    root.Value = Maximum(root);
-                    RemoveRecursion(root.leftChild, root.Value);
+                    temp.Value = Maximum(temp.Left);
+                    temp.Left = RemoveRecursion(temp.Left, temp.Value);
                 }
             }
+            return temp;
         }
 
         private T Maximum(Node root)
         {
             var temp = root;
-            while (temp != null)
+            while (temp.Right != null)
             {
-                temp = temp.rightChild;
+                temp = temp.Right;
             }
             return temp.Value;
         }
@@ -411,7 +351,7 @@ namespace GenericSet
             {
                 if (Contains(cell))
                 {
-                    RemoveRecursion(root, cell);
+                    Remove(cell);
                 }
                 else
                 {
@@ -450,13 +390,13 @@ namespace GenericSet
             {
                 var temp = stack.Pop();
                 yield return temp.Value;
-                if (temp.rightChild != null)
+                if (temp.Right != null)
                 {
-                    stack.Push(temp.rightChild);
+                    stack.Push(temp.Right);
                 }
-                if (temp.leftChild != null)
+                if (temp.Left != null)
                 {
-                    stack.Push(temp.leftChild);
+                    stack.Push(temp.Left);
                 }
             }
         }

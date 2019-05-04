@@ -148,7 +148,7 @@ namespace GenericSet.Tests
                 intSet.Add(toAdd[i]);
                 other.Add(toAddToOther[i]);
             }
-            intSet.ExceptWith(other);
+            intSet.IntersectWith(other);
             IntAssertion(result);
             Assert.AreEqual(3, intSet.Count);
         }
@@ -165,7 +165,7 @@ namespace GenericSet.Tests
                 stringSet.Add(toAdd[i]);
                 other.Add(toAddToOther[i]);
             }
-            stringSet.ExceptWith(other);
+            stringSet.IntersectWith(other);
             StringAssertion(result);
             Assert.AreEqual(2, stringSet.Count);
         }
@@ -174,7 +174,7 @@ namespace GenericSet.Tests
         public void IsProperSubsetOfIntTest()
         {
             var toAdd = new[] { 3, 4, 5 };
-            var toAddToOther = new[] { 3, 4, 5, 6, 7, 8 };
+            var toAddToOther = new[] { 3, 4, 5, 6};
             var other = new Set<int>();
             foreach (var cell in toAdd)
             {
@@ -185,7 +185,7 @@ namespace GenericSet.Tests
                 other.Add(cell);
             }
             Assert.IsTrue(intSet.IsProperSubsetOf(other));
-            intSet.Remove(4);
+            other.Remove(6);
             Assert.IsFalse(intSet.IsProperSubsetOf(other));
         }
 
@@ -204,14 +204,14 @@ namespace GenericSet.Tests
                 other.Add(cell);
             }
             Assert.IsTrue(stringSet.IsProperSubsetOf(other));
-            stringSet.Remove("Arya");
+            other.Remove("Bran");
             Assert.IsFalse(stringSet.IsProperSubsetOf(other));
         }
 
         [TestMethod]
         public void IsProperSupersetOfIntTest()
         {
-            var toAdd = new[] { 3, 4, 5, 6, 7, 8 };
+            var toAdd = new[] { 3, 4, 5, 6 };
             var toAddToOther = new[] { 3, 4, 5 };
             var other = new Set<int>();
             foreach (var cell in toAdd)
@@ -223,7 +223,7 @@ namespace GenericSet.Tests
                 other.Add(cell);
             }
             Assert.IsTrue(intSet.IsProperSupersetOf(other));
-            other.Remove(4);
+            intSet.Remove(6);
             Assert.IsFalse(intSet.IsProperSupersetOf(other));
         }
 
@@ -242,7 +242,7 @@ namespace GenericSet.Tests
                 other.Add(cell);
             }
             Assert.IsTrue(stringSet.IsProperSupersetOf(other));
-            other.Remove("Arya");
+            stringSet.Remove("Bran");
             Assert.IsFalse(stringSet.IsProperSupersetOf(other));
         }
 
@@ -319,7 +319,7 @@ namespace GenericSet.Tests
             }
             Assert.IsTrue(stringSet.IsSupersetOf(other));
             other.Remove("Arya");
-            Assert.IsTrue(stringSet.IsProperSupersetOf(other));
+            Assert.IsTrue(stringSet.IsSupersetOf(other));
         }
 
         [TestMethod]
@@ -416,7 +416,7 @@ namespace GenericSet.Tests
         public void SymmetricExceptWithIntTest()
         {
             var toAdd = new[] { 4, 8, 15, 10, 11, 12 };
-            var toAddToOther = new[] { 11, 12, 16, 23, 42 };
+            var toAddToOther = new[] { 10, 11, 12, 16, 23, 42 };
             var result = new[] { 4, 8, 15, 16, 23, 42 };
             var other = new Set<int>();
             foreach (var cell in toAdd)
