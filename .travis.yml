@@ -4,11 +4,11 @@ sudo: required
 mono: none
 dotnet: 2.1
 
-before_build:
+install:
   - nuget restore sem2/homework8/GenericSet/GenericSet.sln\
-
-build:
-  - dotnet build sem2/homework8/GenericSet/GenericSet.sln
+  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 
 script:
-  - dotnet test sem2/homework8/GenericSet/GenericSet.sln
+- msbuild /p:Configuration=Release sem2/homework8/GenericSet/GenericSet.sln
+- mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe \
+      .sem2/homework8/GenericSet/GenericSet.sln
