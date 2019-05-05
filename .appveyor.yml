@@ -1,10 +1,7 @@
-image: Visual Studio 2017
+image: Visual Studio 2019 Preview
 
 before_build:
   - nuget restore sem2/homework7/Clock/Clock.sln
 
-build:
-  project: sem2/homework7/Clock/Clock.sln
-
-test_script:
-  - dotnet test sem2/homework7/Clock/Clock.sln
+build_script:
+  - msbuild sem2/homework7/Clock/Clock.sln
