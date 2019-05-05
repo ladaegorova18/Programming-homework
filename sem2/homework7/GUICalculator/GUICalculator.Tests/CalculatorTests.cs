@@ -9,7 +9,7 @@ namespace GUICalculator.Tests
         private Counter counter = new Counter();
 
         [TestMethod]
-        public void SimpleAdditionTest()
+        public void AdditionTest()
         {
             var result = counter.Count(4, 5, "+");
             Assert.AreEqual(9, result);
@@ -48,7 +48,6 @@ namespace GUICalculator.Tests
         public void DivideByZeroTest()
         {
             var result = counter.Count(9, 0, "/");
-            Assert.AreEqual(Infinity, result);
         }
 
         [TestMethod]

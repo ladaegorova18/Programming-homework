@@ -25,7 +25,7 @@ namespace GUICalculator
         /// <param name="number"> number to add in textbox </param>
         public void ReadNumber(char number)
         {
-            if (result.HasValue && float.IsNaN(result.Value) || textBox.Text == "0")
+            if (result.HasValue && float.IsNaN(result.Value) || textBox.Text == "0" || textBox.Text == "Error")
             {
                 textBox.Text = "";
                 tempExpression.Text = "";
@@ -56,8 +56,7 @@ namespace GUICalculator
             }
             if (tempExpression.Text != "")
             {
-                if (!char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1])
-                        && tempExpression.Text[tempExpression.Text.Length - 1] != '∞')
+                if (!char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1]))
                 {
                     tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
                 }
@@ -73,7 +72,18 @@ namespace GUICalculator
                 if (float.TryParse(textBox.Text, out float temp) && result.HasValue && operation != null)
                 {
                     current = temp;
-                    result = counter.Count(result.Value, current.Value, operation);
+                    try
+                    {
+                        result = counter.Count(result.Value, current.Value, operation);
+                    }
+                    catch (DivideByZeroException)
+                    {
+                        textBox.Text = "Error";
+                        tempExpression.Text = "";
+                        operation = null;
+                        result = null;
+                        return;
+                    }
                     if (!int.TryParse(result.ToString(), out int tempInt))
                     {
                         comma = true;
@@ -184,6 +194,10 @@ namespace GUICalculator
 
         private string DeleteLastSymbol(string line)
         {
+            if (line == "Error")
+            {
+                return "Error";
+            }
             if (line.Length > 0)
             {
                 return line.Substring(0, line.Length - 1);

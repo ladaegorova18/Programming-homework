@@ -16,9 +16,18 @@ namespace GUICalculator
         {
             "+" => first + second,
             "-" => first - second,
-            "/" => first / second,
+            "/" => Dividing(first, second),
             "*" => first * second,
             _ => throw new ArgumentException("Некорректная операция!")
         };
+
+        private float Dividing(float first, float second)
+        {
+            if (second != 0)
+            {
+                return first / second;
+            }
+            throw new DivideByZeroException();
+        }
     }
 }

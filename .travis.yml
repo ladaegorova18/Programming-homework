@@ -9,6 +9,3 @@ before_build:
 
 build:
   - dotnet build sem2/homework7/GUICalculator/GUICalculator.sln
-
-script:
-  - dotnet test sem2/homework7/GUICalculator/GUICalculator.sln
