@@ -7,4 +7,4 @@ install:
 
 script:
   - msbuild /p:Configuration=Release sem2/homework8/GenericSet/GenericSet.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./GenericSet.Tests/bin/Release/GenericSet.Tests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./sem2/homework8/GenericSet/GenericSet.Tests/bin/Release/GenericSet.Tests.dll
