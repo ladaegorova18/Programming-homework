@@ -5,7 +5,7 @@ namespace GUICalculator
 {
     public partial class Calculator : Form
     {
-        private Counter counter = new Counter();
+        private readonly Counter counter = new Counter();
         private float? result;
         private float? current;
         private string operation;

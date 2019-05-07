@@ -5,4 +5,4 @@ before_build:
   - choco install dotnetcore-sdk --pre
 
 build_script:
-  msbuild sem2/homework7/GUICalculator/GUICalculator.sln
+  dotnet msbuild sem2/homework7/GUICalculator/GUICalculator.sln

@@ -6,7 +6,7 @@ namespace GUICalculator.Tests
     [TestClass]
     public class CalculatorTests
     {
-        private Counter counter = new Counter();
+        private readonly Counter counter = new Counter();
 
         [TestMethod]
         public void AdditionTest()
@@ -47,7 +47,7 @@ namespace GUICalculator.Tests
         [ExpectedException(typeof(DivideByZeroException))]
         public void DivideByZeroTest()
         {
-            var result = counter.Count(9, 0, "/");
+            counter.Count(9, 0, "/");
         }
 
         [TestMethod]
