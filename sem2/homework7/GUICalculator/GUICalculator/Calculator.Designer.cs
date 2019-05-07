@@ -315,14 +315,14 @@
             this.equalSign.UseVisualStyleBackColor = false;
             this.equalSign.Click += new System.EventHandler(this.EqualSignClick);
             // 
-            // comma
+            // commaButton
             // 
             this.commaButton.AutoSize = true;
             this.commaButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.commaButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.commaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.commaButton.Location = new System.Drawing.Point(163, 221);
-            this.commaButton.Name = "comma";
+            this.commaButton.Name = "commaButton";
             this.commaButton.Size = new System.Drawing.Size(70, 46);
             this.commaButton.TabIndex = 13;
             this.commaButton.Text = ",";
@@ -416,9 +416,11 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(360, 429);
             this.Name = "Calculator";
             this.Text = "Calculator";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CalculatorKeyPress);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);

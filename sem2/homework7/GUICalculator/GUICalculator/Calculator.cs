@@ -204,5 +204,24 @@ namespace GUICalculator
             }
             return "";
         }
+
+        public void CalculatorKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsDigit(e.KeyChar))
+            {
+                ReadNumber(e.KeyChar);
+            }
+            else if (IsOperation(e.KeyChar))
+            {
+                ReadOperation(e.KeyChar.ToString());
+            }
+            else if (e.KeyChar == '=')
+            {
+                ShowResult();
+            }
+        }
+
+        private bool IsOperation(char operation) => operation == '/' || operation == '*'
+            || operation == '-' || operation == '+';
     }
 } 
