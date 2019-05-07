@@ -4,5 +4,5 @@ before_build:
   - nuget restore sem2/homework7/GUICalculator/GUICalculator.sln
   - choco install dotnetcore-sdk --pre
 
-build_script:
-  dotnet msbuild sem2/homework7/GUICalculator/GUICalculator.sln
+build:
+  project: sem2/homework7/GUICalculator/GUICalculator.sln
