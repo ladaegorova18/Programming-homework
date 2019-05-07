@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Clock
 {
-    public partial class Form1 : Form
+    public partial class SystemClock : Form
     {
-        public Form1()
+        public SystemClock()
         {
             InitializeComponent();
         }
