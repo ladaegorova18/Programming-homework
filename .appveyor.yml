@@ -2,10 +2,7 @@ image: Visual Studio 2019 Preview
 
 before_build:
   - nuget restore sem2/homework7/GUICalculator/GUICalculator.sln
-  - choco install netfx-4.8 --pre
-  - echo before reboot
-  - ps: Restart-Computer -Force            # here the server goes restarting
-  - echo Before sleep
+  - choco install netfx-4.8 --pre || true
 
 build_script:
   msbuild sem2/homework7/GUICalculator/GUICalculator.sln
