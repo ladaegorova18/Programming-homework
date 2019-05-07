@@ -3,6 +3,7 @@ image: Visual Studio 2019 Preview
 before_build:
   - nuget restore sem2/homework7/GUICalculator/GUICalculator.sln
   - choco install netfx-4.8 --pre || true
+  - choco install dotnet4.8 --pre || true
 
 build_script:
   msbuild sem2/homework7/GUICalculator/GUICalculator.sln
