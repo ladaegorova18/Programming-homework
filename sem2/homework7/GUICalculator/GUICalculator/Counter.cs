@@ -11,15 +11,32 @@ namespace GUICalculator
         /// <param name="second"> second number </param>
         /// <param name="operation"> operation to do </param>
         /// <returns> result of expression </returns>
-        public float Count(float first, float second, string operation) =>
-        operation switch
+        public float Count(float first, float second, string operation)
         {
-            "+" => first + second,
-            "-" => first - second,
-            "/" => Dividing(first, second),
-            "*" => first * second,
-            _ => throw new ArgumentException("Некорректная операция!")
-        };
+            switch (operation)
+            {
+                case "+":
+                    {
+                        return first + second;
+                    }
+                case "-":
+                    {
+                        return first - second;
+                    }
+                case "/":
+                    {
+                        return Dividing(first, second);
+                    }
+                case "*":
+                    {
+                        return first * second;
+                    }
+                default:
+                    {
+                        throw new InvalidOperationException();
+                    }
+            }
+        }
 
         private float Dividing(float first, float second)
         {
