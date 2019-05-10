@@ -1,5 +1,4 @@
 image: Visual Studio 2019 Preview
-
 before_build:
   - nuget restore Tests/Test2.1/Test2.1.sln
 
