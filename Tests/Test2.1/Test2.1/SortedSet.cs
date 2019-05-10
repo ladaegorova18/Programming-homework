@@ -25,7 +25,12 @@ namespace Test2
         /// <param name="list"> list to set </param>
         public void Add(List<T> list)
         {
-            for (var i = 0; i < list.Count; ++i)
+            if (Count == 0)
+            {
+                set.Add(list);
+                return;
+            }
+            for (var i = 0; i < set.Count; ++i)
             {
                 if (comparator.Compare(list, set[i]) < 0)
                 {

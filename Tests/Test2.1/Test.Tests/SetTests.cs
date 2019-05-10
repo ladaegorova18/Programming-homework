@@ -32,20 +32,7 @@ namespace Test2.Tests
             list2.Add("help");
             set.Add(list2);
             set.Add(list1);
-            var array = new[] { "need", "somebody", "help", "help", "I" };
+            Assert.AreEqual(2, set.Count);
         }
-
-        //private void Assertion(string array, SortedSet<string> set)
-        //{
-        //    var i = 0;
-        //    foreach (var list in set)
-        //    {
-        //        foreach (var word in list)
-        //        {
-        //            Assert.AreEqual(array[i], word);
-        //            ++i;
-        //        }
-        //    }
-        //}
     }
 }

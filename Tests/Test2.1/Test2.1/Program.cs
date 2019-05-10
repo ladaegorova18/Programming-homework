@@ -22,7 +22,7 @@ namespace Test2
                 using var stream = new StreamReader("file.txt");
                 var comparator = new ListComparator<string>();
                 var set = new SortedSet<string>(comparator);
-                //ReadingFile(stream, set);
+                ReadingFile(stream, set);
                 set.Print();
             }
             catch (FileNotFoundException)
@@ -32,7 +32,7 @@ namespace Test2
             }
         }
 
-        private static void ReadingFile(StreamReader stream, SortedSet<List<string>> set)
+        private static void ReadingFile(StreamReader stream, SortedSet<string> set)
         {
             while (stream.Peek() >= 0)
             {
@@ -43,9 +43,8 @@ namespace Test2
                 {
                     list.Add(word);
                 }
-                //set.Add(list);
+                set.Add(list);
             }
         }
     }
-}
 }
