@@ -113,7 +113,7 @@
             this.number0.Location = new System.Drawing.Point(85, 221);
             this.number0.Name = "number0";
             this.number0.Size = new System.Drawing.Size(70, 46);
-            this.number0.TabIndex = 10;
+            this.number0.TabIndex = 9;
             this.number0.Text = "0";
             this.number0.UseVisualStyleBackColor = false;
             this.number0.Click += new System.EventHandler(this.Number0Click);
@@ -254,7 +254,7 @@
             this.subtraction.Location = new System.Drawing.Point(242, 5);
             this.subtraction.Name = "subtraction";
             this.subtraction.Size = new System.Drawing.Size(70, 46);
-            this.subtraction.TabIndex = 1;
+            this.subtraction.TabIndex = 10;
             this.subtraction.Text = "-";
             this.subtraction.UseVisualStyleBackColor = false;
             this.subtraction.Click += new System.EventHandler(this.SubtractionClick);
@@ -268,7 +268,7 @@
             this.multiplication.Location = new System.Drawing.Point(242, 59);
             this.multiplication.Name = "multiplication";
             this.multiplication.Size = new System.Drawing.Size(70, 46);
-            this.multiplication.TabIndex = 2;
+            this.multiplication.TabIndex = 11;
             this.multiplication.Text = "*";
             this.multiplication.UseVisualStyleBackColor = false;
             this.multiplication.Click += new System.EventHandler(this.MultiplicationClick);
@@ -282,7 +282,7 @@
             this.division.Location = new System.Drawing.Point(242, 113);
             this.division.Name = "division";
             this.division.Size = new System.Drawing.Size(70, 46);
-            this.division.TabIndex = 3;
+            this.division.TabIndex = 12;
             this.division.Text = "/";
             this.division.UseVisualStyleBackColor = false;
             this.division.Click += new System.EventHandler(this.DivisionClick);
@@ -296,7 +296,7 @@
             this.addition.Location = new System.Drawing.Point(242, 167);
             this.addition.Name = "addition";
             this.addition.Size = new System.Drawing.Size(70, 46);
-            this.addition.TabIndex = 11;
+            this.addition.TabIndex = 13;
             this.addition.Text = "+";
             this.addition.UseVisualStyleBackColor = false;
             this.addition.Click += new System.EventHandler(this.AdditionClick);
@@ -310,7 +310,7 @@
             this.equalSign.Location = new System.Drawing.Point(242, 221);
             this.equalSign.Name = "equalSign";
             this.equalSign.Size = new System.Drawing.Size(70, 46);
-            this.equalSign.TabIndex = 9;
+            this.equalSign.TabIndex = 16;
             this.equalSign.Text = "=";
             this.equalSign.UseVisualStyleBackColor = false;
             this.equalSign.Click += new System.EventHandler(this.EqualSignClick);
@@ -324,7 +324,7 @@
             this.commaButton.Location = new System.Drawing.Point(163, 221);
             this.commaButton.Name = "commaButton";
             this.commaButton.Size = new System.Drawing.Size(70, 46);
-            this.commaButton.TabIndex = 13;
+            this.commaButton.TabIndex = 15;
             this.commaButton.Text = ",";
             this.commaButton.UseVisualStyleBackColor = false;
             this.commaButton.Click += new System.EventHandler(this.CommaClick);
@@ -338,7 +338,7 @@
             this.button1.Location = new System.Drawing.Point(7, 221);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(70, 46);
-            this.button1.TabIndex = 7;
+            this.button1.TabIndex = 14;
             this.button1.Text = "+/-";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.ChangeSignClick);
@@ -352,7 +352,7 @@
             this.deleteAllButton.Location = new System.Drawing.Point(7, 5);
             this.deleteAllButton.Name = "deleteAllButton";
             this.deleteAllButton.Size = new System.Drawing.Size(70, 46);
-            this.deleteAllButton.TabIndex = 19;
+            this.deleteAllButton.TabIndex = 17;
             this.deleteAllButton.Text = "CE";
             this.deleteAllButton.UseVisualStyleBackColor = false;
             this.deleteAllButton.Click += new System.EventHandler(this.DeleteAllClick);
@@ -366,7 +366,7 @@
             this.deleteLineButton.Location = new System.Drawing.Point(85, 5);
             this.deleteLineButton.Name = "deleteLineButton";
             this.deleteLineButton.Size = new System.Drawing.Size(70, 46);
-            this.deleteLineButton.TabIndex = 20;
+            this.deleteLineButton.TabIndex = 18;
             this.deleteLineButton.Text = "C";
             this.deleteLineButton.UseVisualStyleBackColor = false;
             this.deleteLineButton.Click += new System.EventHandler(this.DeleteLineClick);
@@ -380,7 +380,7 @@
             this.deleteOneSymbolButton.Location = new System.Drawing.Point(163, 5);
             this.deleteOneSymbolButton.Name = "deleteOneSymbolButton";
             this.deleteOneSymbolButton.Size = new System.Drawing.Size(70, 46);
-            this.deleteOneSymbolButton.TabIndex = 21;
+            this.deleteOneSymbolButton.TabIndex = 19;
             this.deleteOneSymbolButton.Text = "<=";
             this.deleteOneSymbolButton.UseVisualStyleBackColor = false;
             this.deleteOneSymbolButton.Click += new System.EventHandler(this.DeleteOneSymbolButtonClick);

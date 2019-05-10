@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace GUICalculator
 {
+    /// <summary>
+    /// Simple WinForms calculator
+    /// </summary>
     public partial class Calculator : Form
     {
         private readonly Counter counter = new Counter();
@@ -218,6 +221,10 @@ namespace GUICalculator
             else if (e.KeyChar == '=')
             {
                 ShowResult();
+            }
+            else if (e.KeyChar == ',' || e.KeyChar == '.')
+            {
+                CommaClick(sender, e);
             }
         }
 

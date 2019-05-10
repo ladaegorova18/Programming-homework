@@ -2,6 +2,9 @@
 
 namespace GUICalculator
 {
+    /// <summary>
+    /// Counter for calculator
+    /// </summary>
     public class Counter
     {
         /// <summary>
