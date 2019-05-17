@@ -5,7 +5,7 @@ namespace Test2
     /// <summary>
     /// Bubble sort for generic types
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T"> generic type </typeparam>
     public class BubbleSorting<T>
     {
         public List<T> Sort(List<T> list, IComparer<T> comparer)
