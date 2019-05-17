@@ -9,6 +9,10 @@ namespace Test2
     /// <typeparam name="T"> generic type </typeparam>
     public class BubbleSorting<T>
     {
+        /// <summary>
+        /// sorts lists with comparator
+        /// </summary>
+        /// <returns> sorted list </returns>
         public List<T> Sort(List<T> list, IComparer<T> comparer)
         {
             if (list == null || comparer == null)
