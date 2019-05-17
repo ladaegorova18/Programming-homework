@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Test2
 {
@@ -10,6 +11,10 @@ namespace Test2
     {
         public List<T> Sort(List<T> list, IComparer<T> comparer)
         {
+            if (list == null || comparer == null)
+            {
+                throw new ArgumentNullException();
+            }
             for (var i = 0; i < list.Count; ++i)
             {
                 for (var j = i + 1; j < list.Count; ++j)
