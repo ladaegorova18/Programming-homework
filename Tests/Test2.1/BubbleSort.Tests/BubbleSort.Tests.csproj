@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{44AFCEE5-0709-4914-8434-B5D63F6AB878}</ProjectGuid>
+    <ProjectGuid>{565E0EA8-CD84-4674-88EC-C44F398E5579}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test.Tests</RootNamespace>
-    <AssemblyName>Test.Tests</AssemblyName>
+    <RootNamespace>BubbleSort.Tests</RootNamespace>
+    <AssemblyName>BubbleSort.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,7 +49,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BubbleSortTest.cs" />
+    <Compile Include="DoubleComparator.cs" />
+    <Compile Include="IntComparator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringComparator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
