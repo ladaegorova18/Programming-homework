@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /*Переделать список на генерики. Список должен реализовывать интерфейс 
  * System.Collections.Generic.IList, в том числе иметь энумератор, чтобы можно было 

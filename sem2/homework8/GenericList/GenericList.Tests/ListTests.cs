@@ -144,5 +144,12 @@ namespace GenericList.Tests
                 ++index;
             }
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void IndexOfUnexistingElementTest()
+        {
+            listInt.IndexOf(3);
+        }
     }
 }
