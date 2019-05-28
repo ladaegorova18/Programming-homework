@@ -104,16 +104,16 @@ namespace GenericSet.Tests
         [TestMethod]
         public void ExceptWithIntTest()
         {
-            var toAdd = new[] { 0, 1, 2, 3, 4, 5 };
-            var toAddToOther = new[] { 3, 4, 5, 6, 7, 8 };
+            var addToFirst = new[] { 0, 1, 2, 3, 4, 5 };
+            var addToSecond = new[] { 3, 4, 5, 6, 7, 8 };
             var result = new[] { 0, 1, 2 };
-            var other = new Set<int>();
+            var secondSet = new Set<int>();
             for (var i = 0; i < 6; ++i)
             {
-                intSet.Add(toAdd[i]);
-                other.Add(toAddToOther[i]);
+                intSet.Add(addToFirst[i]);
+                secondSet.Add(addToSecond[i]);
             }
-            intSet.ExceptWith(other);
+            intSet.ExceptWith(secondSet);
             IntAssertion(result);
             Assert.AreEqual(3, intSet.Count);
         }
@@ -121,16 +121,16 @@ namespace GenericSet.Tests
         [TestMethod]
         public void ExceptWithStringTest()
         {
-            var toAdd = new[] { "Tony", "Steve", "Natasha", "Bruce" };
-            var toAddToOther = new[] { "Vision", "Tony", "Natasha", "Stan" };
+            var addToFirst = new[] { "Tony", "Steve", "Natasha", "Bruce" };
+            var addToSecond = new[] { "Vision", "Tony", "Natasha", "Stan" };
             var result = new[] { "Steve", "Bruce" };
-            var other = new Set<string>();
+            var secondSet = new Set<string>();
             for (var i = 0; i < 4; ++i)
             {
-                stringSet.Add(toAdd[i]);
-                other.Add(toAddToOther[i]);
+                stringSet.Add(addToFirst[i]);
+                secondSet.Add(addToSecond[i]);
             }
-            stringSet.ExceptWith(other);
+            stringSet.ExceptWith(secondSet);
             StringAssertion(result);
             Assert.AreEqual(2, stringSet.Count);
         }
@@ -138,16 +138,16 @@ namespace GenericSet.Tests
         [TestMethod]
         public void IntersectWithIntTest()
         {
-            var toAdd = new[] { 0, 1, 2, 3, 4, 5 };
-            var toAddToOther = new[] { 3, 4, 5, 6, 7, 8 };
+            var addToFirst = new[] { 0, 1, 2, 3, 4, 5 };
+            var addToSecond = new[] { 3, 4, 5, 6, 7, 8 };
             var result = new[] { 3, 4, 5 };
-            var other = new Set<int>();
+            var secondSet = new Set<int>();
             for (var i = 0; i < 6; ++i)
             {
-                intSet.Add(toAdd[i]);
-                other.Add(toAddToOther[i]);
+                intSet.Add(addToFirst[i]);
+                secondSet.Add(addToSecond[i]);
             }
-            intSet.IntersectWith(other);
+            intSet.IntersectWith(secondSet);
             IntAssertion(result);
             Assert.AreEqual(3, intSet.Count);
         }
@@ -155,16 +155,16 @@ namespace GenericSet.Tests
         [TestMethod]
         public void IntersectWithStringTest()
         {
-            var toAdd = new[] { "Tony", "Steve", "Natasha", "Bruce" };
-            var toAddToOther = new[] { "Vision", "Tony", "Natasha", "Stan" };
+            var addToFirst = new[] { "Tony", "Steve", "Natasha", "Bruce" };
+            var addToSecond = new[] { "Vision", "Tony", "Natasha", "Stan" };
             var result = new[] { "Tony", "Natasha" };
-            var other = new Set<string>();
+            var secondSet = new Set<string>();
             for (var i = 0; i < 4; ++i)
             {
-                stringSet.Add(toAdd[i]);
-                other.Add(toAddToOther[i]);
+                stringSet.Add(addToFirst[i]);
+                secondSet.Add(addToSecond[i]);
             }
-            stringSet.IntersectWith(other);
+            stringSet.IntersectWith(secondSet);
             StringAssertion(result);
             Assert.AreEqual(2, stringSet.Count);
         }
@@ -172,191 +172,191 @@ namespace GenericSet.Tests
         [TestMethod]
         public void IsProperSubsetOfIntTest()
         {
-            var toAdd = new[] { 3, 4, 5 };
-            var toAddToOther = new[] { 3, 4, 5, 6};
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { 3, 4, 5 };
+            var addToSecond = new[] { 3, 4, 5, 6};
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(intSet.IsProperSubsetOf(other));
-            other.Remove(6);
-            Assert.IsFalse(intSet.IsProperSubsetOf(other));
+            Assert.IsTrue(intSet.IsProperSubsetOf(secondSet));
+            secondSet.Remove(6);
+            Assert.IsFalse(intSet.IsProperSubsetOf(secondSet));
         }
 
         [TestMethod]
         public void IsProperSubsetOfStringTest()
         {
-            var toAdd = new[] { "Jon", "Arya", "Sansa" };
-            var toAddToOther = new[] { "Jon", "Arya", "Sansa", "Bran" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { "Jon", "Arya", "Sansa" };
+            var addToSecond = new[] { "Jon", "Arya", "Sansa", "Bran" };
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(stringSet.IsProperSubsetOf(other));
-            other.Remove("Bran");
-            Assert.IsFalse(stringSet.IsProperSubsetOf(other));
+            Assert.IsTrue(stringSet.IsProperSubsetOf(secondSet));
+            secondSet.Remove("Bran");
+            Assert.IsFalse(stringSet.IsProperSubsetOf(secondSet));
         }
 
         [TestMethod]
         public void IsProperSupersetOfIntTest()
         {
-            var toAdd = new[] { 3, 4, 5, 6 };
-            var toAddToOther = new[] { 3, 4, 5 };
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { 3, 4, 5, 6 };
+            var addToSecond = new[] { 3, 4, 5 };
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(intSet.IsProperSupersetOf(other));
+            Assert.IsTrue(intSet.IsProperSupersetOf(secondSet));
             intSet.Remove(6);
-            Assert.IsFalse(intSet.IsProperSupersetOf(other));
+            Assert.IsFalse(intSet.IsProperSupersetOf(secondSet));
         }
 
         [TestMethod]
         public void IsProperSupersetOfStringTest()
         {
-            var toAdd = new[] { "Jon", "Arya", "Sansa", "Bran" };
-            var toAddToOther = new[] { "Jon", "Arya", "Sansa" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { "Jon", "Arya", "Sansa", "Bran" };
+            var addToSecond = new[] { "Jon", "Arya", "Sansa" };
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(stringSet.IsProperSupersetOf(other));
+            Assert.IsTrue(stringSet.IsProperSupersetOf(secondSet));
             stringSet.Remove("Bran");
-            Assert.IsFalse(stringSet.IsProperSupersetOf(other));
+            Assert.IsFalse(stringSet.IsProperSupersetOf(secondSet));
         }
 
         [TestMethod]
         public void IsSubsetOfIntTest()
         {
-            var toAdd = new[] { 5, 4, 3 };
-            var toAddToOther = new[] { 3, 4, 5, 6, 7, 8 };
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { 5, 4, 3 };
+            var addToSecond = new[] { 3, 4, 5, 6, 7, 8 };
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(intSet.IsSubsetOf(other));
+            Assert.IsTrue(intSet.IsSubsetOf(secondSet));
             intSet.Remove(4);
-            Assert.IsTrue(intSet.IsSubsetOf(other));
+            Assert.IsTrue(intSet.IsSubsetOf(secondSet));
         }
 
         [TestMethod]
         public void IsSubsetOfStringTest()
         {
-            var toAdd = new[] { "Sansa", "Jon", "Arya"};
-            var toAddToOther = new[] { "Jon", "Arya", "Sansa", "Bran" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { "Sansa", "Jon", "Arya"};
+            var addToSecond = new[] { "Jon", "Arya", "Sansa", "Bran" };
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(stringSet.IsSubsetOf(other));
+            Assert.IsTrue(stringSet.IsSubsetOf(secondSet));
             stringSet.Remove("Arya");
-            Assert.IsTrue(stringSet.IsSubsetOf(other));
+            Assert.IsTrue(stringSet.IsSubsetOf(secondSet));
         }
 
         [TestMethod]
         public void IsSupersetOfIntTest()
         {
-            var toAdd = new[] { 3, 4, 5, 6, 7, 8 };
-            var toAddToOther = new[] { 4, 5, 3 };
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { 3, 4, 5, 6, 7, 8 };
+            var addToSecond = new[] { 4, 5, 3 };
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(intSet.IsSupersetOf(other));
-            other.Remove(4);
-            Assert.IsTrue(intSet.IsSupersetOf(other));
+            Assert.IsTrue(intSet.IsSupersetOf(secondSet));
+            secondSet.Remove(4);
+            Assert.IsTrue(intSet.IsSupersetOf(secondSet));
         }
 
         [TestMethod]
         public void IsSupersetOfStringTest()
         {
-            var toAdd = new[] { "Jon", "Arya", "Sansa", "Bran" };
-            var toAddToOther = new[] { "Sansa", "Jon", "Arya" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { "Jon", "Arya", "Sansa", "Bran" };
+            var addToSecond = new[] { "Sansa", "Jon", "Arya" };
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(stringSet.IsSupersetOf(other));
-            other.Remove("Arya");
-            Assert.IsTrue(stringSet.IsSupersetOf(other));
+            Assert.IsTrue(stringSet.IsSupersetOf(secondSet));
+            secondSet.Remove("Arya");
+            Assert.IsTrue(stringSet.IsSupersetOf(secondSet));
         }
 
         [TestMethod]
         public void OverlapsIntTest()
         {
-            var toAdd = new[] { 3, 4, 5, 6, 7, 8 };
-            var toAddToOther = new[] { 0, 4, 9};
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { 3, 4, 5, 6, 7, 8 };
+            var addToSecond = new[] { 0, 4, 9 };
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(intSet.Overlaps(other));
-            other.Remove(4);
-            Assert.IsFalse(intSet.Overlaps(other));
+            Assert.IsTrue(intSet.Overlaps(secondSet));
+            secondSet.Remove(4);
+            Assert.IsFalse(intSet.Overlaps(secondSet));
         }
 
         [TestMethod]
         public void OverlapsStringTest()
         {
-            var toAdd = new[] { "Jon", "Arya", "Sansa", "Bran" };
-            var toAddToOther = new[] { "Sansa", "Daenerys" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { "Jon", "Arya", "Sansa", "Bran" };
+            var addToSecond = new[] { "Sansa", "Daenerys" };
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(stringSet.Overlaps(other));
-            other.Remove("Sansa");
-            Assert.IsFalse(stringSet.Overlaps(other));
+            Assert.IsTrue(stringSet.Overlaps(secondSet));
+            secondSet.Remove("Sansa");
+            Assert.IsFalse(stringSet.Overlaps(secondSet));
         }
 
         [TestMethod]
@@ -380,53 +380,53 @@ namespace GenericSet.Tests
         [TestMethod]
         public void SetEqualsIntTest()
         {
-            var toAdd = new[] { 4, 8, 15, 16, 23, 42};
-            var toAddToOther = new[] { 15, 15, 4, 42, 8, 16, 23};
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { 4, 8, 15, 16, 23, 42};
+            var addToSecond = new[] { 15, 15, 4, 42, 8, 16, 23};
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(intSet.SetEquals(other));
+            Assert.IsTrue(intSet.SetEquals(secondSet));
         }
 
         [TestMethod]
         public void SetEqualsStringTest()
         {
-            var toAdd = new[] { "ten", "eleven", "ten"};
-            var toAddToOther = new[] { "ten", "eleven" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var addToFirst = new[] { "ten", "eleven", "ten"};
+            var addToSecond = new[] { "ten", "eleven" };
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            Assert.IsTrue(stringSet.SetEquals(other));
+            Assert.IsTrue(stringSet.SetEquals(secondSet));
         }
 
         [TestMethod]
         public void SymmetricExceptWithIntTest()
         {
-            var toAdd = new[] { 4, 8, 15, 10, 11, 12 };
-            var toAddToOther = new[] { 10, 11, 12, 16, 23, 42 };
+            var addToFirst = new[] { 4, 8, 15, 10, 11, 12 };
+            var addToSecond = new[] { 10, 11, 12, 16, 23, 42 };
             var result = new[] { 4, 8, 15, 16, 23, 42 };
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            intSet.SymmetricExceptWith(other);
+            intSet.SymmetricExceptWith(secondSet);
             IntAssertion(result);
         }
 
@@ -434,57 +434,57 @@ namespace GenericSet.Tests
         [TestMethod]
         public void SymmetricExceptWithStringTest()
         {
-            var toAdd = new[] { "Jon", "Arya", "Sansa", "Bran" };
-            var toAddToOther = new[] { "Sansa", "Jon", "Arya", "Ned" };
+            var addToFirst = new[] { "Jon", "Arya", "Sansa", "Bran" };
+            var addToSecond = new[] { "Sansa", "Jon", "Arya", "Ned" };
             var result = new[] { "Bran", "Ned" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            stringSet.SymmetricExceptWith(other);
+            stringSet.SymmetricExceptWith(secondSet);
             StringAssertion(result);
         }
 
         [TestMethod]
         public void UnionWithIntTest()
         {
-            var toAdd = new[] { 4, 8, 15, 16 };
-            var toAddToOther = new[] { 23, 42 };
+            var addToFirst = new[] { 4, 8, 15, 16 };
+            var addToSecond = new[] { 23, 42 };
             var result = new[] { 4, 8, 15, 16, 23, 42 };
-            var other = new Set<int>();
-            foreach (var cell in toAdd)
+            var secondSet = new Set<int>();
+            foreach (var cell in addToFirst)
             {
                 intSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            intSet.UnionWith(other);
+            intSet.UnionWith(secondSet);
             IntAssertion(result);
         }
 
         [TestMethod]
         public void UnionWithStringTest()
         {
-            var toAdd = new[] { "Jon", "Arya" };
-            var toAddToOther = new[] { "Ned" };
+            var addToFirst = new[] { "Jon", "Arya" };
+            var addToSecond = new[] { "Ned" };
             var result = new[] { "Jon", "Arya", "Ned" };
-            var other = new Set<string>();
-            foreach (var cell in toAdd)
+            var secondSet = new Set<string>();
+            foreach (var cell in addToFirst)
             {
                 stringSet.Add(cell);
             }
-            foreach (var cell in toAddToOther)
+            foreach (var cell in addToSecond)
             {
-                other.Add(cell);
+                secondSet.Add(cell);
             }
-            stringSet.SymmetricExceptWith(other);
+            stringSet.SymmetricExceptWith(secondSet);
             StringAssertion(result);
         }
 
