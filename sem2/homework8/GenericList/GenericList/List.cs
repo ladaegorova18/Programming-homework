@@ -58,21 +58,11 @@ namespace GenericList
 
             get
             {
-                var temp = head;
-                for (var i = 0; i < index; ++i)
-                {
-                    temp = temp.Next;
-                }
-                return temp.Value;
+                return FindNode(index, head).current.Value;
             }
             set
             {
-                var temp = head;
-                for (var i = 0; i < index; ++i)
-                {
-                    temp = temp.Next;
-                }
-                temp.Value = value;
+                FindNode(index, head).current.Value = value;
             }
         }
 
@@ -187,15 +177,20 @@ namespace GenericList
             {
                 return;
             }
-            var temp = head;
+            var (found, previous) = FindNode(index, head);
+            previous.Next = newNode;
+            newNode.Next = found;
+        }
+
+        private static (Node current, Node previous) FindNode(int index, Node start)
+        {
             Node previous = null;
             for (var i = 0; i < index; ++i)
             {
-                previous = temp;
-                temp = temp.Next;
+                previous = start;
+                start = start.Next;
             }
-            previous.Next = newNode;
-            newNode.Next = temp;
+            return (start, previous);
         }
 
         private bool CorrectIndex(int index) => index > 0 && index <= count;
@@ -244,14 +239,8 @@ namespace GenericList
                 Clear();
                 return;
             }
-            var temp = head;
-            Node previous = null;
-            for (var position = 0; position < index; ++position)
-            {
-                previous = temp;
-                temp = temp.Next;
-            }
-            previous.Next = temp.Next;
+            var (found, previous) = FindNode(index, head);
+            previous.Next = found.Next;
         }
 
         /// <summary>
@@ -306,11 +295,7 @@ namespace GenericList
             public bool MoveNext()
             {
                 temp = temp.Next;
-                if (temp != null)
-                {
-                    return true;
-                }
-                return false;
+                return temp != null;
             }
 
             void IEnumerator.Reset() => temp.Next = head;
