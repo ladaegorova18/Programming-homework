@@ -10,6 +10,7 @@
         /// </summary>
         public static void Main(string[] args)
         {
+            // empty main method
         }
     }
 }

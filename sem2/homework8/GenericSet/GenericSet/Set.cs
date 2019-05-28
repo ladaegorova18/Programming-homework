@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace GenericSet
 {
+    /// <summary>
+    /// Set to collect generic data
+    /// </summary>
+    /// <typeparam name="T"> type to collect </typeparam>
     public class Set<T> : ISet<T> where T : IComparable<T>
     {
         private Node root;
@@ -39,6 +43,9 @@ namespace GenericSet
             public Node Right { get; set; }
         }
 
+        /// <summary>
+        /// if set is read only
+        /// </summary>
         public bool IsReadOnly => false;
 
         /// <summary>
