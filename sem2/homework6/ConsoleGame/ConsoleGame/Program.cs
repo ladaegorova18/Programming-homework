@@ -10,6 +10,7 @@ namespace ConsoleGame
     public class Program
     {
         private static DrawOnConsole drawOnConsole = new DrawOnConsole();
+
         private static void Main(string[] args)
         {
             var eventLoop = new EventLoop();
@@ -20,10 +21,9 @@ namespace ConsoleGame
                 return;
             }
             var gamerCoords = DrawMap(map);
-            drawOnConsole.DrawGamer(gamerCoords);
             var game = new Game(map, gamerCoords, drawOnConsole);
+            drawOnConsole.DrawGamer(gamerCoords);
             AddHandlers(eventLoop, game);
-
             eventLoop.Run(); 
         }
 
