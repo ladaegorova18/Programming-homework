@@ -1,19 +1,14 @@
 language: csharp
-solution: sem2/homework1/Factorial/Factorial.sln
+solution: sem2/homework8/GenericList/GenericList.sln
 sudo: required
 mono: none
 dotnet: 2.1
 
 before_build:
-  - nuget restore sem2/homework1/Factorial/Factorial.sln\
+  - nuget restore sem2/homework8/GenericList/GenericList.sln\
 
 build:
-  - dotnet build sem2/homework1/Factorial/Factorial.sln
+  - dotnet build sem2/homework8/GenericList/GenericList.sln
 
 script:
-  - dotnet test sem2/homework1/Factorial/Factorial.sln
-  - make compile test
-
-after_script:
-  - make coverage
-  - bash <(curl -s https://codecov.io/bash)
+  - dotnet test sem2/homework8/GenericList/GenericList.sln
