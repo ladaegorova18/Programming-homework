@@ -31,7 +31,6 @@ namespace ParseTree
                 {
                     root = new Operation(value);
                     Current = (Operation)root;
-                    return;
                 }
             }
             else
