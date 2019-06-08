@@ -113,16 +113,11 @@ namespace ParseTree
         /// </summary>
         public void Print(Action<int> tabulation, int level)
         {
-            if (this != null)
-            {
-                {
-                    Operation temp = this;
-                    LeftChild.Print(tabulation, level + 1);
-                    tabulation(level);
-                    Console.WriteLine(temp.AriphmeticOperation);
-                    RightChild.Print(tabulation, level + 1);
-                }
-            }
+            Operation temp = this;
+            LeftChild.Print(tabulation, level + 1);
+            tabulation(level);
+            Console.WriteLine(temp.AriphmeticOperation);
+            RightChild.Print(tabulation, level + 1);
         }
     }
 }
