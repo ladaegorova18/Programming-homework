@@ -25,7 +25,6 @@ namespace ParseTree
                 if (Char.IsDigit(value))
                 {
                     root = new Operand(value);
-                    return;
                 }
                 else if (IsOperation(value))
                 {
