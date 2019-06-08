@@ -1,4 +1,6 @@
-﻿namespace ParseTree
+﻿using System;
+
+namespace ParseTree
 {
     /// <summary>
     /// Node of tree: operand or operation
@@ -18,5 +20,10 @@
         /// <param name="current"> parent node of tree </param>
         /// <returns> current node to add next symbols </returns>
         Operation AddChild(char value, Operation current);
+
+        /// <summary>
+        /// Prints tree on console
+        /// </summary>
+        void Print(Action<int> tabulation, int level);
     }
 }

@@ -2,11 +2,25 @@
 
 namespace ParseTree
 {
+    /// <summary>
+    /// node with ariphmetic operation
+    /// </summary>
     public class Operation : INode
     {
+        /// <summary>
+        /// operation in node
+        /// </summary>
         public char AriphmeticOperation { get; set; }
-        public INode leftChild { get; set; }
-        public INode rightChild { get; set; }
+
+        /// <summary>
+        /// left child of node
+        /// </summary>
+        public INode LeftChild { get; set; }
+
+        /// <summary>
+        /// right child of node
+        /// </summary>
+        public INode RightChild { get; set; }
         private INode parent;
 
         /// <summary>
@@ -21,12 +35,12 @@ namespace ParseTree
         /// <returns> integer result </returns>
         public int Count()
         {
-            leftChild.Count();
-            if (rightChild != null)
+            LeftChild.Count();
+            if (RightChild != null)
             {
-                rightChild.Count();
+                RightChild.Count();
             }
-            return DoOperation(leftChild, rightChild);
+            return DoOperation(LeftChild, RightChild);
         }
 
         private int DoOperation(INode leftChild, INode rightChild)
@@ -65,27 +79,27 @@ namespace ParseTree
             {
                 var child = new Operation(symbol);
                 child.parent = current;
-                if (current.leftChild == null)
+                if (current.LeftChild == null)
                 {
-                    current.leftChild = child;
-                    current = (Operation)current.leftChild;
+                    current.LeftChild = child;
+                    current = (Operation)current.LeftChild;
                 }
-                else if (current.rightChild == null)
+                else if (current.RightChild == null)
                 {
-                    current.rightChild = child;
-                    current = (Operation)current.rightChild;
+                    current.RightChild = child;
+                    current = (Operation)current.RightChild;
                 }
             }
             else if (char.IsDigit(symbol))
             {
                 var child = new Operand(symbol);
-                if (current.leftChild == null)
+                if (current.LeftChild == null)
                 {
-                    current.leftChild = child;
+                    current.LeftChild = child;
                 }
-                else if (current.rightChild == null)
+                else if (current.RightChild == null)
                 {
-                    current.rightChild = child;
+                    current.RightChild = child;
                 }
             }
             return current;
@@ -94,31 +108,20 @@ namespace ParseTree
         private bool IsOperation(char value) => value == '/' || value == '*'
             || value == '+' || value == '-';
 
-        public void Printing(INode current, int level)
+        /// <summary>
+        /// prints operation on console
+        /// </summary>
+        public void Print(Action<int> tabulation, int level)
         {
-            if (current != null)
+            if (this != null)
             {
-                Tabulation(level);
-                if (current is Operand)
                 {
-                    Console.WriteLine(current.Count());
-                }
-                else
-                {
-                    Operation temp = (Operation)current;
-                    Printing(temp.leftChild, level + 1);
-                    Tabulation(level);
+                    Operation temp = this;
+                    LeftChild.Print(tabulation, level + 1);
+                    tabulation(level);
                     Console.WriteLine(temp.AriphmeticOperation);
-                    Printing(temp.rightChild, level + 1);
+                    RightChild.Print(tabulation, level + 1);
                 }
-            }
-        }
-
-        private static void Tabulation(int level)
-        {
-            for (var i = 0; i < level; ++i)
-            {
-                Console.Write("\t");
             }
         }
     }

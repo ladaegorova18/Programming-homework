@@ -8,9 +8,15 @@ namespace ParseTree
     /// </summary>
     public class Tree
     {
-        public Operation current { get; set; }
-
+        /// <summary>
+        /// root of tree - node on the top
+        /// </summary>
         private INode root;
+
+        /// <summary>
+        /// current node
+        /// </summary>
+        public Operation Current { get; set; }
 
         private void Add(char value)
         {
@@ -24,13 +30,13 @@ namespace ParseTree
                 else if (IsOperation(value))
                 {
                     root = new Operation(value);
-                    current = (Operation)root;
+                    Current = (Operation)root;
                     return;
                 }
             }
             else
             {
-                current = root.AddChild(value, current);
+                Current = root.AddChild(value, Current);
             }
         }
 
@@ -61,13 +67,10 @@ namespace ParseTree
         /// <summary>
         /// Cleans tree by making the root null
         /// </summary>
-        public void Clean()
-        {
-            root = null;
-        }
+        public void Clean() => root = null;
 
         /// <summary>
-        /// Checks if this char is ariphmetic operation of division, multiplication,
+        /// Checks if current char is ariphmetic operation of division, multiplication,
         /// addition or subtraction
         /// </summary>
         /// <param name="value"> symbol to check </param>
@@ -81,17 +84,22 @@ namespace ParseTree
         /// <returns> integer number: result </returns>
         public int Count() => root.Count();
 
+        /// <summary>
+        /// checks if tree is empty
+        /// </summary>
         private bool IsEmpty() => root == null;
 
-        public void Print()
+        /// <summary>
+        /// prints whole tree on console
+        /// </summary>
+        public void Print() => root.Print(Tabulation, 0);
+
+        private static void Tabulation(int level)
         {
-            if (root is Operand)
+            for (var i = 0; i < level; ++i)
             {
-                Console.WriteLine(root.Count());
-                return;
+                Console.Write("\t");
             }
-            Operation temp = (Operation)root;
-            temp.Printing(temp, 0);
         }
     }
 }
