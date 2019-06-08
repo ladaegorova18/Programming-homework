@@ -5,7 +5,7 @@ namespace HashTable
     /// <summary>
     /// One linked list for Hash-Table
     /// </summary>
-    class OneLinkedList
+    public class OneLinkedList
     {
         /// <summary>
         /// Element of list
@@ -20,6 +20,10 @@ namespace HashTable
             }
         }
 
+        /// <summary>
+        /// Adds data from hash table to new array
+        /// </summary>
+        /// <param name="newArray"> array to add </param>
         public void AddToNewArray(OneLinkedList[] newArray, IHash hashfunction)
         {
             var temp = Head;
@@ -158,7 +162,11 @@ namespace HashTable
             Size = 0;
         }
 
+        /// <summary>
+        /// amount of elements in list
+        /// </summary>
         public int Size { get; set; } = 0;
+
         private Node Head { get; set; }
         private Node Tail { get; set; }
     }

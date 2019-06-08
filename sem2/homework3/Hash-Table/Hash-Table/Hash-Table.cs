@@ -39,6 +39,9 @@ namespace HashTable
 
         private float FillFactor() => GetSize() / size;
 
+        /// <summary>
+        /// returs amount of elements in table
+        /// </summary>
         public int GetSize()
         {
             var count = 0;

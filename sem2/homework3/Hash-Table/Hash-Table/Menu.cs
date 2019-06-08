@@ -5,14 +5,13 @@ namespace HashTable
     /// <summary>
     /// Menu class giving user an oppotunity to change the table
     /// </summary>
-    class Menu
+    public class Menu
     {
         private readonly Table hashTable;
 
         /// <summary>
         /// Constructor for Menu, gives it hash-table from main program
         /// </summary>
-        /// <param name="hashTable"></param>
         public Menu(Table hashTable)
         {
             this.hashTable = hashTable;

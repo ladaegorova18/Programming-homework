@@ -3,6 +3,9 @@ using System.IO;
 
 namespace HashTable
 {
+    /// <summary>
+    /// main program
+    /// </summary>
     public class Program
     {
         private static Table CreateHashTable(string hashType)
@@ -27,7 +30,10 @@ namespace HashTable
             }
         }
 
-        static void Main(string[] args)
+        /// <summary>
+        /// main method
+        /// </summary>
+        public static void Main(string[] args)
         {
             UserHashRequest();
             var hashType = Console.ReadLine();
