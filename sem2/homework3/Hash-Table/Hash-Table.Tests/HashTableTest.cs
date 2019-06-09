@@ -35,16 +35,16 @@ namespace HashTable.Tests
             thirdHashTable.ClearTable();
         }
 
-        public void FindingTheWordWasTest(Table hash_Table)
+        public void FindingTheWordWasTest(Table hashTable)
         {
-            Assert.IsTrue(hash_Table.Exists("was"));
+            Assert.IsTrue(hashTable.Exists("was"));
         }
 
-        public void RemovingOneWordTest(Table hash_Table)
+        public void RemovingOneWordTest(Table hashTable)
         {
-            Assert.IsTrue(hash_Table.Exists("the"));
-            hash_Table.RemoveData("the");
-            Assert.IsFalse(hash_Table.Exists("the"));
+            Assert.IsTrue(hashTable.Exists("the"));
+            hashTable.RemoveData("the");
+            Assert.IsFalse(hashTable.Exists("the"));
         }
 
         public void AddingUserWordTest(Table hashTable)
@@ -55,19 +55,19 @@ namespace HashTable.Tests
             Assert.IsFalse(hashTable.Exists("mathmech"));
         }
 
-        public void AddingTheSameWordTest(Table hash_Table)
+        public void AddingTheSameWordTest(Table hashTable)
         {
-            hash_Table.AddData("ololo");
-            hash_Table.AddData("ololo");
-            hash_Table.RemoveData("ololo");
-            Assert.IsFalse(hash_Table.Exists("ololo"));
+            hashTable.AddData("ololo");
+            hashTable.AddData("ololo");
+            hashTable.RemoveData("ololo");
+            Assert.IsFalse(hashTable.Exists("ololo"));
         }
 
-        public void DoubleRemoveTest(Table hash_Table)
+        public void DoubleRemoveTest(Table hashTable)
         {
-            hash_Table.AddData("like_coding");
-            hash_Table.RemoveData("like_coding");
-            hash_Table.RemoveData("like_coding");
+            hashTable.AddData("like_coding");
+            hashTable.RemoveData("like_coding");
+            hashTable.RemoveData("like_coding");
         }
 
         [TestMethod]
