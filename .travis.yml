@@ -1,8 +1,5 @@
 language: csharp
 solution: sem2/homework3/Hash-Table/Hash-Table.sln
-sudo: required
-mono: none
-dotnet: 2.1
 
 before_build:
   - nuget restore sem2/homework3/Hash-Table/Hash-Table.sln\

@@ -9,4 +9,3 @@ build_script:
 
 test_script:
   - dotnet test sem2/homework3/Hash-Table/Hash-Table.sln
-
