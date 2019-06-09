@@ -12,9 +12,6 @@ namespace HashTable
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public int CountHash(string data)
-        {
-            return Abs(data.GetHashCode());
-        }
+        public int CountHash(string data) => Abs(data.GetHashCode());
     }
 }

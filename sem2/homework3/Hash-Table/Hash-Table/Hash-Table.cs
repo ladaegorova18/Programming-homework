@@ -35,7 +35,7 @@ namespace HashTable
             }
         }
 
-        private int GetHash(string data) => hashFunction.CountHash(data);
+        private int GetHash(string data) => Abs(hashFunction.CountHash(data));
 
         private float FillFactor() => GetSize() / size;
 
@@ -58,7 +58,7 @@ namespace HashTable
         /// <param name="data"> input string </param>
         public void AddData(string data)
         {
-            int hashCode = Abs(hashFunction.CountHash(data) % size);
+            int hashCode = GetHash(data) % size;
             array[hashCode].Add(data);
             if (FillFactor() > critical)
             {

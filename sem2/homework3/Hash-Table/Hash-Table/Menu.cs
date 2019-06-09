@@ -33,7 +33,7 @@ namespace HashTable
         {
             TextMenu();
             var key = Console.ReadLine();
-            while(key != "4")
+            while (key != "4")
             {
                 Options(key);
                 TextMenu();
@@ -45,7 +45,7 @@ namespace HashTable
 
         private void Options(string key)
         {
-            switch(key)
+            switch (key)
             {
                 case "1":
                     {

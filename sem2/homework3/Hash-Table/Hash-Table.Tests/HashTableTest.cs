@@ -47,12 +47,12 @@ namespace HashTable.Tests
             Assert.IsFalse(hash_Table.Exists("the"));
         }
 
-        public void AddingUserWordTest(Table hash_Table)
+        public void AddingUserWordTest(Table hashTable)
         {
-            hash_Table.AddData("mathmech");
-            Assert.IsTrue(hash_Table.Exists("mathmech"));
-            hash_Table.RemoveData("mathmech");
-            Assert.IsFalse(hash_Table.Exists("mathmech"));
+            hashTable.AddData("mathmech");
+            Assert.IsTrue(hashTable.Exists("mathmech"));
+            hashTable.RemoveData("mathmech");
+            Assert.IsFalse(hashTable.Exists("mathmech"));
         }
 
         public void AddingTheSameWordTest(Table hash_Table)
