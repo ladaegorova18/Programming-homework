@@ -1,14 +1,10 @@
 language: csharp
 solution: sem2/homework7/Clock/Clock.sln
-sudo: required
-mono: none
-dotnet: 2.1
 
-before_build:
-  - nuget restore sem2/homework7/Clock/Clock.sln\
+install:
 
-build:
-  - dotnet build sem2/homework7/Clock/Clock.sln
+  - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
-  - dotnet test sem2/homework7/Clock/Clock.sln
+
+  - msbuild /p:Configuration=Release sem2/homework7/Clock/Clock.sln
