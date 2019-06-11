@@ -9,10 +9,6 @@ namespace GUICalculator
     public partial class Calculator : Form
     {
         private readonly Counter counter = new Counter();
-        private float? result;
-        private float? current;
-        private string operation;
-        bool comma = false;
 
         /// <summary>
         /// Constuctor of calculator
@@ -22,19 +18,20 @@ namespace GUICalculator
             InitializeComponent();
         }
 
+        private void RefreshData()
+        {
+            tempExpression.Text = counter.TempExpression;
+            textBox.Text = counter.TextBox;
+        }
+
         /// <summary>
         /// Reads numbers from button
         /// </summary>
         /// <param name="number"> number to add in textbox </param>
         public void ReadNumber(string number)
         {
-            if (result.HasValue && float.IsNaN(result.Value) || textBox.Text == "0" || textBox.Text == "Error")
-            {
-                textBox.Text = "";
-                tempExpression.Text = "";
-            }
-            textBox.Text += number;
-            tempExpression.Text += number;
+            counter.GetNumber(number);
+            RefreshData();
         }
 
         /// <summary>
@@ -43,155 +40,63 @@ namespace GUICalculator
         /// <param name="operation"> operation to read </param>
         public void ReadOperation(string operation)
         {
-            ShowResult();
-            if ((textBox.Text != null) && (textBox.Text != ""))
-            {
-                if (float.TryParse(textBox.Text, out float temp))
-                {
-                    result = temp;
-                    textBox.Text = "";
-                    comma = false;
-                }
-            }
-            if (result.HasValue && float.IsNaN(result.Value))
-            {
-                tempExpression.Text = "";
-            }
-            if (tempExpression.Text != "")
-            {
-                if (!char.IsDigit(tempExpression.Text[tempExpression.Text.Length - 1]))
-                {
-                    tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
-                }
-                tempExpression.Text += operation;
-            }
-            this.operation = operation;
+            counter.GetOperation(operation);
+            RefreshData();
         }
 
         private void ShowResult()
         {
-            if ((textBox.Text != null) && (textBox.Text != ""))
-            {
-                if (float.TryParse(textBox.Text, out float temp) && result.HasValue && operation != null)
-                {
-                    current = temp;
-                    try
-                    {
-                        result = counter.Count(result.Value, current.Value, operation);
-                    }
-                    catch (DivideByZeroException)
-                    {
-                        textBox.Text = "Error";
-                        tempExpression.Text = "";
-                        operation = null;
-                        result = null;
-                        return;
-                    }
-                    if (!int.TryParse(result.ToString(), out int tempInt))
-                    {
-                        comma = true;
-                    }
-                    textBox.Text = result.ToString();
-                    tempExpression.Text = result.ToString();
-                    operation = null;
-                }
-            }
+            counter.GetResult();
+            RefreshData();
         }
 
         //numbers
         private void NumberClick(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            ReadNumber(button.Text);
+            counter.GetNumber(button.Text);
+            RefreshData();
         }
 
         // operations
         private void OperationClick(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            ReadOperation(button.Text);
+            counter.GetOperation(button.Text);
+            RefreshData();
         }
 
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
         private void CommaClick(object sender, EventArgs e)
         {
-            if ((textBox.Text != "") && (!comma))
-            {
-                textBox.Text += ',';
-                tempExpression.Text += ',';
-                comma = true;
-            }
+            counter.Comma();
+            RefreshData();
         }
 
         private void ChangeSignClick(object sender, EventArgs e)
         {
-            float.TryParse(textBox.Text, out float temp);
-            if (temp == 0)
-            {
-                return;
-            }
-            tempExpression.Text = "";
-            if (temp < 0)
-            {
-                textBox.Text = textBox.Text.Substring(1);
-                tempExpression.Text = textBox.Text;
-                return;
-            }
-            tempExpression.Text = "-" + textBox.Text;
-            textBox.Text = "-" + textBox.Text;
+            counter.ChangeSign();
+            RefreshData();
         }
 
         private void DeleteLineClick(object sender, EventArgs e)
         {
-            if (result.HasValue)
-            {
-                if (operation == null)
-                {
-                    result = null;
-                    tempExpression.Text = "";
-                    comma = false;
-                }
-                else
-                {
-                    float.TryParse(textBox.Text, out float temp);
-                    result = temp;
-                }
-            }
-            else
-            {
-                tempExpression.Text = "";
-            }
-            textBox.Text = "";
+            counter.DeleteLine();
+            RefreshData();
         }
 
         private void DeleteAllClick(object sender, EventArgs e)
         {
-            result = null;
-            tempExpression.Text = "";
-            textBox.Text = "";
-            comma = false;
+            counter.DeleteAll();
+            RefreshData();
         }
 
-        private void DeleteOneSymbolButtonClick(object sender, EventArgs e)
-        {
-            textBox.Text = DeleteLastSymbol(textBox.Text);
-            tempExpression.Text = DeleteLastSymbol(tempExpression.Text);
-        }
+        private void DeleteOneSymbolButtonClick(object sender, EventArgs e) => counter.DeleteOneSymbol();
 
-        private string DeleteLastSymbol(string line)
-        {
-            if (line == "Error")
-            {
-                return "Error";
-            }
-            if (line.Length > 0)
-            {
-                return line.Substring(0, line.Length - 1);
-            }
-            return "";
-        }
-
+        /// <summary>
+        /// gets key from keyboard
+        /// </summary>
         public void CalculatorKeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsDigit(e.KeyChar))
