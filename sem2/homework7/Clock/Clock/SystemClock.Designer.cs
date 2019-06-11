@@ -20,14 +20,6 @@
             base.Dispose(disposing);
         }
 
-        private void ShowData()
-        {
-            var currentTime = System.DateTime.Now;
-            this.time.Text = currentTime.ToLongTimeString();
-            var localTimeZone = System.TimeZoneInfo.Local;
-            this.timeZone.Text = localTimeZone.DisplayName;
-        }
-
         #region Код, автоматически созданный конструктором форм Windows
 
         /// <summary>
@@ -89,7 +81,7 @@
             this.MinimumSize = new System.Drawing.Size(350, 200);
             this.Name = "Form1";
             this.Text = "CurrentTime";
-            this.Load += new System.EventHandler(this.Form1Load);
+            this.Load += new System.EventHandler(this.Start);
             this.ResumeLayout(false);
             this.PerformLayout();
 
