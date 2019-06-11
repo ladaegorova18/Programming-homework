@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace GUICalculator
 {
     /// <summary>
     /// Counter for calculator
     /// </summary>
-    public class Counter
+    public class Counter : Form
     {
         /// <summary>
         /// Counts result of operation with two numbers

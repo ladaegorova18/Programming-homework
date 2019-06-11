@@ -26,7 +26,7 @@ namespace GUICalculator
         /// Reads numbers from button
         /// </summary>
         /// <param name="number"> number to add in textbox </param>
-        public void ReadNumber(char number)
+        public void ReadNumber(string number)
         {
             if (result.HasValue && float.IsNaN(result.Value) || textBox.Text == "0" || textBox.Text == "Error")
             {
@@ -99,34 +99,18 @@ namespace GUICalculator
         }
 
         //numbers
-        private void Number1Click(object sender, EventArgs e) => ReadNumber('1');
-
-        private void Number2Click(object sender, EventArgs e) => ReadNumber('2');
-
-        private void Number3Click(object sender, EventArgs e) => ReadNumber('3');
-
-        private void Number4Click(object sender, EventArgs e) => ReadNumber('4');
-
-        private void Number5Click(object sender, EventArgs e) => ReadNumber('5');
-
-        private void Number6Click(object sender, EventArgs e) => ReadNumber('6');
-
-        private void Number7Click(object sender, EventArgs e) => ReadNumber('7');
-
-        private void Number8Click(object sender, EventArgs e) => ReadNumber('8');
-
-        private void Number9Click(object sender, EventArgs e) => ReadNumber('9');
-
-        private void Number0Click(object sender, EventArgs e) => ReadNumber('0');
+        private void NumberClick(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            ReadNumber(button.Text);
+        }
 
         // operations
-        public void AdditionClick(object sender, EventArgs e) => ReadOperation("+");
-
-        private void DivisionClick(object sender, EventArgs e) => ReadOperation("/");
-
-        private void MultiplicationClick(object sender, EventArgs e) => ReadOperation("*");
-
-        private void SubtractionClick(object sender, EventArgs e) => ReadOperation("-");
+        private void OperationClick(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            ReadOperation(button.Text);
+        }
 
         private void EqualSignClick(object sender, EventArgs e) => ShowResult();
 
@@ -212,7 +196,7 @@ namespace GUICalculator
         {
             if (char.IsDigit(e.KeyChar))
             {
-                ReadNumber(e.KeyChar);
+                ReadNumber(e.KeyChar.ToString());
             }
             else if (IsOperation(e.KeyChar))
             {
@@ -228,7 +212,7 @@ namespace GUICalculator
             }
         }
 
-        private bool IsOperation(char operation) => operation == '/' || operation == '*'
+        private static bool IsOperation(char operation) => operation == '/' || operation == '*'
             || operation == '-' || operation == '+';
     }
 } 
