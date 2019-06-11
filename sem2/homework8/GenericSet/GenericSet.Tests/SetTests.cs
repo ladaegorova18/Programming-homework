@@ -58,6 +58,16 @@ namespace GenericSet.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(System.ArgumentNullException))]
+        public void NullSecondException()
+        {
+            intSet.Add(1);
+            Set<int> nullSet = null;
+            intSet.ExceptWith(nullSet);
+        }
+
+
+        [TestMethod]
         public void AddTheSameValueStringTest()
         {
             stringSet.Add("Thor");

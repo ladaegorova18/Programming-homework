@@ -170,9 +170,12 @@ namespace GenericSet
         /// <param name="other"> collection to remove </param>
         public void ExceptWith(IEnumerable<T> other)
         {
-            foreach (var otherCell in other)
+            if (CheckOther(other))
             {
-                Remove(otherCell);
+                foreach (var otherCell in other)
+                {
+                    Remove(otherCell);
+                }
             }
         }
 
@@ -182,11 +185,14 @@ namespace GenericSet
         /// <param name="other"> set to intersect with </param>
         public void IntersectWith(IEnumerable<T> other)
         {
-            foreach (var cell in this)
+            if (CheckOther(other))
             {
-                if (!other.Contains(cell))
+                foreach (var cell in this)
                 {
-                    Remove(cell);
+                    if (!other.Contains(cell))
+                    {
+                        Remove(cell);
+                    }
                 }
             }
         }
@@ -196,14 +202,28 @@ namespace GenericSet
         /// </summary>
         /// <param name="other"> other set to check </param>
         /// <returns> true, if this set is a proper subset </returns>
-        public bool IsProperSubsetOf(IEnumerable<T> other) => FirstProperSubsetOfSecond(this, other);
+        public bool IsProperSubsetOf(IEnumerable<T> other)
+        {
+            if (CheckOther(other))
+            {
+                return FirstProperSubsetOfSecond(this, other);
+            }
+            return false;
+        }
 
         /// <summary>
         /// checks if set is a proper superset
         /// </summary>
         /// <param name="other"> other set that can be a subset </param>
         /// <returns> true, if set is a proper superset </returns>
-        public bool IsProperSupersetOf(IEnumerable<T> other) => FirstProperSubsetOfSecond(other, this);
+        public bool IsProperSupersetOf(IEnumerable<T> other)
+        {
+            if (CheckOther(other))
+            {
+                return FirstProperSubsetOfSecond(other, this);
+            }
+            return false;
+        }
 
         private bool FirstProperSubsetOfSecond(IEnumerable<T> first, IEnumerable<T> second)
         {
@@ -223,26 +243,43 @@ namespace GenericSet
         /// </summary>
         /// <param name="other"> superset to check </param>
         /// <returns> true, if set is a superset </returns>
-        public bool IsSubsetOf(IEnumerable<T> other) => FirstSubsetOfSecond(this, other);
+        public bool IsSubsetOf(IEnumerable<T> other)
+        {
+            if (CheckOther(other))
+            {
+                return FirstSubsetOfSecond(this, other);
+            }
+            return false;
+        }
 
         /// <summary>
         /// if set is a superset
         /// </summary>
         /// <param name="other"> subset to check </param>
         /// <returns> true, if set is a superset </returns>
-        public bool IsSupersetOf(IEnumerable<T> other) => FirstSubsetOfSecond(other, this);
+        public bool IsSupersetOf(IEnumerable<T> other)
+        {
+            if (CheckOther(other))
+            {
+                return FirstSubsetOfSecond(other, this);
+            }
+            return false;
+        }
 
         private bool FirstSubsetOfSecond(IEnumerable<T> first, IEnumerable<T> second)
         {
-            if (first.Count() == 0)
+            if (CheckOther(second))
             {
-                return true;
-            }
-            foreach (var cell in this)
-            {
-                if (!second.Contains(cell))
+                if (first.Count() == 0)
                 {
-                    return false;
+                    return true;
+                }
+                foreach (var cell in this)
+                {
+                    if (!second.Contains(cell))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -255,11 +292,14 @@ namespace GenericSet
         /// <returns> true, if sets overlap</returns>
         public bool Overlaps(IEnumerable<T> other)
         {
-            foreach (var cell in this)
+            if (CheckOther(other))
             {
-                if (other.Contains(cell))
+                foreach (var cell in this)
                 {
-                    return true;
+                    if (other.Contains(cell))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -331,18 +371,21 @@ namespace GenericSet
         /// <returns> true, if sets are equal </returns>
         public bool SetEquals(IEnumerable<T> other)
         {
-            foreach (var cell in this)
+            if (CheckOther(other))
             {
-                if (!other.Contains(cell))
+                foreach (var cell in this)
                 {
-                    return false;
+                    if (!other.Contains(cell))
+                    {
+                        return false;
+                    }
                 }
-            }
-            foreach (var cell in other)
-            {
-                if (!Contains(cell))
+                foreach (var cell in other)
                 {
-                    return false;
+                    if (!Contains(cell))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -354,15 +397,18 @@ namespace GenericSet
         /// <param name="other"> other set </param>
         public void SymmetricExceptWith(IEnumerable<T> other)
         {
-            foreach (var cell in other)
+            if (CheckOther(other))
             {
-                if (Contains(cell))
+                foreach (var cell in other)
                 {
-                    Remove(cell);
-                }
-                else
-                {
-                    Add(cell);
+                    if (Contains(cell))
+                    {
+                        Remove(cell);
+                    }
+                    else
+                    {
+                        Add(cell);
+                    }
                 }
             }
         }
@@ -373,9 +419,12 @@ namespace GenericSet
         /// <param name="other"> second set </param>
         public void UnionWith(IEnumerable<T> other)
         {
-            foreach (var cell in other)
+            if (CheckOther(other))
             {
-                Add(cell);
+                foreach (var cell in other)
+                {
+                    Add(cell);
+                }
             }
         }
 
@@ -406,6 +455,15 @@ namespace GenericSet
                     stack.Push(temp.Left);
                 }
             }
+        }
+
+        private bool CheckOther(IEnumerable<T> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("Второе множество пусто!");
+            }
+            return other != this;
         }
 
         /// <summary>
