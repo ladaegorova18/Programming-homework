@@ -11,11 +11,10 @@ environment:
   - solution_path: sem2/homework2/Stack_Calculator/StackCalculator.sln
   - solution_path: sem2/homework2/OneLinkedList/OneLinkedList.sln
   - solution_path: sem2/homework6/ListMethods/ListMethods.sln
+  - solution_path: sem2/homework6/ConsoleGame/ConsoleGame.sln
+  - solution_path: sem2/homework8/GenericList/GenericList.sln
   - solution_path: Tests/Test1.1/Task1.sln
   - solution_path: Tests/Test2.1/Test2.1.sln
-
-before_build:
-  - nuget restore %solution_path%
 
 build_script:
   - msbuild %solution_path%
@@ -30,5 +29,7 @@ test_script:
   - dotnet test sem2/homework2/Stack_Calculator/StackCalculator.sln
   - dotnet test sem2/homework2/OneLinkedList/OneLinkedList.sln
   - dotnet test sem2/homework6/ListMethods/ListMethods.sln
+  - dotnet test sem2/homework6/ConsoleGame/ConsoleGame.sln
+  - dotnet test sem2/homework8/GenericList/GenericList.sln
   - dotnet test Tests/Test1.1/Task1.sln  
   - dotnet test Tests/Test2.1/Test2.1.sln
