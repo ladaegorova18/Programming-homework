@@ -6,5 +6,4 @@ install:
   - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
-
   - msbuild /p:Configuration=Release sem2/homework7/Clock/Clock.sln
