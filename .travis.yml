@@ -1,11 +1,8 @@
 language: csharp
-solution: sem2/homework3/Hash-Table/Hash-Table.sln
+solution: sem2/homework7/Clock/Clock.sln
 
-before_build:
-  - nuget restore sem2/homework3/Hash-Table/Hash-Table.sln\
-
-build:
-  - dotnet build sem2/homework3/Hash-Table/Hash-Table.sln
+install:
+  - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
-  - dotnet test sem2/homework3/Hash-Table/Hash-Table.sln
+  - msbuild /p:Configuration=Release sem2/homework7/Clock/Clock.sln
