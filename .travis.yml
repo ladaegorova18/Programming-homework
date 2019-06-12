@@ -1,14 +1,9 @@
 language: csharp
-solution: sem2/homework8/GenericList/GenericList.sln
-sudo: required
-mono: none
-dotnet: 2.1
+solution: sem2/homework7/Clock/Clock.sln
 
-before_build:
-  - nuget restore sem2/homework8/GenericList/GenericList.sln\
+install:
 
-build:
-  - dotnet build sem2/homework8/GenericList/GenericList.sln
+  - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
-  - dotnet test sem2/homework8/GenericList/GenericList.sln
+  - msbuild /p:Configuration=Release sem2/homework7/Clock/Clock.sln
