@@ -1,10 +1,10 @@
 language: csharp
-solution: sem2/homework8/GenericSet/GenericSet.sln
+solution: sem2/homework7/Clock/Clock.sln
 
 install:
-  - nuget restore sem2/homework8/GenericSet/GenericSet.sln
-  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
+
+  - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
-  - msbuild /p:Configuration=Release sem2/homework8/GenericSet/GenericSet.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./sem2/homework8/GenericSet/GenericSet.sln
+
+  - msbuild /p:Configuration=Release sem2/homework7/Clock/Clock.sln
