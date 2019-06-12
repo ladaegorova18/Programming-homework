@@ -1,5 +1,8 @@
 image: Visual Studio 2019 Preview
 
+before_build:
+  - choco install dotnetcore-sdk --pre
+  
 environment:
   matrix:
   - solution_path: sem2/homework1/Factorial/Factorial.sln
@@ -10,6 +13,7 @@ environment:
   - solution_path: sem2/homework2/Hash-Table/Hash-Table.sln
   - solution_path: sem2/homework2/Stack_Calculator/StackCalculator.sln
   - solution_path: sem2/homework2/OneLinkedList/OneLinkedList.sln
+  - solution_path: sem2/homework3/Hash-Table/Hash-Table.sln
   - solution_path: sem2/homework4/ParseTree/ParseTree.sln
   - solution_path: sem2/homework4/UniqueList/UniqueList.sln
   - solution_path: sem2/homework6/ListMethods/ListMethods.sln
@@ -33,6 +37,7 @@ test_script:
   - dotnet test sem2/homework2/Hash-Table/Hash-Table.sln
   - dotnet test sem2/homework2/Stack_Calculator/StackCalculator.sln
   - dotnet test sem2/homework2/OneLinkedList/OneLinkedList.sln
+  - dotnet test sem2/homework3/Hash-Table/Hash-Table.sln
   - dotnet test sem2/homework4/ParseTree/ParseTree.sln
   - dotnet test sem2/homework4/UniqueList/UniqueList.sln
   - dotnet test sem2/homework6/ListMethods/ListMethods.sln

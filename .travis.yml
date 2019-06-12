@@ -2,7 +2,6 @@ language: csharp
 solution: sem2/homework7/Clock/Clock.sln
 
 install:
-
   - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
