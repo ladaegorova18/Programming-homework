@@ -1,11 +1,7 @@
 image: Visual Studio 2019 Preview
 
 before_build:
-  - nuget restore sem2/homework4/ParseTree/ParseTree.sln
-  - choco install dotnetcore-sdk --pre
+  - nuget restore sem2/homework7/GUICalculator/GUICalculator.sln
 
 build_script:
-  dotnet build sem2/homework4/ParseTree/ParseTree.sln
-
-test_script:
-  - dotnet test sem2/homework4/ParseTree/ParseTree.sln
+  msbuild sem2/homework7/GUICalculator/GUICalculator.sln
