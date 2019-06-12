@@ -1,8 +1,9 @@
 language: csharp
-solution: sem2/homework7/GUICalculator/GUICalculator.sln
+solution: sem2/homework7/Clock/Clock.sln
 
 install:
-- nuget restore sem2/homework7/GUICalculator/GUICalculator.sln
+
+  - nuget restore sem2/homework7/Clock/Clock.sln
 
 script:
-- msbuild /p:Configuration=Release sem2/homework7/GUICalculator/GUICalculator.sln
+  - msbuild /p:Configuration=Release sem2/homework7/Clock/Clock.sln
