@@ -98,7 +98,6 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void MultiThreadStringWorkTest()
         {
-            var locker = new object();
             string Supplier()
             {
                 return "doctor " + "who";
