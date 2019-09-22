@@ -7,9 +7,9 @@ namespace LazyInterface
     /// </summary>
     public class Lazy<T> : ILazy<T>
     {
-        private Func<T> function;
+        private readonly Func<T> function;
         private bool counted = false;
-        private T result = default(T);
+        private T result = default;
 
         /// <summary>
         /// constructor for Lazy object
@@ -21,7 +21,7 @@ namespace LazyInterface
         }
 
         /// <summary>
-        /// returns result
+        /// calculates result
         /// </summary>
         public T Get()
         {

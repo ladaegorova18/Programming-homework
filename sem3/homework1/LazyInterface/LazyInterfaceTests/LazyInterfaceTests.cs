@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,6 +9,18 @@ namespace LazyInterface.Tests
     public class LazyInterfaceTests
     {
         // one thread tests
+
+        [TestMethod]
+        public void OneThreadSimpleMethodTest()
+        {
+            var x = 0.1f;
+
+            float Simple() => x;
+
+            Func<float> simple = Simple;
+            var lazy = LazyFactory<float>.CreateOneThreading(simple);
+            Assert.AreEqual(x, lazy.Get());
+        }
 
         [TestMethod]
         public void OneThreadPowTest()
@@ -34,10 +47,25 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void OneThreadExceptionTest()
         {
-            int Exception() => throw new ArgumentException();
+            int Exception() => throw new ArgumentException("this method throws an exception");
 
             Func<int> exception = Exception;
             var lazy = LazyFactory<int>.CreateOneThreading(exception);
+            lazy.Get();
+        }
+
+        [TestMethod]
+        public void OneThreadDivideByZeroTest()
+        {
+            int Divide()
+            {
+                var a = 5;
+                var b = 0;
+                return a / b;
+            }
+
+            Func<int> divide = Divide;
+            var lazy = LazyFactory<int>.CreateOneThreading(divide);
             lazy.Get();
         }
 
@@ -46,55 +74,109 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void MultiThreadPowTest()
         {
-            double Hello() => Math.Pow(2.0, 30.0);
+            double Pow() => Math.Pow(2.0, 30.0);
 
-            Func<double> hello = Hello;
-            double secondResult = 0;
-            double thirdResult = 0;
-            var lazyMultiThread = LazyFactory<double>.CreateMultiThreading(hello);
+            Func<double> pow = Pow;
+            var lazyMultiThread = LazyFactory<double>.CreateMultiThreading(pow);
 
-            var secondThread = new Thread(() =>
+            var threads = new Thread[3];
+            var results = new double[3];
+            for (var i = 0; i < 3; i++)
             {
-                secondResult = lazyMultiThread.Get();
-            });
+                threads[i] = new Thread(() =>
+                {
+                    results[i] = lazyMultiThread.Get();
+                });
+            }
 
-            var thirdThread = new Thread(() =>
-            {
-                thirdResult = lazyMultiThread.Get();
-            });
+            StartThreads(threads);
 
-            secondThread.Start();
-            thirdThread.Start();
-            var firstResult = lazyMultiThread.Get();
-            Assert.AreEqual(firstResult, secondResult);
-            Assert.AreEqual(secondResult, thirdResult);
+            Assert.AreEqual(results[0], results[1]);
+            Assert.AreEqual(results[1], results[2]);
         }
 
         [TestMethod]
-        public void MultiThreadStringTest()
+        public void MultiThreadStringWorkTest()
         {
-            string Hello() => "doctor" + "who";
-
-            Func<string> hello = Hello;
-            string secondResult = null;
-            string thirdResult = null;
-            var lazyMultiThread = LazyFactory<string>.CreateMultiThreading(hello);
-
-            var secondThread = new Thread(() =>
+            var locker = new object();
+            string Supplier()
             {
-                secondResult = lazyMultiThread.Get();
-            });
+                return "doctor " + "who";
+            }
+            Func<string> supplier = Supplier;
 
-            var thirdThread = new Thread(() =>
+            var lazyMultiThread = LazyFactory<string>.CreateMultiThreading(supplier);
+            Assert.AreEqual("doctor who", lazyMultiThread.Get());
+        }
+
+        [TestMethod]
+        public void MultiThreadListTest()
+        {
+            List<int> MakeList()
             {
-                thirdResult = lazyMultiThread.Get();
-            });
+                var list = new List<int>();
+                list.Add(5);
+                return list;
+            }
+            Func<List<int>> makeList = MakeList;
 
-            secondThread.Start();
-            thirdThread.Start();
-            var firstResult = lazyMultiThread.Get();
-            Assert.AreEqual(firstResult, secondResult);
-            Assert.AreEqual(secondResult, thirdResult);
+            var lazyMultiThread = LazyFactory<List<int>>.CreateMultiThreading(makeList);
+            var threads = new Thread[3];
+            var results = new List<int>[3];
+            for (var i = 0; i < 3; i++)
+            {
+                threads[i] = new Thread(() =>
+                {
+                    results[i] = lazyMultiThread.Get();
+                });
+            }
+
+            StartThreads(threads);
+
+            Assert.AreEqual(results[0], results[1]);
+            Assert.AreEqual(results[1], results[2]);
+        }
+
+        [TestMethod]
+        public void MultiThreadArrayTest()
+        {
+            int[] MakeArray()
+            {
+                var array = new int[3];
+                array[0] = 10;
+                return array;
+            }
+
+            Func<int[]> makeArray = MakeArray;
+            var lazyMultiThread = LazyFactory<int[]>.CreateMultiThreading(makeArray);
+
+            var threads = new Thread[3];
+            var results = new int[3][];
+            for (var i = 0; i < 3; i++)
+            {
+                threads[i] = new Thread(() =>
+                {
+                    results[i] = lazyMultiThread.Get();
+                });
+            }
+
+            StartThreads(threads);
+
+            Assert.AreEqual(results[0], results[1]);
+            Assert.AreEqual(results[1], results[2]);
+        }
+
+        private static void StartThreads(Thread[] threads)
+        {
+            foreach (var thread in threads)
+            {
+                thread.Start();
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Join();
+            }
         }
     }
 }

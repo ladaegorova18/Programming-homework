@@ -8,9 +8,10 @@ namespace LazyInterface
     /// </summary>
     public class LazyMultiThread<T> : ILazy<T>
     {
-        private Func<T> function;
-        private bool counted = false;
+        private readonly Func<T> function;
+        private volatile bool counted = false;
         private T result = default(T);
+        private object locker = new object();
 
         /// <summary>
         /// constructor for lazy multi-thread counter
@@ -26,20 +27,16 @@ namespace LazyInterface
         /// </summary>
         public T Get()
         {
-            if (!Volatile.Read(ref counted))
+            if (!counted)
             {
-                try
+                lock (locker)
                 {
+                    if (counted)
+                    {
+                        return result;
+                    }
                     result = function();
-                }
-                catch(Exception e)
-                {
-                    result = default(T);
-                    Console.WriteLine(e.Message);
-                }
-                finally
-                {
-                    Volatile.Write(ref counted, true);
+                    counted = true;
                 }
             }
             return result;

@@ -1,7 +1,7 @@
 image: Visual Studio 2019
 
 before_build:
-  - nuget restore sem3/homework1/LazyInterface.sln
+  - nuget restore sem3/homework1/LazyInterface/LazyInterface.sln
 
 build_script:
-  - msbuild sem3/homework1/LazyInterface.sln
+  - msbuild sem3/homework1/LazyInterface/LazyInterface.sln
