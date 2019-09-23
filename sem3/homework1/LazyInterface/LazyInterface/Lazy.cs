@@ -7,7 +7,7 @@ namespace LazyInterface
     /// </summary>
     public class Lazy<T> : ILazy<T>
     {
-        private readonly Func<T> function;
+        private Func<T> function;
         private bool counted = false;
         private T result = default;
 
@@ -27,19 +27,9 @@ namespace LazyInterface
         {
             if (!counted)
             {
-                try
-                {
-                    result = function();
-                }
-                catch (Exception e)
-                {
-                    result = default(T);
-                    Console.WriteLine(e.Message);
-                }
-                finally
-                {
-                    counted = true;
-                }
+                result = function();
+                function = null;
+                counted = true;
             }
             return result;
         }

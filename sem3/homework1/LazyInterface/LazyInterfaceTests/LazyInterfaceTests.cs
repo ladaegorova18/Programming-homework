@@ -13,23 +13,18 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void OneThreadSimpleMethodTest()
         {
-            var x = 0.1f;
-
-            float Simple() => x;
-
-            Func<float> simple = Simple;
+            Func<float> simple = () => 0.1f;
             var lazy = LazyFactory<float>.CreateOneThreading(simple);
-            Assert.AreEqual(x, lazy.Get());
+            Assert.AreEqual(0.1f, lazy.Get());
         }
 
         [TestMethod]
         public void OneThreadPowTest()
         {
-            Func<double> addition = delegate()
+            Func<double> addition = () =>
             {
                 return Math.Pow(2.0, 30.0);
             };
-
             var lazy = LazyFactory<double>.CreateOneThreading(addition);
             Assert.AreEqual(lazy.Get(), 1073741824.0);
         }
@@ -37,36 +32,41 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void OneThreadNullTest()
         {
-            string Empty() => null;
-
-            Func<string> empty = Empty;
+            Func<string> empty = () => null;
             var lazy = LazyFactory<string>.CreateOneThreading(empty);
-            Assert.IsTrue(lazy.Get() == null);
+            Assert.IsNull(lazy.Get());
+        }
+
+        [TestMethod]
+        public void OneThreadNullMethodTest()
+        {
+            var lazy = LazyFactory<string>.CreateOneThreading(null);
+            Assert.ThrowsException<NullReferenceException>(lazy.Get);
         }
 
         [TestMethod]
         public void OneThreadExceptionTest()
         {
-            int Exception() => throw new ArgumentException("this method throws an exception");
-
-            Func<int> exception = Exception;
-            var lazy = LazyFactory<int>.CreateOneThreading(exception);
-            lazy.Get();
+            Func<string> exception = () => throw new ArgumentException("this method throws an exception");
+            var lazy = LazyFactory<string>.CreateOneThreading(exception);
+            Assert.ThrowsException<ArgumentException>(lazy.Get);
         }
 
         [TestMethod]
         public void OneThreadDivideByZeroTest()
         {
-            int Divide()
+            Func<string> divide = () =>
             {
                 var a = 5;
                 var b = 0;
-                return a / b;
-            }
-
-            Func<int> divide = Divide;
-            var lazy = LazyFactory<int>.CreateOneThreading(divide);
-            lazy.Get();
+                if (b == 0)
+                {
+                    throw new DivideByZeroException();
+                }
+                return (a / b).ToString();
+            };
+            var lazy = LazyFactory<string>.CreateOneThreading(divide);
+            Assert.ThrowsException<DivideByZeroException>(lazy.Get);
         }
 
         // multi thread tests
@@ -74,9 +74,7 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void MultiThreadPowTest()
         {
-            double Pow() => Math.Pow(2.0, 30.0);
-
-            Func<double> pow = Pow;
+            Func<double> pow = () => Math.Pow(2.0, 30.0);
             var lazyMultiThread = LazyFactory<double>.CreateMultiThreading(pow);
 
             var threads = new Thread[3];
@@ -91,19 +89,17 @@ namespace LazyInterface.Tests
 
             StartThreads(threads);
 
-            Assert.AreEqual(results[0], results[1]);
-            Assert.AreEqual(results[1], results[2]);
+            Assert.AreEqual(0, results[0].CompareTo(results[1]));
+            Assert.AreEqual(0, results[1].CompareTo(results[2]));
         }
 
         [TestMethod]
         public void MultiThreadStringWorkTest()
         {
-            string Supplier()
+            Func<string> supplier = () =>
             {
                 return "doctor " + "who";
-            }
-            Func<string> supplier = Supplier;
-
+            };
             var lazyMultiThread = LazyFactory<string>.CreateMultiThreading(supplier);
             Assert.AreEqual("doctor who", lazyMultiThread.Get());
         }
@@ -111,14 +107,12 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void MultiThreadListTest()
         {
-            List<int> MakeList()
+            Func<List<int>> makeList = () =>
             {
                 var list = new List<int>();
                 list.Add(5);
                 return list;
-            }
-            Func<List<int>> makeList = MakeList;
-
+            };
             var lazyMultiThread = LazyFactory<List<int>>.CreateMultiThreading(makeList);
             var threads = new Thread[3];
             var results = new List<int>[3];
@@ -139,14 +133,12 @@ namespace LazyInterface.Tests
         [TestMethod]
         public void MultiThreadArrayTest()
         {
-            int[] MakeArray()
+            Func<int[]> makeArray = () =>
             {
                 var array = new int[3];
                 array[0] = 10;
                 return array;
-            }
-
-            Func<int[]> makeArray = MakeArray;
+            };
             var lazyMultiThread = LazyFactory<int[]>.CreateMultiThreading(makeArray);
 
             var threads = new Thread[3];

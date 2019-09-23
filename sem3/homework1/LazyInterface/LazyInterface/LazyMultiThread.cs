@@ -8,7 +8,7 @@ namespace LazyInterface
     /// </summary>
     public class LazyMultiThread<T> : ILazy<T>
     {
-        private readonly Func<T> function;
+        private Func<T> function;
         private volatile bool counted = false;
         private T result = default(T);
         private readonly object locker = new object();
@@ -36,6 +36,7 @@ namespace LazyInterface
                         return result;
                     }
                     result = function();
+                    function = null;
                     counted = true;
                 }
             }
