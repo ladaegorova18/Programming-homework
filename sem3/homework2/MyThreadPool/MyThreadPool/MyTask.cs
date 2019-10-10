@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MyThreadPoolTask
 {
     /// <summary>
-    /// 
+    /// task that MyThreadPool should do
     /// </summary>
     public class MyTask<TResult> : IMyTask<TResult>
     {
@@ -18,6 +14,8 @@ namespace MyThreadPoolTask
         public bool IsCompleted { get; set; } = false;
 
         private ManualResetEvent available = new ManualResetEvent(true);
+        private Func<TResult> function;
+        private TResult result;
 
         /// <summary>
         /// MyTask result
@@ -26,34 +24,50 @@ namespace MyThreadPoolTask
         {
             get
             {
-                if (!IsCompleted)
+                while (true)
                 {
-                    available.WaitOne();
+                    if (!IsCompleted)
+                    {
+                        available.WaitOne();
+                    }
+                    else
+                    {
+                        return result;
+                    }
                 }
-                return Result;
             }
-            set
-            {
-                Result = value;
-                available.Set();
-                return;
-            }
+            private set { }
         }
-
-        /// <summary>
-        /// counts result
-        /// </summary>
-        public Func<TResult> Function { get; set; }
 
         /// <summary>
         /// MyTask constructor
         /// </summary>
         /// <param name="function"> count function </param>
-        public MyTask(Func<TResult> function)
+        public MyTask(Func<TResult> function) => this.function = function;
+
+        /// <summary>
+        /// do task method
+        /// </summary>
+        public void Do()
         {
-            Function = function;
+            try
+            {
+                result = function();
+                function = null;
+            }
+            catch (Exception innerException)
+            {
+                throw new AggregateException(innerException);
+            }
+            IsCompleted = true;
+            available.Set();
         }
 
-        public MyTask<TResult> ContinueWith(Func<TResult, TResult> function) => new MyTask<TResult>(() => function(Result));
+        public MyTask<TResult> ContinueWith(Func<TResult, TResult> function, MyThreadPool myThreadPool)
+        {
+            Func<TResult> func = () => function(Result);
+            var newTask = myThreadPool.QueueUserWorkItem(func);
+            return newTask;
+        }
     }
 }

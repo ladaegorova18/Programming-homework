@@ -7,12 +7,10 @@ namespace MyThreadPoolTask
     /// </summary>
     public interface IMyTask<TResult>
     {
-        bool IsCompleted { get; set; }
+        bool IsCompleted { get; }
 
-        TResult Result { get; set; }
+        TResult Result { get; }
 
-        Func<TResult> Function { get; set; } 
-
-        MyTask<TResult> ContinueWith(Func<TResult, TResult> function);
+        MyTask<TResult> ContinueWith(Func<TResult, TResult> function, MyThreadPool myThreadPool);
     }
 }

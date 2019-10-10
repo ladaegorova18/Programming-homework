@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace MyThreadPoolTask
 {
     /// <summary>
     /// MyThreadPool - tool to do tasks
     /// </summary>
-    public class MyThreadPool<TResult>
+    public class MyThreadPool
     {
-        private readonly AutoResetEvent available = new AutoResetEvent(true);
-        private Thread[] threads;
-        private Queue<MyTask<TResult>> tasksQueue = new Queue<MyTask<TResult>>();
-        private CancellationTokenSource tokenSource = new CancellationTokenSource();
-        private CancellationToken token = new CancellationToken();
+        private static readonly AutoResetEvent available = new AutoResetEvent(true);
+        private static Thread[] threads;
+        private ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
+        private CancellationTokenSource tokenSource;
+        private CancellationToken token;
 
         /// <summary>
         /// thread pool constructor
@@ -21,57 +21,60 @@ namespace MyThreadPoolTask
         /// <param name="n"> count of threads </param>
         public MyThreadPool(int n)
         {
+            tokenSource = new CancellationTokenSource();
+            token = tokenSource.Token;
             threads = new Thread[n];
             for (var i = 0; i < n; ++i)
             {
                 threads[i] = new Thread(() =>
                 {
-                    if (tasksQueue.Count == 0)
+                    while (tasksQueue.Count != 0 || !token.IsCancellationRequested)
                     {
+                        if (tasksQueue.Count != 0)
+                        {
+                            DoTask();
+                        }
                         available.WaitOne();
                     }
-                    DoTask();
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
                 });
                 threads[i].Start();
-            }
+            }   
         }
 
         private void DoTask()
         {
-            if (tasksQueue.Count == 0)
-            {
-                return;
-            }
-            var task = tasksQueue.Dequeue();
-            if (!task.IsCompleted)
-            {
-                try
-                {
-                    task.Result = task.Function();
-                    task.Function = null;
-                }
-                catch (Exception innerException)
-                {
-                    throw new AggregateException(innerException);
-                }
-                finally
-                {
-                    task.IsCompleted = true;
-                }
-            }
+            tasksQueue.TryDequeue(out Action task);
+            task.Invoke();
         }
 
         /// <summary>
         /// adds task to queue
         /// </summary>
         /// <param name="task"> task to add </param>
-        public void QueueUserWorkItem(MyTask<TResult> task)
+        public MyTask<TResult> QueueUserWorkItem<TResult>(Func<TResult> func)
         {
+            var task = new MyTask<TResult>(func);
             if (!token.IsCancellationRequested)
             {
-                tasksQueue.Enqueue(task);
+                var action = new Action(task.Do);
+                tasksQueue.Enqueue(action);
                 available.Set();
             }
+            return task;
+        }
+
+        public void Shutdown()
+        {
+            tokenSource.Cancel();
+            for (var i = 0; i < threads.Length; ++i)
+            {
+                available.Set();
+            }
+            Thread.Sleep(4000);
         }
     }
 }
