@@ -59,12 +59,12 @@ namespace MyThreadPoolTask.Tests
 
         private static int GetThreadsCount() => System.Diagnostics.Process.GetCurrentProcess().Threads.Count;
 
-        //[TestMethod]
-        //public void ExceptionTest()
-        //{
-        //    Func<string> func = () => throw new InvalidOperationException("Invalid operation!");
-        //    var task = myThreadPool.QueueUserWorkItem(func);
-        //    Assert.ThrowsException<AggregateException>(task.Do);
-        //}
+        [TestMethod]
+        public void ExceptionTest()
+        {
+            Func<string> func = () => throw new InvalidOperationException("Invalid operation!");
+            var task = myThreadPool.QueueUserWorkItem(func);
+            Assert.ThrowsException<AggregateException>(task.Do);
+        }
     }
 }

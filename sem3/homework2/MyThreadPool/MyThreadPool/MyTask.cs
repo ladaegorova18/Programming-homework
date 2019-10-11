@@ -63,6 +63,10 @@ namespace MyThreadPoolTask
             available.Set();
         }
 
+        /// <summary>
+        /// makes new task with function and result of base task
+        /// </summary>
+        /// <returns> new task </returns>
         public MyTask<TResult> ContinueWith(Func<TResult, TResult> function, MyThreadPool myThreadPool)
         {
             Func<TResult> func = () => function(Result);

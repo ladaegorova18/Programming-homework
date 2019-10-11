@@ -67,6 +67,9 @@ namespace MyThreadPoolTask
             return task;
         }
 
+        /// <summary>
+        /// stops all threads
+        /// </summary>
         public void Shutdown()
         {
             tokenSource.Cancel();
