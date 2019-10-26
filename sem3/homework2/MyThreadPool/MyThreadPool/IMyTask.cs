@@ -11,6 +11,6 @@ namespace MyThreadPoolTask
 
         TResult Result { get; }
 
-        MyTask<TResult> ContinueWith(Func<TResult, TResult> function, MyThreadPool myThreadPool);
+        IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> function);
     }
 }

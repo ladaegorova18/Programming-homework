@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace MyThreadPoolTask
 {
@@ -9,11 +10,17 @@ namespace MyThreadPoolTask
     /// </summary>
     public class MyThreadPool
     {
-        private static readonly AutoResetEvent available = new AutoResetEvent(true);
-        private static Thread[] threads;
+        private readonly AutoResetEvent available = new AutoResetEvent(false);
+        private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
+        private Thread[] threads;
         private ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private CancellationTokenSource tokenSource;
         private CancellationToken token;
+
+        /// <summary>
+        /// Amount of active threads
+        /// </summary>
+        public int ThreadsCount { get; private set; }   
 
         /// <summary>
         /// thread pool constructor
@@ -24,47 +31,52 @@ namespace MyThreadPoolTask
             tokenSource = new CancellationTokenSource();
             token = tokenSource.Token;
             threads = new Thread[n];
+            ThreadsCount = n;
             for (var i = 0; i < n; ++i)
             {
                 threads[i] = new Thread(() =>
                 {
-                    while (tasksQueue.Count != 0 || !token.IsCancellationRequested)
+                    while (true)
                     {
-                        if (tasksQueue.Count != 0)
+                        Action newAction = null;
+                        while (tasksQueue.IsEmpty)
                         {
-                            DoTask();
+                            if (token.IsCancellationRequested)
+                            {
+                                --ThreadsCount;
+                                waitMain.Set();
+                                return;
+                            }
+                            available.WaitOne();
                         }
-                        available.WaitOne();
-                    }
-                    if (token.IsCancellationRequested)
-                    {
-                        return;
+                        tasksQueue.TryDequeue(out Action action);
+                        newAction = action;
+                        newAction.Invoke();
                     }
                 });
                 threads[i].Start();
-            }   
-        }
-
-        private void DoTask()
-        {
-            tasksQueue.TryDequeue(out Action task);
-            task.Invoke();
+            }
         }
 
         /// <summary>
         /// adds task to queue
         /// </summary>
         /// <param name="task"> task to add </param>
-        public MyTask<TResult> QueueUserWorkItem<TResult>(Func<TResult> func)
+        public IMyTask<TResult> QueueUserWorkItem<TResult>(Func<TResult> func)
         {
-            var task = new MyTask<TResult>(func);
             if (!token.IsCancellationRequested)
             {
-                var action = new Action(task.Do);
-                tasksQueue.Enqueue(action);
-                available.Set();
+                var task = new MyTask<TResult>(func, this);
+                AddAction(task.Do);
+                return task;
             }
-            return task;
+            return null;
+        }
+
+        private void AddAction(Action action)
+        {
+            tasksQueue.Enqueue(action);
+            available.Set();
         }
 
         /// <summary>
@@ -73,11 +85,118 @@ namespace MyThreadPoolTask
         public void Shutdown()
         {
             tokenSource.Cancel();
-            for (var i = 0; i < threads.Length; ++i)
+            foreach (var thread in threads)
             {
                 available.Set();
+                waitMain.WaitOne();
             }
-            Thread.Sleep(4000);
+        }
+
+        /// <summary>
+        /// task that MyThreadPool should do
+        /// </summary>
+        private class MyTask<TResult> : IMyTask<TResult>
+        {
+            /// <summary>
+            /// checks if result is ready
+            /// </summary>
+            public bool IsCompleted { get; private set; }
+
+            private Queue<Action> localQueue = new Queue<Action>();
+            private ManualResetEvent ready = new ManualResetEvent(false);
+            private Func<TResult> function;
+            private TResult result;
+            private object locker = new object();
+            private MyThreadPool myThreadPool;
+            private AggregateException aggregateException = null;
+
+            /// <summary>
+            /// MyTask result
+            /// </summary>
+            public TResult Result
+            {
+                get
+                {
+                    while (true)
+                    {
+                        if (aggregateException != null)
+                        {
+                            throw aggregateException;
+                        }
+                        if (!IsCompleted)
+                        {
+                            ready.WaitOne();
+                        }
+                        else
+                        {
+                            return result;
+                        }
+                    }
+                }
+            }
+
+            /// <summary>
+            /// MyTask constructor
+            /// </summary>
+            /// <param name="function"> count function </param>
+            public MyTask(Func<TResult> function, MyThreadPool myThreadPool)
+            {
+                this.function = function;
+                this.myThreadPool = myThreadPool;
+            }
+
+            /// <summary>
+            /// do task method
+            /// </summary>
+            public void Do()
+            {
+                try
+                {
+                    result = function();
+                    function = null;
+                    IsCompleted = true;
+                }
+                catch (Exception innerException)
+                {
+                    aggregateException = new AggregateException(innerException);
+                }
+                finally
+                {
+                    ready.Set();
+                    lock (locker)
+                    {
+                        while (localQueue.Count != 0)
+                        {
+                            myThreadPool.tasksQueue.Enqueue(localQueue.Dequeue());
+                            myThreadPool.available.Set();
+                        }
+                    }
+                }
+            }
+
+            /// <summary>
+            /// makes new task with function and result of base task
+            /// </summary>
+            /// <returns> new task </returns>
+            public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> function)
+            {
+                Func<TNewResult> func = () => function(Result);
+                var newTask = new MyTask<TNewResult>(func, myThreadPool);
+                var action = new Action(newTask.Do);
+                localQueue.Enqueue(action);
+                lock (locker)
+                {
+                    if (IsCompleted)
+                    {
+                        myThreadPool.AddAction(action);
+                    }
+                    else
+                    {
+                        localQueue.Enqueue(action);
+                    }
+                }
+                return newTask;
+            }
         }
     }
 }
