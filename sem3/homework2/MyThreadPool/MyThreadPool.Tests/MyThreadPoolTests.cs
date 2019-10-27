@@ -6,15 +6,15 @@ namespace MyThreadPool.Tests
     [TestClass]
     public class MyThreadPoolTests
     {
-        private MyThreadPool myThreadPool;
+        private ThreadPool myThreadPool;
         private int n;
-        private Random rnd = new Random();
+        private readonly Random rnd = new Random();
 
         [TestInitialize]
         public void Initialize()
         {
             n = rnd.Next(4, 42);
-            myThreadPool = new MyThreadPool(n);
+            myThreadPool = new ThreadPool(n);
         }
         
         [TestMethod]
@@ -48,9 +48,9 @@ namespace MyThreadPool.Tests
         [TestMethod]
         public void ShutdownTest()
         {
-            var myThreadPool = new MyThreadPool(10);
+            myThreadPool = new ThreadPool(10);
             Func<double> func = () => Math.Pow(2, 30);
-            var task = myThreadPool.QueueUserWorkItem(func);
+            myThreadPool.QueueUserWorkItem(func);
             myThreadPool.Shutdown();
             Assert.AreEqual(0, myThreadPool.ThreadsCount);
         }

@@ -12,10 +12,10 @@ namespace MyThreadPool
     {
         private readonly AutoResetEvent available = new AutoResetEvent(false);
         private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
-        private Thread[] threads;
-        private ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
-        private CancellationTokenSource tokenSource;
-        private CancellationToken token;
+        private readonly Thread[] threads;
+        private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
+        private readonly CancellationTokenSource tokenSource;
+        private readonly CancellationToken token;
 
         /// <summary>
         /// Amount of active threads
@@ -102,12 +102,12 @@ namespace MyThreadPool
             /// </summary>
             public bool IsCompleted { get; private set; }
 
-            private Queue<Action> localQueue = new Queue<Action>();
-            private ManualResetEvent ready = new ManualResetEvent(false);
+            private readonly Queue<Action> localQueue = new Queue<Action>();
+            private readonly ManualResetEvent getResult = new ManualResetEvent(false);
             private Func<TResult> function;
             private TResult result;
-            private object locker = new object();
-            private ThreadPool myThreadPool;
+            private readonly object locker = new object();
+            private readonly ThreadPool myThreadPool;
             private AggregateException aggregateException = null;
 
             /// <summary>
@@ -125,7 +125,7 @@ namespace MyThreadPool
                         }
                         if (!IsCompleted)
                         {
-                            ready.WaitOne();
+                            getResult.WaitOne();
                         }
                         else
                         {
@@ -162,7 +162,7 @@ namespace MyThreadPool
                 }
                 finally
                 {
-                    ready.Set();
+                    getResult.Set();
                     lock (locker)
                     {
                         while (localQueue.Count != 0)
