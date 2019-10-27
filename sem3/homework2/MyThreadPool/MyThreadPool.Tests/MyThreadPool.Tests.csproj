@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyThreadPool\MyThreadPoolTask.csproj">
+    <ProjectReference Include="..\MyThreadPool\MyThreadPool.csproj">
       <Project>{07381fa2-f011-4049-bc53-aca1be45a178}</Project>
-      <Name>MyThreadPoolTask</Name>
+      <Name>MyThreadPool</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

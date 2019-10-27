@@ -3,12 +3,12 @@ using System.Threading;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace MyThreadPoolTask
+namespace MyThreadPool
 {
     /// <summary>
     /// MyThreadPool - tool to do tasks
     /// </summary>
-    public class MyThreadPool
+    public class ThreadPool
     {
         private readonly AutoResetEvent available = new AutoResetEvent(false);
         private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
@@ -26,7 +26,7 @@ namespace MyThreadPoolTask
         /// thread pool constructor
         /// </summary>
         /// <param name="n"> count of threads </param>
-        public MyThreadPool(int n)
+        public ThreadPool(int n)
         {
             tokenSource = new CancellationTokenSource();
             token = tokenSource.Token;
@@ -107,7 +107,7 @@ namespace MyThreadPoolTask
             private Func<TResult> function;
             private TResult result;
             private object locker = new object();
-            private MyThreadPool myThreadPool;
+            private ThreadPool myThreadPool;
             private AggregateException aggregateException = null;
 
             /// <summary>
@@ -139,7 +139,7 @@ namespace MyThreadPoolTask
             /// MyTask constructor
             /// </summary>
             /// <param name="function"> count function </param>
-            public MyTask(Func<TResult> function, MyThreadPool myThreadPool)
+            public MyTask(Func<TResult> function, ThreadPool myThreadPool)
             {
                 this.function = function;
                 this.myThreadPool = myThreadPool;

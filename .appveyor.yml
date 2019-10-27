@@ -4,4 +4,4 @@ before_build:
   - nuget restore sem3/homework2/MyThreadPool/MyThreadPool.sln
 
 build_script:
-  - msbuild sem3/homework1/MyThreadPool/MyThreadPool.sln
+  - msbuild sem3/homework2/MyThreadPool/MyThreadPool.sln

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyThreadPoolTask
+namespace MyThreadPool
 {
     /// <summary>
     /// IMyTask - task MyThreadPool should do
