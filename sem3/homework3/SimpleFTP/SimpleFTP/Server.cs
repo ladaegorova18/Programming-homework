@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace FTPServer
             client = tcpClient;
         }
 
-        private AutoResetEvent waitMain = new AutoResetEvent(false);
+        private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
 
         /// <summary>
         /// main server process to read and write to client
@@ -46,9 +47,13 @@ namespace FTPServer
             finally
             {
                 if (stream != null)
+                {
                     stream.Close();
+                }
                 if (client != null)
+                {
                     client.Close();
+                }
             }
         }
 
@@ -63,7 +68,7 @@ namespace FTPServer
             {
                 while (true)
                 {
-                    var request = await reader.ReadLineAsync();
+                    var request = await reader.ReadLineAsync().ConfigureAwait(false);
                     if (request != null)
                     {
                         string response = null;
@@ -78,7 +83,7 @@ namespace FTPServer
                         {
                             response = "Invalid input! Try again :)";
                         }
-                        await writer.WriteLineAsync(response);
+                        await writer.WriteLineAsync(response).ConfigureAwait(false);
                     }
                 }
             });
@@ -107,11 +112,15 @@ namespace FTPServer
         private static string ListFiles(string[] list, string catalog, bool isDir)
         {
             var length = Directory.GetCurrentDirectory().Length;
+            var buider = new StringBuilder();
+            buider.Append(catalog);
             for (var i = 0; i < list.Length; ++i)
             {
                 list[i] = list[i].Substring(length);
-                catalog += list[i] + " " + isDir + " ";
+                buider.Append(list[i] + " " + isDir + " ");
+                //catalog += list[i] + " " + isDir + " ";
             }
+            catalog = buider.ToString();
             return catalog;
         }
 

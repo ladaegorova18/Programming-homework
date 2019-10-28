@@ -22,10 +22,10 @@ namespace FTPClient
             try
             {
                 client = new TcpClient(address, port);
-                var writer = new StreamWriter(client.GetStream()) { AutoFlush = true };
-                var reader = new StreamReader(client.GetStream());
-                Reader(reader);
-                Writer(writer);
+                var streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
+                var streamReader = new StreamReader(client.GetStream());
+                Reader(streamReader);
+                Writer(streamWriter);
                 waitMain.WaitOne();
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace FTPClient
                     var request = Console.ReadLine();
                     if (request != null)
                     {
-                        await writer.WriteLineAsync(request);
+                        await writer.WriteLineAsync(request).ConfigureAwait(false);
                     }
                 }
             });
@@ -61,7 +61,7 @@ namespace FTPClient
             {
                 while (true)
                 {
-                    var response = await reader.ReadLineAsync();
+                    var response = await reader.ReadLineAsync().ConfigureAwait(false);
                     if (response != null)
                     {
                         Console.WriteLine("Server requests:");
