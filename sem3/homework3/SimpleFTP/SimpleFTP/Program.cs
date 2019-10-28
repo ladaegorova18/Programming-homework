@@ -1,15 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace SimpleFTP
+namespace FTPServer
 {
-    class Program
+    /// <summary>
+    /// main server program
+    /// </summary>
+    public class Program
     {
-        static void Main(string[] args)
+        private const int port = 8888;
+        private static TcpListener listener;
+        private static TcpClient client;
+
+        private static async Task Main(string[] args)
         {
+            try
+            {
+                listener = new TcpListener(IPAddress.Any, port);
+                listener.Start();
+                Console.WriteLine("Waiting for connections...");
+
+                while (true)
+                {
+                    client = await listener.AcceptTcpClientAsync();
+                    var server = new Server(client);
+                    server.Process();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                if (client != null)
+                {
+                    client.Close();
+                }
+                if (listener != null)
+                {
+                    listener.Stop();
+                }
+            }
         }
     }
 }

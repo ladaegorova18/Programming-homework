@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A0600536-F492-4F83-A1EA-C4C9F67B3615}</ProjectGuid>
+    <ProjectGuid>{F4D73BBD-4D64-4887-BBB9-3921C5C99E99}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SimpleFTP</RootNamespace>
-    <AssemblyName>SimpleFTP</AssemblyName>
+    <RootNamespace>FTPClient</RootNamespace>
+    <AssemblyName>FTPClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
