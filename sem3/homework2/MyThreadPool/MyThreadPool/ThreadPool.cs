@@ -15,7 +15,7 @@ namespace MyThreadPool
         private readonly Thread[] threads;
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private readonly CancellationTokenSource tokenSource;
-        private readonly CancellationToken token;
+        protected CancellationToken token { get; private set; }
 
         /// <summary>
         /// Amount of active threads
@@ -38,7 +38,6 @@ namespace MyThreadPool
                 {
                     while (true)
                     {
-                        Action newAction = null;
                         while (tasksQueue.IsEmpty)
                         {
                             if (token.IsCancellationRequested)
@@ -49,8 +48,7 @@ namespace MyThreadPool
                             }
                             available.WaitOne();
                         }
-                        tasksQueue.TryDequeue(out Action action);
-                        newAction = action;
+                        tasksQueue.TryDequeue(out Action newAction);
                         newAction.Invoke();
                     }
                 });
@@ -117,21 +115,15 @@ namespace MyThreadPool
             {
                 get
                 {
-                    while (true)
+                    if (!IsCompleted)
                     {
-                        if (aggregateException != null)
-                        {
-                            throw aggregateException;
-                        }
-                        if (!IsCompleted)
-                        {
-                            getResult.WaitOne();
-                        }
-                        else
-                        {
-                            return result;
-                        }
+                        getResult.WaitOne();
                     }
+                    if (aggregateException != null)
+                    {
+                        throw aggregateException;
+                    }
+                    return result;
                 }
             }
 
@@ -152,9 +144,12 @@ namespace MyThreadPool
             {
                 try
                 {
+                    if (myThreadPool.token.IsCancellationRequested)
+                    {
+                        throw new EntryPointNotFoundException("ThreadPool has stopped!");
+                    }
                     result = function();
                     function = null;
-                    IsCompleted = true;
                 }
                 catch (Exception innerException)
                 {
@@ -162,10 +157,11 @@ namespace MyThreadPool
                 }
                 finally
                 {
+                    IsCompleted = true;
                     getResult.Set();
                     lock (locker)
                     {
-                        while (localQueue.Count != 0)
+                        while (localQueue.Count != 0 && !myThreadPool.token.IsCancellationRequested)
                         {
                             myThreadPool.tasksQueue.Enqueue(localQueue.Dequeue());
                             myThreadPool.available.Set();
@@ -180,6 +176,10 @@ namespace MyThreadPool
             /// <returns> new task </returns>
             public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> function)
             {
+                if (myThreadPool.token.IsCancellationRequested)
+                {
+                    return null;
+                }
                 Func<TNewResult> func = () => function(Result);
                 var newTask = new MyTask<TNewResult>(func, myThreadPool);
                 var action = new Action(newTask.Do);
