@@ -99,7 +99,10 @@ namespace MyThreadPool
                 foreach (var thread in threads)
                 {
                     available.Set();
-                    waitMain.WaitOne();
+                    if (ThreadsCount != 0)
+                    {
+                        waitMain.WaitOne();
+                    }
                 }
             }
         }
