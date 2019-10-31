@@ -16,7 +16,7 @@ namespace MyThreadPool
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private readonly CancellationTokenSource tokenSource;
         protected CancellationToken token { get; private set; }
-        private object lockAdding = new object();
+        private readonly object lockAdding = new object();
 
         /// <summary>
         /// Amount of active threads
