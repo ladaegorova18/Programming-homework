@@ -135,10 +135,6 @@ namespace MyThreadPool
                     if (!IsCompleted)
                     {
                         getResult.WaitOne();
-                        if (myThreadPool.token.IsCancellationRequested)
-                        {
-                            throw new AggregateException();
-                        }
                     }
                     if (aggregateException != null)
                     {
