@@ -16,6 +16,7 @@ namespace MyThreadPool
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private readonly CancellationTokenSource tokenSource;
         protected CancellationToken token { get; private set; }
+        private object lockAdding = new object();
 
         /// <summary>
         /// Amount of active threads
@@ -73,8 +74,14 @@ namespace MyThreadPool
 
         private void AddAction(Action action)
         {
-            tasksQueue.Enqueue(action);
-            available.Set();
+            lock (lockAdding)
+            {
+                if (!token.IsCancellationRequested)
+                {
+                    tasksQueue.Enqueue(action);
+                    available.Set();
+                }
+            }
         }
 
         /// <summary>
@@ -82,11 +89,14 @@ namespace MyThreadPool
         /// </summary>
         public void Shutdown()
         {
-            tokenSource.Cancel();
-            foreach (var thread in threads)
+            lock (lockAdding)
             {
-                available.Set();
-                waitMain.WaitOne();
+                tokenSource.Cancel();
+                foreach (var thread in threads)
+                {
+                    available.Set();
+                    waitMain.WaitOne();
+                }
             }
         }
 
@@ -144,10 +154,6 @@ namespace MyThreadPool
             {
                 try
                 {
-                    if (myThreadPool.token.IsCancellationRequested)
-                    {
-                        throw new EntryPointNotFoundException("ThreadPool has stopped!");
-                    }
                     result = function();
                     function = null;
                 }
@@ -163,8 +169,7 @@ namespace MyThreadPool
                     {
                         while (localQueue.Count != 0 && !myThreadPool.token.IsCancellationRequested)
                         {
-                            myThreadPool.tasksQueue.Enqueue(localQueue.Dequeue());
-                            myThreadPool.available.Set();
+                            myThreadPool.AddAction(localQueue.Dequeue());
                         }
                     }
                 }
@@ -176,10 +181,6 @@ namespace MyThreadPool
             /// <returns> new task </returns>
             public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> function)
             {
-                if (myThreadPool.token.IsCancellationRequested)
-                {
-                    return null;
-                }
                 Func<TNewResult> func = () => function(Result);
                 var newTask = new MyTask<TNewResult>(func, myThreadPool);
                 var action = new Action(newTask.Do);
