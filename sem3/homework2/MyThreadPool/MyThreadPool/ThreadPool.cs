@@ -66,13 +66,15 @@ namespace MyThreadPool
             if (!token.IsCancellationRequested)
             {
                 var task = new MyTask<TResult>(func, this);
-                AddAction(task.Do);
-                return task;
+                if (AddAction(task.Do))
+                {
+                    return task;
+                }
             }
             return null;
         }
 
-        private void AddAction(Action action)
+        private bool AddAction(Action action)
         {
             lock (lockAdding)
             {
@@ -80,7 +82,9 @@ namespace MyThreadPool
                 {
                     tasksQueue.Enqueue(action);
                     available.Set();
+                    return true;
                 }
+                return false;
             }
         }
 
@@ -128,6 +132,10 @@ namespace MyThreadPool
                     if (!IsCompleted)
                     {
                         getResult.WaitOne();
+                        if (myThreadPool.token.IsCancellationRequested)
+                        {
+                            throw new AggregateException();
+                        }
                     }
                     if (aggregateException != null)
                     {
@@ -167,7 +175,7 @@ namespace MyThreadPool
                     getResult.Set();
                     lock (locker)
                     {
-                        while (localQueue.Count != 0 && !myThreadPool.token.IsCancellationRequested)
+                        while (localQueue.Count != 0)
                         {
                             myThreadPool.AddAction(localQueue.Dequeue());
                         }
