@@ -65,15 +65,13 @@ namespace Test1
                 while (true)
                 {
                     var message = Console.ReadLine();
-                    if (message.CompareTo("exit") == 0)
-                    {
-                        Console.WriteLine("closing...");
-                        client.Close();
-                        waitMain.Set();
-                    }
                     if (message != null)
                     {
                         await streamWriter.WriteLineAsync(message).ConfigureAwait(false);
+                    }
+                    if (message.CompareTo("exit") == 0)
+                    {
+                        CloseServer();
                     }
                 }
             });
@@ -90,8 +88,18 @@ namespace Test1
                     {
                         Console.WriteLine($"Client: {response}");
                     }
+                    if (response.CompareTo("exit") == 0)
+                    {
+                        CloseServer();
+                    }
                 }
             });
+        }
+
+        public static void CloseServer()
+        {
+            Console.WriteLine("closing...");
+            waitMain.Set();
         }
     }
 }
