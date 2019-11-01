@@ -25,12 +25,14 @@ namespace Test1
         }
 
         private static readonly AutoResetEvent waitMain = new AutoResetEvent(false);
+        private static TcpListener listener;
 
         /// <summary>
         /// main server process to read and write to client
         /// </summary>
-        public void Process()
+        public void Process(TcpListener newListener)
         {
+            listener = newListener;
             NetworkStream stream = null;
             try
             {
@@ -100,6 +102,7 @@ namespace Test1
         {
             Console.WriteLine("closing...");
             waitMain.Set();
+            listener.Stop();
         }
     }
 }

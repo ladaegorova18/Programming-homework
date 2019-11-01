@@ -45,7 +45,7 @@ namespace Test1
                 {
                     client = await listener.AcceptTcpClientAsync();
                     var server = new Server(client);
-                    server.Process();
+                    server.Process(listener);
                 }
             }
             catch (Exception ex)
