@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace Test1
 {
+    /// <summary>
+    /// client class
+    /// </summary>
     public class Client
     {
         private static AutoResetEvent waitMain = new AutoResetEvent(false);
+        private static TcpClient client = null;
 
+        /// <summary>
+        /// main client process to read and write to server
+        /// </summary>
+        /// <param name="port"> port to connect </param>
+        /// <param name="address"> ip address </param>
         public static void Process(int port, string address)
         {
-            TcpClient client = null;
             try
             {
                 client = new TcpClient(address, port);
@@ -32,32 +40,45 @@ namespace Test1
             }
         }
 
-        private static void Writer(StreamWriter writer)
+        private static void Writer(StreamWriter streamWriter)
         {
             Task.Run(async () =>
             {
-                Console.Write("Enter messages to chat: ");
+                Console.WriteLine("Enter messages to chat: ");
                 while (true)
                 {
                     var message = Console.ReadLine();
+                    if (message.CompareTo("exit") == 0)
+                    {
+                        CloseClient();
+                    }
                     if (message != null)
                     {
-                        await writer.WriteLineAsync(message).ConfigureAwait(false);
+                        await streamWriter.WriteLineAsync(message).ConfigureAwait(false);
                     }
                 }
             });
         }
 
-        private static void Reader(StreamReader reader)
+        /// <summary>
+        /// metod by server to close client
+        /// </summary>
+        public static void CloseClient()
+        {
+            Console.WriteLine("closing...");
+            waitMain.Set();
+        }
+
+        private static void Reader(StreamReader streamReader)
         {
             Task.Run(async () =>
             {
                 while (true)
                 {
-                    var response = await reader.ReadLineAsync().ConfigureAwait(false);
+                    var response = await streamReader.ReadLineAsync().ConfigureAwait(false);
                     if (response != null)
                     {
-                        Console.WriteLine($"Server requests: {response}");
+                        Console.WriteLine($"Server: {response}");
                     }
                 }
             });

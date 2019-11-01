@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Test1
 {
     /// <summary>
-    /// main server program
+    /// main console chat program
     /// </summary>
     public class Program
     {
@@ -28,7 +28,7 @@ namespace Test1
                 else
                 {
                     Console.WriteLine("You have made a server");
-                    await MakeServer(port);
+                    await MakeServer(port).ConfigureAwait(false);
                 }
             }
         }

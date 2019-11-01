@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Test1
 {
     /// <summary>
-    /// server class to handle requests
+    /// server class
     /// </summary>
     public class Server
     {
         /// <summary>
         /// TcpClient to connect with
         /// </summary>
-        public TcpClient client { get; private set; }
+        public static TcpClient client { get; private set; }
 
         /// <summary>
         /// constructor: assigns this TcpClient
@@ -24,7 +24,7 @@ namespace Test1
             client = tcpClient;
         }
 
-        private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
+        private static readonly AutoResetEvent waitMain = new AutoResetEvent(false);
 
         /// <summary>
         /// main server process to read and write to client
@@ -34,10 +34,10 @@ namespace Test1
             NetworkStream stream = null;
             try
             {
-                var writer = new StreamWriter(client.GetStream()) { AutoFlush = true };
-                var reader = new StreamReader(client.GetStream());
-                Reader(reader);
-                Writer(writer);
+                var streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
+                var streamReader = new StreamReader(client.GetStream());
+                Reader(streamReader);
+                Writer(streamWriter);
                 waitMain.WaitOne();
             }
             catch (Exception ex)
@@ -57,32 +57,38 @@ namespace Test1
             }
         }
 
-        private static void Writer(StreamWriter writer)
+        private static void Writer(StreamWriter streamWriter)
         {
             Task.Run(async () =>
             {
-                Console.Write("Enter messages to chat: ");
+                Console.WriteLine("Enter messages to chat: ");
                 while (true)
                 {
                     var message = Console.ReadLine();
+                    if (message.CompareTo("exit") == 0)
+                    {
+                        Console.WriteLine("closing...");
+                        client.Close();
+                        waitMain.Set();
+                    }
                     if (message != null)
                     {
-                        await writer.WriteLineAsync(message).ConfigureAwait(false);
+                        await streamWriter.WriteLineAsync(message).ConfigureAwait(false);
                     }
                 }
             });
         }
 
-        private static void Reader(StreamReader reader)
+        private static void Reader(StreamReader streamReader)
         {
             Task.Run(async () =>
             {
                 while (true)
                 {
-                    var response = await reader.ReadLineAsync().ConfigureAwait(false);
+                    var response = await streamReader.ReadLineAsync().ConfigureAwait(false);
                     if (response != null)
                     {
-                        Console.WriteLine($"Client says: {response}");
+                        Console.WriteLine($"Client: {response}");
                     }
                 }
             });
