@@ -1,7 +1,7 @@
 image: Visual Studio 2019 Preview
 
 before_build:
-  - nuget restore Tests/Test1/Test1.sln
+  - nuget restore sem3/Tests/Test1/Test1.sln
 
 build_script:
-  - msbuild Tests/Test1/Test1.sln
+  - msbuild sem3/Tests/Test1/Test1.sln
