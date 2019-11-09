@@ -176,7 +176,11 @@ namespace MyThreadPool
                     {
                         while (localQueue.Count != 0)
                         {
-                            myThreadPool.AddAction(localQueue.Dequeue());
+                            if (!myThreadPool.AddAction(localQueue.Dequeue()))
+                            {
+                                aggregateException = new AggregateException();
+                                IsCompleted = true;
+                            }
                         }
                     }
                 }
@@ -194,14 +198,18 @@ namespace MyThreadPool
                 localQueue.Enqueue(action);
                 lock (locker)
                 {
-                    if (IsCompleted)
+                    if (!IsCompleted)
                     {
-                        myThreadPool.AddAction(action);
+                        if (!myThreadPool.AddAction(action))
+                        {
+                            aggregateException = new AggregateException();
+                            IsCompleted = true;
+                        }
                     }
-                    else
-                    {
-                        localQueue.Enqueue(action);
-                    }
+                    //else
+                    //{
+                    //    localQueue.Enqueue(action);
+                    //}
                 }
                 return newTask;
             }
