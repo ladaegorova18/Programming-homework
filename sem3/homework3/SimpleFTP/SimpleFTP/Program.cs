@@ -16,22 +16,20 @@ namespace FTPServer
 
         private static async Task Main(string[] args)
         {
+            var writeable = new WriteOnConsole();
             try
             {
                 listener = new TcpListener(IPAddress.Any, port);
                 listener.Start();
-                Console.WriteLine("Waiting for connections...");
+                writeable.Write("Waiting for connections...");
 
-                while (true)
-                {
-                    client = await listener.AcceptTcpClientAsync();
-                    var server = new Server(client);
-                    server.Process();
-                }
+                client = await listener.AcceptTcpClientAsync();
+                var server = new Server(client, writeable);
+                server.Process();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                writeable.Write(ex.Message);
             }
             finally
             {

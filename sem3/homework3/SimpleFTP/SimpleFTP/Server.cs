@@ -17,12 +17,15 @@ namespace FTPServer
         /// </summary>
         public TcpClient client { get; private set; }
 
+        private IWriteable writeable;
+
         /// <summary>
         /// constructor: assigns this TcpClient
         /// </summary>
-        public Server(TcpClient tcpClient)
+        public Server(TcpClient tcpClient, IWriteable writeable)
         {
             client = tcpClient;
+            this.writeable = writeable;
         }
 
         private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
@@ -42,7 +45,7 @@ namespace FTPServer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                writeable.Write(ex.Message);
             }
             finally
             {
@@ -72,7 +75,7 @@ namespace FTPServer
                     if (request != null)
                     {
                         string response = null;
-                        Console.WriteLine($"Client requests: {request}");
+                        writeable.Write($"Client requests: {request}");
                         var splitted = request.Split(new char[] { ' ' }, 2);
                         if (Int32.TryParse(splitted[0], out int index))
                         {
@@ -118,7 +121,6 @@ namespace FTPServer
             {
                 list[i] = list[i].Substring(length);
                 buider.Append(list[i] + " " + isDir + " ");
-                //catalog += list[i] + " " + isDir + " ";
             }
             catalog = buider.ToString();
             return catalog;

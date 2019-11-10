@@ -49,11 +49,22 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="WriteForTests.cs" />
+    <Compile Include="FTPTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FTPClient\FTPClient.csproj">
+      <Project>{f4d73bbd-4d64-4887-bbb9-3921c5c99e99}</Project>
+      <Name>FTPClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleFTP\FTPServer.csproj">
+      <Project>{c7c7d2ef-91ba-4671-9454-36e0a9919f2c}</Project>
+      <Name>FTPServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
