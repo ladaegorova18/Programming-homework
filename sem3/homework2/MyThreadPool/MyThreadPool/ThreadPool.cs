@@ -195,21 +195,19 @@ namespace MyThreadPool
                 Func<TNewResult> func = () => function(Result);
                 var newTask = new MyTask<TNewResult>(func, myThreadPool);
                 var action = new Action(newTask.Do);
-                localQueue.Enqueue(action);
                 lock (locker)
                 {
-                    if (!IsCompleted)
+                    if (IsCompleted)
                     {
                         if (!myThreadPool.AddAction(action))
                         {
                             aggregateException = new AggregateException();
-                            IsCompleted = true;
                         }
                     }
-                    //else
-                    //{
-                    //    localQueue.Enqueue(action);
-                    //}
+                    else
+                    {
+                        localQueue.Enqueue(action);
+                    }
                 }
                 return newTask;
             }
