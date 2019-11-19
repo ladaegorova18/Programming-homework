@@ -1,45 +1,34 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
+using System.IO;
 using System.Threading.Tasks;
 
-namespace FTPServer
+namespace SimpleFTP
 {
     /// <summary>
     /// main server program
     /// </summary>
     public class Program
     {
-        private const int port = 8888;
-        private static TcpListener listener;
-        private static TcpClient client;
-
-        private static async Task Main(string[] args)
+        private static void Main(string[] args)
         {
-            var writeable = new WriteOnConsole();
-            try
+            Console.WriteLine("Enter port or port and IP address:");
+            var input = Console.ReadLine();
+            var splitted = input.Split(new char[] { ' ' });
+            if (Int32.TryParse(splitted[0], out int port))
             {
-                listener = new TcpListener(IPAddress.Any, port);
-                listener.Start();
-                writeable.Write("Waiting for connections...");
-
-                client = await listener.AcceptTcpClientAsync();
-                var server = new Server(client, writeable);
-                server.Process();
-            }
-            catch (Exception ex)
-            {
-                writeable.Write(ex.Message);
-            }
-            finally
-            {
-                if (client != null)
+                if (splitted.Length == 2)
                 {
-                    client.Close();
+                    Console.WriteLine("You have made a client");
+                    var client = new Client();
+                    client.Connect(8888, "localhost");
+                    var listResponse = client.List("/test");
+                    Console.WriteLine(listResponse.Result);
                 }
-                if (listener != null)
+                else
                 {
-                    listener.Stop();
+                    Console.WriteLine("You have made a server");
+                    var server = new Server(8888);
+                    server.Process();
                 }
             }
         }

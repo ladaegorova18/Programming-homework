@@ -1,10 +1,8 @@
-﻿using System;
+﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using FTPClient;
-using FTPServer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SimpleFTP.Tests
@@ -12,52 +10,27 @@ namespace SimpleFTP.Tests
     [TestClass]
     public class FTPTests
     {
-        private TcpListener listener;
-        private TcpClient tcpClient;
+        private Server server;
         private Client client;
-        private IWriteable writeable;
-        private const int port = 8888;
-        private const string address = "127.0.0.1";
-        private static AutoResetEvent locker = new AutoResetEvent(false);
+        private string path = "/test";
 
         [TestInitialize]
         public void Initialize()
         {
-            writeable = new WriteForTests();
-            listener = new TcpListener(IPAddress.Any, port);
-            listener.Start();
-            CreateServer();
-        }
-
-        private void CreateServer()
-        {
-            Task.Run( () =>
-            {
-                //tcpClient = await listener.AcceptTcpClientAsync();
-                tcpClient = new TcpClient(address, port);
-                var server = new Server(tcpClient, writeable);
-                CreateClient();
-                server.Process();
-            });
-        }
-
-        private void CreateClient()
-        {
-            Task.Run(() =>
-            {
-                client = new Client(tcpClient, writeable);
-                locker.Set();
-                client.Process();
-            });
+            server = new Server(8888);
+            server.Process();
+            client = new Client();
+            client.Connect(8888, "localhost");
         }
 
         [TestMethod]
-        public void ListTest()
+        public async Task ListTest()
         {
-            locker.WaitOne();
-            client.Send("1 /test");
-            var response = client.Response;
-            //Assert.AreEqual();
+            var listResponse = await client.List(path);
+            var expected = "3 /test" + "\\" + "folder True /test" + "\\" + "oneMoreFolder True /test" + "\\" + "file.txt False ";
+            Assert.AreEqual(expected, listResponse);
+            server.Close();
+            client.CloseClient();
         }
     }
 }

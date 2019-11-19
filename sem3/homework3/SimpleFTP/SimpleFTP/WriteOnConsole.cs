@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FTPServer
+namespace SimpleFTP
 {
     public class WriteOnConsole : IWriteable
     {

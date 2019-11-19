@@ -1,7 +1,4 @@
-﻿using System;
-using FTPServer;
-
-namespace SimpleFTP.Tests
+﻿namespace SimpleFTP.Tests
 {
     public class WriteForTests : IWriteable
     {

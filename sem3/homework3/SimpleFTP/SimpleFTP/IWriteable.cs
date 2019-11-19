@@ -1,4 +1,4 @@
-﻿namespace FTPServer
+﻿namespace SimpleFTP
 {
     public interface IWriteable 
     {
