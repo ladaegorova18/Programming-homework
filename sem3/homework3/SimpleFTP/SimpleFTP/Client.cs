@@ -10,7 +10,7 @@ namespace SimpleFTP
     /// </summary>
     public class Client
     {
-        private static TcpClient client = null;
+        private TcpClient client = null;
 
         private StreamReader streamReader;
         private StreamWriter streamWriter;
@@ -47,20 +47,20 @@ namespace SimpleFTP
         /// </summary>
         /// <param name="path"> path to directory </param>
         /// <returns> list of files in directory </returns>
-        public async Task<string> List(string path) => await SendRequest(path, 1);
+        public async Task<string> List(string path) => await SendRequest(path, 1).ConfigureAwait(false);
 
         /// <summary>
         /// user's Get command 
         /// </summary>
         /// <param name="path"> path to file </param>
         /// <returns> file size and file content </returns>
-        public async Task<string> Get(string path) => await SendRequest(path, 2);
+        public async Task<string> Get(string path) => await SendRequest(path, 2).ConfigureAwait(false);
 
         private async Task<string> SendRequest(string path, int index)
         {
             if (!Connected)
             {
-                throw new NullReferenceException();
+                throw new SocketException();
             }
             try
             {
@@ -69,7 +69,7 @@ namespace SimpleFTP
             }
             catch (SocketException e)
             {
-                return e.Message;
+                throw e;
             }
         }
     }

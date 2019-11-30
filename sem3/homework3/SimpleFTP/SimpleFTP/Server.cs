@@ -13,10 +13,10 @@ namespace SimpleFTP
     /// </summary>
     public class Server
     {
-        private CancellationTokenSource token = new CancellationTokenSource();
-        private static TcpListener listener;
-        private static TcpClient client;
-        private IWriteable writeable = new WriteOnConsole();
+        private readonly CancellationTokenSource token = new CancellationTokenSource();
+        private TcpListener listener;
+        private TcpClient client;
+        private readonly IWriteable writeable = new WriteOnConsole();
 
         /// <summary>
         /// constructor: assigns this TcpClient
@@ -38,7 +38,7 @@ namespace SimpleFTP
                 while (!token.IsCancellationRequested)
                 {
                     client = await listener.AcceptTcpClientAsync();
-                    await Task.Run(() => HandleRequest());
+                    await Task.Run(() => HandleRequest()).ConfigureAwait(false);
                 }
             }
             finally
@@ -142,5 +142,7 @@ namespace SimpleFTP
             client.Close();
             listener.Stop();
         }
+
+        public void Cancel() => token.Cancel();
     }
 }
