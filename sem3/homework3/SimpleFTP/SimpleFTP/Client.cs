@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleFTP
@@ -16,81 +15,62 @@ namespace SimpleFTP
         private StreamReader streamReader;
         private StreamWriter streamWriter;
 
-        private CancellationTokenSource token = new CancellationTokenSource();
-
-        public bool IsConnected { get; private set; }
-
-
+        public bool Connected { get; private set; }
 
         /// <summary>
-        /// main client process to read and write to server
+        /// client connection to server
         /// </summary>
-        /// <param name="port"> port to connect </param>
-        /// <param name="address"> ip address </param>
-        public void Process(int port, string address)
+        public void Connect(int port, string address)
         {
             try
             {
-                client = new TcpClient(address, port);
-                streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
-                streamReader = new StreamReader(client.GetStream());
-            }
-            finally
-            {
-                client.Close();
-            }
-        }
-
-        /// <summary>
-        /// Client connection to server
-        /// </summary>
-        public async Task<bool> Connect(int port, string address)
-        {
-            var delay = TimeSpan.FromSeconds(1);
-            int counter = 0;
-            for (var i = 0; i < 3; ++i)
-            {
-                try
-                {
-                    client = new TcpClient();
-                    client.Connect(address, port);
-                    break;
-                }
-                catch
-                {
-                    ++counter;
-                }
-                await Task.Delay(delay);
-            }
-
-            if (counter != 3)
-            {
+                client = new TcpClient();
+                client.Connect(address, port);
                 var stream = client.GetStream();
                 streamWriter = new StreamWriter(stream) { AutoFlush = true };
                 streamReader = new StreamReader(stream);
-                return IsConnected = true;
+                Connected = true;
             }
-            return false;
+            catch
+            {
+                Connected = false;
+            }
         }
 
         /// <summary>
-        /// metod by server to close client
+        /// server method to close client
         /// </summary>
-        public void CloseClient()
-        {
-            client.Close();
-        }
+        public void Close() => client.Close();
 
-        public async Task<string> List(string path)
-        {
-            await streamWriter.WriteLineAsync($"1 {path}").ConfigureAwait(false);
-            return await streamReader.ReadLineAsync().ConfigureAwait(false);
-        }
+        /// <summary>
+        /// user's List command 
+        /// </summary>
+        /// <param name="path"> path to directory </param>
+        /// <returns> list of files in directory </returns>
+        public async Task<string> List(string path) => await SendRequest(path, 1);
 
-        public async Task<string> Get(string path)
+        /// <summary>
+        /// user's Get command 
+        /// </summary>
+        /// <param name="path"> path to file </param>
+        /// <returns> file size and file content </returns>
+        public async Task<string> Get(string path) => await SendRequest(path, 2);
+
+        private async Task<string> SendRequest(string path, int index)
         {
-            await streamWriter.WriteLineAsync($"2 {path}").ConfigureAwait(false);
-            return await streamReader.ReadLineAsync().ConfigureAwait(false);
+            if (!Connected)
+            {
+                throw new NullReferenceException();
+            }
+            try
+            {
+                await streamWriter.WriteLineAsync($"{index} {path}").ConfigureAwait(false);
+                return await streamReader.ReadLineAsync().ConfigureAwait(false);
+            }
+            catch (SocketException e)
+            {
+                return e.Message;
+            }
         }
     }
 }

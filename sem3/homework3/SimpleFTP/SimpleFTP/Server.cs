@@ -48,10 +48,32 @@ namespace SimpleFTP
         }
 
         /// <summary>
-         /// lists files in a directory on server
-         /// </summary>
-         /// <param name="path"> path to directory </param>
-         /// <returns> list of files and directories, count of them and information which of them are directories </returns>
+        /// reads a request, parses it and executes List() or Get()
+        /// </summary>
+        /// <param name="writer"> to write in stream </param>
+        /// <param name="reader"> to read from stream </param>
+        private async Task HandleRequest()
+        {
+            var streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
+            var streamReader = new StreamReader(client.GetStream());
+            while (!token.IsCancellationRequested)
+            {
+                var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
+                if (request != null)
+                {
+                    writeable.Write($"Client requests: {request}");
+                    var response = ParseRequest(request);
+                    writeable.Write($"response: {response}");
+                    await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// lists files in a directory on server
+        /// </summary>
+        /// <param name="path"> path to directory </param>
+        /// <returns> list of files and directories, count of them and information which of them are directories </returns>
         private static string List(string path)
         {
             var size = -1;
@@ -99,27 +121,6 @@ namespace SimpleFTP
             return size.ToString() + " " + content;
         }
 
-        /// <summary>
-        /// reads a request, parses it and executes List() or Get()
-        /// </summary>
-        /// <param name="writer"> to write in stream </param>
-        /// <param name="reader"> to read from stream </param>
-        private async Task HandleRequest()
-        {
-            var streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
-            var streamReader = new StreamReader(client.GetStream());
-            while (!token.IsCancellationRequested)
-            {
-                var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
-                if (request != null)
-                {
-                    writeable.Write($"Client requests: {request}");
-                    var response = ParseRequest(request);
-                    writeable.Write($"response: {response}");
-                    await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
-                }
-            }
-        }
 
         private static string ParseRequest(string request)
         {
@@ -132,9 +133,13 @@ namespace SimpleFTP
             return null;
         }
 
+        /// <summary>
+        /// closes server
+        /// </summary>
         public void Close()
         {
             writeable.Write("closing...");
+            client.Close();
             listener.Stop();
         }
     }
