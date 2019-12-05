@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUIForServer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="GUIForServer" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="65*"/>
+            <ColumnDefinition Width="67*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="hostText" HorizontalAlignment="Left" Height="23" Margin="141,41,0,0" TextWrapping="Wrap" Text="{Binding Host}" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="portText" HorizontalAlignment="Left" Height="23" Margin="141,72,0,0" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Server host:" HorizontalAlignment="Left" Margin="58,38,0,0" VerticalAlignment="Top" Width="83" Height="26"/>
+        <Label Content="Server port:" HorizontalAlignment="Left" Margin="58,69,0,0" VerticalAlignment="Top" Width="83" Height="26"/>
+        <Label Content="Directory content:" HorizontalAlignment="Left" Margin="58,210,0,0" VerticalAlignment="Top" Width="120" Height="26"/>
+        <Button Content="Connect" Command="{Binding Connect}" HorizontalAlignment="Left" Margin="186,100,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+
+        <Label x:Name="directoryContent" Content="{Binding Content}" Margin="58,236,37,10"/>
+
+        <Label x:Name="status" Content="" HorizontalAlignment="Left" Margin="186,120,0,0" VerticalAlignment="Top" Width="75" FontSize="8" FontWeight="Bold" Height="21"/>
+        <TextBox x:Name="pathText" Text="{Binding PathTo}" HorizontalAlignment="Left" Height="26" Margin="101,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="218"/>
+        <Label Content="Path:" HorizontalAlignment="Left" Margin="58,146,0,0" VerticalAlignment="Top" Width="38" Height="26"/>
+        <Button Content="Folder up" HorizontalAlignment="Left" Margin="336,146,0,0" VerticalAlignment="Top" Width="75" Height="26" Grid.ColumnSpan="2" Command="{Binding FolderUp}"/>
+        <TextBox x:Name="goToFolder" Text="{Binding ElementName=pathText, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="26" Margin="141,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178"/>
+        <Label Content="Go to folder:" HorizontalAlignment="Left" Margin="58,179,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.322,0.615" Height="26"/>
+        <Button Content="Go to folder" HorizontalAlignment="Left" Margin="336,177,0,0" VerticalAlignment="Top" Width="76" Height="26" Grid.ColumnSpan="2" Command="{Binding GoToFolder}"/>
+        <TextBox x:Name="goToFolder_Copy" HorizontalAlignment="Left" Height="26" Margin="133,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Grid.Column="1"/>
+        <Label Content="Go to folder:" HorizontalAlignment="Left" Margin="50,146,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.322,0.615" Grid.Column="1" Height="26"/>
+        <Label Content="Get files" HorizontalAlignment="Left" Margin="156,100,0,0" VerticalAlignment="Top" Width="94" FontSize="15" Grid.Column="1" Height="30"/>
+        <Button Content="Go to folder" HorizontalAlignment="Left" Margin="316,146,0,0" VerticalAlignment="Top" Width="76" Height="26" Grid.Column="1"/>
+
     </Grid>
 </Window>
