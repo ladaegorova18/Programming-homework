@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Test2
 {
@@ -31,7 +19,7 @@ namespace Test2
             InitializeComponent();
             foreach (UIElement c in grid.Children)
             {
-                if (c is Button)
+                if (c is Button && ((Button)c).Tag.ToString().CompareTo("cell") == 0)
                 {
                     ((Button)c).Click += CellClick;
                 }
@@ -43,7 +31,7 @@ namespace Test2
         /// </summary>
         private void CellClick(object sender, RoutedEventArgs e)
         {
-            count++;
+            ++count;
             if (count % 2 != 0)
             {
                 ((Button)e.OriginalSource).Content = "X";
@@ -58,22 +46,30 @@ namespace Test2
             {
                 case 1:
                     MessageBox.Show("Player X WIN!");
+                    Restart(sender, e);
                     break;
                 case 2:
                     MessageBox.Show("Player O WIN!");
+                    Restart(sender, e);
+                    break;
+                case 3:
+                    MessageBox.Show("Nobody wins!");
+                    Restart(sender, e);
                     break;
             }
         }
 
-        private void MenuItemClick(object sender, RoutedEventArgs e)
+        private void Restart(object sender, RoutedEventArgs e)
         {
             foreach (UIElement c in grid.Children)
             {
-                if (c is Button)
+                if (c is Button && ((Button)c).Tag.ToString().CompareTo("cell") == 0)
                 {
                     ((Button)c).Content = "";
+                    ((Button)c).IsEnabled = true;
                 }
             }
+            count = 0;
         }
 
         private int Ended()
@@ -99,6 +95,10 @@ namespace Test2
             {
                 return 2;
             }
+            if (count == 9)
+            {
+                return 3;
+            }
             else return 0;
         }
 
@@ -109,26 +109,22 @@ namespace Test2
         /// <returns> true if wins </returns>
         private bool CheckWin(string player)
         {
-            if (values[0, 0] == player & values[0, 1] == player & values[0, 2] == player)
-                return true;
-            else if (values[0, 0] == player & values[1, 0] == player & values[2, 0] == player)
-                return true;
-            else if (values[2, 0] == player & values[2, 1] == player & values[2, 2] == player)
-                return true;
-            else if (values[0, 2] == player & values[1, 2] == player & values[2, 2] == player)
-                return true;
-            else if (values[0, 0] == player & values[1, 1] == player & values[2, 2] == player)
-                return true;
-            else if (values[0, 2] == player & values[1, 1] == player & values[2, 0] == player)
-                return true;
-            else if (values[1, 0] == player & values[1, 1] == player & values[1, 2] == player)
-                return true;
-            else if (values[0, 1] == player & values[1, 1] == player & values[1, 2] == player)
-                return true;
-            else
-            {
-                return false;
-            }
+            return
+            ((values[0, 0] == player & values[0, 1] == player & values[0, 2] == player)
+                ||
+            (values[0, 0] == player & values[1, 0] == player & values[2, 0] == player)
+                ||
+            (values[2, 0] == player & values[2, 1] == player & values[2, 2] == player)
+                ||
+            (values[0, 2] == player & values[1, 2] == player & values[2, 2] == player)
+                ||
+            (values[0, 0] == player & values[1, 1] == player & values[2, 2] == player)
+                ||
+            (values[0, 2] == player & values[1, 1] == player & values[2, 0] == player)
+                ||
+            (values[1, 0] == player & values[1, 1] == player & values[1, 2] == player)
+                ||
+            (values[0, 1] == player & values[1, 1] == player & values[2, 1] == player));
         }
     }
 }
