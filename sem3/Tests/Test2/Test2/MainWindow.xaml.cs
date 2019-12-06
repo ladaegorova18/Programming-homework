@@ -8,8 +8,15 @@ namespace Test2
     /// </summary>
     public partial class MainWindow : Window
     {
-        static int count = 0;
-        string[,] values = new string[3, 3];
+        /// <summary>
+        /// count of used cells
+        /// </summary>
+        public static int Count { get; set; } = 0;
+
+        /// <summary>
+        /// values in cells
+        /// </summary>
+        public string[,] Values { get; set; } = new string[3, 3];
 
         /// <summary>
         /// MainWindow constructor
@@ -17,6 +24,7 @@ namespace Test2
         public MainWindow()
         {
             InitializeComponent();
+
             foreach (UIElement c in grid.Children)
             {
                 if (c is Button && ((Button)c).Tag.ToString().CompareTo("cell") == 0)
@@ -31,8 +39,8 @@ namespace Test2
         /// </summary>
         private void CellClick(object sender, RoutedEventArgs e)
         {
-            ++count;
-            if (count % 2 != 0)
+            ++Count;
+            if (Count % 2 != 0)
             {
                 ((Button)e.OriginalSource).Content = "X";
                 ((Button)e.OriginalSource).IsEnabled = false;
@@ -42,6 +50,7 @@ namespace Test2
                 ((Button)e.OriginalSource).Content = "O";
                 ((Button)e.OriginalSource).IsEnabled = false;
             }
+
             switch (Ended())
             {
                 case 1:
@@ -59,7 +68,8 @@ namespace Test2
             }
         }
 
-        private void Restart(object sender, RoutedEventArgs e)
+        //Restarts the game
+        public void Restart(object sender, RoutedEventArgs e)
         {
             foreach (UIElement c in grid.Children)
             {
@@ -69,7 +79,7 @@ namespace Test2
                     ((Button)c).IsEnabled = true;
                 }
             }
-            count = 0;
+            Count = 0;
         }
 
         private int Ended()
@@ -82,7 +92,7 @@ namespace Test2
                 {
                     for (int column = 0; column < 3; column++)
                     {
-                        values[row - 1, column] = ((Button)grid.Children[currentCell]).Content.ToString();
+                        Values[row - 1, column] = ((Button)grid.Children[currentCell]).Content.ToString();
                         currentCell++;
                     }
                 }
@@ -95,7 +105,7 @@ namespace Test2
             {
                 return 2;
             }
-            if (count == 9)
+            if (Count == 9)
             {
                 return 3;
             }
@@ -110,21 +120,21 @@ namespace Test2
         private bool CheckWin(string player)
         {
             return
-            ((values[0, 0] == player & values[0, 1] == player & values[0, 2] == player)
+            ((Values[0, 0] == player & Values[0, 1] == player & Values[0, 2] == player)
                 ||
-            (values[0, 0] == player & values[1, 0] == player & values[2, 0] == player)
+            (Values[0, 0] == player & Values[1, 0] == player & Values[2, 0] == player)
                 ||
-            (values[2, 0] == player & values[2, 1] == player & values[2, 2] == player)
+            (Values[2, 0] == player & Values[2, 1] == player & Values[2, 2] == player)
                 ||
-            (values[0, 2] == player & values[1, 2] == player & values[2, 2] == player)
+            (Values[0, 2] == player & Values[1, 2] == player & Values[2, 2] == player)
                 ||
-            (values[0, 0] == player & values[1, 1] == player & values[2, 2] == player)
+            (Values[0, 0] == player & Values[1, 1] == player & Values[2, 2] == player)
                 ||
-            (values[0, 2] == player & values[1, 1] == player & values[2, 0] == player)
+            (Values[0, 2] == player & Values[1, 1] == player & Values[2, 0] == player)
                 ||
-            (values[1, 0] == player & values[1, 1] == player & values[1, 2] == player)
+            (Values[1, 0] == player & Values[1, 1] == player & Values[1, 2] == player)
                 ||
-            (values[0, 1] == player & values[1, 1] == player & values[2, 1] == player));
+            (Values[0, 1] == player & Values[1, 1] == player & Values[2, 1] == player));
         }
     }
 }
