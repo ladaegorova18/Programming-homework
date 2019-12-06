@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace Test2
+﻿namespace Test2
 {
+    /// <summary>
+    /// logic class for values in grid
+    /// </summary>
     public class XandOs
     {
         /// <summary>

@@ -60,7 +60,9 @@ namespace Test2
             }
         }
 
-        //Restarts the game
+        /// <summary>
+        /// Restarts the game
+        /// </summary>
         public void Restart(object sender, RoutedEventArgs e)
         {
             foreach (UIElement c in grid.Children)
@@ -74,6 +76,9 @@ namespace Test2
             game.Count = 0;
         }
 
+        /// <summary>
+        /// checks if game is ended
+        /// </summary>
         private int Ended()
         {
             var element = new UIElement();

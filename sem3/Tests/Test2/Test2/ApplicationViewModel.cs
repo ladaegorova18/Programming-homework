@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test2
 {
+    /// <summary>
+    /// ApplicationViewModel for game
+    /// </summary>
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private XandOs game = new XandOs();
