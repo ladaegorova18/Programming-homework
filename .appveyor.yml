@@ -1,50 +1,7 @@
-image: Visual Studio 2019 Preview
+image: Visual Studio 2019
 
 before_build:
-  - choco install dotnetcore-sdk --pre
-  
-environment:
-  matrix:
-  - solution_path: sem2/homework1/Factorial/Factorial.sln
-  - solution_path: sem2/homework1/Fibonacci/Fibonacci.sln
-  - solution_path: sem2/homework1/MatrixSorting/MatrixSorting.sln
-  - solution_path: sem2/homework1/Sorting/Sorting.sln
-  - solution_path: sem2/homework1/Spiral/Spiral.sln
-  - solution_path: sem2/homework2/Hash-Table/Hash-Table.sln
-  - solution_path: sem2/homework2/Stack_Calculator/StackCalculator.sln
-  - solution_path: sem2/homework2/OneLinkedList/OneLinkedList.sln
-  - solution_path: sem2/homework3/Hash-Table/Hash-Table.sln
-  - solution_path: sem2/homework4/ParseTree/ParseTree.sln
-  - solution_path: sem2/homework4/UniqueList/UniqueList.sln
-  - solution_path: sem2/homework6/ListMethods/ListMethods.sln
-  - solution_path: sem2/homework6/ConsoleGame/ConsoleGame.sln
-  - solution_path: sem2/homework7/GUICalculator/GUICalculator.sln
-  - solution_path: sem2/homework7/Clock/Clock.sln
-  - solution_path: sem2/homework8/GenericList/GenericList.sln
-  - solution_path: sem2/homework8/GenericSet/GenericSet.sln
-  - solution_path: Tests/Test1.1/Task1.sln
-  - solution_path: Tests/Test2.1/Test2.1.sln
+  - nuget restore sem3/homework4/MyNUnit/MyNUnit.sln
 
 build_script:
-  - msbuild %solution_path%
-
-test_script:
-  - dotnet test sem2/homework1/Factorial/Factorial.sln
-  - dotnet test sem2/homework1/Fibonacci/Fibonacci.sln
-  - dotnet test sem2/homework1/MatrixSorting/MatrixSorting.sln
-  - dotnet test sem2/homework1/Sorting/Sorting.sln
-  - dotnet test sem2/homework1/Spiral/Spiral.sln
-  - dotnet test sem2/homework2/Hash-Table/Hash-Table.sln
-  - dotnet test sem2/homework2/Stack_Calculator/StackCalculator.sln
-  - dotnet test sem2/homework2/OneLinkedList/OneLinkedList.sln
-  - dotnet test sem2/homework3/Hash-Table/Hash-Table.sln
-  - dotnet test sem2/homework4/ParseTree/ParseTree.sln
-  - dotnet test sem2/homework4/UniqueList/UniqueList.sln
-  - dotnet test sem2/homework6/ListMethods/ListMethods.sln
-  - dotnet test sem2/homework6/ConsoleGame/ConsoleGame.sln
-  - dotnet test sem2/homework7/GUICalculator/GUICalculator.sln
-  - dotnet test sem2/homework7/Clock/Clock.sln
-  - dotnet test sem2/homework8/GenericList/GenericList.sln
-  - dotnet test sem2/homework8/GenericSet/GenericSet.sln
-  - dotnet test Tests/Test1.1/Task1.sln  
-  - dotnet test Tests/Test2.1/Test2.1.sln
+  - msbuild sem3/homework4/MyNUnit/MyNUnit.sln
