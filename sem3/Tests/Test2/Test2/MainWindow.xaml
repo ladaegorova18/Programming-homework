@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Test2"
         mc:Ignorable="d"
-        Title="TickTackToe" Height="450" Width="800">
-    <Grid x:Name="grid">
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="205,143,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="275,143,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="345,143,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="205,200,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="275,200,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="345,200,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="205,257,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="275,257,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="345,257,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
-        <Button Tag="restart" Content="New Game" HorizontalAlignment="Left" Margin="275,341,0,0" VerticalAlignment="Top" Width="70" Height="33" Click="Restart"/>
+        Title="TickTackToe" Height="310" Width="288">
+    <Grid x:Name="grid" Margin="0,0,2,1">
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="29,15,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="99,15,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="169,15,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="29,72,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="99,72,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="169,72,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="29,129,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="99,129,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="cell" Content="" HorizontalAlignment="Left" Margin="169,129,0,0" VerticalAlignment="Top" Width="70" Height="57"/>
+        <Button Tag="restart" Content="New Game" HorizontalAlignment="Left" Margin="99,213,0,0" VerticalAlignment="Top" Width="70" Height="33" Click="Restart"/>
     </Grid>
 </Window>
