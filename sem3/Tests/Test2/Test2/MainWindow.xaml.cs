@@ -8,15 +8,7 @@ namespace Test2
     /// </summary>
     public partial class MainWindow : Window
     {
-        /// <summary>
-        /// count of used cells
-        /// </summary>
-        public static int Count { get; set; } = 0;
-
-        /// <summary>
-        /// values in cells
-        /// </summary>
-        public string[,] Values { get; set; } = new string[3, 3];
+        private XandOs game = new XandOs();
 
         /// <summary>
         /// MainWindow constructor
@@ -39,8 +31,8 @@ namespace Test2
         /// </summary>
         private void CellClick(object sender, RoutedEventArgs e)
         {
-            ++Count;
-            if (Count % 2 != 0)
+            ++game.Count;
+            if (game.Count % 2 != 0)
             {
                 ((Button)e.OriginalSource).Content = "X";
                 ((Button)e.OriginalSource).IsEnabled = false;
@@ -79,7 +71,7 @@ namespace Test2
                     ((Button)c).IsEnabled = true;
                 }
             }
-            Count = 0;
+            game.Count = 0;
         }
 
         private int Ended()
@@ -92,49 +84,24 @@ namespace Test2
                 {
                     for (int column = 0; column < 3; column++)
                     {
-                        Values[row - 1, column] = ((Button)grid.Children[currentCell]).Content.ToString();
+                        game.Values[row - 1, column] = ((Button)grid.Children[currentCell]).Content.ToString();
                         currentCell++;
                     }
                 }
             }
-            if (CheckWin("X"))
+            if (game.CheckWin("X"))
             {
                 return 1;
             }
-            if (CheckWin("O"))
+            if (game.CheckWin("O"))
             {
                 return 2;
             }
-            if (Count == 9)
+            if (game.Count == 9)
             {
                 return 3;
             }
             else return 0;
-        }
-
-        /// <summary>
-        /// checks if current player wins
-        /// </summary>
-        /// <param name="player"> player "X" or "O" </param>
-        /// <returns> true if wins </returns>
-        private bool CheckWin(string player)
-        {
-            return
-            ((Values[0, 0] == player & Values[0, 1] == player & Values[0, 2] == player)
-                ||
-            (Values[0, 0] == player & Values[1, 0] == player & Values[2, 0] == player)
-                ||
-            (Values[2, 0] == player & Values[2, 1] == player & Values[2, 2] == player)
-                ||
-            (Values[0, 2] == player & Values[1, 2] == player & Values[2, 2] == player)
-                ||
-            (Values[0, 0] == player & Values[1, 1] == player & Values[2, 2] == player)
-                ||
-            (Values[0, 2] == player & Values[1, 1] == player & Values[2, 0] == player)
-                ||
-            (Values[1, 0] == player & Values[1, 1] == player & Values[1, 2] == player)
-                ||
-            (Values[0, 1] == player & Values[1, 1] == player & Values[2, 1] == player));
         }
     }
 }
