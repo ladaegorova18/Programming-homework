@@ -10,12 +10,12 @@ namespace MyThreadPool
     /// </summary>
     public class ThreadPool
     {
-        private readonly AutoResetEvent available = new AutoResetEvent(false);
+        private readonly ManualResetEvent available = new ManualResetEvent(false);
         private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
         private readonly Thread[] threads;
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private readonly CancellationTokenSource tokenSource;
-        protected CancellationToken token { get; private set; }
+        private CancellationToken token;
         private readonly object lockAdding = new object();
 
         /// <summary>
@@ -49,8 +49,10 @@ namespace MyThreadPool
                             }
                             available.WaitOne();
                         }
-                        tasksQueue.TryDequeue(out Action newAction);
-                        newAction.Invoke();
+                        if (tasksQueue.TryDequeue(out Action newAction))
+                        {
+                            newAction.Invoke();
+                        }
                     }
                 });
                 threads[i].Start();
@@ -174,11 +176,11 @@ namespace MyThreadPool
                     getResult.Set();
                     lock (locker)
                     {
-                        while (localQueue.Count != 0)
+                        if (localQueue.Count != 0)
                         {
                             if (!myThreadPool.AddAction(localQueue.Dequeue()))
                             {
-                                aggregateException = new AggregateException();
+                                aggregateException = new AggregateException("Thread pool is stopped!");
                                 IsCompleted = true;
                             }
                         }
@@ -201,7 +203,7 @@ namespace MyThreadPool
                     {
                         if (!myThreadPool.AddAction(action))
                         {
-                            aggregateException = new AggregateException();
+                            aggregateException = new AggregateException("Thread pool is stopped!");
                         }
                     }
                     else

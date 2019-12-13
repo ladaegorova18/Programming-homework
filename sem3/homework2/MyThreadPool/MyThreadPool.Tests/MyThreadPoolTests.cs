@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MyThreadPool.Tests
@@ -62,6 +63,21 @@ namespace MyThreadPool.Tests
             var task = myThreadPool.QueueUserWorkItem(func);
             Func<string> result = () => task.Result;
             Assert.ThrowsException<AggregateException>(result);
+        }
+
+        [TestMethod]
+        public void ParallelTest()
+        {
+            var result = 0;
+            for (var i = 0; i < n; ++i)
+            {
+                myThreadPool.QueueUserWorkItem(() =>
+                {
+                    Interlocked.Increment(ref result);
+                    return 0;
+                });
+            }
+            Assert.AreEqual(myThreadPool.ThreadsCount, result);
         }
     }
 }
