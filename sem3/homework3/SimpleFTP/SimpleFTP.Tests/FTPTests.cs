@@ -14,8 +14,8 @@ namespace SimpleFTP.Tests
         [TestInitialize]
         public void Initialize()
         {
-            server = new Server(8888);
-            server.Process();
+            //server = new Server(8888);
+            //server.Process();
             //client = new Client();
             //client.Connect(8888, "localhost");
         }
