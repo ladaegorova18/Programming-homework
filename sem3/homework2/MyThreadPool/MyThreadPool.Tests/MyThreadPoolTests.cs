@@ -75,11 +75,14 @@ namespace MyThreadPool.Tests
             {
                 myThreadPool.QueueUserWorkItem(() =>
                 {
-                    Interlocked.Increment(ref result);
+                    ++result;
+                    Thread.Sleep(200);
                     return 0;
                 });
             }
-            Assert.AreEqual(myThreadPool.ThreadsCount - 1, result);
+            Thread.Sleep(100);
+            myThreadPool.Shutdown();
+            Assert.AreEqual(n, result);
             myThreadPool.Shutdown();
         }
     }
