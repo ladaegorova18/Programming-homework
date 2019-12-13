@@ -44,7 +44,7 @@ namespace SimpleFTP
             }
             finally
             {
-                Close();
+                listener.Stop();
             }
         }
 
