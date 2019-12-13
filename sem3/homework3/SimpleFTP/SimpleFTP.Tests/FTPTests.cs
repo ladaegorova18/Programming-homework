@@ -9,11 +9,12 @@ namespace SimpleFTP.Tests
         private Server server;
         private Client client;
         private string path = "/test";
+        private WriteForTests writeable = new WriteForTests();
 
         [TestInitialize]
         public void Initialize()
         {
-            server = new Server(8888);
+            server = new Server(8888, writeable);
             server.Process();
             client = new Client();
             client.Connect(8888, "localhost");
