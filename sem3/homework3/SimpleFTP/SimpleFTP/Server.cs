@@ -134,16 +134,6 @@ namespace SimpleFTP
             return null;
         }
 
-        /// <summary>
-        /// closes server
-        /// </summary>
-        public void Close()
-        {
-            //writeable.Write("closing...");
-            client.Close();
-            listener.Stop();
-        }
-
         public void Cancel() => token.Cancel();
     }
 }

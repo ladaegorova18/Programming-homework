@@ -26,7 +26,7 @@ namespace SimpleFTP.Tests
             var listResponse = await client.List(path);
             var expected = "3 /test" + "\\" + "folder True /test" + "\\" + "oneMoreFolder True /test" + "\\" + "file.txt False ";
             Assert.AreEqual(expected, listResponse);
-            server.Close();
+            server.Cancel();
             client.Close();
         }
 
@@ -36,7 +36,7 @@ namespace SimpleFTP.Tests
             var listResponse = await client.List(path + "/folder");
             var expected = "0 ";
             Assert.AreEqual(expected, listResponse);
-            server.Close();
+            server.Cancel();
             client.Close();
         }
 
@@ -46,7 +46,7 @@ namespace SimpleFTP.Tests
             var getResponse = await client.Get("/test/file.txt");
             var expected = "44 Is this the real life? Is this just fantasy?";
             Assert.AreEqual(expected, getResponse);
-            server.Close();
+            server.Cancel();
             client.Close();
         }
 
@@ -57,7 +57,7 @@ namespace SimpleFTP.Tests
             var listResponse = await client.List(path);
             var expected = "-1 ";
             Assert.AreEqual(expected, listResponse);
-            server.Close();
+            server.Cancel();
             client.Close();
         }
 
@@ -68,7 +68,7 @@ namespace SimpleFTP.Tests
             var getResponse = await client.Get(path);
             var expected = "-1 ";
             Assert.AreEqual(expected, getResponse);
-            server.Close();
+            server.Cancel();
             client.Close();
         }
     }
