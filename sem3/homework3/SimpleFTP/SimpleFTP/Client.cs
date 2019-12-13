@@ -67,9 +67,9 @@ namespace SimpleFTP
                 await streamWriter.WriteLineAsync($"{index} {path}").ConfigureAwait(false);
                 return await streamReader.ReadLineAsync().ConfigureAwait(false);
             }
-            catch (SocketException e)
+            catch (SocketException innerException)
             {
-                throw e;
+                throw new Exception("Socket exception!", innerException);
             }
         }
     }

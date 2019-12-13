@@ -14,7 +14,7 @@ namespace SimpleFTP
     public class Server
     {
         private readonly CancellationTokenSource token = new CancellationTokenSource();
-        private TcpListener listener;
+        private readonly TcpListener listener;
         private TcpClient client;
         private readonly IWriteable writeable;
 
@@ -35,7 +35,7 @@ namespace SimpleFTP
             listener.Start();
             try
             {
-                writeable.Write("Waiting for connections...");
+                //writeable.Write("Waiting for connections...");
                 while (!token.IsCancellationRequested)
                 {
                     client = await listener.AcceptTcpClientAsync();
@@ -62,9 +62,9 @@ namespace SimpleFTP
                 var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
                 if (request != null)
                 {
-                    writeable.Write($"Client requests: {request}");
+                    //writeable.Write($"Client requests: {request}");
                     var response = ParseRequest(request);
-                    writeable.Write($"response: {response}");
+                    //writeable.Write($"response: {response}");
                     await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
                 }
             }
@@ -139,7 +139,7 @@ namespace SimpleFTP
         /// </summary>
         public void Close()
         {
-            writeable.Write("closing...");
+            //writeable.Write("closing...");
             client.Close();
             listener.Stop();
         }
