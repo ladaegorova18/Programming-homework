@@ -16,8 +16,8 @@ namespace SimpleFTP.Tests
         {
             server = new Server(8888);
             server.Process();
-            client = new Client();
-            client.Connect(8888, "localhost");
+            //client = new Client();
+            //client.Connect(8888, "localhost");
         }
 
         //[TestMethod]
