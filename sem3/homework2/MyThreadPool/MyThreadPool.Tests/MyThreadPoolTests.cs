@@ -79,8 +79,8 @@ namespace MyThreadPool.Tests
                     return 0;
                 });
             }
+            Assert.AreEqual(myThreadPool.ThreadsCount - 1, result);
             myThreadPool.Shutdown();
-            Assert.AreEqual(myThreadPool.ThreadsCount, result);
         }
     }
 }
