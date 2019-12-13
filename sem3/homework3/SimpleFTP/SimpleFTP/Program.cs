@@ -1,10 +1,15 @@
-﻿namespace SimpleFTP
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SimpleFTP
 {
-    /// <summary>
-    /// main server program
-    /// </summary>
-    public class Program
+    class Program
     {
-        private static void Main(string[] args) { }
+        static void Main(string[] args)
+        {
+        }
     }
 }
