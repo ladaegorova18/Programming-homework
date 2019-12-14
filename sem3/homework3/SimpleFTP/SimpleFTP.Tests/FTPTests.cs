@@ -8,8 +8,8 @@ namespace SimpleFTP.Tests
     {
         private Server server;
         private Client client;
-        private string path = "/test";
-        private WriteForTests writeable = new WriteForTests();
+        private string path = "../../../../SimpleFTP.Tests/test";
+        private readonly WriteForTests writeable = new WriteForTests();
 
         [TestInitialize]
         public void Initialize()
@@ -24,7 +24,7 @@ namespace SimpleFTP.Tests
         public async Task ListTest()
         {
             var listResponse = await client.List(path);
-            var expected = "3 /test" + "\\" + "folder True /test" + "\\" + "oneMoreFolder True /test" + "\\" + "file.txt False ";
+            var expected = $"3 {path}" + "\\" + $"folder True {path}" + "\\" + $"oneMoreFolder True {path}" + "\\" + "file.txt False ";
             Assert.AreEqual(expected, listResponse);
             server.Cancel();
             client.Close();

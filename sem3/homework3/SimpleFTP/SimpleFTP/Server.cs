@@ -16,7 +16,7 @@ namespace SimpleFTP
         private readonly CancellationTokenSource token = new CancellationTokenSource();
         private readonly TcpListener listener;
         private TcpClient client;
-        private IWriteable writeable;
+        private readonly IWriteable writeable;
 
         /// <summary>
         /// constructor: assigns this TcpClient

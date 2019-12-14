@@ -69,7 +69,7 @@ namespace SimpleFTP
             }
             catch (SocketException innerException)
             {
-                throw new Exception("Socket exception!", innerException);
+                throw new AggregateException("Socket exception!", innerException);
             }
         }
     }
