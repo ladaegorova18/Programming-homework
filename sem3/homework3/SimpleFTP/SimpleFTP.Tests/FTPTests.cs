@@ -24,7 +24,7 @@ namespace SimpleFTP.Tests
         public async Task ListTest()
         {
             var listResponse = await client.List(path);
-            var expected = $"3 {path}" + "\\" + $"folder True {path}" + "\\" + $"oneMoreFolder True {path}" + "\\" + "file.txt False ";
+            var expected = $"1 {path}" + "\\" + "file.txt False ";
             Assert.AreEqual(expected, listResponse);
             server.Cancel();
             client.Close();
@@ -53,8 +53,7 @@ namespace SimpleFTP.Tests
         [TestMethod]
         public async Task WrongPathListTest()
         {
-            path = "/test/test";
-            var listResponse = await client.List(path);
+            var listResponse = await client.List(path + "/test");
             var expected = "-1 ";
             Assert.AreEqual(expected, listResponse);
             server.Cancel();
@@ -64,8 +63,7 @@ namespace SimpleFTP.Tests
         [TestMethod]
         public async Task WrongPathGetTest()
         {
-            path = "/test/test";
-            var getResponse = await client.Get(path);
+            var getResponse = await client.Get(path + "/test");
             var expected = "-1 ";
             Assert.AreEqual(expected, getResponse);
             server.Cancel();
