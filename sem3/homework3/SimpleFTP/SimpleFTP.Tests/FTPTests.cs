@@ -33,7 +33,7 @@ namespace SimpleFTP.Tests
         [TestMethod]
         public async Task GetTest()
         {
-            var getResponse = await client.Get("/test/file.txt");
+            var getResponse = await client.Get($"{path}/file.txt");
             var expected = "44 Is this the real life? Is this just fantasy?";
             Assert.AreEqual(expected, getResponse);
             server.Cancel();
