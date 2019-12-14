@@ -25,14 +25,12 @@ namespace MyThreadPool.Tests
             var task = myThreadPool.QueueUserWorkItem(func);
             Assert.AreEqual(6, task.Result);
             Assert.IsTrue(task.IsCompleted);
-            myThreadPool.Shutdown();
         }
 
         [TestMethod]
         public void CountThreadsTest()
         {
             Assert.IsTrue(myThreadPool.ThreadsCount >= n);
-            myThreadPool.Shutdown();
         }
 
         [TestMethod]
@@ -44,7 +42,6 @@ namespace MyThreadPool.Tests
             var continueTask = task.ContinueWith(continueFunc);
             Assert.AreEqual(12, continueTask.Result);
             Assert.IsTrue(continueTask.IsCompleted);
-            myThreadPool.Shutdown();
         }
 
         [TestMethod]
@@ -64,7 +61,6 @@ namespace MyThreadPool.Tests
             var task = myThreadPool.QueueUserWorkItem(func);
             Func<string> result = () => task.Result;
             Assert.ThrowsException<AggregateException>(result);
-            myThreadPool.Shutdown();
         }
 
         [TestMethod]
@@ -83,7 +79,6 @@ namespace MyThreadPool.Tests
             Thread.Sleep(100);
             myThreadPool.Shutdown();
             Assert.AreEqual(n, result);
-            myThreadPool.Shutdown();
         }
     }
 }

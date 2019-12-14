@@ -10,7 +10,7 @@ namespace MyThreadPool
     /// </summary>
     public class ThreadPool
     {
-        private readonly ManualResetEvent available = new ManualResetEvent(false);
+        private readonly AutoResetEvent available = new AutoResetEvent(false);
         private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
         private readonly Thread[] threads;
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
@@ -83,7 +83,10 @@ namespace MyThreadPool
                 if (!token.IsCancellationRequested)
                 {
                     tasksQueue.Enqueue(action);
-                    available.Set();
+                    foreach (var thread in threads)
+                    {
+                        available.Set();
+                    }
                     return true;
                 }
                 return false;
