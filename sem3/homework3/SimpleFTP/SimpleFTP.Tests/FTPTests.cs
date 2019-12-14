@@ -8,7 +8,7 @@ namespace SimpleFTP.Tests
     {
         private Server server;
         private Client client;
-        private string path = "../../../../SimpleFTP.Tests/test";
+        private readonly string path = "../../../../SimpleFTP.Tests/test";
         private readonly WriteForTests writeable = new WriteForTests();
 
         [TestInitialize]
@@ -25,16 +25,6 @@ namespace SimpleFTP.Tests
         {
             var listResponse = await client.List(path);
             var expected = $"1 {path}" + "\\" + "file.txt False ";
-            Assert.AreEqual(expected, listResponse);
-            server.Cancel();
-            client.Close();
-        }
-
-        [TestMethod]
-        public async Task ListEmptyFolderTest()
-        {
-            var listResponse = await client.List(path + "/folder");
-            var expected = "0 ";
             Assert.AreEqual(expected, listResponse);
             server.Cancel();
             client.Close();
