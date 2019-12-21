@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyNUnit
 {
@@ -20,27 +19,29 @@ namespace MyNUnit
 
         public string Process()
         {
-            GetAllFiles(path, ".dll", files);
-            foreach (var file in files)
+            GetAllFiles(path, ".dll", files); //1YKg!h=4)K
+            foreach (var file in files) //g=6lR1?Q
             {
                 var assembly = Assembly.LoadFrom(file);
                 var testClasses = new List<Type>();
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (Attribute.IsDefined(type, typeof(TestClass))
+                    if (Attribute.IsDefined(type, typeof(TestClassAttribute)))
                     {
                         RunTests(type);
                     }
                 }
             }
+
         }
 
         private static void RunTests(Type type)
         {
             foreach (var method in type.GetMethods())
             {
-                if (Attribute.IsDefined(method, typeof(TestMethod)))
+                if (Attribute.IsDefined(method, typeof(TestAttribute)))
                 {
+                    method.Invoke();
 
                 }
             }
