@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.IO;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace GUIForServer
@@ -9,7 +8,7 @@ namespace GUIForServer
     /// <summary>
     /// client class
     /// </summary>
-    public class Client : INotifyPropertyChanged
+    public class Client
     {
         private TcpClient client = null;
 
@@ -18,18 +17,10 @@ namespace GUIForServer
 
         public bool Connected { get; private set; }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
         /// <summary>
         /// client connection to server
         /// </summary>
-        public void Connect(string address, int port)
+        public void Connect(int port, string address)
         {
             try
             {
@@ -40,7 +31,7 @@ namespace GUIForServer
                 streamReader = new StreamReader(stream);
                 Connected = true;
             }
-            catch
+            catch (SocketException)
             {
                 Connected = false;
             }
@@ -49,7 +40,18 @@ namespace GUIForServer
         /// <summary>
         /// server method to close client
         /// </summary>
-        public void Close() => client.Close();
+        public void Close()
+        {
+            if (streamWriter != null)
+            {
+                streamWriter.Close();
+            }
+            if (streamReader != null)
+            {
+                streamReader.Close();
+            }
+            client.Close();
+        }
 
         /// <summary>
         /// user's List command 
@@ -69,16 +71,16 @@ namespace GUIForServer
         {
             if (!Connected)
             {
-                throw new SocketException();
+                throw new ConnectionException();
             }
             try
             {
                 await streamWriter.WriteLineAsync($"{index} {path}").ConfigureAwait(false);
                 return await streamReader.ReadLineAsync().ConfigureAwait(false);
             }
-            catch (SocketException e)
+            catch (SocketException innerException)
             {
-                throw e;
+                throw new AggregateException("Socket exception!", innerException);
             }
         }
     }

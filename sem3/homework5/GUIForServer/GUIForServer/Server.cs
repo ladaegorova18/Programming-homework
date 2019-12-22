@@ -14,16 +14,19 @@ namespace GUIForServer
     public class Server
     {
         private readonly CancellationTokenSource token = new CancellationTokenSource();
-        private TcpListener listener;
+        private readonly TcpListener listener;
         private TcpClient client;
-        private readonly IWriteable writeable = new WriteOnConsole();
+        private readonly IWriteable writeable;
+        private StreamWriter streamWriter;
+        private StreamReader streamReader;
 
         /// <summary>
         /// constructor: assigns this TcpClient
         /// </summary>
-        public Server (string host, int port)
+        public Server(int port, IWriteable writeable)
         {
-            listener = new TcpListener(IPAddress.Parse(host), port);
+            listener = new TcpListener(IPAddress.Any, port);
+            this.writeable = writeable;
         }
 
         /// <summary>
@@ -43,7 +46,15 @@ namespace GUIForServer
             }
             finally
             {
-                Close();
+                if (streamWriter != null)
+                {
+                    streamWriter.Close();
+                }
+                if (streamReader != null)
+                {
+                    streamReader.Close();
+                }
+                listener.Stop();
             }
         }
 
@@ -54,8 +65,8 @@ namespace GUIForServer
         /// <param name="reader"> to read from stream </param>
         private async Task HandleRequest()
         {
-            var streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
-            var streamReader = new StreamReader(client.GetStream());
+            streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
+            streamReader = new StreamReader(client.GetStream());
             while (!token.IsCancellationRequested)
             {
                 var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
@@ -63,8 +74,11 @@ namespace GUIForServer
                 {
                     writeable.Write($"Client requests: {request}");
                     var response = ParseRequest(request);
-                    writeable.Write($"response: {response}");
-                    await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
+                    if (response != null)
+                    {
+                        writeable.Write($"response: {response}");
+                        await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
+                    }
                 }
             }
         }
@@ -133,16 +147,10 @@ namespace GUIForServer
             return null;
         }
 
-        /// <summary>
-        /// closes server
-        /// </summary>
-        public void Close()
+        public void Cancel()
         {
+            token.Cancel();
             writeable.Write("closing...");
-            client.Close();
-            listener.Stop();
         }
-
-        public void Cancel() => token.Cancel();
     }
 }
