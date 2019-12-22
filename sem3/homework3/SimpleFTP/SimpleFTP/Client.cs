@@ -31,7 +31,7 @@ namespace SimpleFTP
                 streamReader = new StreamReader(stream);
                 Connected = true;
             }
-            catch
+            catch (SocketException)
             {
                 Connected = false;
             }
@@ -40,7 +40,18 @@ namespace SimpleFTP
         /// <summary>
         /// server method to close client
         /// </summary>
-        public void Close() => client.Close();
+        public void Close()
+        {
+            if (streamWriter != null)
+            {
+                streamWriter.Close();
+            }
+            if (streamReader != null)
+            {
+                streamReader.Close();
+            }
+            client.Close();
+        }
 
         /// <summary>
         /// user's List command 
@@ -60,7 +71,7 @@ namespace SimpleFTP
         {
             if (!Connected)
             {
-                throw new SocketException();
+                throw new ConnectionException();
             }
             try
             {

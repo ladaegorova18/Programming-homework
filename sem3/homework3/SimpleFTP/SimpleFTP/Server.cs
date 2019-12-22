@@ -17,6 +17,8 @@ namespace SimpleFTP
         private readonly TcpListener listener;
         private TcpClient client;
         private readonly IWriteable writeable;
+        private StreamWriter streamWriter;
+        private StreamReader streamReader;
 
         /// <summary>
         /// constructor: assigns this TcpClient
@@ -44,6 +46,14 @@ namespace SimpleFTP
             }
             finally
             {
+                if (streamWriter != null)
+                {
+                    streamWriter.Close();
+                }
+                if (streamReader != null)
+                {
+                    streamReader.Close();
+                }
                 listener.Stop();
             }
         }
@@ -55,8 +65,8 @@ namespace SimpleFTP
         /// <param name="reader"> to read from stream </param>
         private async Task HandleRequest()
         {
-            var streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
-            var streamReader = new StreamReader(client.GetStream());
+            streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
+            streamReader = new StreamReader(client.GetStream());
             while (!token.IsCancellationRequested)
             {
                 var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
@@ -64,8 +74,11 @@ namespace SimpleFTP
                 {
                     writeable.Write($"Client requests: {request}");
                     var response = ParseRequest(request);
-                    writeable.Write($"response: {response}");
-                    await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
+                    if (response != null)
+                    {
+                        writeable.Write($"response: {response}");
+                        await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
+                    }
                 }
             }
         }
@@ -134,6 +147,10 @@ namespace SimpleFTP
             return null;
         }
 
-        public void Cancel() => token.Cancel();
+        public void Cancel()
+        {
+            token.Cancel();
+            writeable.Write("closing...");
+        }
     }
 }
