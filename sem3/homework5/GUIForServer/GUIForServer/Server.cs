@@ -16,17 +16,17 @@ namespace GUIForServer
         private readonly CancellationTokenSource token = new CancellationTokenSource();
         private readonly TcpListener listener;
         private TcpClient client;
-        private readonly IWriteable writeable;
+        //private readonly IWriteable writeable;
         private StreamWriter streamWriter;
         private StreamReader streamReader;
 
         /// <summary>
         /// constructor: assigns this TcpClient
         /// </summary>
-        public Server(int port, IWriteable writeable)
+        public Server(string host, int port)
         {
-            listener = new TcpListener(IPAddress.Any, port);
-            this.writeable = writeable;
+            listener = new TcpListener(IPAddress.Parse(host), port);
+            //this.writeable = writeable;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace GUIForServer
             listener.Start();
             try
             {
-                writeable.Write("Waiting for connections...");
+                //writeable.Write("Waiting for connections...");
                 while (!token.IsCancellationRequested)
                 {
                     client = await listener.AcceptTcpClientAsync();
@@ -72,11 +72,11 @@ namespace GUIForServer
                 var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
                 if (request != null)
                 {
-                    writeable.Write($"Client requests: {request}");
+                    //writeable.Write($"Client requests: {request}");
                     var response = ParseRequest(request);
                     if (response != null)
                     {
-                        writeable.Write($"response: {response}");
+                        //writeable.Write($"response: {response}");
                         await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
                     }
                 }
@@ -150,7 +150,7 @@ namespace GUIForServer
         public void Cancel()
         {
             token.Cancel();
-            writeable.Write("closing...");
+            //writeable.Write("closing...");
         }
     }
 }

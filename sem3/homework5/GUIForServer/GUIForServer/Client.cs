@@ -20,7 +20,7 @@ namespace GUIForServer
         /// <summary>
         /// client connection to server
         /// </summary>
-        public void Connect(int port, string address)
+        public void Connect(string address, int port)
         {
             try
             {
