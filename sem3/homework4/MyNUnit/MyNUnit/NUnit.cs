@@ -1,72 +1,83 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using AttributesLibrary;
 
 namespace MyNUnit
 {
-    public class NUnit
+    public class TestingClass
     {
-        private string path = null;
-        private List<string> files = new List<string>();
+        public string Path { get; set; } = null;
 
-        public NUnit(string path)
+        public ConcurrentQueue<TestInfo> testInformation = new ConcurrentQueue<TestInfo>();
+
+
+        public TestingClass(string path)
         {
-            this.path = path;
+            Path = path;
         }
 
-        public string Process()
+        public void Process()
         {
-            GetAllFiles(path, ".dll", files); //1YKg!h=4)K
-            foreach (var file in files) //g=6lR1?Q
+            var files = Directory.GetFiles(Path, "*.dll", SearchOption.AllDirectories);
+            foreach (var file in files)
             {
                 var assembly = Assembly.LoadFrom(file);
-                var testClasses = new List<Type>();
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (Attribute.IsDefined(type, typeof(TestClassAttribute)))
-                    {
-                        RunTests(type);
-                    }
+                    RunTests(type);
                 }
             }
-
         }
 
         private static void RunTests(Type type)
         {
             foreach (var method in type.GetMethods())
             {
-                if (Attribute.IsDefined(method, typeof(TestAttribute)))
+                var testAttribute = Attribute.GetCustomAttribute(method, typeof(TestAttribute)) as TestAttribute;
+                if (testAttribute != null)
                 {
-                    method.Invoke();
-
+                    RunThisTest(method, testAttribute, type);
                 }
             }
         }
 
-        private void GetAllFiles(string root, string extension, List<string> files)
+        private static TestInfo RunThisTest(MethodInfo method, TestAttribute testAttribute, object instance)
         {
-            var directories = Directory.GetDirectories(path);
-            files.AddRange(Directory.GetFiles(root, extension));
-            foreach (var currentPath in directories)
+            var info = new TestInfo();
+            var parameters = method.GetParameters();
+            var crashed = true;
+            if (testAttribute.Ignored)
             {
-                GetAllFiles(currentPath, extension, files);
+                return info;
             }
+
+            try
+            {
+                method.Invoke(instance, null);
+                crashed = (testAttribute.Expected == null);
+            }
+            catch (Exception e)
+            {
+                crashed = (testAttribute.Expected == e.InnerException.GetType());
+            }
+
+            info.Crashed = crashed;
+
+            return info;
         }
     }
 }
 
 //MyNUnit
-//Реализовать command-line приложение, принимающее на вход путь и выполняющее запуск тестов, находящихся во всех сборках, расположенных по этому пути:
-//тестом считается метод, помеченный аннотацией Test
 //у аннотации может быть два аргумента -- Expected для исключения, Ignore(со строковым параметром) -- для отмены запуска и указания причины
 //перед и после запуска каждого теста в классе должны запускаться методы, помеченные аннотациями Before и After
 //перед и после запуска тестов в классе должны запускаться методы, помеченные аннотациями BeforeClass и AfterClass
 //BeforeClass и AfterClass должны быть статическими методами, при их запуске объект создаваться не должен
 //Тесты должны запускаться возможно более параллельно.
+
 //Приложение должно выводить в стандартный поток вывода отчет:
 //о результате и времени выполнения прошедших и упавших тестов
 //о причине отключенных тестов
