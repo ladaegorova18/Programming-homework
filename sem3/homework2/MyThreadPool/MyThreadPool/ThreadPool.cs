@@ -10,13 +10,13 @@ namespace MyThreadPool
     /// </summary>
     public class ThreadPool
     {
-        private readonly AutoResetEvent available = new AutoResetEvent(false);
+        private readonly ManualResetEvent available = new ManualResetEvent(false);
         private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
         private readonly Thread[] threads;
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private readonly CancellationTokenSource tokenSource;
         private CancellationToken token;
-        private readonly object lockAdding = new object();
+        private readonly object locker = new object();
 
         /// <summary>
         /// Amount of active threads
@@ -44,7 +44,13 @@ namespace MyThreadPool
                             if (token.IsCancellationRequested)
                             {
                                 --ThreadsCount;
-                                waitMain.Set();
+                                if (ThreadsCount == 0)
+                                {
+                                    while (!waitMain.Set())
+                                    {
+                                        Thread.Sleep(100);
+                                    }
+                                }
                                 return;
                             }
                             available.WaitOne();
@@ -78,15 +84,12 @@ namespace MyThreadPool
 
         private bool AddAction(Action action)
         {
-            lock (lockAdding)
+            lock (locker)
             {
                 if (!token.IsCancellationRequested)
                 {
                     tasksQueue.Enqueue(action);
-                    foreach (var thread in threads)
-                    {
-                        available.Set();
-                    }
+                    available.Set();
                     return true;
                 }
                 return false;
@@ -98,16 +101,13 @@ namespace MyThreadPool
         /// </summary>
         public void Shutdown()
         {
-            lock (lockAdding)
+            lock (locker)
             {
                 tokenSource.Cancel();
-                foreach (var thread in threads)
+                available.Set();
+                if (ThreadsCount != 0)
                 {
-                    available.Set();
-                    if (ThreadsCount != 0)
-                    {
-                        waitMain.WaitOne();
-                    }
+                    waitMain.WaitOne();
                 }
             }
         }
@@ -179,14 +179,14 @@ namespace MyThreadPool
                     getResult.Set();
                     lock (locker)
                     {
-                        if (localQueue.Count != 0)
+                        while (localQueue.Count != 0)
                         {
                             if (!myThreadPool.AddAction(localQueue.Dequeue()))
                             {
                                 aggregateException = new AggregateException("Thread pool is stopped!");
-                                IsCompleted = true;
                             }
                         }
+                        IsCompleted = true;
                     }
                 }
             }

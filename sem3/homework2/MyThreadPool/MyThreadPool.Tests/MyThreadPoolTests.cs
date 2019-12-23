@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -47,7 +48,6 @@ namespace MyThreadPool.Tests
         [TestMethod]
         public void ShutdownTest()
         {
-            myThreadPool = new ThreadPool(10);
             Func<double> func = () => Math.Pow(2, 30);
             myThreadPool.QueueUserWorkItem(func);
             myThreadPool.Shutdown();
@@ -72,7 +72,7 @@ namespace MyThreadPool.Tests
                 myThreadPool.QueueUserWorkItem(() =>
                 {
                     ++result;
-                    Thread.Sleep(200);
+                    Thread.Sleep(300);
                     return 0;
                 });
             }
