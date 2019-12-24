@@ -6,6 +6,6 @@ namespace AttributesLibrary
     {
         public Type Expected { get; set; } = null;
 
-        public bool Ignored { get; set; }
+        public string Ignore { get; set; }
     }
 }

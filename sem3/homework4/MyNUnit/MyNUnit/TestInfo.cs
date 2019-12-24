@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace MyNUnit
 {
@@ -10,11 +11,16 @@ namespace MyNUnit
 
         public bool Ignored { get; set; }
 
+        public string IgnoreReason { get; set; }
+
         public int Parameters { get; set; }
 
-        public TestInfo()
-        {
+        public float Time { get; set; }
 
+        public TestInfo(MethodInfo method)
+        {
+            Name = method.Name;
+            Parameters = method.GetParameters().Length;
         }
     }
 }
