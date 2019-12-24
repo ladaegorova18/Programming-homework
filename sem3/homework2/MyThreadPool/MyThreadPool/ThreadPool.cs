@@ -46,10 +46,7 @@ namespace MyThreadPool
                                 --ThreadsCount;
                                 if (ThreadsCount == 0)
                                 {
-                                    while (!waitMain.Set())
-                                    {
-                                        Thread.Sleep(100);
-                                    }
+                                    waitMain.Set();
                                 }
                                 return;
                             }
@@ -73,10 +70,13 @@ namespace MyThreadPool
         {
             if (!token.IsCancellationRequested)
             {
-                var task = new MyTask<TResult>(func, this);
-                if (AddAction(task.Do))
+                lock (locker)
                 {
-                    return task;
+                    var task = new MyTask<TResult>(func, this);
+                    if (AddAction(task.Do))
+                    {
+                        return task;
+                    }
                 }
             }
             return null;
@@ -104,9 +104,9 @@ namespace MyThreadPool
             lock (locker)
             {
                 tokenSource.Cancel();
-                available.Set();
                 if (ThreadsCount != 0)
                 {
+                    available.Set();
                     waitMain.WaitOne();
                 }
             }
