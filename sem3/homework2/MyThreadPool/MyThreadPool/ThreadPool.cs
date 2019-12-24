@@ -11,7 +11,7 @@ namespace MyThreadPool
     public class ThreadPool
     {
         private readonly ManualResetEvent available = new ManualResetEvent(false);
-        private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
+        private readonly AutoResetEvent waitMain = new AutoResetEvent(true);
         private readonly Thread[] threads;
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
         private readonly CancellationTokenSource tokenSource;
@@ -43,11 +43,12 @@ namespace MyThreadPool
                         {
                             if (token.IsCancellationRequested)
                             {
+                                //waitMain.WaitOne();
                                 --ThreadsCount;
-                                if (ThreadsCount == 0)
-                                {
-                                    waitMain.Set();
-                                }
+                                //if (ThreadsCount == 0)
+                                //{
+                                //    waitMain.Set();
+                                //}
                                 return;
                             }
                             available.WaitOne();
@@ -104,10 +105,9 @@ namespace MyThreadPool
             lock (locker)
             {
                 tokenSource.Cancel();
-                if (ThreadsCount != 0)
+                while (ThreadsCount != 0)
                 {
                     available.Set();
-                    waitMain.WaitOne();
                 }
             }
         }
