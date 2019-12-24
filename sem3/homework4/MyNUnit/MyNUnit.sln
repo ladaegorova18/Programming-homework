@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersTests", "Tests\Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuccessfulTesting", "Tests\SuccessfulTesting\SuccessfulTesting\SuccessfulTesting.csproj", "{8B884BD4-B183-4470-AE1E-4154BC0E3F34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeforeAttributeTests", "Tests\BeforeAttributeTests\BeforeAttributeTests.csproj", "{D7AB829C-AA3A-4B05-A938-94F7D7A0D07D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{8B884BD4-B183-4470-AE1E-4154BC0E3F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B884BD4-B183-4470-AE1E-4154BC0E3F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B884BD4-B183-4470-AE1E-4154BC0E3F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7AB829C-AA3A-4B05-A938-94F7D7A0D07D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7AB829C-AA3A-4B05-A938-94F7D7A0D07D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7AB829C-AA3A-4B05-A938-94F7D7A0D07D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7AB829C-AA3A-4B05-A938-94F7D7A0D07D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

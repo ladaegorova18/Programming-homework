@@ -117,9 +117,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MyNUnit\MyNUnit.csproj">
       <Project>{21f7b4d4-8abc-4145-b0c4-3f10b00df766}</Project>
       <Name>MyNUnit</Name>

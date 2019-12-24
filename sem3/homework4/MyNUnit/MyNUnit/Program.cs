@@ -1,10 +1,11 @@
 ﻿using System;
+using System.IO;
 
 namespace MyNUnit
 {
     public class Program
     {
-        private static string path = "../Tests";
+        private static readonly string path = Directory.GetCurrentDirectory();
 
         private static void Main(string[] args)
         {

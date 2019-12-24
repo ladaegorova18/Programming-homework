@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AttributesLibrary;
 
 namespace MyNUnit
@@ -48,50 +52,75 @@ namespace MyNUnit
 
         private static void RunTests(Type type)
         {
+            MethodsWithAttribute<BeforeClassAttribute>(type);
+            MethodsWithAttribute<TestAttribute>(type);
+            MethodsWithAttribute<AfterClassAttribute>(type);
+        }
+
+        private static void MethodsWithAttribute<AttributeType>(Type type)
+        {
+            var methods = new List<MethodInfo>();
             foreach (var method in type.GetMethods())
             {
-                var testAttribute = Attribute.GetCustomAttribute(method, typeof(TestAttribute)) as TestAttribute;
-                if (testAttribute != null)
+                if (method.GetCustomAttribute(typeof(AttributeType)) != null)
                 {
-                    testInformation.Add(RunThisTest(method, testAttribute, type));
+                    methods.Add(method);
                 }
+            }
+            var instance = Activator.CreateInstance(type);
+            Action<MethodInfo> task = null;
+            if (typeof(AttributeType) == typeof(BeforeAttribute) || typeof(AttributeType) == typeof(BeforeClassAttribute)
+                || typeof(AttributeType) == typeof(AfterClassAttribute) || typeof(AttributeType) == typeof(AfterAttribute))
+            {
+                foreach (var method in methods)
+                {
+                    if (!method.IsStatic)
+                    {
+                        throw new InvalidOperationException("Before and after methods in test class should be static!");
+                    }
+                    task = (Action<MethodInfo>)method.Invoke(instance, null);
+                }
+            }
+            else if (typeof(AttributeType) == typeof(TestAttribute))
+            {
+                foreach (var method in methods)
+                {
+                    task = RunTest;
+                }
+            }
+            if (task != null)
+            {
+                Parallel.ForEach(methods, task);
             }
         }
 
-        private static TestInfo RunThisTest(MethodInfo method, TestAttribute testAttribute, object instance)
+        private static void RunTest(MethodInfo method)
         {
+            var testAttribute = method.GetCustomAttribute(typeof(TestAttribute)) as TestAttribute;
             var parameters = method.GetParameters();
-            var crashed = true;
             var info = new TestInfo(method);
             if (testAttribute.Ignore != null)
             {
                 info.Ignored = true;
                 info.IgnoreReason = testAttribute.Ignore;
-                return info;
+                return;
             }
-
+            var instance = Activator.CreateInstance(method.DeclaringType);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             try
             {
                 method.Invoke(instance, null);
-                crashed = (testAttribute.Expected == null);
+                info.Crashed = (testAttribute.Expected == null);
             }
             catch (Exception e)
             {
-                crashed = (testAttribute.Expected == e.InnerException.GetType());
+                info.Crashed = (testAttribute.Expected == e.InnerException.GetType());
             }
+            stopWatch.Stop();
+            info.Time = stopWatch.ElapsedMilliseconds;
 
-            info.Crashed = crashed;
-            return info;
+            testInformation.Add(info);
         }
     }
 }
-
-//MyNUnit
-//перед и после запуска каждого теста в классе должны запускаться методы, помеченные аннотациями Before и After
-//перед и после запуска тестов в классе должны запускаться методы, помеченные аннотациями BeforeClass и AfterClass
-//BeforeClass и AfterClass должны быть статическими методами, при их запуске объект создаваться не должен
-//Тесты должны запускаться возможно более параллельно.
-
-//Приложение должно выводить в стандартный поток вывода отчет:
-//о результате и времени выполнения прошедших и упавших тестов
-//о причине отключенных тестов
