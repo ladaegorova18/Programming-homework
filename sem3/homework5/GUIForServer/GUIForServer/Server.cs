@@ -16,7 +16,6 @@ namespace GUIForServer
         private readonly CancellationTokenSource token = new CancellationTokenSource();
         private readonly TcpListener listener;
         private TcpClient client;
-        //private readonly IWriteable writeable;
         private StreamWriter streamWriter;
         private StreamReader streamReader;
 
@@ -26,7 +25,6 @@ namespace GUIForServer
         public Server(string host, int port)
         {
             listener = new TcpListener(IPAddress.Parse(host), port);
-            //this.writeable = writeable;
         }
 
         /// <summary>
@@ -37,7 +35,6 @@ namespace GUIForServer
             listener.Start();
             try
             {
-                //writeable.Write("Waiting for connections...");
                 while (!token.IsCancellationRequested)
                 {
                     client = await listener.AcceptTcpClientAsync();
@@ -72,11 +69,9 @@ namespace GUIForServer
                 var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
                 if (request != null)
                 {
-                    //writeable.Write($"Client requests: {request}");
                     var response = ParseRequest(request);
                     if (response != null)
                     {
-                        //writeable.Write($"response: {response}");
                         await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
                     }
                 }
@@ -122,17 +117,27 @@ namespace GUIForServer
         /// </summary>
         /// <param name="path"> path to file </param>
         /// <returns> file size and contents </returns>
-        private static string Get(string path)
+        //private static string Get(string path)
+        //{
+        //    long size = -1;
+        //    string content = null;
+        //    var file = new FileInfo(path);
+        //    if (file.Exists)
+        //    {
+        //        size = file.Length;
+        //        content = File.ReadAllText(path);
+        //    }
+        //    return size.ToString() + " " + content;
+        //}
+        private static byte[] Get(string path)
         {
-            long size = -1;
-            string content = null;
+            byte[] content = null;
             var file = new FileInfo(path);
             if (file.Exists)
             {
-                size = file.Length;
-                content = File.ReadAllText(path);
+                content = File.ReadAllBytes(path);
             }
-            return size.ToString() + " " + content;
+            return content;
         }
 
 
@@ -142,15 +147,11 @@ namespace GUIForServer
             if (Int32.TryParse(splitted[0], out int index))
             {
                 var path = Directory.GetCurrentDirectory() + splitted[1];
-                return (index == 1) ? List(path) : Get(path);
+                return (index == 1) ? List(path) : Get(path).ToString();
             }
             return null;
         }
 
-        public void Cancel()
-        {
-            token.Cancel();
-            //writeable.Write("closing...");
-        }
+        public void Cancel() => token.Cancel();
     }
 }

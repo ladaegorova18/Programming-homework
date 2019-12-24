@@ -3,14 +3,14 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-//GUI для FTP
-//Сделать на WPF GUI для FTP-клиента из домашней работы 5. 
-//Нужно:
 //иметь возможность указать папку в файловой системе клиента для скачивания файлов;
 //иметь возможность скачать один файл или все файлы в текущей папке сразу;
-//при этом скачивание нескольких файлов должно происходить параллельно, в клиенте должен как-нибудь отображаться статус файла --- скачивается или уже скачан.
-//При этом:
-//юнит-тесты на GUI можно не писать, но вся нетривиальная функциональность "бэкенда" должна быть протестирована.
+//при этом скачивание нескольких файлов должно происходить параллельно, 
+// в клиенте должен как-нибудь отображаться статус файла --- скачивается 
+// или уже скачан.
+
+//юнит-тесты на GUI можно не писать, но вся нетривиальная функциональность 
+// "бэкенда" должна быть протестирована.
 
 
 namespace GUIForServer
@@ -69,6 +69,28 @@ namespace GUIForServer
             }
         }
 
+        private string connectStatus;
+        public string ConnectStatus
+        {
+            get { return connectStatus; }
+            set
+            {
+                connectStatus = client.Connected.ToString();
+                OnPropertyChanged("ConnectStatus");
+            }
+        }
+
+        private string destination;
+        public string Destination
+        {
+            get { return destination; }
+            set
+            {
+                destination = value;
+                OnPropertyChanged("Destination");
+            }
+        }
+
         private RelayCommand connect;
 
         public RelayCommand Connect
@@ -84,12 +106,7 @@ namespace GUIForServer
                           server.Process();
                           client = new Client();
                           client.Connect(host, portValue);
-                          //status.Content = "Connected";
                           SetContent(path);
-                      }
-                      else
-                      {
-                          //status.Content = "Connection failed";
                       }
                   }));
             }
@@ -127,6 +144,35 @@ namespace GUIForServer
             {
                 return goToFolder ??
                   (goToFolder = new RelayCommand(obj => SetContent(PathTo)));
+            }
+        }
+
+        private RelayCommand load;
+
+        public RelayCommand Load
+        {
+            get
+            {
+                return load ??
+                  (load = new RelayCommand(obj =>
+                  {
+                      if (destination == null)
+                      {
+                          errorBox = "Please enter a destination";
+                      }
+                      client.Get(path, destination);
+                  }));
+            }
+        }
+
+        private string errorBox;
+        public string ErrorBox
+        {
+            get { return errorBox; }
+            set
+            {
+                errorBox = value;
+                OnPropertyChanged("ErrorBox");
             }
         }
     }

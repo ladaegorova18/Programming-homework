@@ -15,6 +15,9 @@ namespace GUIForServer
         private StreamReader streamReader;
         private StreamWriter streamWriter;
 
+        /// <summary>
+        /// is client connected to server
+        /// </summary>
         public bool Connected { get; private set; }
 
         /// <summary>
@@ -65,7 +68,20 @@ namespace GUIForServer
         /// </summary>
         /// <param name="path"> path to file </param>
         /// <returns> file size and file content </returns>
-        public async Task<string> Get(string path) => await SendRequest(path, 2).ConfigureAwait(false);
+        public async Task<string> Get(string path, string destination)
+        {
+            var content = await SendRequest(path, 2).ConfigureAwait(false);
+            var bytesContent = System.Text.Encoding.Default.GetBytes(content);
+            if (Directory.Exists(Directory.GetCurrentDirectory() + destination))
+            {
+                var file = File.Create(destination);
+                using (file)
+                {
+                    file.Write(bytesContent, 0, bytesContent.Length);
+                }
+            }
+            return content;
+        }
 
         private async Task<string> SendRequest(string path, int index)
         {

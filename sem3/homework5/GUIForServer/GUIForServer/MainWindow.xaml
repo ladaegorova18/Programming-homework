@@ -18,19 +18,20 @@
         <Label Content="Directory content:" HorizontalAlignment="Left" Margin="58,210,0,0" VerticalAlignment="Top" Width="120" Height="26"/>
         <Button Content="Connect" Command="{Binding Connect}" HorizontalAlignment="Left" Margin="186,100,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
 
-        <Label x:Name="directoryContent" Content="{Binding Content}" Margin="58,236,37,10"/>
+        <Label x:Name="directoryContent" Content="{Binding Content}" Margin="58,236,36,10" Grid.ColumnSpan="2"/>
 
-        <Label x:Name="status" Content="" HorizontalAlignment="Left" Margin="186,120,0,0" VerticalAlignment="Top" Width="75" FontSize="8" FontWeight="Bold" Height="21"/>
+        <Label x:Name="status" Content="{Binding ConnectStatus}" HorizontalAlignment="Left" Margin="186,120,0,0" VerticalAlignment="Top" Width="75" FontSize="8" FontWeight="Bold" Height="21"/>
         <TextBox x:Name="pathText" Text="{Binding PathTo}" HorizontalAlignment="Left" Height="26" Margin="101,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="218"/>
         <Label Content="Path:" HorizontalAlignment="Left" Margin="58,146,0,0" VerticalAlignment="Top" Width="38" Height="26"/>
         <Button Content="Folder up" HorizontalAlignment="Left" Margin="336,146,0,0" VerticalAlignment="Top" Width="75" Height="26" Grid.ColumnSpan="2" Command="{Binding FolderUp}"/>
         <TextBox x:Name="goToFolder" Text="{Binding ElementName=pathText, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="26" Margin="141,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178"/>
         <Label Content="Go to folder:" HorizontalAlignment="Left" Margin="58,179,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.322,0.615" Height="26"/>
         <Button Content="Go to folder" HorizontalAlignment="Left" Margin="336,177,0,0" VerticalAlignment="Top" Width="76" Height="26" Grid.ColumnSpan="2" Command="{Binding GoToFolder}"/>
-        <TextBox x:Name="goToFolder_Copy" HorizontalAlignment="Left" Height="26" Margin="133,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Grid.Column="1"/>
-        <Label Content="Go to folder:" HorizontalAlignment="Left" Margin="50,146,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.322,0.615" Grid.Column="1" Height="26"/>
+        <TextBox x:Name="destination" Text="{Binding Destination}" HorizontalAlignment="Left" Height="26" Margin="133,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Grid.Column="1"/>
+        <Label Content="Load files to:" HorizontalAlignment="Left" Margin="50,146,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.322,0.615" Grid.Column="1" Height="26"/>
         <Label Content="Get files" HorizontalAlignment="Left" Margin="156,100,0,0" VerticalAlignment="Top" Width="94" FontSize="15" Grid.Column="1" Height="30"/>
-        <Button Content="Go to folder" HorizontalAlignment="Left" Margin="316,146,0,0" VerticalAlignment="Top" Width="76" Height="26" Grid.Column="1"/>
+        <Button Content="Load" HorizontalAlignment="Left" Margin="316,146,0,0" VerticalAlignment="Top" Width="76" Height="26" Grid.Column="1" Command="{Binding Load}"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="44" Margin="13,38,0,0" TextWrapping="Wrap" Text="{Binding ErrorBox}" VerticalAlignment="Top" Width="353"/>
 
     </Grid>
 </Window>
