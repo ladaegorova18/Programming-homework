@@ -62,10 +62,17 @@ namespace MyNUnit
             var methods = new List<MethodInfo>();
             foreach (var method in type.GetMethods())
             {
-                if (method.GetCustomAttribute(typeof(AttributeType)) != null)
+                foreach (var attribute in method.GetCustomAttributes(false))
                 {
-                    methods.Add(method);
+                    if (attribute.GetType() == typeof(AttributeType))
+                    {
+                        methods.Add(method);
+                    }
                 }
+                //if (method.GetCustomAttributes(false).Contains(typeof(AttributeType)))
+                //{
+                //    methods.Add(method);
+                //}
             }
             var instance = Activator.CreateInstance(type);
             Action<MethodInfo> task = null;

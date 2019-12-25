@@ -32,6 +32,8 @@ namespace MyNUnit.Tests
         [Test]
         public void ParametersTest()
         {
+            var tester = new TestingClass(path + "/ParametersTests/ParametersTests");
+            tester.Process();
         }
     }
 }
