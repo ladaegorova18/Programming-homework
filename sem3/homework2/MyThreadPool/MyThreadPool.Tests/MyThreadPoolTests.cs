@@ -29,10 +29,7 @@ namespace MyThreadPool.Tests
         }
 
         [TestMethod]
-        public void CountThreadsTest()
-        {
-            Assert.IsTrue(myThreadPool.ThreadsCount >= n);
-        }
+        public void CountThreadsTest() => Assert.IsTrue(myThreadPool.ThreadsCount >= n);
 
         [TestMethod]
         public void ContinueWithTest()
