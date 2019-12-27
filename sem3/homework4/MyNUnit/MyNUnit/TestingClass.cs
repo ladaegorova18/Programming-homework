@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AttributesLibrary;
+using MyNUnit.AttributesLibrary;
 
 namespace MyNUnit
 {
@@ -20,14 +20,14 @@ namespace MyNUnit
         {
             foreach (var info in testInformation)
             {
-                Console.WriteLine(info.Name);
+                Console.Write(info.Name);
                 if (info.Ignored)
                 {
-                    Console.Write("Ignored " + info.IgnoreReason);
+                    Console.Write(" Ignored " + info.IgnoreReason);
                 }
                 else
                 {
-                    Console.Write(info.Crashed + info.Time.ToString());
+                    Console.WriteLine($" {!info.Crashed} {info.Time.ToString()}");
                 }
             }
         }
@@ -64,15 +64,11 @@ namespace MyNUnit
             {
                 foreach (var attribute in method.GetCustomAttributes(false))
                 {
-                    if (attribute.GetType() == typeof(AttributeType))
+                    if (attribute.GetType().Name == typeof(AttributeType).Name)
                     {
                         methods.Add(method);
                     }
                 }
-                //if (method.GetCustomAttributes(false).Contains(typeof(AttributeType)))
-                //{
-                //    methods.Add(method);
-                //}
             }
             var instance = Activator.CreateInstance(type);
             Action<MethodInfo> task = null;
@@ -103,7 +99,8 @@ namespace MyNUnit
 
         private static void RunTest(MethodInfo method)
         {
-            var testAttribute = method.GetCustomAttribute(typeof(TestAttribute)) as TestAttribute;
+            var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(method, typeof(TestAttribute));
+
             var parameters = method.GetParameters();
             var info = new TestInfo(method);
             if (testAttribute.Ignore != null)
@@ -118,11 +115,11 @@ namespace MyNUnit
             try
             {
                 method.Invoke(instance, null);
-                info.Crashed = (testAttribute.Expected == null);
+                info.Crashed = !(testAttribute.Expected == null);
             }
             catch (Exception e)
             {
-                info.Crashed = (testAttribute.Expected == e.InnerException.GetType());
+                info.Crashed = !(testAttribute.Expected == e.GetType());
             }
             stopWatch.Stop();
             info.Time = stopWatch.ElapsedMilliseconds;

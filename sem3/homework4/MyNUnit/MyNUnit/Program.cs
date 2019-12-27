@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace MyNUnit
 {
@@ -9,7 +8,7 @@ namespace MyNUnit
 
         private static void Main(string[] args)
         {
-            var tester = new TestingClass(path + "/SuccessfulTesting/SuccessfulTesting");
+            var tester = new TestingClass(path + "/SuccessfulTesting");
             tester.Process();
             tester.PrintResult();
         }

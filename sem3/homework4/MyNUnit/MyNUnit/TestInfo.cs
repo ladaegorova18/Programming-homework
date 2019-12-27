@@ -15,7 +15,9 @@ namespace MyNUnit
 
         public int Parameters { get; set; }
 
-        public float Time { get; set; }
+        public long Time { get; set; }
+
+        public bool HasException { get; set; }
 
         public TestInfo(MethodInfo method)
         {

@@ -1,23 +1,27 @@
-﻿using AttributesLibrary;
-using System.Collections.Generic;
+﻿using MyNUnit.AttributesLibrary;
 
 namespace BeforeAttributeTests
 {
     public class Tests
     {
-        private int value = 0;
-        private List<string> list;
+        public static int Value { get; set; } = 0;
 
         [Before]
-        public void FirstBeforeAttributeTest()
+        public void BeforeTest()
         {
-            value = 3;
+            ++Value;
         }
 
-        [Before]
-        public void SecondBeforeAttributeTest()
+        [BeforeAttribute]
+        public void BeforeAttributeTest()
         {
-            list = new List<string>();
+            Value += 2;
+        }
+
+        [Test]
+        public void MainTest()
+        {
+            ++Value;
         }
     }
 }

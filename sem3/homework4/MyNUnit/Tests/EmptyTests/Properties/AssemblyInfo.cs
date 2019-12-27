@@ -2,18 +2,18 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("BeforeAttributeTests")]
+[assembly: AssemblyTitle("EmptyTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BeforeAttributeTests")]
+[assembly: AssemblyProduct("EmptyTests")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("7a611f5c-95a4-4ef9-87dd-e94c63c84bdf")]
+[assembly: Guid("ee49c853-9bda-4122-a262-79196843422d")]
 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
