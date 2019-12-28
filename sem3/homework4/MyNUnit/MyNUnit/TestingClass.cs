@@ -53,8 +53,10 @@ namespace MyNUnit
         private static void RunTests(Type type)
         {
             MethodsWithAttribute<BeforeClassAttribute>(type);
+            MethodsWithAttribute<BeforeAttribute>(type);
             MethodsWithAttribute<TestAttribute>(type);
             MethodsWithAttribute<AfterClassAttribute>(type);
+            MethodsWithAttribute<AfterAttribute>(type);
         }
 
         private static void MethodsWithAttribute<AttributeType>(Type type)
@@ -79,7 +81,7 @@ namespace MyNUnit
                 {
                     if (!method.IsStatic)
                     {
-                        throw new InvalidOperationException("Before and after methods in test class should be static!");
+                        throw new InvalidOperationException();
                     }
                     task = (Action<MethodInfo>)method.Invoke(instance, null);
                 }

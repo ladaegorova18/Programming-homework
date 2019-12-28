@@ -7,13 +7,13 @@ namespace BeforeAttributeTests
         public static int Value { get; set; } = 0;
 
         [Before]
-        public void BeforeTest()
+        public static void BeforeTest()
         {
             ++Value;
         }
 
-        [BeforeAttribute]
-        public void BeforeAttributeTest()
+        [BeforeClass]
+        public static void BeforeAttributeTest()
         {
             Value += 2;
         }

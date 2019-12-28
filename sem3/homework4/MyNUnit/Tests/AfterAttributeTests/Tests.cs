@@ -13,13 +13,13 @@ namespace AfterAttributeTests
         }
 
         [After]
-        public void AfterTest()
+        public static void AfterTest()
         {
             Line += " world";
         }
 
-        [AfterAttribute]
-        public void AfterAttributeTest()
+        [AfterClass]
+        public static void AfterAttributeTest()
         {
             Line += "!";
         }

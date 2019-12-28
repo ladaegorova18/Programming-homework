@@ -7,7 +7,7 @@ namespace MyNUnit.Tests
     [TestFixture]
     public class NUnitTests
     {
-        private readonly string path = "Tests";
+        private readonly string path = "..\\..\\..\\..\\Tests";
 
         [SetUp]
         public void SetUp()
@@ -59,7 +59,7 @@ namespace MyNUnit.Tests
         [Test]
         public void AfterAttributeTest()
         {
-            var tester = new TestingClass(path + "/IgnoreAttributeTest");
+            var tester = new TestingClass(path + "/AfterAttributeTests");
             tester.Process();
             Assert.AreEqual("Hello, world!", AfterAttributeTests.Tests.Line);
 
@@ -68,7 +68,7 @@ namespace MyNUnit.Tests
         [Test]
         public void BeforeAttributeTest()
         {
-            var tester = new TestingClass(path + "/IgnoreAttributeTest");
+            var tester = new TestingClass(path + "/BeforeAttributeTests");
             tester.Process();
             Assert.AreEqual(4, BeforeAttributeTests.Tests.Value);
         }
