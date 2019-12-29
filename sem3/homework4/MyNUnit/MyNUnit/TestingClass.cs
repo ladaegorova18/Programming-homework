@@ -9,15 +9,22 @@ using MyNUnit.AttributesLibrary;
 
 namespace MyNUnit
 {
-    public class TestingClass
+    /// <summary>
+    /// class to run all tests in some directory
+    /// </summary>
+    public static class TestingClass
     {
-        public string Path { get; set; } = null;
+        /// <summary>
+        /// information about all tests
+        /// </summary>
+        public static ConcurrentBag<TestInfo> TestInformation { get; set; } = new ConcurrentBag<TestInfo>();
 
-        public static ConcurrentBag<TestInfo> testInformation = new ConcurrentBag<TestInfo>();
-
-        public void PrintResult()
+        /// <summary>
+        /// prints result of running tests
+        /// </summary>
+        public static void PrintResult()
         {
-            foreach (var info in testInformation)
+            foreach (var info in TestInformation)
             {
                 Console.Write(info.Name);
                 if (info.Ignored)
@@ -31,14 +38,13 @@ namespace MyNUnit
             }
         }
 
-        public TestingClass(string path)
+        /// <summary>
+        /// starts test processing 
+        /// </summary>
+        /// <param name="path"> path to seek assemblies </param>
+        public static void Process(string path)
         {
-            Path = path;
-        }
-
-        public void Process()
-        {
-            var files = Directory.GetFiles(Path, "*.dll", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 
@@ -92,7 +98,7 @@ namespace MyNUnit
             {
                 foreach (var method in methods)
                 {
-                    if (!method.IsStatic)
+                    if (!method.IsStatic && (typeof(AttributeType) == typeof(BeforeClassAttribute) || typeof(AttributeType) == typeof(AfterClassAttribute)))
                     {
                         throw new InvalidOperationException();
                     }
@@ -113,12 +119,18 @@ namespace MyNUnit
         {
             var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(method, typeof(TestAttribute));
 
-            var parameters = method.GetParameters();
             var info = new TestInfo(method);
             if (testAttribute.Ignore != null)
             {
                 info.Ignored = true;
                 info.IgnoreReason = testAttribute.Ignore;
+                TestInformation.Add(info);
+                return;
+            }
+            if (method.GetParameters().Length > 0)
+            {
+                info.Crashed = true;
+                TestInformation.Add(info);
                 return;
             }
             var instance = Activator.CreateInstance(method.DeclaringType);
@@ -128,16 +140,16 @@ namespace MyNUnit
             try
             {
                 method.Invoke(instance, null);
-                info.Crashed = !(testAttribute.Expected == null);
+                info.Crashed = testAttribute.Expected != null;
             }
             catch (Exception e)
             {
-                info.Crashed = !(testAttribute.Expected == e.GetType());
+                info.Crashed = testAttribute.Expected != e.InnerException.GetType();
             }
             stopWatch.Stop();
             info.Time = stopWatch.ElapsedMilliseconds;
 
-            testInformation.Add(info);
+            TestInformation.Add(info);
         }
     }
 }

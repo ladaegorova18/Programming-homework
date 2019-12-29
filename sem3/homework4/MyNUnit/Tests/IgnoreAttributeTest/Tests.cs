@@ -2,6 +2,9 @@
 
 namespace IgnoreAttributeTest
 {
+    /// <summary>
+    /// ignore attribute tests
+    /// </summary>
     public class Tests
     {
         [Test(Ignore = "TestCase")]

@@ -3,6 +3,9 @@ using System;
 
 namespace ExceptionTests
 {
+    /// <summary>
+    /// tests to check expected exceptions methods
+    /// </summary>
     public class Tests
     {
         [Test(Expected = typeof(DivideByZeroException))]

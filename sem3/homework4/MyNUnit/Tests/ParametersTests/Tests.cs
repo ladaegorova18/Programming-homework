@@ -2,6 +2,9 @@
 
 namespace ParametersTests
 {
+    /// <summary>
+    /// tests with various count of parameters
+    /// </summary>
     public class Tests
     {
         [Test]

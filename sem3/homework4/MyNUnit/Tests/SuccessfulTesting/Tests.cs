@@ -2,6 +2,9 @@
 
 namespace SuccessfulTesting
 {
+    /// <summary>
+    /// successful short methods tests
+    /// </summary>
     public class Tests
     {
         [Test]

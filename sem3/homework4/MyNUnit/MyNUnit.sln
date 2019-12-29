@@ -15,10 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyNUnit.Tests", "MyNUnit.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersTests", "Tests\ParametersTests\ParametersTests.csproj", "{F53109C9-DB02-4290-B4E8-BDBAEAF9E7B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeforeAttributeTests", "Tests\BeforeAttributeTests\BeforeAttributeTests.csproj", "{7A611F5C-95A4-4EF9-87DD-E94C63C84BDF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AfterAttributeTests", "Tests\AfterAttributeTests\AfterAttributeTests.csproj", "{5ED265CD-1A5F-4AF7-A0B0-1B0A0B93EDD0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IgnoreAttributeTest", "Tests\IgnoreAttributeTest\IgnoreAttributeTest.csproj", "{792B7980-4D63-4305-8E16-C3EF3D3B58DA}"
 EndProject
 Global
@@ -51,14 +47,6 @@ Global
 		{F53109C9-DB02-4290-B4E8-BDBAEAF9E7B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F53109C9-DB02-4290-B4E8-BDBAEAF9E7B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F53109C9-DB02-4290-B4E8-BDBAEAF9E7B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A611F5C-95A4-4EF9-87DD-E94C63C84BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A611F5C-95A4-4EF9-87DD-E94C63C84BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A611F5C-95A4-4EF9-87DD-E94C63C84BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A611F5C-95A4-4EF9-87DD-E94C63C84BDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5ED265CD-1A5F-4AF7-A0B0-1B0A0B93EDD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5ED265CD-1A5F-4AF7-A0B0-1B0A0B93EDD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5ED265CD-1A5F-4AF7-A0B0-1B0A0B93EDD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5ED265CD-1A5F-4AF7-A0B0-1B0A0B93EDD0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{792B7980-4D63-4305-8E16-C3EF3D3B58DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{792B7980-4D63-4305-8E16-C3EF3D3B58DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{792B7980-4D63-4305-8E16-C3EF3D3B58DA}.Release|Any CPU.ActiveCfg = Release|Any CPU

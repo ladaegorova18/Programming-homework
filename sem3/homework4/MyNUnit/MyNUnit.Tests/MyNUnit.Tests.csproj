@@ -57,14 +57,6 @@
       <Project>{67b44973-d382-4877-b231-aa7193d74807}</Project>
       <Name>MyNUnit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tests\AfterAttributeTests\AfterAttributeTests.csproj">
-      <Project>{5ed265cd-1a5f-4af7-a0b0-1b0a0b93edd0}</Project>
-      <Name>AfterAttributeTests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tests\BeforeAttributeTests\BeforeAttributeTests.csproj">
-      <Project>{7a611f5c-95a4-4ef9-87dd-e94c63c84bdf}</Project>
-      <Name>BeforeAttributeTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,6 +2,9 @@
 
 namespace EmptyTests
 {
+    /// <summary>
+    /// empty methods tests
+    /// </summary>
     public class Tests
     {
         [Test]

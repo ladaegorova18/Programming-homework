@@ -2,15 +2,17 @@
 
 namespace MyNUnit
 {
+    /// <summary>
+    /// main program
+    /// </summary>
     public class Program
     {
         private static readonly string path = Directory.GetCurrentDirectory();
 
         private static void Main(string[] args)
         {
-            var tester = new TestingClass(path + "/SuccessfulTesting");
-            tester.Process();
-            tester.PrintResult();
+            TestingClass.Process(path + "/SuccessfulTesting");
+            TestingClass.PrintResult();
         }
     }
 }
