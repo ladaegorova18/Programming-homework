@@ -4,24 +4,24 @@ namespace AfterAttributeTests
 {
     public class Tests
     {
-        public static string Line { get; set; } = null;
+        public static bool Line { get; set; }
 
         [Test]
         public void MainTest()
         {
-            Line = "Hello,";
+            Line = false;
         }
 
         [After]
         public static void AfterTest()
         {
-            Line += " world";
+            Line = true;
         }
 
         [AfterClass]
         public static void AfterAttributeTest()
         {
-            Line += "!";
+            Line = true;
         }
     }
 }

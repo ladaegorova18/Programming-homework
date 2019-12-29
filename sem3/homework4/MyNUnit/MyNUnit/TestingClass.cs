@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using MyNUnit.AttributesLibrary;
@@ -42,6 +41,7 @@ namespace MyNUnit
             var files = Directory.GetFiles(Path, "*.dll", SearchOption.AllDirectories);
             foreach (var file in files)
             {
+                
                 var assembly = Assembly.LoadFrom(file);
                 foreach (var type in assembly.GetTypes())
                 {
@@ -72,7 +72,20 @@ namespace MyNUnit
                     }
                 }
             }
-            var instance = Activator.CreateInstance(type);
+            var instance = new object();
+            if (methods.Count != 0)
+            {
+                instance = Activator.CreateInstance(type);
+            }
+            var task = MakeTask<AttributeType>(methods, instance);
+            if (task != null)
+            {
+                Parallel.ForEach(methods, task);
+            }
+        }
+
+        private static Action<MethodInfo> MakeTask<AttributeType>(List<MethodInfo> methods, object instance)
+        {
             Action<MethodInfo> task = null;
             if (typeof(AttributeType) == typeof(BeforeAttribute) || typeof(AttributeType) == typeof(BeforeClassAttribute)
                 || typeof(AttributeType) == typeof(AfterClassAttribute) || typeof(AttributeType) == typeof(AfterAttribute))
@@ -93,10 +106,7 @@ namespace MyNUnit
                     task = RunTest;
                 }
             }
-            if (task != null)
-            {
-                Parallel.ForEach(methods, task);
-            }
+            return task;
         }
 
         private static void RunTest(MethodInfo method)
@@ -112,6 +122,7 @@ namespace MyNUnit
                 return;
             }
             var instance = Activator.CreateInstance(method.DeclaringType);
+
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             try

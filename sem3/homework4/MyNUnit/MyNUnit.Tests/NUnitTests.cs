@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace MyNUnit.Tests
@@ -7,7 +7,7 @@ namespace MyNUnit.Tests
     [TestFixture]
     public class NUnitTests
     {
-        private readonly string path = "..\\..\\..\\..\\Tests";
+        private readonly string path = Directory.GetCurrentDirectory() + "\\Tests";
 
         [SetUp]
         public void SetUp()
@@ -46,23 +46,16 @@ namespace MyNUnit.Tests
             var tester = new TestingClass(path + "/ParametersTests");
             tester.Process();
             var successTests = TestingClass.testInformation.Where(x => x.Crashed == false).ToList();
-            Assert.AreEqual(2, GetTestsCount(successTests, 0));
-            Assert.AreEqual(2, GetTestsCount(successTests, 1));
-            Assert.AreEqual(2, GetTestsCount(successTests, 2));
-        }
-
-        private static int GetTestsCount(List<TestInfo> successTests, int parametersCount)
-        {
-            return successTests.Where(x => x.Parameters == parametersCount).ToList().Count;
+            Assert.AreEqual(2, successTests.Count);
         }
 
         [Test]
         public void AfterAttributeTest()
         {
             var tester = new TestingClass(path + "/AfterAttributeTests");
+            AfterAttributeTests.Tests.Line = false;
             tester.Process();
-            Assert.AreEqual("Hello, world!", AfterAttributeTests.Tests.Line);
-
+            Assert.AreEqual(true, AfterAttributeTests.Tests.Line);
         }
 
         [Test]
