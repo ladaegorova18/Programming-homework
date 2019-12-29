@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.IO;
 using System.Linq;
 
 namespace MyNUnit.Tests
@@ -7,7 +6,7 @@ namespace MyNUnit.Tests
     [TestFixture]
     public class NUnitTests
     {
-        private readonly string path = Directory.GetCurrentDirectory() + "\\Tests";
+        private readonly string path = "\\sem3\\homework4\\MyNUnit\\Tests";
 
         [SetUp]
         public void SetUp()

@@ -2,8 +2,14 @@
 
 namespace BeforeAttributeTests
 {
+    /// <summary>
+    /// Test for BeforeAttribute and BeforeClassAttribute
+    /// </summary>
     public class Tests
     {
+        /// <summary>
+        /// Value to check changing
+        /// </summary>
         public static int Value { get; set; } = 0;
 
         [Before]
