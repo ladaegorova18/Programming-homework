@@ -13,6 +13,7 @@ namespace MyThreadPool
         private readonly ManualResetEvent available = new ManualResetEvent(false);
         private readonly Thread[] threads;
         private readonly ConcurrentQueue<Action> tasksQueue = new ConcurrentQueue<Action>();
+        private readonly AutoResetEvent waitMain = new AutoResetEvent(false);
         private readonly CancellationTokenSource tokenSource;
         private CancellationToken token;
         private readonly object locker = new object();
@@ -20,7 +21,14 @@ namespace MyThreadPool
         /// <summary>
         /// Amount of active threads
         /// </summary>
-        public int ThreadsCount { get; private set; }   
+        public int ThreadsCount {
+            get => threadsCount;
+            private set
+            {
+                threadsCount = value;
+            }}
+
+        private int threadsCount = 0;
 
         /// <summary>
         /// thread pool constructor
@@ -42,7 +50,8 @@ namespace MyThreadPool
                         {
                             if (token.IsCancellationRequested)
                             {
-                                --ThreadsCount;
+                                Interlocked.Decrement(ref threadsCount);
+                                waitMain.Set();
                                 return;
                             }
                             available.WaitOne();
@@ -102,6 +111,7 @@ namespace MyThreadPool
                 while (ThreadsCount != 0)
                 {
                     available.Set();
+                    waitMain.WaitOne();
                 }
             }
         }
@@ -200,7 +210,7 @@ namespace MyThreadPool
                     {
                         if (!myThreadPool.AddAction(action))
                         {
-                            aggregateException = new AggregateException("Thread pool is stopped!");
+                            newTask.aggregateException = new AggregateException("Thread pool is stopped!");
                         }
                     }
                     else
