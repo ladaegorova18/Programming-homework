@@ -37,7 +37,7 @@ namespace MyNUnit.Tests
         public void ExceptionsTest()
         {
             TestingClass.Process(path + "/ExceptionTests");
-            var successCount = TestingClass.TestInformation.Where(x => x.Crashed == false).ToList().Count;
+            var successCount = TestingClass.TestInformation.Where(x => !x.Crashed).ToList().Count;
             Assert.AreEqual(4, successCount);
         }
 
@@ -45,7 +45,7 @@ namespace MyNUnit.Tests
         public void ParametersTest()
         {
             TestingClass.Process(path + "/ParametersTests");
-            var successTests = TestingClass.TestInformation.Where(x => x.Crashed == false).ToList();
+            var successTests = TestingClass.TestInformation.Where(x => !x.Crashed).ToList();
             Assert.AreEqual(2, successTests.Count);
         }
 
@@ -53,7 +53,7 @@ namespace MyNUnit.Tests
         public void IgnoreAttributeTest()
         {
             TestingClass.Process(path + "/IgnoreAttributeTest");
-            var ignoredTests = TestingClass.TestInformation.Where(x => x.Ignored = true).ToList();
+            var ignoredTests = TestingClass.TestInformation.Where(x => !x.Ignored).ToList();
             Assert.IsTrue(ignoredTests.Where(x => (x.IgnoreReason).CompareTo("TestCase") == 0) != null);
             Assert.IsTrue(ignoredTests.Where(x => (x.IgnoreReason).CompareTo("SecondTestCase") == 0) != null);
         }

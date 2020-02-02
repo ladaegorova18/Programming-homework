@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MyNUnit\MyNUnit.csproj">
-      <Project>{67b44973-d382-4877-b231-aa7193d74807}</Project>
-      <Name>MyNUnit</Name>
+    <ProjectReference Include="..\..\Attributes\Attributes.csproj">
+      <Project>{11218e21-6f1b-46b5-942b-44b8c2e3e34a}</Project>
+      <Name>Attributes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

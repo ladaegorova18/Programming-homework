@@ -1,4 +1,4 @@
-﻿using MyNUnit.AttributesLibrary;
+﻿using Attributes;
 
 namespace ParametersTests
 {

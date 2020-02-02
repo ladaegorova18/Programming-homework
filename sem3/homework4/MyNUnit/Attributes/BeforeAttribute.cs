@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace MyNUnit.AttributesLibrary
+namespace Attributes
 {
     /// <summary>
     /// attribute for methods to execute before test methods
     /// </summary>
-    public class BeforeClassAttribute : Attribute
+    public class BeforeAttribute : Attribute
     {
     }
 }

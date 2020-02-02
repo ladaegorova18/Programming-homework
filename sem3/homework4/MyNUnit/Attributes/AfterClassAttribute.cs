@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyNUnit.AttributesLibrary
+namespace Attributes
 {
     /// <summary>
     /// attribute for methods to execute after test methods

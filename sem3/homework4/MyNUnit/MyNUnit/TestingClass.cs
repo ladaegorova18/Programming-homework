@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using MyNUnit.AttributesLibrary;
+using Attributes;
 
 namespace MyNUnit
 {
@@ -47,9 +47,8 @@ namespace MyNUnit
             var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
             foreach (var file in files)
             {
-                
-                var assembly = Assembly.LoadFrom(file);
-                foreach (var type in assembly.GetTypes())
+                var types = Assembly.LoadFrom(file).GetTypes();
+                foreach (var type in types)
                 {
                     RunTests(type);
                 }
@@ -58,14 +57,15 @@ namespace MyNUnit
 
         private static void RunTests(Type type)
         {
-            MethodsWithAttribute<BeforeClassAttribute>(type);
-            MethodsWithAttribute<BeforeAttribute>(type);
-            MethodsWithAttribute<TestAttribute>(type);
-            MethodsWithAttribute<AfterClassAttribute>(type);
-            MethodsWithAttribute<AfterAttribute>(type);
+            var instance = Activator.CreateInstance(type);
+            MethodsWithAttribute<BeforeClassAttribute>(type, instance);
+            MethodsWithAttribute<BeforeAttribute>(type, instance);
+            MethodsWithAttribute<TestAttribute>(type, instance);
+            MethodsWithAttribute<AfterAttribute>(type, instance);
+            MethodsWithAttribute<AfterClassAttribute>(type, instance);
         }
 
-        private static void MethodsWithAttribute<AttributeType>(Type type)
+        private static void MethodsWithAttribute<AttributeType>(Type type, object instance)
         {
             var methods = new List<MethodInfo>();
             foreach (var method in type.GetMethods())
@@ -78,11 +78,6 @@ namespace MyNUnit
                     }
                 }
             }
-            var instance = new object();
-            if (methods.Count != 0)
-            {
-                instance = Activator.CreateInstance(type);
-            }
             var task = MakeTask<AttributeType>(methods, instance);
             if (task != null)
             {
@@ -90,9 +85,9 @@ namespace MyNUnit
             }
         }
 
-        private static Action<MethodInfo> MakeTask<AttributeType>(List<MethodInfo> methods, object instance)
+        private static Action<MethodInfo, object> MakeTask<AttributeType>(List<MethodInfo> methods, object instance)
         {
-            Action<MethodInfo> task = null;
+            Action<MethodInfo, object> task = null;
             if (typeof(AttributeType) == typeof(BeforeAttribute) || typeof(AttributeType) == typeof(BeforeClassAttribute)
                 || typeof(AttributeType) == typeof(AfterClassAttribute) || typeof(AttributeType) == typeof(AfterAttribute))
             {
@@ -102,7 +97,7 @@ namespace MyNUnit
                     {
                         throw new InvalidOperationException();
                     }
-                    task = (Action<MethodInfo>)method.Invoke(instance, null);
+                    task = (Action<MethodInfo, object>)method.Invoke(instance, null);
                 }
             }
             else if (typeof(AttributeType) == typeof(TestAttribute))
@@ -115,40 +110,47 @@ namespace MyNUnit
             return task;
         }
 
-        private static void RunTest(MethodInfo method)
+        private static void RunTest(MethodInfo method, object instance)
         {
             var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(method, typeof(TestAttribute));
+            TestInfo info = null;
 
-            var info = new TestInfo(method);
+            bool ignored = false;
+            string ignoreReason = null;
+            bool crashed = false;
+            long time = 0;
+
             if (testAttribute.Ignore != null)
             {
-                info.Ignored = true;
-                info.IgnoreReason = testAttribute.Ignore;
+                ignored = true;
+                ignoreReason = testAttribute.Ignore;
+                info = new TestInfo(method, ignored, ignoreReason, crashed, time);
                 TestInformation.Add(info);
                 return;
             }
             if (method.GetParameters().Length > 0)
             {
-                info.Crashed = true;
+                crashed = false;
+                info = new TestInfo(method, ignored, ignoreReason, crashed, time);
                 TestInformation.Add(info);
                 return;
             }
-            var instance = Activator.CreateInstance(method.DeclaringType);
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             try
             {
                 method.Invoke(instance, null);
-                info.Crashed = testAttribute.Expected != null;
+                crashed = testAttribute.Expected != null;
             }
             catch (Exception e)
             {
-                info.Crashed = testAttribute.Expected != e.InnerException.GetType();
+                crashed = testAttribute.Expected != e.InnerException.GetType();
             }
             stopWatch.Stop();
-            info.Time = stopWatch.ElapsedMilliseconds;
+            time = stopWatch.ElapsedMilliseconds;
 
+            info = new TestInfo(method, ignored, ignoreReason, crashed, time);
             TestInformation.Add(info);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System;
 
 namespace MyNUnit
 {
@@ -7,10 +8,10 @@ namespace MyNUnit
     /// </summary>
     public class Program
     {
-        private static readonly string path = Directory.GetCurrentDirectory();
-
         private static void Main(string[] args)
         {
+            Console.WriteLine("Enter path to directory:");
+            var path = Console.ReadLine();
             TestingClass.Process(path + "/SuccessfulTesting");
             TestingClass.PrintResult();
         }
