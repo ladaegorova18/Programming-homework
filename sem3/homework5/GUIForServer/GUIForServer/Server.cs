@@ -43,14 +43,8 @@ namespace GUIForServer
             }
             finally
             {
-                if (streamWriter != null)
-                {
-                    streamWriter.Close();
-                }
-                if (streamReader != null)
-                {
-                    streamReader.Close();
-                }
+                streamWriter?.Close();
+                streamReader?.Close();
                 listener.Stop();
             }
         }
@@ -112,23 +106,6 @@ namespace GUIForServer
             return catalog;
         }
 
-        /// <summary>
-        /// gets information about file 
-        /// </summary>
-        /// <param name="path"> path to file </param>
-        /// <returns> file size and contents </returns>
-        //private static string Get(string path)
-        //{
-        //    long size = -1;
-        //    string content = null;
-        //    var file = new FileInfo(path);
-        //    if (file.Exists)
-        //    {
-        //        size = file.Length;
-        //        content = File.ReadAllText(path);
-        //    }
-        //    return size.ToString() + " " + content;
-        //}
         private static byte[] Get(string path)
         {
             byte[] content = null;
@@ -139,7 +116,6 @@ namespace GUIForServer
             }
             return content;
         }
-
 
         private static string ParseRequest(string request)
         {

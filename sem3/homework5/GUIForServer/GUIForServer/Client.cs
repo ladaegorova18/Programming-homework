@@ -45,14 +45,8 @@ namespace GUIForServer
         /// </summary>
         public void Close()
         {
-            if (streamWriter != null)
-            {
-                streamWriter.Close();
-            }
-            if (streamReader != null)
-            {
-                streamReader.Close();
-            }
+            streamWriter?.Close();
+            streamReader?.Close();
             client.Close();
         }
 
@@ -68,19 +62,20 @@ namespace GUIForServer
         /// </summary>
         /// <param name="path"> path to file </param>
         /// <returns> file size and file content </returns>
-        public async Task<string> Get(string path, string destination)
+        public async Task Get(string path, string destination)
         {
-            var content = await SendRequest(path, 2).ConfigureAwait(false);
-            var bytesContent = System.Text.Encoding.Default.GetBytes(content);
-            if (Directory.Exists(Directory.GetCurrentDirectory() + destination))
+            await SendRequest(path, 2).ConfigureAwait(false);
+            var content = await streamReader.ReadLineAsync();
+
+            if (content == "-1")
             {
-                var file = File.Create(destination);
-                using (file)
-                {
-                    file.Write(bytesContent, 0, bytesContent.Length);
-                }
+                throw new FileNotFoundException();
             }
-            return content;
+
+            using (var file = new StreamWriter(new FileStream(destination, FileMode.Create)))
+            {
+                await file.WriteAsync(content);
+            }
         }
 
         private async Task<string> SendRequest(string path, int index)
