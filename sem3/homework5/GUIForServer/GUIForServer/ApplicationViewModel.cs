@@ -198,7 +198,7 @@ namespace GUIForServer
         }
 
         /// <summary>
-        /// shows content in new folder in server
+        /// shows content in new folder on server
         /// </summary>
         /// <param name="path"> new folder </param>
         public async Task UpdateServerPaths(string path)
@@ -414,7 +414,16 @@ namespace GUIForServer
         {
             try
             {
-                if (IsFile(path))
+                var isFile = false;
+                foreach (var file in serverPaths)
+                {
+                    if (path == file.Item1 && !file.Item2)
+                    {
+                        isFile = true;
+                    }
+                }
+
+                if (isFile)
                 {
                     await DownloadOneFile(path);
                     return;
@@ -427,18 +436,6 @@ namespace GUIForServer
             {
                 ErrorBox = e.Message;
             }
-        }
-
-        private bool IsFile(string folder)
-        {
-            foreach (var file in serverPaths)
-            {
-                if (folder == file.Item1 && !file.Item2)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

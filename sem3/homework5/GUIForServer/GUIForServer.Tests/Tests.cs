@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,25 +10,35 @@ namespace GUIForServer.Tests
     {
         private string path = "\\Downloads";
         private ApplicationViewModel model;
+        ObservableCollection<string> content = 
+            new ObservableCollection<string>() { "folder", "oneMoreFolder", "thirdFolder" };
+
 
         [TestInitialize]
         public void Initialize() => model = new ApplicationViewModel(path);
 
         [TestMethod]
-        public async Task DownloadTest()
+        public void DownloadTest()
         {
             Assert.IsFalse(File.Exists(path + "\\file.txt"));
-            await model.DownloadOneFile("\\file.txt");
-            Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + path + "\\file.txt"));
+            model.DownloadOneFile("\\file.txt");
+            var directory = Directory.GetCurrentDirectory() + path + "\\file.txt";
+            Assert.IsTrue(File.Exists(directory));
         }
 
         [TestMethod]
         public async Task OpenFolderTest()
         {
-            var content = new ObservableCollection<string>() { "folder", "oneMoreFolder", "thirdFolder" };
             Assert.IsTrue(Assertion(model.ClientExplorer, content));
-            await model.OpenClientFolder("folder");
+            model.OpenClientFolder("folder");
             Assert.IsTrue(model.ClientExplorer.Count == 0);
+        }
+
+        [TestMethod]
+        public void OpenServerFolderTest()
+        {
+            model.OpenFolderOrLoad("Downloads");
+            Assert.IsTrue(Assertion(model.ServerExplorer, content));
         }
 
         private bool Assertion(ObservableCollection<string> paths, ObservableCollection<string> content)
@@ -58,6 +66,5 @@ namespace GUIForServer.Tests
             command.Execute(obj);
             Assert.AreEqual(content, model.ErrorBox);
         }
-
     }
 }
