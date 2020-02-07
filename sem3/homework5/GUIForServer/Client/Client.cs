@@ -61,7 +61,7 @@ namespace GUIForServer
         /// user's Get command 
         /// </summary>
         /// <param name="path"> path to file </param>
-        /// <returns> file size and file content </returns>
+        /// <returns> downloads file to destination </returns>
         public async Task Get(string path, string destination)
         {
             await SendRequest(path, 2).ConfigureAwait(false);
@@ -72,7 +72,7 @@ namespace GUIForServer
                 throw new FileNotFoundException();
             }
 
-            using (var file = new StreamWriter(new FileStream(destination, FileMode.Create)))
+            using (var file = new StreamWriter(new FileStream(destination + $"\\{path}", FileMode.Create)))
             {
                 await file.WriteAsync(content);
             }

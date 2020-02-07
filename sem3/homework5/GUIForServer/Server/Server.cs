@@ -20,10 +20,14 @@ namespace GUIForServer
         private StreamReader streamReader;
 
         /// <summary>
-        /// constructor: assigns this TcpClient
+        /// constructor: assigns the TcpClient
         /// </summary>
         public Server(string host, int port)
         {
+            if (port < IPEndPoint.MinPort && port > IPEndPoint.MaxPort)
+            {
+                throw new IndexOutOfRangeException();
+            }
             listener = new TcpListener(IPAddress.Parse(host), port);
         }
 
@@ -100,7 +104,7 @@ namespace GUIForServer
             for (var i = 0; i < list.Length; ++i)
             {
                 list[i] = list[i].Substring(length);
-                buider.Append(list[i] + " " + isDir + " ");
+                buider.Append(list[i] + " " + isDir + "\t");
             }
             catalog = buider.ToString();
             return catalog;
@@ -120,14 +124,17 @@ namespace GUIForServer
         private static string ParseRequest(string request)
         {
             var splitted = request.Split(new char[] { ' ' }, 2);
-            if (Int32.TryParse(splitted[0], out int index))
+            if (int.TryParse(splitted[0], out int index))
             {
                 var path = Directory.GetCurrentDirectory() + splitted[1];
-                return (index == 1) ? List(path) : Get(path).ToString();
+                return (index == 1) ? List(path) : Encoding.ASCII.GetString(Get(path));
             }
             return null;
         }
 
+        /// <summary>
+        /// stops server work
+        /// </summary>
         public void Cancel() => token.Cancel();
     }
 }

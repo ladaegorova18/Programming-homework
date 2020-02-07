@@ -3,59 +3,55 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:GUIForServer"
         mc:Ignorable="d"
-        Title="GUIForServer" Height="450" Width="800" Icon="folder.png">
-    <Grid>
+        Title="GUIForServer" Height="450" Width="800" Icon="folder.png" ResizeMode="NoResize">
+    <Grid Margin="0,0,4,20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="107*"/>
-            <ColumnDefinition Width="283*"/>
-            <ColumnDefinition Width="402*"/>
+            <ColumnDefinition Width="284*"/>
+            <ColumnDefinition Width="303*"/>
+            <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="hostText" HorizontalAlignment="Left" Height="25" Margin="21,43,0,0" TextWrapping="Wrap" Text="{Binding Host}" VerticalAlignment="Top" Width="159" Grid.Column="1"/>
-        <TextBox x:Name="portText" HorizontalAlignment="Left" Height="26" Margin="21,77,0,0" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="159" Grid.Column="1"/>
+        <TextBox x:Name="hostText" HorizontalAlignment="Left" Height="25" Margin="21,43,0,0" TextWrapping="Wrap" Text="{Binding Host}" VerticalAlignment="Top" Width="159" Grid.Column="1" FontSize="14"/>
+        <TextBox x:Name="portText" HorizontalAlignment="Left" Height="26" Margin="21,77,0,0" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="159" Grid.Column="1" FontSize="14"/>
         <Label Content="Server host:" HorizontalAlignment="Left" Margin="12,39,0,0" VerticalAlignment="Top" Width="111" Height="29" Grid.ColumnSpan="2" FontSize="16"/>
         <Label Content="Server port:" HorizontalAlignment="Left" Margin="12,74,0,0" VerticalAlignment="Top" Width="111" Height="33" Grid.ColumnSpan="2" FontSize="16"/>
-        <Button Content="Connect" Command="{Binding Connect}" HorizontalAlignment="Left" Margin="81,108,0,0" VerticalAlignment="Top" Width="99" Height="23" Grid.Column="1"/>
+        <Button Content="Connect" Command="{Binding Connect}" HorizontalAlignment="Left" Margin="81,108,0,0" VerticalAlignment="Top" Width="99" Height="28" Grid.Column="1"/>
 
-        <Label x:Name="status" Content="" HorizontalAlignment="Left" Margin="12,107,0,0" VerticalAlignment="Top" Width="146" FontSize="8" FontWeight="Bold" Height="24" Grid.ColumnSpan="2"/>
-        <Label Content="Server explorer" HorizontalAlignment="Left" Margin="7,183,0,0" VerticalAlignment="Top" Width="229" Height="45" Grid.ColumnSpan="2" FontSize="20"/>
-        <Label Content="Client explorer" HorizontalAlignment="Left" Margin="0,161,0,0" VerticalAlignment="Top" Width="166" Height="45" FontSize="20" Grid.Column="2"/>
-        <Label x:Name="errorBox" Content="" HorizontalAlignment="Left" Margin="12,136,0,0" VerticalAlignment="Top" Width="190" FontWeight="Bold" Height="30" Grid.ColumnSpan="2" FontStyle="Italic" Foreground="#FFE61F1F"/>
-        <Button Content="Folder up" Command="{Binding FolderUpServer}" HorizontalAlignment="Left" Margin="7,233,0,0" VerticalAlignment="Top" Width="95" Height="37"/>
-        <Button Content="Folder up" Command="{Binding FolderUpClient}" HorizontalAlignment="Left" Margin="0,233,0,0" VerticalAlignment="Top" Width="95" Height="37" Grid.Column="2"/>
+        <Label x:Name="status" Content="{Binding ConnectStatus}" HorizontalAlignment="Left" Margin="12,111,0,0" VerticalAlignment="Top" Width="146" Height="33" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <Label Content="Server" HorizontalAlignment="Left" Margin="12,144,0,0" VerticalAlignment="Top" Width="166" Height="45" FontSize="22" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <Label Content="Client" HorizontalAlignment="Left" Margin="0,138,0,0" VerticalAlignment="Top" Width="166" Height="51" FontSize="22" Grid.Column="2" FontWeight="Bold"/>
+        <Label x:Name="errorBox" Content="{Binding ErrorBox}" HorizontalAlignment="Left" Margin="12,180,0,0" VerticalAlignment="Top" Width="190" FontWeight="Bold" Height="44" Grid.ColumnSpan="2" FontStyle="Italic" Foreground="#FFE61F1F"/>
+        <Button Content="Folder up" Command="{Binding FolderUpServer}" HorizontalAlignment="Left" Margin="12,231,0,0" VerticalAlignment="Top" Width="121" Height="49" Grid.ColumnSpan="2"/>
+        <Button Content="Folder up" Command="{Binding FolderUpClient}" HorizontalAlignment="Left" Margin="0,228,0,0" VerticalAlignment="Top" Width="121" Height="52" Grid.Column="2" RenderTransformOrigin="0.477,0.172"/>
 
-        <Button Content="Download all" Command="{Binding Load}" HorizontalAlignment="Left" Margin="0,233,0,0" VerticalAlignment="Top" Width="95" Height="37" Grid.Column="1"/>
-        <Button Content="Go to folder" Command="{Binding GoToFolder}" HorizontalAlignment="Left" Margin="100,233,0,0" VerticalAlignment="Top" Width="95" Height="37" Grid.Column="2"/>
-        <Label Content="Loading files" HorizontalAlignment="Left" Margin="234,0,0,0" VerticalAlignment="Top" Width="110" Height="32" FontSize="16" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Content="Download all" Command="{Binding Load}" HorizontalAlignment="Left" Margin="109,228,0,0" VerticalAlignment="Top" Width="121" Height="52" RenderTransformOrigin="0.542,0.788" Grid.Column="1"/>
+        <Label Content="Loading files" HorizontalAlignment="Left" Margin="208,0,0,0" VerticalAlignment="Top" Width="110" Height="32" FontSize="16" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Label Content="Loaded files" HorizontalAlignment="Left" Margin="138,0,0,0" VerticalAlignment="Top" Width="112" Height="32" FontSize="16" Grid.Column="2"/>
 
-        <ScrollViewer HorizontalAlignment="Left" Height="134" Margin="215,32,0,0" VerticalAlignment="Top" Width="166" Grid.Column="1" Grid.ColumnSpan="2">
-            <ListView x:Name="loadingFiles" Height="107" Width="112" ItemsSource="{Binding LoadingFiles}"></ListView>
-        </ScrollViewer>
-        <ScrollViewer HorizontalAlignment="Left" Height="134" Margin="138,32,0,0" VerticalAlignment="Top" Width="166" Grid.Column="2">
-            <ListView x:Name="loadedFiles" Height="107" Width="112" ItemsSource="{Binding LoadedFiles}"/>
-        </ScrollViewer>
-        <ScrollViewer HorizontalAlignment="Left" Height="134" Margin="12,275,0,0" VerticalAlignment="Top" Width="368" Grid.ColumnSpan="2">
-            <ListView Height="112" Width="311" x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="MouseDoubleClick" Handler="HandleServerDoubleClick"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </ScrollViewer>
-        <ScrollViewer HorizontalAlignment="Left" Height="134" Margin="0,275,0,0" VerticalAlignment="Top" Width="368" Grid.Column="2">
-            <ListView Height="112" Width="311" x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="Control.MouseDoubleClick" Handler="HandleServerDoubleClick"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </ScrollViewer>
-        <Label Content="Download to:" HorizontalAlignment="Left" Margin="0,196,0,0" VerticalAlignment="Top" Width="166" Height="37" FontSize="14" Grid.Column="2"/>
-        <Label x:Name="pathToLoad" Content="{Binding Destination}" HorizontalAlignment="Left" Margin="171,194,0,0" VerticalAlignment="Top" Width="210" Height="39" FontSize="14" Grid.Column="2"/>
+        <ListView x:Name="loadingFiles" ItemsSource="{Binding LoadingFiles}" RenderTransformOrigin="1.7,0.075" Grid.ColumnSpan="2" Grid.Column="1" Margin="208,32,170,271" FontSize="12" BorderBrush="#89000000"/>
+
+        <ListView x:Name="loadedFiles" ItemsSource="{Binding LoadedFiles}" Grid.Column="2" Margin="138,32,42,271" Grid.ColumnSpan="2" FontSize="12" BorderBrush="#8A000000" BorderThickness="1"/>
+
+        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" Grid.ColumnSpan="2" Margin="12,285,53,0" FontSize="14">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleServerDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" Grid.Column="2" Margin="0,285,73,10" FontSize="14" Grid.ColumnSpan="2">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleClientDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <Label Content="Download to:" HorizontalAlignment="Left" Margin="0,187,0,0" VerticalAlignment="Top" Width="116" Height="37" FontSize="16" Grid.Column="2"/>
+        <TextBox Text="{Binding Destination}" Grid.Column="2" HorizontalAlignment="Left" Height="43" Margin="138,180,0,178" TextWrapping="Wrap" VerticalAlignment="Center" Width="209" FontSize="16" 
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Enter path here" RenderTransformOrigin="1,0" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

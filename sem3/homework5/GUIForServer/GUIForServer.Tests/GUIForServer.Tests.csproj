@@ -56,9 +56,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj">
+      <Project>{6871ed1e-301d-439c-be1f-da9cb9ab2093}</Project>
+      <Name>Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GUIForServer\GUIForServer.csproj">
       <Project>{ce4767d8-32c8-4e7a-9261-3f97bf84a0ca}</Project>
       <Name>GUIForServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Server\Server.csproj">
+      <Project>{8505d6cb-6768-4014-aa8d-1d5430f97c2d}</Project>
+      <Name>Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

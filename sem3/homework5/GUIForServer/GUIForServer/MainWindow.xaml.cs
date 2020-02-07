@@ -10,18 +10,20 @@ namespace GUIForServer
     {
         private ApplicationViewModel model;
 
+        /// <summary>
+        /// MainWindow constructor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
 
-            model = new ApplicationViewModel("..\\Downloads");
+            model = new ApplicationViewModel("\\Downloads");
 
             DataContext = model;
         }
 
-        private async void HandleServerDoubleClick(object sender, RoutedEventArgs e)
-        {
-            await model.OpenFolderOrLoad((sender as ListViewItem).Content.ToString());
-        }
+        private async void HandleServerDoubleClick(object sender, RoutedEventArgs e) => await model.OpenFolderOrLoad((sender as ListViewItem).Content.ToString());
+
+        private async void HandleClientDoubleClick(object sender, RoutedEventArgs e) => await model.OpenClientFolder((sender as ListViewItem).Content.ToString());
     }
 }
