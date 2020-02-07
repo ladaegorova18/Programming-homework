@@ -1,7 +1,7 @@
 image: Visual Studio 2019
 
 before_build:
-  - nuget restore sem3/homework3/GUIForServer/GUIForServer.sln
+  - nuget restore sem3/homework5/GUIForServer/GUIForServer.sln
 
 build_script:
-  - msbuild sem3/homework3/GUIForServer/GUIForServer.sln
+  - msbuild sem3/homework5/GUIForServer/GUIForServer.sln
