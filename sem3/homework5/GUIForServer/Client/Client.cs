@@ -64,8 +64,7 @@ namespace GUIForServer
         /// <returns> downloads file to destination </returns>
         public async Task Get(string path, string destination)
         {
-            await SendRequest(path, 2).ConfigureAwait(false);
-            var content = await streamReader.ReadLineAsync();
+            var content = await SendRequest(path, 2).ConfigureAwait(false);
 
             if (content == "-1")
             {
@@ -74,7 +73,7 @@ namespace GUIForServer
 
             using (var file = new StreamWriter(new FileStream(destination + $"\\{path}", FileMode.Create)))
             {
-                await file.WriteAsync(content);
+                await file.WriteAsync(content).ConfigureAwait(false);
             }
         }
 

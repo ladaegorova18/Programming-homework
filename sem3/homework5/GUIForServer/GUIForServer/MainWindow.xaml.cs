@@ -8,7 +8,7 @@ namespace GUIForServer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ApplicationViewModel model;
+        private readonly ApplicationViewModel model;
 
         /// <summary>
         /// MainWindow constructor

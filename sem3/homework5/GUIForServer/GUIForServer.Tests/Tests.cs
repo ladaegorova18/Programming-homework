@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,27 +7,28 @@ namespace GUIForServer.Tests
     [TestClass]
     public class Tests
     {
-        private string path = "\\Downloads";
+        private readonly string path = "\\Downloads";
         private ApplicationViewModel model;
+        private readonly ObservableCollection<string> content =
+            new ObservableCollection<string> { "folder", "oneMoreFolder", "thirdFolder" };
+
 
         [TestInitialize]
         public void Initialize() => model = new ApplicationViewModel(path);
 
         [TestMethod]
-        public async Task DownloadTest()
+        public async Task OpenFolderTest()
         {
-            Assert.IsFalse(File.Exists(path + "\\file.txt"));
-            await model.DownloadOneFile("\\file.txt");
-            Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + path + "\\file.txt"));
+            Assert.IsTrue(Assertion(model.ClientExplorer, content));
+            model.OpenClientFolder("folder");
+            Assert.IsTrue(model.ClientExplorer.Count == 0);
         }
 
         [TestMethod]
-        public async Task OpenFolderTest()
+        public void OpenServerFolderTest()
         {
-            var content = new ObservableCollection<string>() { "folder", "oneMoreFolder", "thirdFolder" };
-            Assert.IsTrue(Assertion(model.ClientExplorer, content));
-            await model.OpenClientFolder("folder");
-            Assert.IsTrue(model.ClientExplorer.Count == 0);
+            model.OpenFolderOrLoad("Downloads");
+            Assert.IsTrue(Assertion(model.ServerExplorer, content));
         }
 
         private bool Assertion(ObservableCollection<string> paths, ObservableCollection<string> content)
@@ -58,6 +56,5 @@ namespace GUIForServer.Tests
             command.Execute(obj);
             Assert.AreEqual(content, model.ErrorBox);
         }
-
     }
 }

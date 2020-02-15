@@ -126,7 +126,7 @@ namespace GUIForServer
             var splitted = request.Split(new char[] { ' ' }, 2);
             if (int.TryParse(splitted[0], out int index))
             {
-                var path = Directory.GetCurrentDirectory() + splitted[1];
+                var path = Path.Combine(Directory.GetCurrentDirectory(), splitted[1]);
                 return (index == 1) ? List(path) : Encoding.ASCII.GetString(Get(path));
             }
             return null;

@@ -14,27 +14,16 @@ namespace GUIForServer
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private Client client;
-
         private string destination;
-
         private string host = "127.0.0.1";
-
         private string port = "8888";
-
         private bool connectStatus;
-
         private RelayCommand connectCommand;
-
         private RelayCommand folderUpClient;
-
         private RelayCommand folderUpServer;
-
-        private ObservableCollection<string> clientPaths = new ObservableCollection<string>();
-
-        private ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
-
-        private ObservableCollection<string> serverFiles = new ObservableCollection<string>();
-
+        private readonly ObservableCollection<string> clientPaths = new ObservableCollection<string>();
+        private readonly ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
+        private readonly ObservableCollection<string> serverFiles = new ObservableCollection<string>();
         private string errorBox;
 
         /// <summary>
@@ -77,6 +66,9 @@ namespace GUIForServer
         /// </summary>
         public ObservableCollection<string> ServerExplorer { get; private set; } = new ObservableCollection<string>();
 
+        /// <summary>
+        /// event to change properties on Form
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -123,6 +115,9 @@ namespace GUIForServer
             }
         }
 
+        /// <summary>
+        /// shows errors and warnings
+        /// </summary>
         public string ErrorBox
         {
             get => errorBox;
@@ -160,7 +155,6 @@ namespace GUIForServer
             currentClientDirectoryPath = root;
 
             currentServerDirectory = "";
-            //currentClientDirectory = "";
             currentClientDirectory = ClientRoot;
 
             InitializePaths();
@@ -172,10 +166,10 @@ namespace GUIForServer
         public async Task InitializePaths()
         {
             clientPaths.CollectionChanged += ClientPathsChanged;
-            await UpdateClientPaths("");
+            await UpdateClientPaths("").ConfigureAwait(false);
 
             serverFiles.CollectionChanged += ServerPathsChanged;
-            await UpdateServerPaths("");
+            await UpdateServerPaths("").ConfigureAwait(false);
         }
 
         /// <summary>
@@ -290,7 +284,7 @@ namespace GUIForServer
                       }
 
                       currentClientDirectory = ChangeDirectoryPath(currentClientDirectory);
-                      UpdateClientPaths(currentClientDirectory);
+                      UpdateClientPaths(currentClientDirectory).ConfigureAwait(false);
                       currentClientDirectoryPath = Directory.GetParent(currentClientDirectoryPath).ToString();
                       destination = Directory.GetParent(destination).ToString();
                       OnPropertyChanged("Destination");
@@ -315,7 +309,7 @@ namespace GUIForServer
                       }
 
                       currentServerDirectory = ChangeDirectoryPath(currentServerDirectory);
-                      UpdateServerPaths(currentServerDirectory);
+                      UpdateServerPaths(currentServerDirectory).ConfigureAwait(false);
                   }));
             }
         }
@@ -337,7 +331,7 @@ namespace GUIForServer
         {
             destination = ClientRoot;
             currentClientDirectoryPath = ClientRoot;
-            await UpdateClientPaths(ClientRoot);
+            await UpdateClientPaths(ClientRoot).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -354,7 +348,7 @@ namespace GUIForServer
                     await GoToClientRoot();
                     return;
                 }
-                var path = Path.Combine(currentServerDirectory, file);
+                var path = currentServerDirectory + file;
 
                 LoadingFiles.Add(file);
 
@@ -405,7 +399,7 @@ namespace GUIForServer
                 currentClientDirectoryPath = Path.Combine(currentClientDirectoryPath, folder);
                 currentClientDirectory = currentClientDirectoryPath;
                 destination = Path.Combine(destination, folder);
-                await UpdateClientPaths(currentClientDirectoryPath);
+                await UpdateClientPaths(currentClientDirectoryPath).ConfigureAwait(false);
                 OnPropertyChanged("Destination");
             }
         }
@@ -416,12 +410,12 @@ namespace GUIForServer
             {
                 if (IsFile(path))
                 {
-                    await DownloadOneFile(path);
+                    await DownloadOneFile(path).ConfigureAwait(false);
                     return;
                 }
 
                 currentServerDirectory = Path.Combine(currentServerDirectory, path);
-                await UpdateServerPaths(currentServerDirectory);
+                await UpdateServerPaths(currentServerDirectory).ConfigureAwait(false);
             }
             catch (IOException e)
             {
