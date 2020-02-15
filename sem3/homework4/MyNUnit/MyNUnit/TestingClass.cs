@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Attributes;
@@ -44,7 +45,7 @@ namespace MyNUnit
         /// <param name="path"> path to seek assemblies </param>
         public static void Process(string path)
         {
-            var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories).Where(x => x.Substring(x.LastIndexOf('\\') + 1) != "Attributes.dll");
             foreach (var file in files)
             {
                 var types = Assembly.LoadFrom(file).GetTypes();
@@ -57,6 +58,10 @@ namespace MyNUnit
 
         private static void RunTests(Type type)
         {
+            if (type.GetConstructor(new Type[] { }) == null)
+            {
+                return;
+            }
             var instance = Activator.CreateInstance(type);
             MethodsWithAttribute<BeforeClassAttribute>(type, instance);
             MethodsWithAttribute<BeforeAttribute>(type, instance);
@@ -81,13 +86,17 @@ namespace MyNUnit
             var task = MakeTask<AttributeType>(methods, instance);
             if (task != null)
             {
-                Parallel.ForEach(methods, task);
+                var invokeMethods = new List<(MethodInfo, object)>();
+                for (var i = 0; i < methods.Count; ++i)
+                {
+                    invokeMethods.Add((methods[i], instance));
+                }
+                Parallel.ForEach(invokeMethods, task);
             }
         }
 
-        private static Action<MethodInfo, object> MakeTask<AttributeType>(List<MethodInfo> methods, object instance)
+        private static Action<(MethodInfo, object)> MakeTask<AttributeType>(List<MethodInfo> methods, object instance)
         {
-            Action<MethodInfo, object> task = null;
             if (typeof(AttributeType) == typeof(BeforeAttribute) || typeof(AttributeType) == typeof(BeforeClassAttribute)
                 || typeof(AttributeType) == typeof(AfterClassAttribute) || typeof(AttributeType) == typeof(AfterAttribute))
             {
@@ -97,50 +106,49 @@ namespace MyNUnit
                     {
                         throw new InvalidOperationException();
                     }
-                    task = (Action<MethodInfo, object>)method.Invoke(instance, null);
+                    return (Action<(MethodInfo, object)>)method.Invoke(instance, null);
                 }
             }
             else if (typeof(AttributeType) == typeof(TestAttribute))
             {
                 foreach (var method in methods)
                 {
-                    task = RunTest;
+                    return RunTest;
                 }
             }
-            return task;
+            return null;
         }
 
-        private static void RunTest(MethodInfo method, object instance)
+        private static void RunTest((MethodInfo, object) task) 
         {
-            var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(method, typeof(TestAttribute));
+            var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(task.Item1, typeof(TestAttribute));
             TestInfo info = null;
-
             bool ignored = false;
             string ignoreReason = null;
             bool crashed = false;
             long time = 0;
-
             if (testAttribute.Ignore != null)
             {
                 ignored = true;
                 ignoreReason = testAttribute.Ignore;
-                info = new TestInfo(method, ignored, ignoreReason, crashed, time);
+                info = new TestInfo(task.Item1, ignored, ignoreReason, crashed, time);
                 TestInformation.Add(info);
                 return;
             }
-            if (method.GetParameters().Length > 0)
+            if (task.Item1.GetParameters().Length > 0)
             {
-                crashed = false;
-                info = new TestInfo(method, ignored, ignoreReason, crashed, time);
+                crashed = true;
+                info = new TestInfo(task.Item1, ignored, ignoreReason, crashed, time);
                 TestInformation.Add(info);
                 return;
             }
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
+
             try
             {
-                method.Invoke(instance, null);
+                task.Item1.Invoke(task.Item2, null);
                 crashed = testAttribute.Expected != null;
             }
             catch (Exception e)
@@ -150,7 +158,7 @@ namespace MyNUnit
             stopWatch.Stop();
             time = stopWatch.ElapsedMilliseconds;
 
-            info = new TestInfo(method, ignored, ignoreReason, crashed, time);
+            info = new TestInfo(task.Item1, ignored, ignoreReason, crashed, time);
             TestInformation.Add(info);
         }
     }

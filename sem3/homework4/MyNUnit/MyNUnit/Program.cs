@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System;
+﻿using System;
 
 namespace MyNUnit
 {
@@ -12,7 +11,7 @@ namespace MyNUnit
         {
             Console.WriteLine("Enter path to directory:");
             var path = Console.ReadLine();
-            TestingClass.Process(path + "/SuccessfulTesting");
+            TestingClass.Process("path");
             TestingClass.PrintResult();
         }
     }

@@ -10,7 +10,8 @@ namespace MyNUnit.Tests
     [TestFixture]
     public class NUnitTests
     {
-        private readonly string path = Directory.GetCurrentDirectory() + "\\sem3\\homework4\\MyNUnit\\Tests";
+        //private readonly string path = Directory.GetCurrentDirectory() + "\\sem3\\homework4\\MyNUnit\\Tests";
+        private readonly string path = "C:\\Users\\Home\\Documents\\Repositories\\Homework\\sem3\\homework4\\MyNUnit\\Tests";
 
         [SetUp]
         public void SetUp()
@@ -44,9 +45,9 @@ namespace MyNUnit.Tests
         [Test]
         public void ParametersTest()
         {
-            TestingClass.Process(path + "/ParametersTests");
+            TestingClass.Process(path + "/ParametersTests/bin");
             var successTests = TestingClass.TestInformation.Where(x => !x.Crashed).ToList();
-            Assert.AreEqual(2, successTests.Count);
+            Assert.AreEqual(1, successTests.Count);
         }
 
         [Test]
