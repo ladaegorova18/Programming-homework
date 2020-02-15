@@ -10,8 +10,7 @@ namespace MyNUnit.Tests
     [TestFixture]
     public class NUnitTests
     {
-        //private readonly string path = Directory.GetCurrentDirectory() + "\\sem3\\homework4\\MyNUnit\\Tests";
-        private readonly string path = "C:\\Users\\Home\\Documents\\Repositories\\Homework\\sem3\\homework4\\MyNUnit\\Tests";
+        private readonly string path = Directory.GetCurrentDirectory() + "\\sem3\\homework4\\MyNUnit\\Tests";
 
         [SetUp]
         public void SetUp()
