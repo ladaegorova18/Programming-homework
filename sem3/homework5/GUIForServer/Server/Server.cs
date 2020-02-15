@@ -26,7 +26,7 @@ namespace GUIForServer
         {
             if (port < IPEndPoint.MinPort && port > IPEndPoint.MaxPort)
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             }
             listener = new TcpListener(IPAddress.Parse(host), port);
         }
