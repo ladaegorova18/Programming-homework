@@ -88,7 +88,7 @@ namespace GUIForServer
                 await streamWriter.WriteLineAsync($"{index} {path}").ConfigureAwait(false);
                 return await streamReader.ReadLineAsync().ConfigureAwait(false);
             }
-            catch (SocketException innerException)
+            catch (Exception innerException)
             {
                 throw new AggregateException("Socket exception!", innerException);
             }

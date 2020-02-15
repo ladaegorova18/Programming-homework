@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:GUIForServer"
         mc:Ignorable="d"
-        Title="GUIForServer" Height="450" Width="800" Icon="folder.png" ResizeMode="NoResize">
+        Title="GUIForServer" Height="562" Width="800" Icon="folder.png" ResizeMode="NoResize">
     <Grid Margin="0,0,4,20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="107*"/>
@@ -21,37 +21,38 @@
         <Button Content="Connect" Command="{Binding Connect}" HorizontalAlignment="Left" Margin="81,108,0,0" VerticalAlignment="Top" Width="99" Height="28" Grid.Column="1"/>
 
         <Label x:Name="status" Content="{Binding ConnectStatus}" HorizontalAlignment="Left" Margin="12,111,0,0" VerticalAlignment="Top" Width="146" Height="33" Grid.ColumnSpan="2" FontWeight="Bold"/>
-        <Label Content="Server" HorizontalAlignment="Left" Margin="12,144,0,0" VerticalAlignment="Top" Width="166" Height="45" FontSize="22" Grid.ColumnSpan="2" FontWeight="Bold"/>
-        <Label Content="Client" HorizontalAlignment="Left" Margin="0,138,0,0" VerticalAlignment="Top" Width="166" Height="51" FontSize="22" Grid.Column="2" FontWeight="Bold"/>
-        <Label x:Name="errorBox" Content="{Binding ErrorBox}" HorizontalAlignment="Left" Margin="12,180,0,0" VerticalAlignment="Top" Width="190" FontWeight="Bold" Height="44" Grid.ColumnSpan="2" FontStyle="Italic" Foreground="#FFE61F1F"/>
-        <Button Content="Folder up" Command="{Binding FolderUpServer}" HorizontalAlignment="Left" Margin="12,231,0,0" VerticalAlignment="Top" Width="121" Height="49" Grid.ColumnSpan="2"/>
-        <Button Content="Folder up" Command="{Binding FolderUpClient}" HorizontalAlignment="Left" Margin="0,228,0,0" VerticalAlignment="Top" Width="121" Height="52" Grid.Column="2" RenderTransformOrigin="0.477,0.172"/>
+        <Label Content="Server" HorizontalAlignment="Left" Margin="12,245,0,0" VerticalAlignment="Top" Width="166" Height="36" FontSize="22" Grid.ColumnSpan="2" FontWeight="Bold"/>
+        <Label Content="Client" HorizontalAlignment="Left" Margin="0,246,0,0" VerticalAlignment="Top" Width="166" Height="35" FontSize="22" Grid.Column="2" FontWeight="Bold"/>
+        <Label x:Name="errorBox" Content="{Binding ErrorBox}" HorizontalAlignment="Left" Margin="12,273,0,0" VerticalAlignment="Top" Width="190" FontWeight="Bold" Height="44" Grid.ColumnSpan="2" FontStyle="Italic" Foreground="#FFE61F1F"/>
+        <Button Content="Folder up" Command="{Binding FolderUpServer}" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="121" Height="49" Grid.ColumnSpan="2"/>
+        <Button Content="Folder up" Command="{Binding FolderUpClient}" HorizontalAlignment="Left" Margin="0,318,0,0" VerticalAlignment="Top" Width="121" Height="53" Grid.Column="2" RenderTransformOrigin="0.477,0.172"/>
 
-        <Button Content="Download all" Command="{Binding Load}" HorizontalAlignment="Left" Margin="109,228,0,0" VerticalAlignment="Top" Width="121" Height="52" RenderTransformOrigin="0.542,0.788" Grid.Column="1"/>
+        <Button Content="Download all" Command="{Binding Load}" HorizontalAlignment="Left" Margin="109,318,0,0" VerticalAlignment="Top" Width="121" Height="53" RenderTransformOrigin="0.542,0.788" Grid.Column="1"/>
         <Label Content="Loading files" HorizontalAlignment="Left" Margin="208,0,0,0" VerticalAlignment="Top" Width="110" Height="32" FontSize="16" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Label Content="Loaded files" HorizontalAlignment="Left" Margin="138,0,0,0" VerticalAlignment="Top" Width="112" Height="32" FontSize="16" Grid.Column="2"/>
 
-        <ListView x:Name="loadingFiles" ItemsSource="{Binding LoadingFiles}" RenderTransformOrigin="1.7,0.075" Grid.ColumnSpan="2" Grid.Column="1" Margin="208,32,170,271" FontSize="12" BorderBrush="#89000000"/>
+        <ListView x:Name="loadingFiles" ItemsSource="{Binding LoadingFiles}" RenderTransformOrigin="1.7,0.075" Grid.Column="1" Margin="208,32,170,323" FontSize="12" BorderBrush="#89000000" Grid.ColumnSpan="2"/>
 
-        <ListView x:Name="loadedFiles" ItemsSource="{Binding LoadedFiles}" Grid.Column="2" Margin="138,32,42,271" Grid.ColumnSpan="2" FontSize="12" BorderBrush="#8A000000" BorderThickness="1"/>
+        <ListView x:Name="loadedFiles" ItemsSource="{Binding LoadedFiles}" Grid.Column="2" Margin="138,32,42,323" Grid.ColumnSpan="2" FontSize="12" BorderBrush="#8A000000" BorderThickness="1"/>
 
-        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" Grid.ColumnSpan="2" Margin="12,285,53,0" FontSize="14">
+        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" Grid.ColumnSpan="2" Margin="12,375,53,-7" FontSize="14">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleServerDoubleClick"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" Grid.Column="2" Margin="0,285,73,10" FontSize="14" Grid.ColumnSpan="2">
+        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" Grid.Column="2" Margin="0,375,73,-7" FontSize="14" Grid.ColumnSpan="2">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleClientDoubleClick"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Label Content="Download to:" HorizontalAlignment="Left" Margin="0,187,0,0" VerticalAlignment="Top" Width="116" Height="37" FontSize="16" Grid.Column="2"/>
-        <TextBox Text="{Binding Destination}" Grid.Column="2" HorizontalAlignment="Left" Height="43" Margin="138,180,0,178" TextWrapping="Wrap" VerticalAlignment="Center" Width="209" FontSize="16" 
+        <Label Content="Download to:" HorizontalAlignment="Left" Margin="0,279,0,0" VerticalAlignment="Top" Width="116" Height="37" FontSize="16" Grid.Column="2"/>
+        <TextBox Text="{Binding Destination}" Grid.Column="2" HorizontalAlignment="Left" Height="44" Margin="138,267,0,202" TextWrapping="Wrap" VerticalAlignment="Center" Width="209" FontSize="16" 
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Enter path here" RenderTransformOrigin="1,0" Grid.ColumnSpan="2"/>
+        <Label Content="Welcome to FTP client! &#xD;&#xA;To get on the folder up click &quot;Folder up&quot;&#xD;&#xA;To open folder click on the folder twice.&#xD;&#xA;To download one file from server click on the file twice in server explorer.&#xD;&#xA;To download all files in opened folder click &quot;Download all&quot;&#xD;&#xA;You also can input destination to download." HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" Height="110" Width="397" Grid.ColumnSpan="3" RenderTransformOrigin="0.5,0.618"/>
 
     </Grid>
 </Window>
