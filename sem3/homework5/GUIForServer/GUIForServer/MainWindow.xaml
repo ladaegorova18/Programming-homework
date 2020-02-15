@@ -35,14 +35,14 @@
 
         <ListView x:Name="loadedFiles" ItemsSource="{Binding LoadedFiles}" Grid.Column="2" Margin="138,32,42,323" Grid.ColumnSpan="2" FontSize="12" BorderBrush="#8A000000" BorderThickness="1"/>
 
-        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" Grid.ColumnSpan="2" Margin="12,375,53,-29" FontSize="14">
+        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" Grid.ColumnSpan="2" Margin="12,375,53,-7" FontSize="14">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleServerDoubleClick"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" Grid.Column="2" Margin="0,375,73,-22" FontSize="14" Grid.ColumnSpan="2">
+        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" Grid.Column="2" Margin="0,375,73,-7" FontSize="14" Grid.ColumnSpan="2">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleClientDoubleClick"/>

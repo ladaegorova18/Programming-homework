@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,15 +15,6 @@ namespace GUIForServer.Tests
 
         [TestInitialize]
         public void Initialize() => model = new ApplicationViewModel(path);
-
-        [TestMethod]
-        public void DownloadTest()
-        {
-            Assert.IsFalse(File.Exists(path + "\\file.txt"));
-            model.DownloadOneFile("\\file.txt");
-            var directory = Directory.GetCurrentDirectory() + path + "\\file.txt";
-            Assert.IsTrue(File.Exists(directory));
-        }
 
         [TestMethod]
         public async Task OpenFolderTest()
@@ -54,10 +44,10 @@ namespace GUIForServer.Tests
         }
 
         [TestMethod]
-        public void ClientRootReachedTest() => RootReach(model.FolderUpClient, "Client root reached");
+        public void ClientRootTest() => RootReach(model.FolderUpClient, "Client root reached");
 
         [TestMethod]
-        public void ServerRootReachedTest() => RootReach(model.FolderUpServer, "Server root reached");
+        public void ServerRootTest() => RootReach(model.FolderUpServer, "Server root reached");
 
         private void RootReach(RelayCommand folderUp, string content)
         {

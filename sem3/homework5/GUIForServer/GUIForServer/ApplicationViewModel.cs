@@ -160,7 +160,6 @@ namespace GUIForServer
             currentClientDirectoryPath = root;
 
             currentServerDirectory = "";
-            //currentClientDirectory = "";
             currentClientDirectory = ClientRoot;
 
             InitializePaths();
