@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace GUIForServer
 {
     /// <summary>
-    /// client class
+    /// Client class
     /// </summary>
     public class Client
     {
