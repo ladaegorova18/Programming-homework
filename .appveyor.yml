@@ -4,4 +4,4 @@ before_build:
   - nuget restore sem4/Factorial/Factorial.sln
 
 build_script:
-  - msbuild sem4/Factorial/Factorial/Factorial.sln
+  - msbuild sem4/Factorial/Factorial.sln
