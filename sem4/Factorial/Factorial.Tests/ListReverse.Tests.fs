@@ -13,5 +13,5 @@ let testCases =
 [<TestCaseSource("testCases")>]
 [<Test>]
 let listReverseTest (list: int List, result: int List) =
- let revList = listReverse list []
- Assert.IsTrue(result.Equals(revList))
+    let revList = listReverse list
+    Assert.IsTrue(result.Equals(revList))

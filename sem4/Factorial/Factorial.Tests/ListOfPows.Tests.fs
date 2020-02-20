@@ -9,4 +9,4 @@ open ListOfPows
 
 [<Test>]
 let listOfPowsTest head n m =
- Assert.AreEqual(head, (listOfPows n m).Head)
+    Assert.AreEqual(head, (listOfPows n m).Head)

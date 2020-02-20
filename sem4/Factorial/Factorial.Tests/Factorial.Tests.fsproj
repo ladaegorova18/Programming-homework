@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="FirstPosition.Tests.fs" />
-    <Compile Include="ListReverse.Tests.fs" />
-    <Compile Include="ListOfPows.Tests.fs" />
-    <Compile Include="Fibonacci.Tests.fs" />
     <Compile Include="Factorial.Tests.fs" />
+    <Compile Include="Fibonacci.Tests.fs" />
+    <Compile Include="FirstPosition.Tests.fs" />
+    <Compile Include="ListOfPows.Tests.fs" />
+    <Compile Include="ListReverse.Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
