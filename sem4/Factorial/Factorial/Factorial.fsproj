@@ -8,9 +8,9 @@
   <ItemGroup>
     <Compile Include="FactorialNumber.fs" />
     <Compile Include="Fibonacci.fs" />
+    <Compile Include="ListReverse.fs" />
     <Compile Include="FirstNumberPosition.fs" />
     <Compile Include="ListOfPows.fs" />
-    <Compile Include="ListReverse.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
