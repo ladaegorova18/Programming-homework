@@ -1,9 +1,9 @@
 ﻿module FirstNumberPosition
 
 let firstNumberPosition n ls = 
-    let rec recPosition i = 
+    let rec recPosition i ls = 
         match ls with
         | [] -> None
         | head :: tail when n = head -> Some(i)
-        | _ -> recPosition (i + 1)
-    recPosition 0
+        | head :: tail -> recPosition (i + 1) tail
+    recPosition 0 ls
