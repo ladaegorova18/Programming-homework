@@ -1,6 +1,7 @@
 image: Visual Studio 2019
 
-  - nuget restore sem4/Factorial/Factorial.sln
+before_build:
+  - nuget restore sem3/Tests/Test1/Test1.sln
 
 build_script:
-  - msbuild sem4/Factorial/Factorial.sln
+  - msbuild sem3/Tests/Test1/Test1.sln
