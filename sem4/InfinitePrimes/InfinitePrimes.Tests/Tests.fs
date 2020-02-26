@@ -2,6 +2,7 @@ module InfinitePrimes.Tests
 
 open NUnit.Framework
 open CreateSeq
+open FsUnit
 
 let testCases =
     [
@@ -16,5 +17,4 @@ let testCases =
 [<TestCaseSource("testCases")>]
 [<Test>]
 let infinitePrimesTest number pos =
-    let sequence = createSeq
-    Assert.AreEqual(number, Seq.item(pos) sequence)
+    Seq.item(pos) createSeq |> should equal number
