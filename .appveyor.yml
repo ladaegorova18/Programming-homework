@@ -5,3 +5,4 @@ before_build:
 
 build_script:
   - msbuild sem3/homework2/MyThreadPool/MyThreadPool.sln
+
