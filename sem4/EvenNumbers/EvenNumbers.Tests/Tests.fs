@@ -1,6 +1,7 @@
 module EvenNumbers.Tests
 
 open NUnit.Framework
+open FsUnit
 open FoldCount
 open FilterCount
 open MapCount
@@ -17,18 +18,12 @@ let testCases =
 
 [<TestCaseSource("testCases")>]
 [<Test>]
-let filterTest list count =
-    let result = filterCount list
-    Assert.AreEqual(count, result)
+let filterTest list count = filterCount list |> should equal count
 
 [<TestCaseSource("testCases")>]
 [<Test>]
-let foldTest list count =
-    let result = foldCount list
-    Assert.AreEqual(count, result)
+let foldTest list count = foldCount list |> should equal count
 
 [<TestCaseSource("testCases")>]
 [<Test>]
-let mapTest list count =
-    let result = mapCount list
-    Assert.AreEqual(count, result)
+let mapTest list count = mapCount list |> should equal count
