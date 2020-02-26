@@ -5,3 +5,4 @@ before_build:
 
 build_script:
   - msbuild sem3/homework3/SimpleFTP/SimpleFTP.sln
+
