@@ -62,64 +62,77 @@ namespace MyNUnit
             {
                 return;
             }
-            var instance = Activator.CreateInstance(type);
-            MethodsWithAttribute<BeforeClassAttribute>(type, instance);
-            MethodsWithAttribute<BeforeAttribute>(type, instance);
-            MethodsWithAttribute<TestAttribute>(type, instance);
-            MethodsWithAttribute<AfterAttribute>(type, instance);
-            MethodsWithAttribute<AfterClassAttribute>(type, instance);
-        }
-
-        private static void MethodsWithAttribute<AttributeType>(Type type, object instance)
-        {
+            MethodsWithAttribute<BeforeClassAttribute>(type, null);
             var methods = new List<MethodInfo>();
             foreach (var method in type.GetMethods())
             {
                 foreach (var attribute in method.GetCustomAttributes(false))
                 {
-                    if (attribute.GetType().Name == typeof(AttributeType).Name)
+                    if (attribute.GetType().Name == typeof(TestAttribute).Name)
                     {
                         methods.Add(method);
                     }
                 }
             }
-            var task = MakeTask<AttributeType>(methods, instance);
-            if (task != null)
+            Parallel.ForEach(methods, RunTestWithAttributes);
+            MethodsWithAttribute<AfterClassAttribute>(type, null);
+        }
+
+        private static void RunTestWithAttributes(MethodInfo method)
+        {
+            var type = method.DeclaringType;
+            var instance = Activator.CreateInstance(type);
+            MethodsWithAttribute<BeforeAttribute>(type, instance);
+            Run((method, instance));
+            MethodsWithAttribute<AfterAttribute>(type, instance);
+        }
+
+        private static void MethodsWithAttribute<AttributeType>(Type type, object instance)
+        {
+            var attributeMethods = new List<MethodInfo>();
+            var methods = type.GetMethods();
+            foreach (var method in methods)
             {
-                var invokeMethods = new List<(MethodInfo, object)>();
-                for (var i = 0; i < methods.Count; ++i)
+                var attributes = method.GetCustomAttributes();
+                foreach (var attribute in attributes)
                 {
-                    invokeMethods.Add((methods[i], instance));
+                    if (attribute.GetType() == typeof(AttributeType))
+                    {
+                        attributeMethods.Add(method);
+                        break;
+                    }
                 }
-                Parallel.ForEach(invokeMethods, task);
+            }
+            if (attributeMethods.Count > 1)
+            {
+                throw new MyTypeInitializationException();
+            }
+            else if (attributeMethods.Count != 0)
+            {
+                var task = MakeTask<AttributeType>(attributeMethods[0], instance);
+                attributeMethods[0].Invoke(instance, null);
             }
         }
 
-        private static Action<(MethodInfo, object)> MakeTask<AttributeType>(List<MethodInfo> methods, object instance)
+        private static Action<(MethodInfo, object)> MakeTask<AttributeType>(MethodInfo method, object instance)
         {
             if (typeof(AttributeType) == typeof(BeforeAttribute) || typeof(AttributeType) == typeof(BeforeClassAttribute)
                 || typeof(AttributeType) == typeof(AfterClassAttribute) || typeof(AttributeType) == typeof(AfterAttribute))
             {
-                foreach (var method in methods)
+                if (!method.IsStatic && (typeof(AttributeType) == typeof(BeforeClassAttribute) || typeof(AttributeType) == typeof(AfterClassAttribute)))
                 {
-                    if (!method.IsStatic && (typeof(AttributeType) == typeof(BeforeClassAttribute) || typeof(AttributeType) == typeof(AfterClassAttribute)))
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    return (Action<(MethodInfo, object)>)method.Invoke(instance, null);
+                    throw new InvalidOperationException();
                 }
+                return (Action<(MethodInfo, object)>)method.Invoke(instance, null);
             }
             else if (typeof(AttributeType) == typeof(TestAttribute))
             {
-                foreach (var method in methods)
-                {
-                    return RunTest;
-                }
+                return Run;
             }
             return null;
         }
 
-        private static void RunTest((MethodInfo, object) task) 
+        private static void Run((MethodInfo, object) task) 
         {
             var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(task.Item1, typeof(TestAttribute));
             TestInfo info = null;
