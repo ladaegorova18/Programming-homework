@@ -132,9 +132,9 @@ namespace MyNUnit
             return null;
         }
 
-        private static void Run((MethodInfo, object) task) 
+        private static void Run((MethodInfo method, object instance) task) 
         {
-            var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(task.Item1, typeof(TestAttribute));
+            var testAttribute = (TestAttribute)Attribute.GetCustomAttribute(task.method, typeof(TestAttribute));
             TestInfo info = null;
             bool ignored = false;
             string ignoreReason = null;
@@ -144,14 +144,14 @@ namespace MyNUnit
             {
                 ignored = true;
                 ignoreReason = testAttribute.Ignore;
-                info = new TestInfo(task.Item1, ignored, ignoreReason, crashed, time);
+                info = new TestInfo(task.method, ignored, ignoreReason, crashed, time);
                 TestInformation.Add(info);
                 return;
             }
-            if (task.Item1.GetParameters().Length > 0)
+            if (task.method.GetParameters().Length > 0)
             {
                 crashed = true;
-                info = new TestInfo(task.Item1, ignored, ignoreReason, crashed, time);
+                info = new TestInfo(task.method, ignored, ignoreReason, crashed, time);
                 TestInformation.Add(info);
                 return;
             }
@@ -161,17 +161,18 @@ namespace MyNUnit
 
             try
             {
-                task.Item1.Invoke(task.Item2, null);
+                task.method.Invoke(task.instance, null);
                 crashed = testAttribute.Expected != null;
             }
             catch (Exception e)
             {
                 crashed = testAttribute.Expected != e.InnerException.GetType();
             }
+
             stopWatch.Stop();
             time = stopWatch.ElapsedMilliseconds;
 
-            info = new TestInfo(task.Item1, ignored, ignoreReason, crashed, time);
+            info = new TestInfo(task.method, ignored, ignoreReason, crashed, time);
             TestInformation.Add(info);
         }
     }
