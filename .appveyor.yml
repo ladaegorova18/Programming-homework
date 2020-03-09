@@ -19,6 +19,7 @@ environment:
   - solution_path: sem2/homework7/Clock/Clock.sln
   - solution_path: sem2/homework8/GenericList/GenericList.sln
   - solution_path: sem2/homework8/GenericSet/GenericSet.sln
+  - solution_path: sem3/homework4/MyNUnit/MyNUnit.sln
   - solution_path: Tests/Test1.1/Task1.sln
   - solution_path: Tests/Test2.1/Test2.1.sln
   - solution_path: sem3/Tests/Test2/Test2.sln
@@ -44,6 +45,7 @@ test_script:
   - dotnet test sem2/homework7/Clock/Clock.sln
   - dotnet test sem2/homework8/GenericList/GenericList.sln
   - dotnet test sem2/homework8/GenericSet/GenericSet.sln
+  - dotnet test sem3/homework4/MyNUnit/MyNUnit.sln
   - dotnet test Tests/Test1.1/Task1.sln  
   - dotnet test Tests/Test2.1/Test2.1.sln
   - dotnet test sem3/Tests/Test2/Test2.sln
