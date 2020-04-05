@@ -11,4 +11,4 @@ build_script:
   - msbuild %solution_path%
 
 test_script:
-  - dotnet test --test-adapter-path:. --logger:Appveyor sem4\SpecifiedAccuracy\SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj
+  - dotnet test sem4\SpecifiedAccuracy\SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj
