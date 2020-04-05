@@ -5,10 +5,10 @@ environment:
   - solution_path: sem4\Factorial\Factorial.sln
 
 before_build:
- - nuget restore %solution_path%
+  - nuget restore %solution_path%
 
 build_script:
   - msbuild %solution_path%
 
 test_script:
-  - dotnet test sem4\Factorial\Factorial.Tests\SpecifiedAccuracy.Tests.fsproj
+  - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
