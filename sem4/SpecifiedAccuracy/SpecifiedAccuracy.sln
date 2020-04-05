@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SpecifiedAccuracy", "SpecifiedAccuracy\SpecifiedAccuracy.fsproj", "{FD887E6D-213A-40CD-8111-AD0DC42CBA12}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SpecifiedAccuracyTests", "SpecifiedAccuracyTests\SpecifiedAccuracyTests.fsproj", "{D737FD35-67B7-47EB-98B5-50F64D3A2169}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SpecifiedAccuracy.Tests", "SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj", "{D737FD35-67B7-47EB-98B5-50F64D3A2169}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
