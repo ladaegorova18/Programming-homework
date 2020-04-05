@@ -1,7 +1,16 @@
 image: Visual Studio 2019
 
+environment:
+  matrix:
+  - solution_path: sem4\Factorial\Factorial.sln
+  - solution_path: sem4/EvenNumbers/EvenNumbers.sln
+
 before_build:
-  - nuget restore sem4/EvenNumbers/EvenNumbers.sln
+  - nuget restore %solution_path%
 
 build_script:
-  - msbuild sem4/EvenNumbers/EvenNumbers.sln
+  - msbuild %solution_path%
+
+test_script:
+  - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
+  - dotnet test sem4\EvenNumbers\EvenNumbers.Tests\EvenNumbers.Tests.fsproj
