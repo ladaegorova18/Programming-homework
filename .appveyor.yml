@@ -1,7 +1,16 @@
 image: Visual Studio 2019
 
-before_build:
-  - nuget restore sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
+before_build: 
+  - dotnet restore [<ROOT>] [--configfile] [--disable-parallel]
+      [--force] [--ignore-failed-sources] [--no-cache]
+      [--no-dependencies] [--packages]
+  
+environment:
+  matrix:
+  - solution_path: sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
 
 build_script:
-  - msbuild sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
+  - msbuild %solution_path%
+
+test_script:
+  - dotnet test sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
