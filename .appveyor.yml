@@ -1,7 +1,16 @@
 image: Visual Studio 2019
+  
+environment:
+  matrix:
+  - solution_path: sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
 
 before_build:
-  - nuget restore sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
+  - nuget restore %solution_path%
 
 build_script:
-  - msbuild sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
+  - msbuild %solution_path%
+
+test_script:
+  - dotnet test --test-adapter-path:. --logger:Appveyor sem4\SpecifiedAccuracy\SpecifiedAccuracy.Tests.fsproj
+  
+  
