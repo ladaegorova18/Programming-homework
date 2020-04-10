@@ -7,5 +7,5 @@ let minimal a b = if a < b then a else b
 let minElement list =
     let minValueElement list = List.fold minimal (List.head list) list
     match list with
-    | [] -> failwith "List is empty!"
+    | [] -> failwith "Список пуст!"
     | _ -> minValueElement list

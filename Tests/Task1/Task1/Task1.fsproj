@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Stack.fs" />
     <Compile Include="MinElement.fs" />
     <Compile Include="Picture.fs" />
     <Compile Include="Program.fs" />

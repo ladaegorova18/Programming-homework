@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="StackTests.fs" />
     <Compile Include="MinElement.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

@@ -1,10 +1,4 @@
 ﻿module Picture
-
-/// Создает строку из звездочек
-let rec starLine acc line =
-    if acc > 0 then 
-        starLine (acc - 1) (line + "*")
-    else line
     
 /// Создает пустую строку со звездочками по бокам
 let rec centralLine acc line n =
@@ -13,13 +7,16 @@ let rec centralLine acc line n =
     | 1 -> (line + "*")
     | _ -> centralLine (acc - 1) (line + " ") n
 
+/// Создает строку из звездочек
+let rec starLine acc line = if acc > 0 then starLine (acc - 1) (line + "*") else line
+
 /// Создает квадрат 
 let square (n: int) =
     let rec makeStringList acc list =
         match acc with
-        | 1 -> (list @ [starLine n ""])
         | value when value = n -> makeStringList (acc - 1) [(starLine n "")]
         | value when value < 1 -> failwith "Введите неотрицательное число!"
+        | 1 -> (list @ [starLine n ""])
         | _ -> makeStringList (acc - 1) (list @ [centralLine n "" n])
     makeStringList n []
 

@@ -18,7 +18,10 @@ let testCases =
 let listMinElement (list: int List, result: int) =
     minElement list |> should equal result
 
-let minElementCheck (list: int list) = minElement list = List.min list
+let minElementCheck (list: int list) = if list <> [] then minElement list = List.min list else true
 
 [<Test>]
 let ``FsChecking``() = Check.QuickThrowOnFailure minElementCheck
+
+[<Test>]
+let ``EmptyList``() = (fun () -> minElement [] |> ignore) |> should throw typeof<System.Exception>
