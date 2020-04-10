@@ -21,6 +21,3 @@ let ``first empty then not empty test`` =
     stack.Push(6)
     stack.TryPop() |> ignore
     stack.Empty |> should be True
-
-
-
