@@ -1,11 +1,11 @@
 ﻿module MapTree
 
-// tree of nodes with values and empty nodes
+/// tree of nodes with values and empty nodes
 type Tree<'a> =
     | Node of 'a * Tree<'a> * Tree<'a> 
     | Empty
 
-// applies function to every tree's node and returns new tree
+/// applies function to every tree's node and returns new tree
 let rec mapTree func tree =
     match tree with
     | Empty -> Empty

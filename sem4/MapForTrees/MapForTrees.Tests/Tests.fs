@@ -4,7 +4,7 @@ open NUnit.Framework
 open MapTree
 open FsUnit
 
-// test cases for TreeMap tests
+/// test cases for TreeMap tests
 let testCases =
     [
         (fun x -> x + 1), Node(5, Node(3, Tree.Empty, Tree.Empty), Tree.Empty), 
