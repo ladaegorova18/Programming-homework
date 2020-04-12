@@ -1,7 +1,7 @@
-image: Visual Studio 2019 Preview
+image: Visual Studio 2019
 
 before_build:
-  - nuget restore sem2/homework8/GenericSet/GenericSet.sln
+  - nuget restore sem4/Factorial/Factorial/Factorial.sln
 
 build_script:
-  - msbuild sem2/homework8/GenericSet/GenericSet.sln
+  - msbuild sem4/Factorial/Factorial/Factorial.sln
