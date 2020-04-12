@@ -1,6 +1,6 @@
 ﻿module Parse
 
-// type of arithmetic expression 
+/// type of arithmetic expression 
 type Expression =
     | Int of int
     | Sum of Expression * Expression
@@ -8,7 +8,7 @@ type Expression =
     | Subtract of Expression * Expression
     | Divide of Expression * Expression
 
-// parsing expression tree
+/// parsing expression tree
 let rec parseTree expression =
     match expression with
     | Int x -> x
