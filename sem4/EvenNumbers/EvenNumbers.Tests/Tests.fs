@@ -2,6 +2,7 @@ module EvenNumbers.Tests
 
 open NUnit.Framework
 open FsUnit
+open FsCheck
 open FoldCount
 open FilterCount
 open MapCount
@@ -27,3 +28,18 @@ let foldTest list count = foldCount list |> should equal count
 [<TestCaseSource("testCases")>]
 [<Test>]
 let mapTest list count = mapCount list |> should equal count
+
+let filterEqualsFold list = filterCount list = foldCount list
+
+let filterEqualsMap list = filterCount list = mapCount list
+
+let foldEqualsMap list = foldCount list = mapCount list
+
+[<Test>]
+let ``filterCount should equal foldCount``() = Check.QuickThrowOnFailure filterEqualsFold
+
+[<Test>]
+let ``filterCount should equal mapCount``() = Check.QuickThrowOnFailure filterEqualsMap
+
+[<Test>]
+let ``foldCount should equal mapCount``() = Check.QuickThrowOnFailure foldEqualsMap

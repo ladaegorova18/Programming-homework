@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
@@ -9,7 +9,6 @@
     <Compile Include="MapCount.fs" />
     <Compile Include="FoldCount.fs" />
     <Compile Include="FilterCount.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
 </Project>
