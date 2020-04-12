@@ -4,6 +4,7 @@ environment:
   matrix:
   - solution_path: sem4\Factorial\Factorial.sln
   - solution_path: sem4/MapForTrees/MapForTrees.sln
+  - solution_path: Tests\Task1\Task1.sln
 
 before_build:
   - nuget restore %solution_path%
@@ -14,3 +15,4 @@ build_script:
 test_script:
   - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
   - dotnet test sem4\MapForTrees\MapForTrees.Tests\MapForTrees.Tests.fsproj
+  - dotnet test Tests\Task1\Task1\Task1.fsproj
