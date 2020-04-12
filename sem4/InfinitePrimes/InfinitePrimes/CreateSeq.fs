@@ -1,6 +1,6 @@
 ﻿module CreateSeq
 
-// checks if number n is prime
+/// checks if number n is prime
 let isPrime n =
     let rec check i =
         i > n / 2 || ((n % i <> 0) && check (i + 1))
@@ -8,5 +8,5 @@ let isPrime n =
     | _ when n < 2 -> false
     | _ -> check 2
 
-// creates a sequence of prime numbers
+/// creates a sequence of prime numbers
 let createSeq = Seq.initInfinite id |> Seq.filter isPrime
