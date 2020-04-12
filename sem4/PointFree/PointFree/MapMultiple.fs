@@ -1,6 +1,6 @@
 ﻿module MapMultiple
 
-//takes list and number and multiples all elements to number
+/// takes list and number and multiples all elements to number
 let mapMultiple1 x l = List.map (fun y -> y * x) l
 
 let mapMultiple2 (x: int) (l: int list) = List.map (fun y -> y * x) l
