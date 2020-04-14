@@ -11,7 +11,7 @@ namespace GUIForServer
     /// <summary>
     /// server class
     /// </summary>
-    public class Server
+    public class Server : IDisposable
     {
         private readonly CancellationTokenSource token = new CancellationTokenSource();
         private readonly TcpListener listener;
@@ -135,6 +135,6 @@ namespace GUIForServer
         /// <summary>
         /// stops server work
         /// </summary>
-        public void Cancel() => token.Cancel();
+        public void Dispose() => token.Cancel();
     }
 }

@@ -39,12 +39,12 @@ namespace GUIForServer
         /// <summary>
         /// path to current opened directory in client
         /// </summary>
-        public string currentClientDirectoryPath { get; private set; }
+        public string CurrentClientDirectoryPath { get; private set; }
 
         /// <summary>
         /// current opened directory in client
         /// </summary>
-        public string currentClientDirectory { get; private set; }
+        public string CurrentClientDirectory { get; private set; }
 
         /// <summary>
         /// list of downloading files
@@ -152,10 +152,10 @@ namespace GUIForServer
             root = Directory.GetCurrentDirectory() + root;
             ClientRoot = root;
             destination = root;
-            currentClientDirectoryPath = root;
+            CurrentClientDirectoryPath = root;
 
             currentServerDirectory = "";
-            currentClientDirectory = ClientRoot;
+            CurrentClientDirectory = ClientRoot;
 
             InitializePaths();
         }
@@ -166,10 +166,10 @@ namespace GUIForServer
         public async Task InitializePaths()
         {
             clientPaths.CollectionChanged += ClientPathsChanged;
-            await UpdateClientPaths("").ConfigureAwait(false);
+            await UpdateClientPaths("");
 
             serverFiles.CollectionChanged += ServerPathsChanged;
-            await UpdateServerPaths("").ConfigureAwait(false);
+            await UpdateServerPaths("");
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace GUIForServer
                 var file = info[0].Substring(folder.LastIndexOf('\\') + 1);
                 if (file != "")
                 {
-                    var isDir = info[1] == "True" ? true : false;
+                    var isDir = info[1] == "True";
                     serverPaths.Add((file, isDir));
                     serverFiles.Add(file);
                 }
@@ -277,15 +277,15 @@ namespace GUIForServer
                 return folderUpClient ??
                   (folderUpClient = new RelayCommand(obj =>
                   {
-                      if (currentClientDirectory == ClientRoot)
+                      if (CurrentClientDirectory == ClientRoot)
                       {
                           ErrorBox = "Client root reached";
                           return;
                       }
 
-                      currentClientDirectory = ChangeDirectoryPath(currentClientDirectory);
-                      UpdateClientPaths(currentClientDirectory).ConfigureAwait(false);
-                      currentClientDirectoryPath = Directory.GetParent(currentClientDirectoryPath).ToString();
+                      CurrentClientDirectory = ChangeDirectoryPath(CurrentClientDirectory);
+                      UpdateClientPaths(CurrentClientDirectory);
+                      CurrentClientDirectoryPath = Directory.GetParent(CurrentClientDirectoryPath).ToString();
                       destination = Directory.GetParent(destination).ToString();
                       OnPropertyChanged("Destination");
                   }));
@@ -309,7 +309,7 @@ namespace GUIForServer
                       }
 
                       currentServerDirectory = ChangeDirectoryPath(currentServerDirectory);
-                      UpdateServerPaths(currentServerDirectory).ConfigureAwait(false);
+                      UpdateServerPaths(currentServerDirectory);
                   }));
             }
         }
@@ -317,21 +317,14 @@ namespace GUIForServer
         private string ChangeDirectoryPath(string directoryPath)
         {
             var index = directoryPath.LastIndexOf('\\');
-            if (index > 0)
-            {
-                return directoryPath.Substring(0, index);
-            }
-            else
-            {
-                return "";
-            }
+            return (index > 0) ? directoryPath.Substring(0, index) :  "";
         }
 
         private async Task GoToClientRoot()
         {
             destination = ClientRoot;
-            currentClientDirectoryPath = ClientRoot;
-            await UpdateClientPaths(ClientRoot).ConfigureAwait(false);
+            CurrentClientDirectoryPath = ClientRoot;
+            await UpdateClientPaths(ClientRoot);
         }
 
         /// <summary>
@@ -394,12 +387,12 @@ namespace GUIForServer
 
         public async Task OpenClientFolder(string folder)
         {
-            if (Directory.Exists(Path.Combine(currentClientDirectoryPath, folder)))
+            if (Directory.Exists(Path.Combine(CurrentClientDirectoryPath, folder)))
             {
-                currentClientDirectoryPath = Path.Combine(currentClientDirectoryPath, folder);
-                currentClientDirectory = currentClientDirectoryPath;
+                CurrentClientDirectoryPath = Path.Combine(CurrentClientDirectoryPath, folder);
+                CurrentClientDirectory = CurrentClientDirectoryPath;
                 destination = Path.Combine(destination, folder);
-                await UpdateClientPaths(currentClientDirectoryPath).ConfigureAwait(false);
+                await UpdateClientPaths(CurrentClientDirectoryPath);
                 OnPropertyChanged("Destination");
             }
         }
@@ -419,12 +412,12 @@ namespace GUIForServer
 
                 if (isFile)
                 {
-                    await DownloadOneFile(path).ConfigureAwait(false);
+                    await DownloadOneFile(path);
                     return;
                 }
 
                 currentServerDirectory = Path.Combine(currentServerDirectory, path);
-                await UpdateServerPaths(currentServerDirectory).ConfigureAwait(false);
+                await UpdateServerPaths(currentServerDirectory);
             }
             catch (IOException e)
             {

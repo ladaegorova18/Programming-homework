@@ -8,7 +8,7 @@ namespace GUIForServer
     /// <summary>
     /// Client class
     /// </summary>
-    public class Client
+    public class Client : IDisposable
     {
         private TcpClient client = null;
 
@@ -43,7 +43,7 @@ namespace GUIForServer
         /// <summary>
         /// server method to close client
         /// </summary>
-        public void Close()
+        public void Dispose()
         {
             streamWriter?.Close();
             streamReader?.Close();
