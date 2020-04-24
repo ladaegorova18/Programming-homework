@@ -16,14 +16,14 @@ namespace GUIForServer
         private Client client;
         private string destination;
         private string host = "127.0.0.1";
-        private string port = "8888";
+        private int port = 8888;
         private bool connectStatus;
         private RelayCommand connectCommand;
         private RelayCommand folderUpClient;
         private RelayCommand folderUpServer;
         private readonly ObservableCollection<string> clientPaths = new ObservableCollection<string>();
-        private readonly ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
-        private readonly ObservableCollection<string> serverFiles = new ObservableCollection<string>();
+        private ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
+        private ObservableCollection<string> serverFiles = new ObservableCollection<string>();
         private string errorBox;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace GUIForServer
         /// <summary>
         /// current opened directory in server
         /// </summary>
-        public string currentServerDirectory { get; private set; }
+        public string CurrentServerDirectory { get; private set; }
 
         /// <summary>
         /// path to current opened directory in client
@@ -84,21 +84,27 @@ namespace GUIForServer
             get => host;
             set
             {
-                host = value;
-                OnPropertyChanged("Host");
+                if (CheckValidHost(host))
+                {
+                    host = value;
+                    OnPropertyChanged(nameof(Host));
+                }
             }
         }
 
         /// <summary>
         /// port to connect
         /// </summary>
-        public string Port
+        public int Port
         {
             get => port;
             set
             {
-                port = value;
-                OnPropertyChanged("Port");
+                if (CheckValidPort(value))
+                {
+                    port = value;
+                    OnPropertyChanged(nameof(Port));
+                }
             }
         }
 
@@ -110,9 +116,25 @@ namespace GUIForServer
             get => connectStatus ? "connected" : "disconnected";
             set
             {
-                connectStatus = client.Connected;
-                OnPropertyChanged("ConnectStatus");
+                if (CheckValidConnectStatus(value))
+                {
+                    connectStatus = client.Connected;
+                    OnPropertyChanged(nameof(ConnectStatus));
+                }    
             }
+        }
+
+        private bool CheckValidHost(string host) => host == client.Host;
+
+        private bool CheckValidPort(int port) => port == client.Port;
+
+        private bool CheckValidConnectStatus(string value)
+        {
+            if (client.Connected)
+            {
+                return value == "connected";
+            }
+            return value == "disconnected";
         }
 
         /// <summary>
@@ -124,7 +146,7 @@ namespace GUIForServer
             set
             {
                 errorBox = value;
-                OnPropertyChanged("ErrorBox");
+                OnPropertyChanged(nameof(ErrorBox));
             }
         }
 
@@ -137,28 +159,33 @@ namespace GUIForServer
             set
             {
                 destination = Path.Combine(ClientRoot, value);
-                OnPropertyChanged("Destination");
+                OnPropertyChanged(nameof(Destination));
             }
+        }
+
+        private void InitializeAsync(string root)
+        {
+            Task.Run(async () =>
+            {
+                Connect();
+
+                root = Directory.GetCurrentDirectory() + root;
+                ClientRoot = root;
+                destination = root;
+                CurrentClientDirectoryPath = root;
+
+                CurrentServerDirectory = "";
+                CurrentClientDirectory = ClientRoot;
+
+                await InitializePaths();
+            });
         }
 
         /// <summary>
         /// application view model constructor
         /// </summary>
         /// <param name="root"> root in client hierarchy </param>
-        public ApplicationViewModel(string root)
-        {
-            Connect();
-
-            root = Directory.GetCurrentDirectory() + root;
-            ClientRoot = root;
-            destination = root;
-            CurrentClientDirectoryPath = root;
-
-            currentServerDirectory = "";
-            CurrentClientDirectory = ClientRoot;
-
-            InitializePaths();
-        }
+        public ApplicationViewModel(string root) => InitializeAsync(root);
 
         /// <summary>
         /// initialize paths to folders on server and client
@@ -166,7 +193,7 @@ namespace GUIForServer
         public async Task InitializePaths()
         {
             clientPaths.CollectionChanged += ClientPathsChanged;
-            await UpdateClientPaths("");
+            UpdateClientPaths("");
 
             serverFiles.CollectionChanged += ServerPathsChanged;
             await UpdateServerPaths("");
@@ -176,7 +203,7 @@ namespace GUIForServer
         /// shows content in new folder in server
         /// </summary>
         /// <param name="path"> new folder </param>
-        public async Task UpdateClientPaths(string path)
+        public void UpdateClientPaths(string path)
         {
             var folders = Directory.EnumerateDirectories(Path.Combine(ClientRoot, path));
             while (clientPaths.Count > 0)
@@ -198,24 +225,21 @@ namespace GUIForServer
         public async Task UpdateServerPaths(string path)
         {
             var content = await client.List(path);
-            content = content.Substring(content.IndexOf(' ') + 1);
-            var folders = content.Split('\t');
+
             while (serverPaths.Count > 0)
             {
                 serverPaths.RemoveAt(serverPaths.Count - 1);
                 serverFiles.RemoveAt(serverFiles.Count - 1);
             }
 
-            foreach (var folder in folders)
+            foreach (var file in content)
             {
-                var info = folder.Split(' ');
-                var file = info[0].Substring(folder.LastIndexOf('\\') + 1);
-                if (file != "")
-                {
-                    var isDir = info[1] == "True";
-                    serverPaths.Add((file, isDir));
-                    serverFiles.Add(file);
-                }
+                serverPaths.Add(file);
+            }
+
+            foreach (var file in client.Files)
+            {
+                serverFiles.Add(file);
             }
         }
 
@@ -251,14 +275,11 @@ namespace GUIForServer
         {
             try
             {
-                if (int.TryParse(port, out int portValue))
-                {
-                    var server = new Server(host, portValue);
-                    server.Process();
-                    client = new Client();
-                    client.Connect(host, portValue);
-                    connectStatus = true;
-                }
+                var server = new Server(host, port);
+                server.Process();
+                client = new Client();
+                client.Connect(host, port);
+                connectStatus = true;
             }
             catch (SocketException)
             {
@@ -302,14 +323,14 @@ namespace GUIForServer
                 return folderUpServer ??
                   (folderUpServer = new RelayCommand(obj =>
                   {
-                      if (currentServerDirectory == "")
+                      if (CurrentServerDirectory == "")
                       {
                           ErrorBox = "Server root reached";
                           return;
                       }
 
-                      currentServerDirectory = ChangeDirectoryPath(currentServerDirectory);
-                      UpdateServerPaths(currentServerDirectory);
+                      CurrentServerDirectory = ChangeDirectoryPath(CurrentServerDirectory);
+                      UpdateServerPaths(CurrentServerDirectory);
                   }));
             }
         }
@@ -320,11 +341,11 @@ namespace GUIForServer
             return (index > 0) ? directoryPath.Substring(0, index) :  "";
         }
 
-        private async Task GoToClientRoot()
+        private void GoToClientRoot()
         {
             destination = ClientRoot;
             CurrentClientDirectoryPath = ClientRoot;
-            await UpdateClientPaths(ClientRoot);
+            UpdateClientPaths(ClientRoot);
         }
 
         /// <summary>
@@ -338,10 +359,10 @@ namespace GUIForServer
                 if (!Directory.Exists(destination))
                 {
                     ErrorBox = "Directory not found!";
-                    await GoToClientRoot();
+                    GoToClientRoot();
                     return;
                 }
-                var path = currentServerDirectory + file;
+                var path = CurrentServerDirectory + file;
 
                 LoadingFiles.Add(file);
 
@@ -385,14 +406,14 @@ namespace GUIForServer
         public RelayCommand Load => load ??
                   (load = new RelayCommand(async obj => await DownloadAllFiles()));
 
-        public async Task OpenClientFolder(string folder)
+        public void OpenClientFolder(string folder)
         {
             if (Directory.Exists(Path.Combine(CurrentClientDirectoryPath, folder)))
             {
                 CurrentClientDirectoryPath = Path.Combine(CurrentClientDirectoryPath, folder);
                 CurrentClientDirectory = CurrentClientDirectoryPath;
                 destination = Path.Combine(destination, folder);
-                await UpdateClientPaths(CurrentClientDirectoryPath);
+                UpdateClientPaths(CurrentClientDirectoryPath);
                 OnPropertyChanged("Destination");
             }
         }
@@ -416,8 +437,8 @@ namespace GUIForServer
                     return;
                 }
 
-                currentServerDirectory = Path.Combine(currentServerDirectory, path);
-                await UpdateServerPaths(currentServerDirectory);
+                CurrentServerDirectory = Path.Combine(CurrentServerDirectory, path);
+                await UpdateServerPaths(CurrentServerDirectory);
             }
             catch (IOException e)
             {

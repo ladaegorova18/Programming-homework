@@ -3,7 +3,7 @@
     /// <summary>
     /// Interface for writing messages on console
     /// </summary>
-    public interface IWriteable 
+    public interface IWriteable
     {
         void Write(string line);
 

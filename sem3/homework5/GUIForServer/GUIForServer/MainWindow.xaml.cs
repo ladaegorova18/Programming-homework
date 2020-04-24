@@ -1,4 +1,4 @@
-﻿/using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace GUIForServer
@@ -24,6 +24,6 @@ namespace GUIForServer
 
         private async void HandleServerDoubleClick(object sender, RoutedEventArgs e) => await model.OpenFolderOrLoad((sender as ListViewItem).Content.ToString());
 
-        private async void HandleClientDoubleClick(object sender, RoutedEventArgs e) => await model.OpenClientFolder((sender as ListViewItem).Content.ToString());
+        private void HandleClientDoubleClick(object sender, RoutedEventArgs e) => model.OpenClientFolder((sender as ListViewItem).Content.ToString());
     }
 }
