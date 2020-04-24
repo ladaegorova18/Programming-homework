@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GUIForServer.Tests
@@ -24,10 +25,13 @@ namespace GUIForServer.Tests
         }
 
         [TestMethod]
-        public async void OpenServerFolderTest()
+        public void OpenServerFolderTest()
         {
-            await model.OpenFolderOrLoad("Downloads");
-            Assert.IsTrue(Assertion(model.ServerExplorer, content));
+           Task.Run(async () =>
+           {
+               await model.OpenFolderOrLoad("Downloads");
+               Assert.IsTrue(Assertion(model.ServerExplorer, content));
+           });
         }
 
         private bool Assertion(ObservableCollection<string> paths, ObservableCollection<string> content)
