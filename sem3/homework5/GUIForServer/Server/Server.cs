@@ -42,7 +42,8 @@ namespace GUIForServer
                 while (!token.IsCancellationRequested)
                 {
                     client = await listener.AcceptTcpClientAsync();
-                    await Task.Run(() => HandleRequest()).ConfigureAwait(false);
+                    await HandleRequest();
+                    //await Task.Run(() => HandleRequest());
                 }
             }
             finally
@@ -64,13 +65,13 @@ namespace GUIForServer
             streamReader = new StreamReader(client.GetStream());
             while (!token.IsCancellationRequested)
             {
-                var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
+                var request = await streamReader.ReadLineAsync();
                 if (request != null)
                 {
                     var response = ParseRequest(request);
                     if (response != null)
                     {
-                        await streamWriter.WriteLineAsync(response).ConfigureAwait(false);
+                        await streamWriter.WriteLineAsync(response);
                     }
                 }
             }

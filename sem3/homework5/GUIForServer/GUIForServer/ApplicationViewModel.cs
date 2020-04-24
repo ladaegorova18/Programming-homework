@@ -271,12 +271,12 @@ namespace GUIForServer
         public RelayCommand ConnectCommand => connectCommand ??
                   (connectCommand = new RelayCommand(obj => Connect()));
 
-        private void Connect()
+        private async Task Connect()
         {
             try
             {
                 var server = new Server(host, port);
-                server.Process();
+                await server.Process();
                 client = new Client();
                 client.Connect(host, port);
                 connectStatus = true;
