@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Net.Sockets;
-using System.Linq;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace GUIForServer
 {
@@ -17,7 +14,6 @@ namespace GUIForServer
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private Client client;
-        private Server server;
         private string destination;
         private string host = "127.0.0.1";
         private int port = 8888;
@@ -27,7 +23,7 @@ namespace GUIForServer
         private RelayCommand folderUpServer;
         private readonly ObservableCollection<string> clientPaths = new ObservableCollection<string>();
         private readonly ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
-        private readonly ObservableCollection<string> serverFiles = new ObservableCollection<string>();
+        private ObservableCollection<string> serverFiles;
         private string errorBox;
 
         /// <summary>
@@ -63,12 +59,12 @@ namespace GUIForServer
         /// <summary>
         /// list of client files in form
         /// </summary>
-        public ObservableCollection<string> ClientExplorer { get; private set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> ClientExplorer { get; private set; }
 
         /// <summary>
         /// list of server files in form
         /// </summary>
-        public ObservableCollection<string> ServerExplorer { get; private set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> ServerExplorer { get; private set; }
 
         /// <summary>
         /// event to change properties on Form
@@ -169,13 +165,35 @@ namespace GUIForServer
             CurrentServerDirectory = "";
             CurrentClientDirectory = ClientRoot;
 
+            ServerExplorer = new ObservableCollection<string>();
+            ClientExplorer = new ObservableCollection<string>();
+
             clientPaths.CollectionChanged += ClientPathsChanged;
             UpdateClientPaths("");
 
-            serverFiles.CollectionChanged += ServerPathsChanged;
-            //Connect();
-            //UpdateServerPaths("");
             Task.Run(async () => await Connect());
+        }
+
+        private async Task Connect()
+        {
+            try
+            {
+                client = new Client();
+                client.Connect(host, port);
+
+                serverFiles = new ObservableCollection<string>();
+                serverFiles.CollectionChanged += ServerPathsChanged;
+
+                ServerExplorer.Clear();
+
+                await UpdateServerPaths("");
+                ConnectStatus = "Connected";
+            }
+            catch (SocketException)
+            {
+                ErrorBox = "Failed to connect";
+                connectStatus = false;
+            }
         }
 
         /// <summary>
@@ -184,6 +202,7 @@ namespace GUIForServer
         /// <param name="path"> new folder </param>
         public void UpdateClientPaths(string path)
         {
+
             var folders = Directory.EnumerateDirectories(Path.Combine(ClientRoot, path));
             while (clientPaths.Count > 0)
             {
@@ -203,14 +222,18 @@ namespace GUIForServer
         /// <param name="path"> new folder </param>
         public async Task UpdateServerPaths(string path)
         {
+            await ListPaths(path);
+        }
+
+        private async Task ListPaths(string path)
+        {
+            var content = await client.List(path);
+
             while (serverPaths.Count > 0)
             {
                 serverPaths.RemoveAt(serverPaths.Count - 1);
                 serverFiles.RemoveAt(serverFiles.Count - 1);
             }
-            var content = await client.List(path);
-            //var task = Task.Run(async () => await client.List(path));
-            //var content = task.Result;
 
             foreach (var file in content)
             {
@@ -250,41 +273,6 @@ namespace GUIForServer
         public RelayCommand ConnectCommand => connectCommand ??
                   (connectCommand = new RelayCommand(async obj => await Connect()));
 
-        private async Task Connect()
-        {
-            try
-            {
-                var serverThread = new Thread(StartServer);
-                serverThread.Start();
-
-                client = new Client();
-                while (!client.Connected)
-                {
-                    client.Connect(host, port);
-                }
-                ConnectStatus = "Connected";
-
-                await UpdateServerPaths("");
-            }
-            catch (SocketException)
-            {
-                ErrorBox = "Failed to connect";
-                connectStatus = false;
-            }
-        }
-
-        private void StartServer()
-        {
-            Task.Run(async () =>
-            {
-                if (server == null)
-                {
-                    server = new Server(host, port);
-                    await server.Process();
-                }
-            });
-        }
-
         /// <summary>
         /// goes to upper level in client file hierarchy
         /// </summary>
@@ -318,7 +306,7 @@ namespace GUIForServer
             get
             {
                 return folderUpServer ??
-                  (folderUpServer = new RelayCommand(obj =>
+                  (folderUpServer = new RelayCommand(async obj =>
                   {
                       if (CurrentServerDirectory == "")
                       {
@@ -327,7 +315,7 @@ namespace GUIForServer
                       }
 
                       CurrentServerDirectory = ChangeDirectoryPath(CurrentServerDirectory);
-                      UpdateServerPaths(CurrentServerDirectory);
+                      await UpdateServerPaths(CurrentServerDirectory);
                   }));
             }
         }
@@ -367,10 +355,6 @@ namespace GUIForServer
 
                 LoadingFiles.Remove(file);
                 LoadedFiles.Add(file);
-                if (!client.Connected)
-                {
-                    client.Connect(host, port);
-                }
             }
             catch (IOException e)
             {
@@ -414,11 +398,15 @@ namespace GUIForServer
                 CurrentClientDirectoryPath = Path.Combine(CurrentClientDirectoryPath, folder);
                 CurrentClientDirectory = CurrentClientDirectoryPath;
                 destination = Path.Combine(destination, folder);
+
                 UpdateClientPaths(CurrentClientDirectoryPath);
                 OnPropertyChanged("Destination");
             }
         }
 
+        /// <summary>
+        /// Open folder on server or download file
+        /// </summary>
         public async Task OpenFolderOrLoad(string path)
         {
             try
@@ -439,7 +427,7 @@ namespace GUIForServer
                 }
 
                 CurrentServerDirectory = Path.Combine(CurrentServerDirectory, path);
-                UpdateServerPaths(CurrentServerDirectory);
+                await UpdateServerPaths(CurrentServerDirectory);
             }
             catch (IOException e)
             {

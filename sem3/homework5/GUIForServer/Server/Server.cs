@@ -22,13 +22,13 @@ namespace GUIForServer
         /// <summary>
         /// constructor: assigns the TcpClient
         /// </summary>
-        public Server(string host, int port)
+        public Server(int port)
         {
             if (port < IPEndPoint.MinPort && port > IPEndPoint.MaxPort)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            listener = new TcpListener(IPAddress.Parse(host), port);
+            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace GUIForServer
                 while (!token.IsCancellationRequested)
                 {
                     client = await listener.AcceptTcpClientAsync();
-                    await HandleRequest();
+                    HandleRequest();
                 }
             }
             finally
@@ -58,22 +58,25 @@ namespace GUIForServer
         /// </summary>
         /// <param name="writer"> to write in stream </param>
         /// <param name="reader"> to read from stream </param>
-        private async Task HandleRequest()
+        private void HandleRequest()
         {
-            streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
-            streamReader = new StreamReader(client.GetStream());
-            while (!token.IsCancellationRequested)
+            Task.Run(async() =>
             {
-                var request = await streamReader.ReadLineAsync();
-                if (request != null)
+                streamWriter = new StreamWriter(client.GetStream()) { AutoFlush = true };
+                streamReader = new StreamReader(client.GetStream());
+                while (!token.IsCancellationRequested)
                 {
-                    var response = ParseRequest(request);
-                    if (response != null)
+                    var request = await streamReader.ReadLineAsync();
+                    if (request != null)
                     {
-                        await streamWriter.WriteLineAsync(response);
+                        var response = ParseRequest(request);
+                        if (response != null)
+                        {
+                            await streamWriter.WriteLineAsync(response);
+                        }
                     }
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -137,7 +140,8 @@ namespace GUIForServer
         /// </summary>
         public void Dispose()
         {
-
+            token.Cancel();
+            listener?.Stop();
         }
     }
 }

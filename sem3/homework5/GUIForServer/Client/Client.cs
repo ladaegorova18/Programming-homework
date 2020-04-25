@@ -54,10 +54,18 @@ namespace GUIForServer
                 Port = port;
                 Files = new ObservableCollection<string>();
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
                 Connected = false;
             }
+        }
+
+        /// <summary>
+        /// Stops the server
+        /// </summary>
+        public void Stop()
+        {
+            client.Close();
         }
 
         /// <summary>
@@ -67,7 +75,7 @@ namespace GUIForServer
         {
             streamWriter?.Close();
             streamReader?.Close();
-            client.Close();
+            client.Dispose();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,19 +12,35 @@ namespace GUIForServer.Tests
         private ApplicationViewModel model;
         private readonly ObservableCollection<string> content =
             new ObservableCollection<string> { "folder", "oneMoreFolder", "thirdFolder" };
+        private Server server;
 
 
         [TestInitialize]
-        public void Initialize() => model = new ApplicationViewModel(path);
+        public void Initialize()
+        {
+            server = new Server(8888);
+            var serverThread = new Thread(StartServer);
+            serverThread.Start();
+
+            model = new ApplicationViewModel(path);
+        }
+
+        private void StartServer()
+        {
+            Task.Run(async () =>
+            {
+                await server.Process();
+            });
+        }
 
         [TestMethod]
         public void OpenServerFolderTest()
         {
-           Task.Run(async () =>
-           {
-               await model.OpenFolderOrLoad("Downloads");
-               Assert.IsTrue(Assertion(model.ServerExplorer, content));
-           });
+            Task.Run(async () =>
+            {
+                await model.OpenFolderOrLoad("Downloads");
+                Assert.IsTrue(Assertion(model.ServerExplorer, content));
+            });
         }
 
         private bool Assertion(ObservableCollection<string> paths, ObservableCollection<string> content)
