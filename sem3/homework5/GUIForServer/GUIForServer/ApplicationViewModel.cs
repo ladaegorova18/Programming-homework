@@ -91,7 +91,7 @@ namespace GUIForServer
                 if (CheckValidHost(host))
                 {
                     host = value;
-                    OnPropertyChanged(nameof(Host));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace GUIForServer
                 if (CheckValidPort(value))
                 {
                     port = value;
-                    OnPropertyChanged(nameof(Port));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace GUIForServer
             set
             {
                 connectStatus = client.Connected;
-                OnPropertyChanged(nameof(ConnectStatus));
+                OnPropertyChanged();
             }
         }
 
@@ -138,7 +138,7 @@ namespace GUIForServer
             set
             {
                 errorBox = value;
-                OnPropertyChanged(nameof(ErrorBox));
+                OnPropertyChanged();
             }
         }
 
@@ -151,7 +151,7 @@ namespace GUIForServer
             set
             {
                 destination = Path.Combine(ClientRoot, value);
-                OnPropertyChanged(nameof(Destination));
+                OnPropertyChanged();
             }
         }
 
@@ -170,8 +170,12 @@ namespace GUIForServer
             CurrentClientDirectory = ClientRoot;
 
             clientPaths.CollectionChanged += ClientPathsChanged;
-            serverFiles.CollectionChanged += ServerPathsChanged;
             UpdateClientPaths("");
+
+            serverFiles.CollectionChanged += ServerPathsChanged;
+            //Connect();
+            //UpdateServerPaths("");
+            Task.Run(async () => await Connect());
         }
 
         /// <summary>
@@ -199,19 +203,19 @@ namespace GUIForServer
         /// <param name="path"> new folder </param>
         public async Task UpdateServerPaths(string path)
         {
-            var content = await client.List(path);
-
             while (serverPaths.Count > 0)
             {
                 serverPaths.RemoveAt(serverPaths.Count - 1);
                 serverFiles.RemoveAt(serverFiles.Count - 1);
             }
+            var content = await client.List(path);
+            //var task = Task.Run(async () => await client.List(path));
+            //var content = task.Result;
 
             foreach (var file in content)
             {
                 serverPaths.Add(file);
             }
-
             foreach (var file in client.Files)
             {
                 serverFiles.Add(file);
@@ -244,13 +248,13 @@ namespace GUIForServer
         /// connect to server command
         /// </summary>
         public RelayCommand ConnectCommand => connectCommand ??
-                  (connectCommand = new RelayCommand(obj => Task.Run(async () => await Connect())));
+                  (connectCommand = new RelayCommand(async obj => await Connect()));
 
         private async Task Connect()
         {
             try
             {
-                var serverThread = new Thread(ServerStart);
+                var serverThread = new Thread(StartServer);
                 serverThread.Start();
 
                 client = new Client();
@@ -269,7 +273,7 @@ namespace GUIForServer
             }
         }
 
-        private void ServerStart()
+        private void StartServer()
         {
             Task.Run(async () =>
             {
@@ -323,7 +327,7 @@ namespace GUIForServer
                       }
 
                       CurrentServerDirectory = ChangeDirectoryPath(CurrentServerDirectory);
-                      Task.Run(async() => await UpdateServerPaths(CurrentServerDirectory));
+                      UpdateServerPaths(CurrentServerDirectory);
                   }));
             }
         }
@@ -363,6 +367,10 @@ namespace GUIForServer
 
                 LoadingFiles.Remove(file);
                 LoadedFiles.Add(file);
+                if (!client.Connected)
+                {
+                    client.Connect(host, port);
+                }
             }
             catch (IOException e)
             {
@@ -431,7 +439,7 @@ namespace GUIForServer
                 }
 
                 CurrentServerDirectory = Path.Combine(CurrentServerDirectory, path);
-                await UpdateServerPaths(CurrentServerDirectory);
+                UpdateServerPaths(CurrentServerDirectory);
             }
             catch (IOException e)
             {

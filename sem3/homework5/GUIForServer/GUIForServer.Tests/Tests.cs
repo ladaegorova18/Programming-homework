@@ -17,14 +17,6 @@ namespace GUIForServer.Tests
         public void Initialize() => model = new ApplicationViewModel(path);
 
         [TestMethod]
-        public void OpenFolderTest()
-        {
-            Assert.IsTrue(Assertion(model.ClientExplorer, content));
-            model.OpenClientFolder("folder");
-            Assert.IsTrue(model.ClientExplorer.Count == 0);
-        }
-
-        [TestMethod]
         public void OpenServerFolderTest()
         {
            Task.Run(async () =>

@@ -54,7 +54,7 @@ namespace GUIForServer
                 Port = port;
                 Files = new ObservableCollection<string>();
             }
-            catch (SocketException)
+            catch (SocketException e)
             {
                 Connected = false;
             }
@@ -79,7 +79,7 @@ namespace GUIForServer
         {
             var folders = new ObservableCollection<(string, bool)>();
 
-            var response = await SendRequest(path, 1).ConfigureAwait(false);
+            var response = await SendRequest(path, 1);
             response = response.Substring(response.IndexOf(' ') + 1);
 
             var foldersSplit = response.Split('\t').ToList();
@@ -106,7 +106,7 @@ namespace GUIForServer
         /// <returns> downloads file to destination </returns>
         public async Task Get(string path, string destination)
         {
-            var content = await SendRequest(path, 2).ConfigureAwait(false);
+            var content = await SendRequest(path, 2);
 
             if (content == "-1")
             {
@@ -115,7 +115,7 @@ namespace GUIForServer
 
             using (var file = new StreamWriter(new FileStream(destination + $"\\{path}", FileMode.Create)))
             {
-                await file.WriteAsync(content).ConfigureAwait(false);
+                await file.WriteAsync(content);
             }
         }
 
@@ -127,8 +127,8 @@ namespace GUIForServer
             }
             try
             {
-                await streamWriter.WriteLineAsync($"{index} {path}").ConfigureAwait(false);
-                return await streamReader.ReadLineAsync().ConfigureAwait(false);
+                await streamWriter.WriteLineAsync($"{index} {path}");
+                return await streamReader.ReadLineAsync();
             }
             catch (Exception innerException)
             {
