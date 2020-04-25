@@ -15,8 +15,8 @@ namespace GUIForServer
     {
         private Client client;
         private string destination;
-        private string host = "127.0.0.1";
         private int port = 8888;
+        private string host = "127.0.0.1";
         private bool connectStatus;
         private RelayCommand connectCommand;
         private RelayCommand folderUpClient;
@@ -391,6 +391,9 @@ namespace GUIForServer
         public RelayCommand Load => load ??
                   (load = new RelayCommand(async obj => await DownloadAllFiles()));
 
+        /// <summary>
+        /// open folder on client
+        /// </summary>
         public void OpenClientFolder(string folder)
         {
             if (Directory.Exists(Path.Combine(CurrentClientDirectoryPath, folder)))
