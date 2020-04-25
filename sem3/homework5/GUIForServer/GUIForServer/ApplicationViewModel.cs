@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Net.Sockets;
+using System.Linq;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace GUIForServer
 {
@@ -14,6 +17,7 @@ namespace GUIForServer
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private Client client;
+        private Server server;
         private string destination;
         private string host = "127.0.0.1";
         private int port = 8888;
@@ -22,8 +26,8 @@ namespace GUIForServer
         private RelayCommand folderUpClient;
         private RelayCommand folderUpServer;
         private readonly ObservableCollection<string> clientPaths = new ObservableCollection<string>();
-        private ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
-        private ObservableCollection<string> serverFiles = new ObservableCollection<string>();
+        private readonly ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
+        private readonly ObservableCollection<string> serverFiles = new ObservableCollection<string>();
         private string errorBox;
 
         /// <summary>
@@ -116,26 +120,14 @@ namespace GUIForServer
             get => connectStatus ? "connected" : "disconnected";
             set
             {
-                if (CheckValidConnectStatus(value))
-                {
-                    connectStatus = client.Connected;
-                    OnPropertyChanged(nameof(ConnectStatus));
-                }    
+                connectStatus = client.Connected;
+                OnPropertyChanged(nameof(ConnectStatus));
             }
         }
 
         private bool CheckValidHost(string host) => host == client.Host;
 
         private bool CheckValidPort(int port) => port == client.Port;
-
-        private bool CheckValidConnectStatus(string value)
-        {
-            if (client.Connected)
-            {
-                return value == "connected";
-            }
-            return value == "disconnected";
-        }
 
         /// <summary>
         /// shows errors and warnings
@@ -163,40 +155,23 @@ namespace GUIForServer
             }
         }
 
-        private void InitializeAsync(string root)
-        {
-            Task.Run(async () =>
-            {
-                Connect();
-
-                root = Directory.GetCurrentDirectory() + root;
-                ClientRoot = root;
-                destination = root;
-                CurrentClientDirectoryPath = root;
-
-                CurrentServerDirectory = "";
-                CurrentClientDirectory = ClientRoot;
-
-                await InitializePaths();
-            });
-        }
-
         /// <summary>
         /// application view model constructor
         /// </summary>
         /// <param name="root"> root in client hierarchy </param>
-        public ApplicationViewModel(string root) => InitializeAsync(root);
-
-        /// <summary>
-        /// initialize paths to folders on server and client
-        /// </summary>
-        public async Task InitializePaths()
+        public ApplicationViewModel(string root)
         {
-            clientPaths.CollectionChanged += ClientPathsChanged;
-            UpdateClientPaths("");
+            root = Directory.GetCurrentDirectory() + root;
+            ClientRoot = root;
+            destination = root;
+            CurrentClientDirectoryPath = root;
 
+            CurrentServerDirectory = "";
+            CurrentClientDirectory = ClientRoot;
+
+            clientPaths.CollectionChanged += ClientPathsChanged;
             serverFiles.CollectionChanged += ServerPathsChanged;
-            await UpdateServerPaths("");
+            UpdateClientPaths("");
         }
 
         /// <summary>
@@ -269,23 +244,41 @@ namespace GUIForServer
         /// connect to server command
         /// </summary>
         public RelayCommand ConnectCommand => connectCommand ??
-                  (connectCommand = new RelayCommand(obj => Connect()));
+                  (connectCommand = new RelayCommand(obj => Task.Run(async () => await Connect())));
 
         private async Task Connect()
         {
             try
             {
-                var server = new Server(host, port);
-                await server.Process();
+                var serverThread = new Thread(ServerStart);
+                serverThread.Start();
+
                 client = new Client();
-                client.Connect(host, port);
-                connectStatus = true;
+                while (!client.Connected)
+                {
+                    client.Connect(host, port);
+                }
+                ConnectStatus = "Connected";
+
+                await UpdateServerPaths("");
             }
             catch (SocketException)
             {
                 ErrorBox = "Failed to connect";
                 connectStatus = false;
             }
+        }
+
+        private void ServerStart()
+        {
+            Task.Run(async () =>
+            {
+                if (server == null)
+                {
+                    server = new Server(host, port);
+                    await server.Process();
+                }
+            });
         }
 
         /// <summary>
@@ -330,7 +323,7 @@ namespace GUIForServer
                       }
 
                       CurrentServerDirectory = ChangeDirectoryPath(CurrentServerDirectory);
-                      UpdateServerPaths(CurrentServerDirectory);
+                      Task.Run(async() => await UpdateServerPaths(CurrentServerDirectory));
                   }));
             }
         }

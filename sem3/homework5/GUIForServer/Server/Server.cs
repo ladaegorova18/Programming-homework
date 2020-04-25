@@ -43,7 +43,6 @@ namespace GUIForServer
                 {
                     client = await listener.AcceptTcpClientAsync();
                     await HandleRequest();
-                    //await Task.Run(() => HandleRequest());
                 }
             }
             finally
@@ -136,6 +135,9 @@ namespace GUIForServer
         /// <summary>
         /// stops server work
         /// </summary>
-        public void Dispose() => token.Cancel();
+        public void Dispose()
+        {
+
+        }
     }
 }

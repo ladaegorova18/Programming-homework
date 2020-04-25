@@ -23,14 +23,14 @@
         <Button Content="Download all" Command="{Binding Load}" HorizontalAlignment="Left" Margin="118,73,0,0" VerticalAlignment="Top" Width="121" Height="53" RenderTransformOrigin="0.542,0.788" Grid.Column="1" Grid.Row="1"/>
         <ListView x:Name="loadingFiles" ItemsSource="{Binding LoadingFiles}" RenderTransformOrigin="1.7,0.075" Margin="0,132,207,10" FontSize="12" BorderBrush="#89000000" Grid.Column="1"/>
 
-        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" Grid.ColumnSpan="1" Margin="12,134,72,10" FontSize="14" Grid.Row="1">
+        <ListView x:Name="serverExplorer" ItemsSource="{Binding ServerExplorer}" DataContext="{Binding}" Grid.ColumnSpan="1" Margin="12,134,72,10" FontSize="14" Grid.Row="1">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleServerDoubleClick"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" Margin="0,166,5,10" FontSize="14" Grid.Row="1" Grid.Column="1">
+        <ListView x:Name="clientExplorer" ItemsSource="{Binding ClientExplorer}" DataContext="{Binding}" Margin="0,166,5,10" FontSize="14" Grid.Row="1" Grid.Column="1">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleClientDoubleClick"/>
@@ -48,7 +48,7 @@
             <Grid HorizontalAlignment="Left" Height="94" Margin="169,10,0,0" VerticalAlignment="Top" Width="164">
                 <TextBox x:Name="hostText" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="{Binding Host}" VerticalAlignment="Top" Width="159" FontSize="14"/>
                 <TextBox x:Name="portText" HorizontalAlignment="Left" Height="26" Margin="0,25,0,0" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="159" FontSize="14"/>
-                <Button Content="Connect" Command="{Binding Connect}" HorizontalAlignment="Left" Margin="65,62,0,0" VerticalAlignment="Top" Width="99" Height="28"/>
+                <Button Content="Connect" Command="{Binding ConnectCommand}" HorizontalAlignment="Left" Margin="65,62,0,0" VerticalAlignment="Top" Width="99" Height="28"/>
             </Grid>
         </Grid>
         <GridSplitter HorizontalAlignment="Left" Height="0" Margin="0,26,0,0" VerticalAlignment="Top" Width="5" Grid.Row="1" Grid.Column="1"/>
