@@ -20,7 +20,7 @@ namespace GUIForServer
         private StreamReader streamReader;
 
         /// <summary>
-        /// constructor: assigns the TcpClient
+        /// constructor: assigns a TcpClient
         /// </summary>
         public Server(int port)
         {

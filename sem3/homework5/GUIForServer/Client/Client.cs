@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -16,11 +16,6 @@ namespace GUIForServer
 
         private StreamReader streamReader;
         private StreamWriter streamWriter;
-
-        /// <summary>
-        /// List of files to show in explorer
-        /// </summary>
-        public ObservableCollection<string> Files { get; private set; }
 
         /// <summary>
         /// Host client is connected to
@@ -52,9 +47,8 @@ namespace GUIForServer
                 Connected = true;
                 Host = host;
                 Port = port;
-                Files = new ObservableCollection<string>();
             }
-            catch (SocketException)
+            catch (SocketException e)
             {
                 Connected = false;
             }
@@ -63,10 +57,7 @@ namespace GUIForServer
         /// <summary>
         /// Stops the server
         /// </summary>
-        public void Stop()
-        {
-            client.Close();
-        }
+        public void Stop() => client.Close();
 
         /// <summary>
         /// server method to close client
@@ -83,15 +74,14 @@ namespace GUIForServer
         /// </summary>
         /// <param name="path"> path to directory </param>
         /// <returns> list of files in directory </returns>
-        public async Task<ObservableCollection<(string, bool)>> List(string path)
+        public async Task<List<(string, bool)>> List(string path)
         {
-            var folders = new ObservableCollection<(string, bool)>();
+            var folders = new List<(string, bool)>();
 
             var response = await SendRequest(path, 1);
             response = response.Substring(response.IndexOf(' ') + 1);
 
             var foldersSplit = response.Split('\t').ToList();
-            Files.Clear();
 
             foreach (var folder in foldersSplit)
             {
@@ -101,7 +91,6 @@ namespace GUIForServer
                 {
                     var isDir = info[1] == "True";
                     folders.Add((file, isDir));
-                    Files.Add(file);
                 }
             }
             return folders;

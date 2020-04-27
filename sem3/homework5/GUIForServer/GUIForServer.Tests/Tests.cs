@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,40 +18,21 @@ namespace GUIForServer.Tests
         public void Initialize()
         {
             server = new Server(8888);
-            var serverThread = new Thread(StartServer);
-            serverThread.Start();
+            Task.Run(async () => await server.Process());
 
             model = new ApplicationViewModel(path);
-        }
-
-        private void StartServer()
-        {
-            Task.Run(async () =>
-            {
-                await server.Process();
-            });
         }
 
         [TestMethod]
         public void OpenServerFolderTest()
         {
-            Task.Run(async () =>
+            var task = new Task(async () =>
             {
                 await model.OpenFolderOrLoad("Downloads");
-                Assert.IsTrue(Assertion(model.ServerExplorer, content));
+                CollectionAssert.AreEquivalent(model.ServerExplorer, content);
             });
-        }
-
-        private bool Assertion(ObservableCollection<string> paths, ObservableCollection<string> content)
-        {
-            for (var i = 0; i < paths.Count; ++i)
-            {
-                if (paths[i] != content[i])
-                {
-                    return false;
-                }
-            }
-            return true;
+            task.Start();
+            task.Wait();
         }
 
         [TestMethod]

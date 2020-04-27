@@ -2,8 +2,14 @@
 
 namespace GUIForServer
 {
-    class Program
+    /// <summary>
+    /// Server start
+    /// </summary>
+    public class Program
     {
+        /// <summary>
+        /// Creates server to listen
+        /// </summary>
         static async Task Main(string[] args)
         {
             var server = new Server(8888);

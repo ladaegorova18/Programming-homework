@@ -15,15 +15,13 @@ namespace GUIForServer
     {
         private Client client;
         private string destination;
-        private int port = 8888;
-        private string host = "127.0.0.1";
         private bool connectStatus;
+        private string host = "127.0.0.1";
+        private int port = 8888;
         private RelayCommand connectCommand;
         private RelayCommand folderUpClient;
         private RelayCommand folderUpServer;
-        private readonly ObservableCollection<string> clientPaths = new ObservableCollection<string>();
         private readonly ObservableCollection<(string, bool)> serverPaths = new ObservableCollection<(string, bool)>();
-        private ObservableCollection<string> serverFiles;
         private string errorBox;
 
         /// <summary>
@@ -84,11 +82,8 @@ namespace GUIForServer
             get => host;
             set
             {
-                if (CheckValidHost(host))
-                {
-                    host = value;
-                    OnPropertyChanged();
-                }
+                host = value;
+                OnPropertyChanged();
             }
         }
 
@@ -100,11 +95,8 @@ namespace GUIForServer
             get => port;
             set
             {
-                if (CheckValidPort(value))
-                {
-                    port = value;
-                    OnPropertyChanged();
-                }
+                port = value;
+                OnPropertyChanged();
             }
         }
 
@@ -114,16 +106,8 @@ namespace GUIForServer
         public string ConnectStatus
         {
             get => connectStatus ? "connected" : "disconnected";
-            set
-            {
-                connectStatus = client.Connected;
-                OnPropertyChanged();
-            }
+            set => OnPropertyChanged();
         }
-
-        private bool CheckValidHost(string host) => host == client.Host;
-
-        private bool CheckValidPort(int port) => port == client.Port;
 
         /// <summary>
         /// shows errors and warnings
@@ -168,7 +152,6 @@ namespace GUIForServer
             ServerExplorer = new ObservableCollection<string>();
             ClientExplorer = new ObservableCollection<string>();
 
-            clientPaths.CollectionChanged += ClientPathsChanged;
             UpdateClientPaths("");
 
             Task.Run(async () => await Connect());
@@ -181,13 +164,10 @@ namespace GUIForServer
                 client = new Client();
                 client.Connect(host, port);
 
-                serverFiles = new ObservableCollection<string>();
-                serverFiles.CollectionChanged += ServerPathsChanged;
-
                 ServerExplorer.Clear();
 
                 await UpdateServerPaths("");
-                ConnectStatus = "Connected";
+                connectStatus = true;
             }
             catch (SocketException)
             {
@@ -202,17 +182,16 @@ namespace GUIForServer
         /// <param name="path"> new folder </param>
         public void UpdateClientPaths(string path)
         {
-
             var folders = Directory.EnumerateDirectories(Path.Combine(ClientRoot, path));
-            while (clientPaths.Count > 0)
+            while (ClientExplorer.Count > 0)
             {
-                clientPaths.RemoveAt(clientPaths.Count - 1);
+                ClientExplorer.RemoveAt(ClientExplorer.Count - 1);
             }
 
             foreach (var folder in folders)
             {
                 var file = folder.Substring(folder.LastIndexOf('\\') + 1);
-                clientPaths.Add(file);
+                ClientExplorer.Add(file);
             }
         }
 
@@ -220,50 +199,20 @@ namespace GUIForServer
         /// shows content in new folder on server
         /// </summary>
         /// <param name="path"> new folder </param>
-        public async Task UpdateServerPaths(string path)
-        {
-            await ListPaths(path);
-        }
-
-        private async Task ListPaths(string path)
+        private async Task UpdateServerPaths(string path)
         {
             var content = await client.List(path);
 
             while (serverPaths.Count > 0)
             {
                 serverPaths.RemoveAt(serverPaths.Count - 1);
-                serverFiles.RemoveAt(serverFiles.Count - 1);
+                ServerExplorer.RemoveAt(ServerExplorer.Count - 1);
             }
 
             foreach (var file in content)
             {
                 serverPaths.Add(file);
-            }
-            foreach (var file in client.Files)
-            {
-                serverFiles.Add(file);
-            }
-        }
-
-        private void ClientPathsChanged(object sender, NotifyCollectionChangedEventArgs e) => RefreshExplorer(ClientExplorer, e);
-
-        private void ServerPathsChanged(object sender, NotifyCollectionChangedEventArgs e) => RefreshExplorer(ServerExplorer, e);
-
-        private void RefreshExplorer(ObservableCollection<string> explorer, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var file in e.OldItems)
-                {
-                    explorer.Remove(file.ToString());
-                }
-            }
-            if (e.NewItems != null)
-            {
-                foreach (var file in e.NewItems)
-                {
-                    explorer.Add(file.ToString());
-                }
+                ServerExplorer.Add(file.Item1);
             }
         }
 
