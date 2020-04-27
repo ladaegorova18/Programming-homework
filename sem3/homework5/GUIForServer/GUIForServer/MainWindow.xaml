@@ -30,7 +30,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <ListView x:Name="clientExplorer" HorizontalContentAlignment="Stretch" ItemsSource="{Binding ClientExplorer}" DataContext="{Binding}" Margin="0,134,5,10" FontSize="14" Grid.Row="1" Grid.Column="1">
+        <ListView x:Name="clientExplorer" HorizontalContentAlignment="Stretch" ItemsSource="{Binding ClientExplorer}" DataContext="{Binding}" Margin="0,0,5,10" FontSize="14" Grid.Row="1" Grid.Column="1" Height="190" VerticalAlignment="Bottom">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="HandleClientDoubleClick"/>
@@ -38,7 +38,7 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <Label Content="Download to:" HorizontalAlignment="Left" Margin="259,26,0,0" VerticalAlignment="Top" Width="116" Height="37" FontSize="16" Grid.Column="1" Grid.Row="1"/>
-        <TextBox Text="{Binding Destination}" Grid.Column="1" HorizontalAlignment="Left" Height="57" Margin="259,69,0,217" TextWrapping="Wrap" VerticalAlignment="Center" Width="209" FontSize="16" 
+        <TextBox Text="{Binding Destination}" Grid.Column="1" Height="56" Margin="259,65,32,213" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" 
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Enter path here" RenderTransformOrigin="1,0" Grid.Row="1"/>
         <Grid HorizontalAlignment="Left" Height="314" Margin="10,9,0,0" VerticalAlignment="Top" Width="398">
             <Label HorizontalContentAlignment="Stretch" Content="Welcome to FTP client! &#xA;To get on the folder up click &quot;Folder up&quot;&#xA;To open folder click on the folder twice.&#xA;To download one file from server click on the file twice in &#xD;&#xA;server explorer.&#xA;To download all files in opened folder click &quot;Download all&quot;&#xA;You also can input destination to download." HorizontalAlignment="Left" Margin="10,182,0,0" VerticalAlignment="Top" Height="132" Width="378" RenderTransformOrigin="0.705,0.636"/>
@@ -52,8 +52,8 @@
             </Grid>
         </Grid>
         <GridSplitter HorizontalAlignment="Left" Height="0" Margin="0,26,0,0" VerticalAlignment="Top" Width="5" Grid.Row="1" Grid.Column="1"/>
-        <Label Content="Loading files" HorizontalAlignment="Left" Margin="13,30,0,0" VerticalAlignment="Top" Width="110" Height="32" FontSize="16" Grid.Column="1"/>
-        <Label Content="Loaded files" HorizontalAlignment="Left" Margin="217,30,0,0" VerticalAlignment="Top" Width="112" Height="32" FontSize="16" Grid.Column="1" RenderTransformOrigin="-0.492,0.061"/>
+        <Label Content="Loading files" Margin="0,30,335,271" FontSize="16" Grid.Column="1" RenderTransformOrigin="-0.014,0.516"/>
+        <Label Content="Loaded files" Margin="217,30,116,0" FontSize="16" Grid.Column="1" RenderTransformOrigin="-0.492,0.061" Height="32" VerticalAlignment="Top"/>
         <ListView x:Name="loadedFiles" HorizontalContentAlignment="Stretch" ItemsSource="{Binding LoadedFiles}" Margin="217,131,0,10" FontSize="12" BorderBrush="#8A000000" BorderThickness="1" Grid.Column="1"/>
     </Grid>
 </Window>
