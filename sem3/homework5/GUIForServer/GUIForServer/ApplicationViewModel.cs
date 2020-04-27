@@ -28,7 +28,7 @@ namespace GUIForServer
         /// root in client file hierarchy 
         /// </summary>
         public string ClientRoot { get; private set; }
-        
+
         /// <summary>
         /// current opened directory in server
         /// </summary>
@@ -103,15 +103,7 @@ namespace GUIForServer
         /// <summary>
         /// connection status
         /// </summary>
-        public string ConnectStatus
-        {
-            get => connectStatus ? "connected" : "disconnected";
-            set
-            {
-                ConnectStatus = value;
-                OnPropertyChanged();
-            }
-        }
+        public string ConnectStatus => connectStatus ? "connected" : "disconnected";
 
         /// <summary>
         /// shows errors and warnings
@@ -168,8 +160,6 @@ namespace GUIForServer
                 client = new Client();
                 client.Connect(host, port);
 
-                ServerExplorer.Clear();
-
                 await UpdateServerPaths("");
                 connectStatus = true;
             }
@@ -178,6 +168,7 @@ namespace GUIForServer
                 ErrorBox = "Failed to connect";
                 connectStatus = false;
             }
+            OnPropertyChanged();
         }
 
         /// <summary>
@@ -276,7 +267,7 @@ namespace GUIForServer
         private string ChangeDirectoryPath(string directoryPath)
         {
             var index = directoryPath.LastIndexOf('\\');
-            return (index > 0) ? directoryPath.Substring(0, index) :  "";
+            return (index > 0) ? directoryPath.Substring(0, index) : "";
         }
 
         private void GoToClientRoot()
