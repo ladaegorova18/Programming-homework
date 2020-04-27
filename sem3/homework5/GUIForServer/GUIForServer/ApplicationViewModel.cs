@@ -106,7 +106,11 @@ namespace GUIForServer
         public string ConnectStatus
         {
             get => connectStatus ? "connected" : "disconnected";
-            set => OnPropertyChanged();
+            set
+            {
+                ConnectStatus = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
