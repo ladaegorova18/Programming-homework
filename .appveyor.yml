@@ -1,7 +1,18 @@
 image: Visual Studio 2019
 
+environment:
+  matrix:
+  - solution_path: sem4\Factorial\Factorial.sln
+  - solution_path: sem4\BracketsChecker\BracketsChecker.sln
+  - solution_path: Tests\Task1\Task1.sln
+
 before_build:
-  - nuget restore sem4\BracketsChecker\BracketsChecker.sln
+  - nuget restore %solution_path%
 
 build_script:
-  - msbuild sem4\BracketsChecker\BracketsChecker.sln
+  - msbuild %solution_path%
+
+test_script:
+  - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
+  - dotnet test sem4\BracketsChecker\BracketsChecker.Tests\BracketsChecker.Tests.fsproj
+  - dotnet test Tests\Task1\Task1\Task1.fsproj
