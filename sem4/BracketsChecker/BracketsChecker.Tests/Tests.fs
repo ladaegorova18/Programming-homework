@@ -1,11 +1,23 @@
 module BracketsChecker.Tests
 
 open NUnit.Framework
+open Checker
+open FsUnit
 
-[<SetUp>]
-let Setup () =
-    ()
+let testCases = 
+    [
+    "", true
+    "(", false
+    "()", true
+    "{}", true
+    "{]", false
+    "[[[]]]", true
+    "{test}", true
+    "[[[42)]", false
+    "(([[{{()}}]]))", true
+    "[[", false
+    ] |> List.map (fun (line, res) -> TestCaseData(line, res))
 
+[<TestCaseSource("testCases")>]
 [<Test>]
-let Test1 () =
-    Assert.Pass()
+let checkerTest line result = bracketsChecker line |> should equal result

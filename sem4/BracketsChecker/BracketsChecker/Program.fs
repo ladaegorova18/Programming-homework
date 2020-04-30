@@ -2,6 +2,6 @@
 
 [<EntryPoint>]
 let main argv =
-    let line = "[[[()]]]"
+    let line = "[[([)]]"
     printfn "%A" <| bracketsChecker line
     0 
