@@ -3,7 +3,7 @@
 open System
 open Options
 
-// Приветственный текст
+/// Приветственный текст
 let mainText() =
     Console.WriteLine("Добро пожаловать в телефонный справочник! Нажмите:");
     Console.WriteLine("1, чтобы выйти");
@@ -14,7 +14,7 @@ let mainText() =
     Console.WriteLine("6, сохранить текущие данные в файл");
     Console.WriteLine("7, считать данные из файла");
 
-// Главное меню
+/// Главное меню
 let mainMenu() =
     let rec options seq = 
         mainText();
