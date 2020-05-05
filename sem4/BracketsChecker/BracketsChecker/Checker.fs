@@ -2,15 +2,17 @@
 
 open Stack
 
+/// Являются ли два символа открывающей и закрывающей скобками
 let balanced first second = 
     first = '(' && second = ')' ||
     first = '{' && second = '}' ||
     first = '[' && second = ']' 
 
+/// Закрывающая скобка или нет
 let closeBracket x = 
     x = ')' || x = '}' || x = ']'
 
-// Checks a bracket balance in line
+/// Checks a bracket balance in line
 let bracketsChecker line =
     let rec recChecker lineToCheck (stack : MyStack) =
         match lineToCheck with
