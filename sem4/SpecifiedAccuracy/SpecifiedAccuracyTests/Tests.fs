@@ -62,7 +62,3 @@ let checkRound (number1: float) (number2: float) =
 
 [<Test>]
 let ``Check.Quick testing``() = Check.QuickThrowOnFailure checkRound
-
-
-
-
