@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Options.fs" />
-    <Compile Include="Menu.fs" />
+    <Compile Include="Model.fs" />
+    <Compile Include="View.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

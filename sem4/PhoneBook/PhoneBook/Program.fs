@@ -3,5 +3,5 @@ open Menu
 
 [<EntryPoint>]
 let main argv =
-    mainMenu();
+    mainMenu()
     0 
