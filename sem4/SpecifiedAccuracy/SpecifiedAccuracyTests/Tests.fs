@@ -1,4 +1,4 @@
-module SpecifiedAccuracyTests
+module Tests.SpecifiedAccuracyTests
 
 open System
 open NUnit.Framework
@@ -51,7 +51,9 @@ let ``round PI to 2 digits``() = roundPI 2 |> should (equalWithin 0.01) 3.15
 let checkRound (number1: float) (number2: float) =
     let rand = new Random()
     let precision = rand.Next(0, 15)
-    let result = Math.Round(number1 / number2, precision)
+    let firstRounded = Math.Round(number1, precision)
+    let secondRounded = Math.Round(number2, precision)
+    let result = Math.Round(firstRounded / secondRounded, precision)
     let rounding = new RoundingBuilder(precision)
 
     rounding {
@@ -61,4 +63,4 @@ let checkRound (number1: float) (number2: float) =
     } |> should (equalWithin (Math.Pow(0.1, (float)precision))) result
 
 [<Test>]
-let ``Check.Quick testing``() = Check.QuickThrowOnFailure checkRound
+let ``Check testing``() = Check.QuickThrowOnFailure checkRound
