@@ -16,6 +16,9 @@ let testCases =
     "[[[42)]", false
     "(([[{{()}}]]))", true
     "[[", false
+    "[(])", false
+    "(999)0", true
+    "[({)]}", false
     ] |> List.map (fun (line, res) -> TestCaseData(line, res))
 
 [<TestCaseSource("testCases")>]

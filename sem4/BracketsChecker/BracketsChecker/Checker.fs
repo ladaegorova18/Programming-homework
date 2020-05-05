@@ -2,25 +2,25 @@
 
 open Stack
 
+let balanced first second = 
+    first = '(' && second = ')' ||
+    first = '{' && second = '}' ||
+    first = '[' && second = ']' 
+
+let closeBracket x = 
+    x = ')' || x = '}' || x = ']'
+
 // Checks a bracket balance in line
-let oneTypeBracketsChecker (openBracket, closeBracket, equals, line) =
+let bracketsChecker line =
     let rec recChecker lineToCheck (stack : MyStack) =
         match lineToCheck with
         | [] -> stack.EmptyStack
         | x :: tail -> 
-            if (equals openBracket x) then
-                recChecker tail (stack.Push x)
-            elif not stack.EmptyStack
-                && equals closeBracket x && equals stack.Top openBracket then
-                    recChecker tail stack.Pop
-            else if (not (equals closeBracket x || equals openBracket x)) then
-                recChecker tail stack
-            else false
+            if (x = '(' || x = '{' || x = '[') then recChecker tail (stack.Push x)
+            else if (not stack.EmptyStack && balanced stack.Top x) then
+                recChecker tail stack.Pop
+            else if (closeBracket x) then recChecker tail (stack.Push x)
+            else recChecker tail stack
     recChecker (Seq.toList(line)) Empty
 
-// Checks a bracket balance for all bracket types 
-let bracketsChecker line =
-    oneTypeBracketsChecker ('{', '}', (=), line) &&
-    oneTypeBracketsChecker ('(', ')', (=), line) &&
-    oneTypeBracketsChecker ('[', ']', (=), line) 
 
