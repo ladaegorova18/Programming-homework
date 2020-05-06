@@ -13,7 +13,7 @@ let ``should round to 0 digits``() =
         let! a = 2.0 / 12.0
         let! b = 3.5
         return a / b
-    } |> should equal 0.0
+    } |> should equal 0
 
 [<Test>]
 let ``should round to 3 digits``() =
