@@ -21,7 +21,7 @@ let bracketsChecker line =
             if (x = '(' || x = '{' || x = '[') then recChecker tail (stack.Push x)
             else if (not stack.EmptyStack && balanced stack.Top x) then
                 recChecker tail stack.Pop
-            else if (closeBracket x) then recChecker tail (stack.Push x)
+            else if (closeBracket x && stack.EmptyStack) then false
             else recChecker tail stack
     recChecker (Seq.toList(line)) Empty
 
