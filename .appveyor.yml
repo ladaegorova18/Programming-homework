@@ -17,8 +17,8 @@ build_script:
   - msbuild %solution_path%
 
 test_script:
-  - dotnet test sem4\SpecifiedAccuracy\SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj
   - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
+  - dotnet test sem4\SpecifiedAccuracy\SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj
   - dotnet test sem4\ParseTree\ParseTree.Tests\ParseTree.Tests.fsproj
   - dotnet test sem4\MapForTrees\MapForTrees.Tests\MapForTrees.Tests.fsproj
   - dotnet test sem4\Pointfree\Pointfree.Tests\Pointfree.Tests.fsproj
