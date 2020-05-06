@@ -4,7 +4,13 @@ environment:
   matrix:
   - solution_path: sem4\Factorial\Factorial.sln
   - solution_path: sem4\BracketsChecker\BracketsChecker.sln
+  - solution_path: sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
+  - solution_path: sem4/ParseTree/ParseTree.sln
+  - solution_path: sem4/MapForTrees/MapForTrees.sln
+  - solution_path: sem4/Pointfree/Pointfree.sln
   - solution_path: Tests\Task1\Task1.sln
+  - solution_path: sem4\InfinitePrimes\InfinitePrimes.sln
+  - solution_path: sem4\PhoneBook\PhoneBook.sln
 
 before_build:
   - nuget restore %solution_path%
@@ -15,4 +21,10 @@ build_script:
 test_script:
   - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
   - dotnet test sem4\BracketsChecker\BracketsChecker.Tests\BracketsChecker.Tests.fsproj
+  - dotnet test sem4\SpecifiedAccuracy\SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj
+  - dotnet test sem4\ParseTree\ParseTree.Tests\ParseTree.Tests.fsproj
+  - dotnet test sem4\MapForTrees\MapForTrees.Tests\MapForTrees.Tests.fsproj
+  - dotnet test sem4\Pointfree\Pointfree.Tests\Pointfree.Tests.fsproj
   - dotnet test Tests\Task1\Task1\Task1.fsproj
+  - dotnet test sem4\InfinitePrimes\InfinitePrimes\InfinitePrimes.fsproj
+  - dotnet test sem4\PhoneBook\PhoneBook\PhoneBook.fsproj
