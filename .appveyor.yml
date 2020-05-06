@@ -3,6 +3,7 @@ image: Visual Studio 2019
 environment:
   matrix:
   - solution_path: sem4\Factorial\Factorial.sln
+  - solution_path: sem4\BracketsChecker\BracketsChecker.sln
   - solution_path: sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
   - solution_path: sem4/ParseTree/ParseTree.sln
   - solution_path: sem4/MapForTrees/MapForTrees.sln
@@ -19,6 +20,7 @@ build_script:
 
 test_script:
   - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
+  - dotnet test sem4\BracketsChecker\BracketsChecker.Tests\BracketsChecker.Tests.fsproj
   - dotnet test sem4\SpecifiedAccuracy\SpecifiedAccuracyTests\SpecifiedAccuracy.Tests.fsproj
   - dotnet test sem4\ParseTree\ParseTree.Tests\ParseTree.Tests.fsproj
   - dotnet test sem4\MapForTrees\MapForTrees.Tests\MapForTrees.Tests.fsproj
