@@ -15,7 +15,7 @@ let ``should equal Some(3)``() =
         let z = x + y
         return z
     } 
-    Assert.AreEqual(result, Some 3)
+    result |> should equal (Some 3)
     
 [<Test>]
 let ``should equal Some(-2)``() =
@@ -25,7 +25,7 @@ let ``should equal Some(-2)``() =
         let z = x * y
         return z
     } 
-    Assert.AreEqual(result, Some -2)
+    result |> should equal (Some -2)
 
 [<Test>]
 let ``should be None``() =
@@ -35,7 +35,7 @@ let ``should be None``() =
         let z = x + y
         return z
     }
-    Assert.IsTrue(result.IsNone)
+    result.IsNone |> should be True
 
 [<Test>]
 let ``should be None too``() =
@@ -45,7 +45,7 @@ let ``should be None too``() =
         let z = x + y
         return z
     } 
-    Assert.IsTrue(result.IsNone)
+    result.IsNone |> should be True
 
 let calc number1 number2 =
     let result = calculate {
@@ -54,7 +54,7 @@ let calc number1 number2 =
         let z = x - y
         return z
     }
-    Assert.AreEqual(result, Some (number1 - number2))   
+    result |> should equal (Some (number1 - number2))
 
 let wrongCalc (number: int) =
     let result = calculate {
@@ -63,7 +63,7 @@ let wrongCalc (number: int) =
         let z = x + y
         return z
     }
-    Assert.IsTrue(result.IsNone)  
+    result.IsNone |> should be True 
 
 [<Test>]
 let ``FsChecking``() = Check.QuickThrowOnFailure calc
