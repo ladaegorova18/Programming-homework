@@ -5,36 +5,25 @@ open Reduction
 open FsUnit
 
 [<Test>]
-let simpleInterpreterTest () =
-    let test = (Application(LambdaAbstraction('x', Variable('x')), Variable('y')))
-
-    test |> betaReduction |> should equal (Variable('y'))
+let ``One variable reduction``() = betaReduction (Variable('x')) |> should equal <| Variable('x')
 
 [<Test>]
-let singleVariableTest () =
-    (Variable('a')) |> betaReduction |> should equal (Variable('a'))
+let ``Substitution to abstraction test``() = 
+    betaReduction (Application(LambdaAbstraction('x', Variable('y')), Variable('z'))) |> should equal <| Variable('y')
 
 [<Test>]
-let normalFormTest () =
-    let test = (Application(Application(Variable('x'), Variable('y')), 
-                    LambdaAbstraction('k', Variable('k'))))
-    let expected = test
-
-    test |> betaReduction |> should equal expected
+let ``Application of two variables test``() = 
+    betaReduction (Application(Variable('a'), Variable('b'))) |> should equal <| (Application(Variable('a'), Variable('b')))
 
 [<Test>]
-let biggerExpressionReductionTest () =
-    let test = Application(
-                Application(
-                    LambdaAbstraction('x',
-                        LambdaAbstraction('y',
-                            LambdaAbstraction('z', 
-                                Application(
-                                    Application(Variable('x'), Variable('z')), 
-                                    Application(Variable('y'), Variable('z')))))),
-                    LambdaAbstraction('x', LambdaAbstraction('y', Variable('x')))),
-                LambdaAbstraction('x', LambdaAbstraction('y',Variable('x'))))
+let ``Real formula test``() =
+    betaReduction (Application(LambdaAbstraction('x', Application(LambdaAbstraction('y', Variable('y')), Variable('x'))), Variable('a'))) |> should equal <| Variable('a')
 
-    let expected = LambdaAbstraction('z', Variable('z'))
-
-    test |> betaReduction |> should equal expected
+[<Test>]
+let ``Substitution test``() =
+    betaReduction 
+        (Application
+            (LambdaAbstraction
+                ('x', Application
+                    (LambdaAbstraction('x', Variable('z')), Variable('z'))), 
+                        Variable('a'))) |> should equal <| Variable('z')
