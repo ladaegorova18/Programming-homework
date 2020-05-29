@@ -1,23 +1,8 @@
 ﻿module Network
 
-type OS =
-    | Windows 
-    | Linux
-    | Ubuntu
+open Computer
 
-let infectionRisk (os: OS) =
-    match os with 
-    | Windows -> 1.0
-    | Linux -> 0.0
-    | Ubuntu -> 0.5
-
-type Computer (os: OS) =
-    let mutable infected = false
-    member pc.Risk = infectionRisk os
-    member pc.Infected 
-        with get () = infected
-        and set value = infected <- value
-
+/// Тип для ввода матриц смежности
 type Matrix (values: int[,]) =
     member matrix.Size = values.[*, 0].Length
     member matrix.Squared  =
@@ -25,12 +10,18 @@ type Matrix (values: int[,]) =
         let cols = values.[0, *].Length
         rows = cols
     member matrix.Item (i, j) = values.[i, j]
+    member matrix.Symmetric =
+        let mutable symmetric = true
+        for i in 0 .. matrix.Size - 1 do
+            for j in 0 .. matrix.Size - 1 do
+                if (values.[i, j] = values.[j, i]) then symmetric <- false
+        symmetric
 
 /// Сама локальная сеть с компьютерами
 type LocalNet (m: Matrix, computers: Computer list) =
     let condition infected = if infected then "заражён" else "не заражён"
     let getComputer index = List.item index computers
-    let isInfected index = (getComputer index).Infected
+    let infectedByIndex index = (getComputer index).Infected
     let rnd = new System.Random()
     let step = 3
     let turns = 100
@@ -46,14 +37,14 @@ type LocalNet (m: Matrix, computers: Computer list) =
             printfn ""
         printfn ""
         for i in 0 .. m.Size - 1 do
-            printfn "Компьютер %i %s" i (condition <| isInfected i)
+            printfn "Компьютер %i %s" i (condition <| infectedByIndex i)
     
     /// Очередной ход: попытка заразить другие компьютеры
     member net.Turn () =
         for i in 0 .. computers.Length - 1 do
-            if isInfected i then do
+            if infectedByIndex i then do
                 for j in 0 .. computers.Length - 1 do
-                    if (not <| isInfected j) && m.Item(i, j) = 1 then
+                    if (not <| infectedByIndex j) && m.Item(i, j) = 1 then
                         let procent = rnd.Next(100)
                         if ((float)procent / 100.0) < (getComputer j).Risk then (getComputer j).Infected <- true
     
