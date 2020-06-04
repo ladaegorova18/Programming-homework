@@ -5,6 +5,8 @@ open FsUnit
 
 open LazyFactory
 
+/// Тесты для однопоточного Lazy
+
 [<Test>]
 let ``one thread simple test``() =
     let simpleLazy = LazyFactory<float>.CreateSingleThreadedLazy(fun unit -> 0.1)
