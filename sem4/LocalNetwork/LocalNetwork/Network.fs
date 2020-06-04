@@ -41,17 +41,24 @@ type LocalNet (m: Matrix, computers: Computer list) =
     
     /// Очередной ход: попытка заразить другие компьютеры
     member net.Turn () =
+        for i in 0 .. (computers.Length - 1) do computers.[i].InfectedOnThisTurn <- false
         for i in 0 .. computers.Length - 1 do
             if infectedByIndex i then do
                 for j in 0 .. computers.Length - 1 do
-                    if (not <| infectedByIndex j) && m.Item(i, j) = 1 then
+                    if (not <| infectedByIndex j) && m.Item(i, j) = 1 && (not <| computers.[i].InfectedOnThisTurn) then
                         let procent = rnd.Next(100)
-                        if ((float)procent / 100.0) < (getComputer j).Risk then (getComputer j).Infected <- true
+                        if ((float)procent / 100.0) < (getComputer j).Risk then 
+                            (getComputer j).Infected <- true
+                            computers.[j].InfectedOnThisTurn <- true
     
     /// Заражаем первый случайный компьютер
     member net.Infect () =
         let index = rnd.Next(0, computers.Length - 1)
         (getComputer index).Infected <- true
+        printfn "Компьютер %i был заражён" index
+
+    member net.InfectDefinite index =
+        (getComputer <| index - 1).Infected <- true
         printfn "Компьютер %i был заражён" index
 
     /// Начало цикла работы сети

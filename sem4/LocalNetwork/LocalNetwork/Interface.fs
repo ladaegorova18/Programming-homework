@@ -4,7 +4,6 @@ open System
 open Computer
 open Network
 
-
 /// Ввод матрицы с консоли
 let enterMatrix n =
     let rec recEnter n =
@@ -28,7 +27,7 @@ let menu () =
     let matrix = enterMatrix n
 
     printfn "Введите данные о компьютерах: операционные системы в виде строки чисел."
-    printfn "1 - Windows; 2 - Linux; 3 - Ubuntu"
+    printfn "1 - Windows; 2 - Linux; 3 - DOS"
     printfn "Пример: если в сети 3 компьютера, то ввод должен быть, например, таким: '1 1 2'"
     let line = Array.toList <| Console.ReadLine().Split(' ')
     let computers = List.map (fun (x: string) -> Computer (matchOS <| Int32.Parse(x))) line
