@@ -6,7 +6,6 @@ open System.Threading
 /// Мультипоточный Lazy без блокировок
 type LockFreeLazy<'a>(supplier: (unit -> 'a)) =
     [<VolatileField>]
-    let mutable startVal = None
     let mutable desiredVal = None
     let mutable currentVal = None
     let mutable counted = false
@@ -15,9 +14,7 @@ type LockFreeLazy<'a>(supplier: (unit -> 'a)) =
     interface ILazy<'a> with
         member l.Get() =
             if (not counted) then
-                startVal <- currentVal
                 desiredVal <- Some(supplier())
                 Interlocked.CompareExchange(ref currentVal, desiredVal, None) |> ignore
                 counted <- true
             desiredVal.Value
-                    

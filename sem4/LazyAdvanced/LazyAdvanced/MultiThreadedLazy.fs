@@ -14,9 +14,9 @@ type MultiThreadedLazy<'a>(supplier: (unit -> 'a)) =
             match result with
             | Some x -> x
             | None -> 
-                lock (locker) <| fun unit -> match result with
-                | Some x -> x
-                | None ->
-                    result <- Some(supplier())
-                    result.Value
-                
+                lock (locker) <| fun unit -> 
+                    match result with
+                    | Some x -> x
+                    | None ->
+                        result <- Some(supplier())
+                        result.Value   
