@@ -5,7 +5,7 @@ open Computer
 /// Тип для ввода матриц смежности
 type Matrix (values: int[,]) =
     member matrix.Size = values.[*, 0].Length
-    member matrix.Squared  =
+    member matrix.IsSquared  =
         let rows = values.[*, 0].Length
         let cols = values.[0, *].Length
         rows = cols
@@ -41,7 +41,7 @@ type LocalNet (m: Matrix, computers: Computer list) =
     
     /// Очередной ход: попытка заразить другие компьютеры
     member net.Turn () =
-        for i in 0 .. (computers.Length - 1) do computers.[i].InfectedOnThisTurn <- false
+        List.iter (fun (x: Computer) -> x.InfectedOnThisTurn <- false) computers
         for i in 0 .. computers.Length - 1 do
             if infectedByIndex i then do
                 for j in 0 .. computers.Length - 1 do
@@ -52,7 +52,7 @@ type LocalNet (m: Matrix, computers: Computer list) =
                             computers.[j].InfectedOnThisTurn <- true
     
     /// Заражаем первый случайный компьютер
-    member net.Infect () =
+    member net.InfectOneRandomComputer () =
         let index = rnd.Next(0, computers.Length - 1)
         (getComputer index).Infected <- true
         printfn "Компьютер %i был заражён" index

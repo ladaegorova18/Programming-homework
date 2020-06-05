@@ -36,5 +36,5 @@ let menu () =
     Console.ReadLine() |> ignore
     let network = LocalNet(matrix, computers)
     network.Print()
-    network.Infect()
+    network.InfectOneRandomComputer()
     network.Start()

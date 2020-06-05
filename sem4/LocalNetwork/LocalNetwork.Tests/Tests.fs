@@ -12,7 +12,7 @@ let ``there are uninfected computers test`` () =
     let network = LocalNet(Matrix(array2D [[0; 1; 0];
                                             [1; 0; 1];
                                             [0; 1; 0]]), computers)
-    network.Infect()
+    network.InfectOneRandomComputer()
     network.Start()
     List.exists (fun (x: Computer) -> x.Infected = false) (network.Computers) |> should be True
 
@@ -46,7 +46,7 @@ let ``Risk is 0.5 and all computers will be infected test`` (n: int) =
         let matrix = Array2D.create absN absN 1
         let computers = List.init absN (fun unit -> Computer(DOS))
         let network = LocalNet(Matrix(matrix), computers)
-        network.Infect()
+        network.InfectOneRandomComputer()
         while (List.exists (fun (x: Computer) -> x.Infected = false) network.Computers) do
             network.Turn()
         List.exists (fun (x: Computer) -> x.Infected = false) (network.Computers) |> should be False
