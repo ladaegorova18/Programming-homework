@@ -2,6 +2,7 @@ image: Visual Studio 2019
 
 environment:
   matrix:
+  - solution_path: sem4\LambdaInterpreter\LambdaInterpreter.sln
   - solution_path: sem4\LocalNetwork\LocalNetwork.sln
   - solution_path: sem4\LazyAdvanced\LazyAdvanced.sln
   - solution_path: sem4\WebDownloader\WebDownloader.sln
@@ -23,6 +24,7 @@ build_script:
   - msbuild %solution_path%
 
 test_script:
+  - dotnet test sem4\LambdaInterpreter\LambdaInterpreter\LambdaInterpreter.fsproj
   - dotnet test sem4\LocalNetwork\LocalNetwork\LocalNetwork.fsproj
   - dotnet test sem4\LazyAdvanced\LazyAdvanced\LazyAdvanced.fsproj
   - dotnet test sem4\WebDownloader\WebDownloader\WebDownloader.fsproj
