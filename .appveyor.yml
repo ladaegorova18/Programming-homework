@@ -3,6 +3,9 @@ image: Visual Studio 2019
 environment:
   matrix:
   - solution_path: sem4\LambdaInterpreter\LambdaInterpreter.sln
+  - solution_path: sem4\LocalNetwork\LocalNetwork.sln
+  - solution_path: sem4\LazyAdvanced\LazyAdvanced.sln
+  - solution_path: sem4\WebDownloader\WebDownloader.sln
   - solution_path: sem4\Factorial\Factorial.sln
   - solution_path: sem4/EvenNumbers/EvenNumbers.sln
   - solution_path: sem4/ParseTree/ParseTree.sln
@@ -22,6 +25,9 @@ build_script:
 
 test_script:
   - dotnet test sem4\LambdaInterpreter\LambdaInterpreter\LambdaInterpreter.fsproj
+  - dotnet test sem4\LocalNetwork\LocalNetwork\LocalNetwork.fsproj
+  - dotnet test sem4\LazyAdvanced\LazyAdvanced\LazyAdvanced.fsproj
+  - dotnet test sem4\WebDownloader\WebDownloader\WebDownloader.fsproj
   - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
   - dotnet test sem4\EvenNumbers\EvenNumbers.Tests\EvenNumbers.Tests.fsproj
   - dotnet test sem4\ParseTree\ParseTree.Tests\ParseTree.Tests.fsproj
