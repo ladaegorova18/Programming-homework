@@ -18,9 +18,11 @@ environment:
   - solution_path: Tests\Task1\Task1.sln
 
 before_build:
-  - nuget restore %solution_path%
+  - nuget restore sem3/homework5/GUIForServer/GUIForServer.sln
 
 build_script:
+  - msbuild sem3/homework5/GUIForServer/GUIForServer.sln
+  
   - msbuild %solution_path%
 
 test_script:
