@@ -20,6 +20,22 @@ environment:
 
 before_build:
   - nuget restore sem3/homework5/GUIForServer/GUIForServer.sln
+  - nuget restore sem4\LambdaInterpreter\LambdaInterpreter.sln
+  - nuget restore sem4\LocalNetwork\LocalNetwork.sln
+  - nuget restore sem4\LazyAdvanced\LazyAdvanced.sln
+  - nuget restore sem4\WebDownloader\WebDownloader.sln
+  - nuget restore sem4\Factorial\Factorial.sln
+  - nuget restore sem4\CalculateBuilder\CalculateBuilder.sln
+  - nuget restore sem4\Factorial\Factorial.sln
+  - nuget restore sem4/EvenNumbers/EvenNumbers.sln
+  - nuget restore sem4/ParseTree/ParseTree.sln
+  - nuget restore sem4/MapForTrees/MapForTrees.sln
+  - nuget restore sem4\InfinitePrimes\InfinitePrimes.sln
+  - nuget restore sem4\BracketsChecker\BracketsChecker.sln
+  - nuget restore sem4/Pointfree/Pointfree.sln
+  - nuget restore sem4\PhoneBook\PhoneBook.sln
+  - nuget restore sem4\SpecifiedAccuracy\SpecifiedAccuracy.sln
+  - nuget restore Tests\Task1\Task1.sln
 
 build_script:
   - msbuild sem3/homework5/GUIForServer/GUIForServer.sln
