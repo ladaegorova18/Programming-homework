@@ -1,0 +1,8 @@
+\problemset{Бета-редукция}
+
+\begin{problem}
+Выполнить бета-редукцию λ-терма ((λa.(λb.b b) (λb.b b)) b) ((λc.(c b)) (λa.a))
+\end{problem}
+((λa.(λb.b b) (λb.b b)) b) ((λc.(c b)) (λa.a)) $\underset{\beta}{\longrightarrow}$ (λb.b b) (λb.b b) ((λc.(c b)) (λa.a)) $\underset{\beta}{\longrightarrow}$ 
+(λb.b b) (λb.b b) ((λa.a) b) $\underset{\beta}{\longrightarrow}$ (λb.b b) (λb.b b) b 
+\end{document}
