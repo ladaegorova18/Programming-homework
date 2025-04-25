@@ -1,0 +1,27 @@
+\documentclass{amsart}
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{fontspec}
+  \usepackage{xunicode}
+  \setmainfont[Mapping=tex-text,Ligatures=TeX]{CMU Serif}
+  \usepackage{polyglossia}
+  \setdefaultlanguage{russian}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage[english,russian]{babel}
+\fi
+
+\newtheorem{problem}{Задача}
+
+\begin{document}
+
+  \newcommand{\problemset}[1]{
+    
+    \begin{center}
+      \Large #1
+    \end{center}
+  }
+
+  \input{BetaReduction.tex}
+
+\end{document}
