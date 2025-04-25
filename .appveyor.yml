@@ -19,14 +19,12 @@ environment:
   - solution_path: Tests\Task1\Task1.sln
 
 before_build:
-  - nuget restore sem3/homework5/GUIForServer/GUIForServer.sln
   - nuget restore sem4\LambdaInterpreter\LambdaInterpreter.sln
   - nuget restore sem4\LocalNetwork\LocalNetwork.sln
   - nuget restore sem4\LazyAdvanced\LazyAdvanced.sln
   - nuget restore sem4\WebDownloader\WebDownloader.sln
   - nuget restore sem4\Factorial\Factorial.sln
   - nuget restore sem4\CalculateBuilder\CalculateBuilder.sln
-  - nuget restore sem4\Factorial\Factorial.sln
   - nuget restore sem4/EvenNumbers/EvenNumbers.sln
   - nuget restore sem4/ParseTree/ParseTree.sln
   - nuget restore sem4/MapForTrees/MapForTrees.sln
@@ -38,15 +36,13 @@ before_build:
   - nuget restore Tests\Task1\Task1.sln
 
 build_script:
-  - msbuild sem3/homework5/GUIForServer/GUIForServer.sln
-  
   - msbuild %solution_path%
 
 test_script:
-  - dotnet test sem4\LambdaInterpreter\LambdaInterpreter\LambdaInterpreter.fsproj
-  - dotnet test sem4\LocalNetwork\LocalNetwork\LocalNetwork.fsproj
-  - dotnet test sem4\LazyAdvanced\LazyAdvanced\LazyAdvanced.fsproj
-  - dotnet test sem4\WebDownloader\WebDownloader\WebDownloader.fsproj
+  - dotnet test sem4\LambdaInterpreter\LambdaInterpreter\LambdaInterpreter.Tests.fsproj
+  - dotnet test sem4\LocalNetwork\LocalNetwork\LocalNetwork.Tests.fsproj
+  - dotnet test sem4\LazyAdvanced\LazyAdvanced\LazyAdvanced.Tests.fsproj
+  - dotnet test sem4\WebDownloader\WebDownloader\WebDownloader.Tests.fsproj
   - dotnet test sem4\Factorial\Factorial.Tests\Factorial.Tests.fsproj
   - dotnet test sem4\CalculateBuilder\CalculateBuilder.Tests\CalculateBuilder.Tests.fsproj
   - dotnet test sem4\EvenNumbers\EvenNumbers.Tests\EvenNumbers.Tests.fsproj
