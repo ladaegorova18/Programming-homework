@@ -14,7 +14,7 @@ let enterMatrix n =
             for i in 0 .. n - 1 do
                 if (List.item i line |> fst) then
                     Array2D.set matrix i j (List.item i line |> snd)
-        if (Matrix(matrix).Squared && Matrix(matrix).Symmetric) then Matrix(matrix)
+        if (Matrix(matrix).IsSquared && Matrix(matrix).Symmetric) then Matrix(matrix)
         else
             printfn "Попробуйте снова!"
             recEnter n
