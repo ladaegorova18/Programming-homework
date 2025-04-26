@@ -36,12 +36,18 @@ before_build:
   - nuget restore Tests\Task1\Task1.sln
 
 build_script:
+  - nuget restore %solution_path%
   - msbuild %solution_path%
-
-after_build:
   - ps: |
-      $solutionDir = Split-Path "%solution_path%"
-      Get-ChildItem -Recurse -Path $solutionDir -Filter *.Tests.fsproj | ForEach-Object {
-        Write-Host "Running tests in $($_.FullName)"
-        dotnet test $_.FullName
+      $solutionDir = Split-Path "$env:solution_path"
+      Write-Host "Looking for test projects inside $solutionDir"
+      $testProjects = Get-ChildItem -Recurse -Path $solutionDir -Filter *.Tests.fsproj -ErrorAction SilentlyContinue
+      if ($testProjects.Count -eq 0) {
+        Write-Host "No test projects found inside $solutionDir"
+      } else {
+        foreach ($proj in $testProjects) {
+          Write-Host "Running tests from $($proj.FullName)"
+          dotnet test $proj.FullName
+        }
       }
+
