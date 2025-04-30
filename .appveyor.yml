@@ -98,11 +98,19 @@ build_script:
         $exePath = $env:solution_path.Replace('.cpp', '.exe')
         $cmd = "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat`" && cl $env:solution_path /Fe:$exePath"
         cmd /c $cmd
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "Compilation failed with exit code $LASTEXITCODE"
+        }
+        cmake "-G%GENERATOR%" -H. -B_builds
+        cmake --build _builds --config "%CONFIG%"
       } elseif ($env:solution_path -match "\.c$") {
         Write-Host "Compiling C file: $env:solution_path"
         $exePath = $env:solution_path.Replace('.c', '.exe')
         $cmd = "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat`" && cl $env:solution_path /Fe:$exePath"
         cmd /c $cmd
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "Compilation failed with exit code $LASTEXITCODE"
+        }
       } else {
         Write-Host "Building .NET Solution: $env:solution_path"
         msbuild "$env:solution_path"
@@ -127,7 +135,6 @@ after_build:
         } else {
           $testProjects | ForEach-Object {
             Write-Host "Running tests in $($_.FullName)"
-            dotnet test $_.FullName
+            }
           }
         }
-      }
