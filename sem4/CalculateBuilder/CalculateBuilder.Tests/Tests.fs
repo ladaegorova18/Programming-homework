@@ -49,8 +49,8 @@ let ``should be None too``() =
 
 let calc number1 number2 =
     let result = calculate {
-        let! x = Some (number1.ToString())
-        let! y = Some (number2.ToString())
+        let! x = number1.ToString()
+        let! y = number2.ToString()
         let z = x - y
         return z
     }
