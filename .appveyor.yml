@@ -1,7 +1,9 @@
 image: Visual Studio 2019
 
 environment:
-  matrix:
+  matrix:    
+    - solution_path: sem3\homework3\SimpleFTP\SimpleFTP.sln
+    
     - solution_path: Tests\Task1\Task1.sln
     - solution_path: Tests\Test1.1\Task1.sln
     - solution_path: Tests\Test2.1\Test2.1.sln
@@ -48,7 +50,6 @@ environment:
     
     - solution_path: sem3\homework1\LazyInterface\LazyInterface.sln
     - solution_path: sem3\homework2\MyThreadPool\MyThreadPool.sln
-    - solution_path: sem3\homework3\SimpleFTP\SimpleFTP.sln
     - solution_path: sem3\homework4\MyNUnit\MyNUnit.sln
     - solution_path: sem3\homework5\GUIForServer\GUIForServer.sln
     - solution_path: sem3\Tests\Test1\Test1.sln
